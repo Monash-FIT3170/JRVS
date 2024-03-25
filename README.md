@@ -8,3 +8,4 @@ Maily Butel, 32469713, Release Train Engineer, mbut0011@student.monash.edu
 Huong Wen Cheng, 32022905, Release Train Engineer, whuo0004@student.monash.edu
 Rowan ALbert Alex 33157294, Systems Architect, ralb0005@student.monash.edu
 Brendan Nguyen, 30711037, System Architect, bngu0037@student.monash.edu
+Chris Patrick, 32595948, Release Train Engineer, cpat0024@student.monash.edu
