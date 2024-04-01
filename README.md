@@ -13,3 +13,4 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 - Brendan Nguyen, 30711037, System Architect, bngu0037@student.monash.edu
 - Chris Patrick, 32595948, Release Train Engineer, cpat0024@student.monash.edu
 - Caleb Smith, 32526865, Product Manager, csmi0037@student.monash.edu
+- Hasee Weerasinghe Meegahawattage, 32543964, Product Manager, hwee0010@student.monash.edu
