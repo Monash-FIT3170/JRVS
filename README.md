@@ -15,3 +15,4 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 - Caleb Smith, 32526865, Product Manager, csmi0037@student.monash.edu
 - Hasee Weerasinghe Meegahawattage, 32543964, Product Manager, hwee0010@student.monash.edu
 - Thomas Doyle, 31503969, Product Manager, tdoy0001@student.monash.edu
+- Selina Tang, 31493238, Product Manager, stan0146@student.monash.edu
