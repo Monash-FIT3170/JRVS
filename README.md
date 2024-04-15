@@ -18,3 +18,21 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 - Selina Tang, 31493238, Product Manager, stan0146@student.monash.edu
 - Glenn Kurniawan, 33109249, Product Manager, gkur0003@student.monash.edu
 - Vivian Pham, 31475477, Product Manager, vpha0021@student.monash.edu
+
+### Running the app ###
+cd fit3170-team04-app
+
+Inside that directory, you can run several commands:
+
+  npm start
+    Starts the development server.
+
+  npm run build
+    Bundles the app into static files for production.
+
+  npm test
+    Starts the test runner.
+
+  npm run eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
