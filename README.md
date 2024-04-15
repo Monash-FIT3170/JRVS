@@ -21,6 +21,7 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 
 ### Running the app ###
 cd fit3170-team04-app
+npm install
 
 Inside that directory, you can run several commands:
 
