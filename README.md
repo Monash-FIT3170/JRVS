@@ -20,20 +20,20 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 - Vivian Pham, 31475477, Product Manager, vpha0021@student.monash.edu
 
 ### Running the app ###
-cd fit3170-team04-app
+cd fit3170-team04-app\
 npm install
 
 Inside that directory, you can run several commands:
 
-  npm start
-    Starts the development server.
+&nbsp;&nbsp;&nbsp;&nbsp;npm start\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts the development server.
 
-  npm run build
-    Bundles the app into static files for production.
+&nbsp;&nbsp;&nbsp;&nbsp;npm run build\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bundles the app into static files for production.
 
-  npm test
-    Starts the test runner.
+&nbsp;&nbsp;&nbsp;&nbsp;npm test\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts the test runner.
 
-  npm run eject
-    Removes this tool and copies build dependencies, configuration files
-    and scripts into the app directory. If you do this, you can’t go back!
+&nbsp;&nbsp;&nbsp;&nbsp;npm run eject\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes this tool and copies build dependencies, configuration files\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and scripts into the app directory. If you do this, you can’t go back!
