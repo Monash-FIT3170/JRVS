@@ -7,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
+        
         {/*WHEN WE SETUP MONGODB, WE CAN ROUTE IT BETTER I THINK? */}
         <Route path = "/" element = {<Home/>}></Route>
         <Route path = "/quizzes" element = {<Quizzes/>}></Route>
