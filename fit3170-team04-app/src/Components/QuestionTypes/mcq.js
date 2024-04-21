@@ -5,6 +5,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import Button from '@mui/material/Button';
+
 
 
 
@@ -25,6 +27,10 @@ export default function MultipleChoiceQ(data) {
     {mappedOptions}
       
     </RadioGroup>
+    <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
+          Check Answer
+        </Button>
+        <br></br>
   </FormControl>
   )
 }

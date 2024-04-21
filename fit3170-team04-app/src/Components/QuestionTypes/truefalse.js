@@ -4,7 +4,9 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import FormLabel from '@mui/material/FormLabel';   
+import Button from '@mui/material/Button';
+
 
 
 
@@ -19,13 +21,17 @@ export default function TrueFalse(data) {
       return (
         <FormControl >
          
-        <FormLabel id="mcq-label" sx={{color: 'white'}}>{data.data.index+1}: {data.data.item.question}</FormLabel>
+        <FormLabel id="mcq-label" sx={{color: 'white'}}>{data.data.index+1}:{data.data.item.question}</FormLabel>
         <RadioGroup
         row
         > 
         {mappedOptions}
           
         </RadioGroup>
+        <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
+          Check Answer
+        </Button>
+        <br></br>
       </FormControl>
       )
 }

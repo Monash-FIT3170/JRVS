@@ -1,6 +1,8 @@
 import Navbar from "../../Components/navbar/Navbar";
 import MultipleChoiceQ from "../../Components/QuestionTypes/mcq";
 import TrueFalse from "../../Components/QuestionTypes/truefalse";
+import ShortAnswer from "../../Components/QuestionTypes/shortans";
+import { Box } from "@mui/material";
 export default function Quizzes() {
 
 
@@ -34,12 +36,18 @@ export default function Quizzes() {
 
               ],
       answer : "Fish"
+     },
+     {
+      q_id: 'ShortAnswer',
+      question:"Discuss your dinner below.",
+      options:[],
+      answer : "N/A"
      }
 
     ]
     const mappedQuestions = q1.map((item, index) => {
       if (item.q_id === 'MultipleChoiceQ') {
-        return <MultipleChoiceQ data={{item, index}} />
+        return<MultipleChoiceQ data={{item, index}} />
         
       
       } 
@@ -48,19 +56,26 @@ export default function Quizzes() {
       }
       
       
+      else if (item.q_id === 'ShortAnswer'){
+        return <ShortAnswer data={{item, index}}></ShortAnswer>
+      }
       else {
         return null; 
       }
     });
 
   
+
+
   return (
     <div className="Home">
       <Navbar></Navbar>
+
+   
       <header className="App-header">
       {mappedQuestions}
       </header>
-
+      
 
     </div>
   );
