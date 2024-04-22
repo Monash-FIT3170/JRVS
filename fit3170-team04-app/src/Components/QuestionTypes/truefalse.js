@@ -21,7 +21,7 @@ export default function TrueFalse(data) {
       return (
         <FormControl >
          
-        <FormLabel id="mcq-label" sx={{color: 'white'}}>{data.data.index+1}:{data.data.item.question}</FormLabel>
+        <FormLabel id="mcq-label" sx={{color: 'black'}}>{data.data.index+1}:{data.data.item.question}</FormLabel>
         <RadioGroup
         row
         > 

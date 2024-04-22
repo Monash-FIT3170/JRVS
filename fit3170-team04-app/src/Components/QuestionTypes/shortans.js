@@ -7,7 +7,7 @@ import {Button} from '@mui/material';
 export default function ShortAnswer(data) {
   return (
     <FormControl >
-        <FormLabel id="mcq-label" sx={{color: 'white'}}>{data.data.index+1}: {data.data.item.question}</FormLabel>
+        <FormLabel id="mcq-label" sx={{color: 'black'}}>{data.data.index+1}: {data.data.item.question}</FormLabel>
         <TextField
             sx={{color: 'white'}}
           id="outlined-textarea"

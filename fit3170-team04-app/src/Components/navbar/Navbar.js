@@ -14,7 +14,7 @@ import { Typography } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HelpIcon from '@mui/icons-material/Help';
 import IconButton from '@mui/material/IconButton';
 
 
@@ -26,7 +26,7 @@ export default function Navbar() {
     Displaying the questions for the quiz page for each topic
     eg: we can filter to topic 4, then for each question, we would filter by questionType: then display
     The question accordingly in the ReactApp. THat way we can handle every questionType (multiple choice, True/False, etc)
-    */  
+    */
     const options = [
         'My Courses',
         'Filler',
@@ -35,22 +35,22 @@ export default function Navbar() {
     ]
 
     const icons = [
-        <SchoolIcon />,
-        <EmojiObjectsOutlinedIcon />,
-        <SchoolIcon />,
-        <SchoolIcon />,
+        <SchoolIcon  />,
+        <EmojiObjectsOutlinedIcon  />,
+        <SchoolIcon   />,
+        <SchoolIcon  />,
     ]
 
     const NavPanel = (
-            <Box sx={{ width: 240 }} role="NavPanel">
-                <Typography variant="h4" align="center" padding="10px">
+            <Box sx={{ width: 240, bgcolor: '#001C27', color:'white'}} role="NavPanel"  >
+                <Typography variant="h4" align="center" padding="10px" >
                     LOGO HERE
                 </Typography>
                 <List>
                     <ListItem key={'dashboard'}>
                         <ListItemButton>
-                            <ListItemIcon>
-                                {<DashboardOutlinedIcon/>}
+                            <ListItemIcon bgcolor='white' color ='white'> 
+                                {<DashboardOutlinedIcon stroke = 'white' />}
                             </ListItemIcon>
 
                             <ListItemText primary={"Dashboard"} />
@@ -61,22 +61,23 @@ export default function Navbar() {
                     {options.map((text, index) => (
                         <ListItem key={text}>
                             <ListItemButton>
-                                < ListItemIcon>
-                                    {icons[index]}
+                                < ListItemIcon sx={{ color:'white' }}>
+                                    {icons[index] }
                                 </ListItemIcon>
-                                <ListItemText secondary={text} />
+                                <ListItemText primary={text} />
                             </ListItemButton>
                         </ListItem>
                     ))}
 
                 </List>
                 {/*IDK HOW ELSE TO SPACE THIS*/}
-                <Typography variant="h6" component="div" height={'50%'} >
+                <Typography variant="h6" component="div" height={'50%'} bgcolor = "#001C27"  >
                 </Typography>
-                <IconButton
+                <IconButton 
                 >
-                    <HelpOutlineIcon />
+                    <HelpIcon  sx={{ color:'white' }}/>
                 </IconButton>
+               
             </Box>
 
 
@@ -86,11 +87,10 @@ export default function Navbar() {
 
 
     return (
-        <div>
-
-            <Drawer variant="permanent" anchor="left">
+       
+            <Drawer variant="permanent" anchor="left" >
                 {NavPanel}
             </Drawer>
-        </div>
+     
     );
 }

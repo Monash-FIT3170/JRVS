@@ -13,21 +13,22 @@ import { FormHelperText } from '@mui/material';
 
 export default function MultipleChoiceQ(data) {
   
-
   // This allows us to store a value, and a setValue to set the value to smth else.
   //By default we have left the default value to empty
   const [value, setValue] = useState('');
   const [helperText, setHelperText] = useState('');
+  const [correct, setCorrect] = useState('white')
   const handleRadioChange = (event) => {
     setValue(event.target.value);
     setHelperText('')
+    setCorrect('red')
 
    
   };
 
   const handleSubmit = (event) => {
     if (value === data.data.item.answer){
-  
+      
       setHelperText('Correct!');
       
     }
@@ -42,18 +43,15 @@ export default function MultipleChoiceQ(data) {
 
 
 
-
-
   return (
     <FormControl>
-    <FormLabel id="mcq-label" sx={{color: 'white'}}>{data.data.index+1}: {data.data.item.question}</FormLabel>
+    <FormLabel id="mcq-label" sx={{color: 'black'}}>{data.data.index+1}: {data.data.item.question}</FormLabel>
     <RadioGroup onChange = {handleRadioChange}> 
     {mappedOptions}
     </RadioGroup>
 
 
-    <FormHelperText sx={{color:'white'}}>{helperText}</FormHelperText>
-
+    <FormHelperText sx={{color: {correct}}}>{helperText}</FormHelperText>
     <Button sx={{ mt: 1, mr: 1 }} onClick={handleSubmit} variant="outlined">
           Check Answer
         </Button>
