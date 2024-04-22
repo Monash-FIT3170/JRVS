@@ -2,7 +2,6 @@ import Navbar from "../../Components/navbar/Navbar";
 import MultipleChoiceQ from "../../Components/QuestionTypes/mcq";
 import TrueFalse from "../../Components/QuestionTypes/truefalse";
 import ShortAnswer from "../../Components/QuestionTypes/shortans";
-import { Box } from "@mui/material";
 export default function Quizzes() {
 
 

@@ -26,7 +26,7 @@ export default function Navbar() {
     Displaying the questions for the quiz page for each topic
     eg: we can filter to topic 4, then for each question, we would filter by questionType: then display
     The question accordingly in the ReactApp. THat way we can handle every questionType (multiple choice, True/False, etc)
-    */
+    */  
     const options = [
         'My Courses',
         'Filler',

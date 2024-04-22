@@ -1,4 +1,3 @@
-import React from 'react'
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -6,28 +5,56 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
+import { useState } from 'react';
+import { FormHelperText } from '@mui/material';
 
 
 
 
 export default function MultipleChoiceQ(data) {
   
+
+  // This allows us to store a value, and a setValue to set the value to smth else.
+  //By default we have left the default value to empty
+  const [value, setValue] = useState('');
+  const [helperText, setHelperText] = useState('');
+  const handleRadioChange = (event) => {
+    setValue(event.target.value);
+    setHelperText('')
+
+   
+  };
+
+  const handleSubmit = (event) => {
+    if (value === data.data.item.answer){
+  
+      setHelperText('Correct!');
+      
+    }
+    else {
+      setHelperText('Incorrect...');
+  
+    }
+  }
   const mappedOptions = data.data.item.options.map((item) => (
     <FormControlLabel value={item.option} key = {item.option} control={<Radio />} label={item.option} />
   ));
 
 
 
+
+
   return (
-    <FormControl >
-     
+    <FormControl>
     <FormLabel id="mcq-label" sx={{color: 'white'}}>{data.data.index+1}: {data.data.item.question}</FormLabel>
-    <RadioGroup
-    > 
+    <RadioGroup onChange = {handleRadioChange}> 
     {mappedOptions}
-      
     </RadioGroup>
-    <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
+
+
+    <FormHelperText sx={{color:'white'}}>{helperText}</FormHelperText>
+
+    <Button sx={{ mt: 1, mr: 1 }} onClick={handleSubmit} variant="outlined">
           Check Answer
         </Button>
         <br></br>
