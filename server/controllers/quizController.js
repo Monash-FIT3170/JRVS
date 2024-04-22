@@ -37,7 +37,7 @@ const setQuestions = asyncHandler (async (req, res) => {
     if(questionFinal){
         res.status(201).json({
             type: questionFinal.type,
-            question: questionFinal.type,
+            question: questionFinal.question,
             options: questionFinal.options,
             answer: questionFinal.answer
         })
