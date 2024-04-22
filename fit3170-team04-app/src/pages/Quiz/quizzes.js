@@ -2,6 +2,7 @@ import Navbar from "../../Components/navbar/Navbar";
 import MultipleChoiceQ from "../../Components/QuestionTypes/mcq";
 import TrueFalse from "../../Components/QuestionTypes/truefalse";
 import ShortAnswer from "../../Components/QuestionTypes/shortans";
+import { Typography } from "@mui/material";
 export default function Quizzes() {
 
 
@@ -12,7 +13,8 @@ export default function Quizzes() {
       options:[
                {option: "apple" , value: "apple"},  
                {option:"banana",value:"banana"},
-               {option:"chicken", value: "chicken"}
+               {option:"chicken", value: "chicken"},
+               {option:"nuggets", value: "nuggets"}
               ],
       answer : "chicken"
      },
@@ -72,6 +74,9 @@ export default function Quizzes() {
 
    
       <header className="App-header">
+        <Typography sx= {{fontSize: 80}}>
+          Quiz topic 1
+        </Typography>
       {mappedQuestions}
       </header>
       

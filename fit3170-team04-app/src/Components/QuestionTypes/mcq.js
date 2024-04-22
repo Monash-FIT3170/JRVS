@@ -21,6 +21,8 @@ export default function MultipleChoiceQ(data) {
   const handleRadioChange = (event) => {
     setValue(event.target.value);
     setHelperText('')
+
+
     setCorrect('red')
 
    
@@ -30,6 +32,7 @@ export default function MultipleChoiceQ(data) {
     if (value === data.data.item.answer){
       
       setHelperText('Correct!');
+      setCorrect('red')
       
     }
     else {
@@ -38,21 +41,22 @@ export default function MultipleChoiceQ(data) {
     }
   }
   const mappedOptions = data.data.item.options.map((item) => (
-    <FormControlLabel value={item.option} key = {item.option} control={<Radio />} label={item.option} />
+    <FormControlLabel  value={item.option} key = {item.option} control={<Radio />} label={item.option} />
   ));
 
 
 
   return (
-    <FormControl>
+    <FormControl sx={{ border: 0, boxShadow: 2,borderRadius: '10px', bgcolor:'white', borderColor: 'black' , color:'black', px: 13, py: 3, my:3}}>
     <FormLabel id="mcq-label" sx={{color: 'black'}}>{data.data.index+1}: {data.data.item.question}</FormLabel>
-    <RadioGroup onChange = {handleRadioChange}> 
+    <RadioGroup onChange = {handleRadioChange} > 
     {mappedOptions}
     </RadioGroup>
 
 
     <FormHelperText sx={{color: {correct}}}>{helperText}</FormHelperText>
-    <Button sx={{ mt: 1, mr: 1 }} onClick={handleSubmit} variant="outlined">
+
+    <Button sx={{ mt: 1, mr: 1 , borderRadius: '10px' }} onClick={handleSubmit} variant="outlined">
           Check Answer
         </Button>
         <br></br>
