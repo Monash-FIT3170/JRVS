@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+
+.saira-font-container { 
+    font-family: "Saira", sans-serif;
+    font-style: normal;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    color: #2196F3;
+    text-shadow: -2px 2px 3px rgba(0, 0, 0, 0.25);
+} 
+
+.button-font {
+    font-family: "ABeeZee", sans-serif;
+}
