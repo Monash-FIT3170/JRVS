@@ -1,6 +1,6 @@
 import React from 'react';
 
-function LessonPage() {
+const LessonPage = () => {
   return <h2>Lesson</h2>;
 }
 
