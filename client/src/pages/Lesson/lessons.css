@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sarala:wght@400;700&display=swap');
 
+body {
+    position: relative;
+    height: 100vh;
+    margin: 0;
+}
+
 .saira-font-container { 
     font-family: "Saira", sans-serif;
     font-style: normal;

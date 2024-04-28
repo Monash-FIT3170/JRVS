@@ -6,6 +6,7 @@ import "./lessons.css"
 import TextBox from "../../Components/contentTypes/textBox";
 import Carousel from "../../Components/content/contentCarousal";
 import ImageTextBox from "../../Components/contentTypes/imageTextBox";
+import BotBox from "../../Components/content/botBox";
 
 function Lessons() {
 
@@ -56,9 +57,23 @@ function Lessons() {
                 </Grid>
                 </Toolbar>
             </AppBar>
-
-            <Carousel boxes={contentBoxes}></Carousel>
-
+            
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 9999,
+            }}>
+                <BotBox/>
+                <Carousel boxes={contentBoxes}></Carousel>
+            </Box>
+            
             <Box
                 sx={{
                     position: 'fixed',
