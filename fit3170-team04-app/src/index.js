@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './assets/styles/tailwind.css' // Import Tailwind CSS
+import './assets/styles/russoFont.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

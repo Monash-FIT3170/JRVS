@@ -1,5 +1,4 @@
 import React from 'react';
-import LeftSidebar from '../components/LeftSidebar';
 
 const NotFoundPage = () => {
   return (
