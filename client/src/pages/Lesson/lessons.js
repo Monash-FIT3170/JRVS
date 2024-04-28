@@ -5,6 +5,7 @@ import axios from "axios"
 import "./lessons.css"
 import TextBox from "../../Components/contentTypes/textBox";
 import Carousel from "../../Components/content/contentCarousal";
+import ImageTextBox from "../../Components/contentTypes/imageTextBox";
 
 function Lessons() {
 
@@ -25,6 +26,8 @@ function Lessons() {
         contentBoxes = lesson.content.map((contentObject) => {
             if (contentObject.type === 'textBox') {
                 return <TextBox text={contentObject.text}></TextBox>
+            } else if (contentObject.type === 'imageTextBox') {
+                return <ImageTextBox text={contentObject.text} imageSrc={contentObject.imageSrc}></ImageTextBox>
             }
             return <></>
         })
