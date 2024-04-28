@@ -1,5 +1,6 @@
 import React from 'react';
 import LeftSidebar from '../components/LeftSidebar';
+import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
 import avatar from '../assets/images/Avatar.png';
 
@@ -29,6 +30,7 @@ const ProfilePage = () => {
           <Grid item xs={8} style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
               <h2 className='russo-one-regular text-4xl'>My Badges</h2>
+              <BadgeContainer />
               {/* Add content for badges */}
             </div>
             <div style={{ border: '2px solid #2196f3', padding: '20px', flexGrow: '2', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
