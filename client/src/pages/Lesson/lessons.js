@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios"
 import "./lessons.css"
 import TextBox from "../../Components/contentTypes/textBox";
+import Carousel from "../../Components/content/contentCarousal";
 
 function Lessons() {
 
@@ -18,13 +19,16 @@ function Lessons() {
     }, []);
 
     console.log(lesson.content)
+    let contentBoxes = () => {return <></>}
 
-    const contentBoxes = lesson.content.map((contentObject) => {
-        if (contentObject.type === 'textBox') {
-            return <TextBox text={contentObject.text}></TextBox>
-        }
-        return <></>
-    })
+    if (lesson.content) {
+        contentBoxes = lesson.content.map((contentObject) => {
+            if (contentObject.type === 'textBox') {
+                return <TextBox text={contentObject.text}></TextBox>
+            }
+            return <></>
+        })
+    }
 
     return (
         <Box
@@ -50,7 +54,7 @@ function Lessons() {
                 </Toolbar>
             </AppBar>
 
-            {contentBoxes}
+            <Carousel boxes={contentBoxes}></Carousel>
 
             <Box
                 sx={{
