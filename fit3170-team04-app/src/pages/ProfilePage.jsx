@@ -9,7 +9,7 @@ const ProfilePage = () => {
       <LeftSidebar />
       <div className='ml-48'>
         <Grid container spacing={2}>
-          <Grid item xs={12} style={{ padding: '50px'}}>
+          <Grid item xs={12} style={{ padding: '40px'}}>
             <h2 className='russo-one-regular text-6xl'>Welcome User</h2>
           </Grid>
           <Grid item xs={4} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
