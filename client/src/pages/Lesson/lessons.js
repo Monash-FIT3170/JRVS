@@ -1,10 +1,31 @@
 import Navbar from "../../Components/navbar/Navbar";
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios"
 import "./lessons.css"
+import TextBox from "../../Components/contentTypes/textBox";
 
 function Lessons() {
+
+    const [lesson, setLesson] = useState([]);
+    const lessonId = '662da929a3144336a01c1c6b'
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/api/lessons/" + lessonId)
+        .then(response => setLesson(response.data))
+        
+        .catch(error => console.error(error));
+    }, []);
+
+    console.log(lesson.content)
+
+    const contentBoxes = lesson.content.map((contentObject) => {
+        if (contentObject.type === 'textBox') {
+            return <TextBox text={contentObject.text}></TextBox>
+        }
+        return <></>
+    })
+
     return (
         <Box
             sx={{
@@ -14,10 +35,22 @@ function Lessons() {
             }}
         >
             <AppBar position="static" elevation={0} sx={{padding: '60px', backgroundColor: '#FFFDFD'}}>
-                    <h1 className="saira-font-container">JRVS</h1>
+                <Toolbar>
+                <Grid container justifyContent="space-between" alignItems="center">
+                    <Grid item>
+                        <h1 className="saira-font-container">JRVS</h1>
+                    </Grid>
+                    <Grid item>
+                        <h1 className="sarala-font-container">✨{lesson.title}✨</h1>
+                    </Grid>
+                    <Grid item>
+                        <Button className="button-font" variant="contained" sx={{backgroundColor: '#2196F3'}}>Profile</Button>
+                    </Grid>
+                </Grid>
+                </Toolbar>
             </AppBar>
 
-            
+            {contentBoxes}
 
             <Box
                 sx={{
