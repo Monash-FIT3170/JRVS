@@ -1,7 +1,12 @@
 import React from 'react';
+import LeftSidebar from '../components/LeftSidebar';
 
 const NotFoundPage = () => {
-  return <h2>Page Not Found</h2>;
+  return (
+    <div>
+        <h2>Error Not Found</h2>
+    </div>
+  );
 }
 
 export default NotFoundPage;
