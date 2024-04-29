@@ -20,8 +20,13 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 - Vivian Pham, 31475477, Product Manager, vpha0021@student.monash.edu
 
 ### Running the app ###
-cd fit3170-team04-app\
-npm install
+add .env file to parent directory (outest) with the following:
+```
+NODE_ENV = development
+PORT = 5000
+MONGO_URI = mongodb+srv://mver0017:<password>@doraicluster.yrznyo1.mongodb.net/?retryWrites=true&w=majority&appName=DorAICluster
+```
+npm run dev
 
 Inside that directory, you can run several commands:
 
