@@ -22,7 +22,7 @@ const ProfilePage = () => {
       }
     };
     fetchData();
-  }, [])
+  }, [getData])
 
   return (
     <div>
