@@ -1,0 +1,58 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+
+const ApiContext = createContext();
+
+export const useApi = () => {
+  return useContext(ApiContext);
+};
+
+export const ApiProvider = ({ children }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/data');
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/data');
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const addData = async (newData) => {
+    try {
+      await axios.post('/api/data', newData);
+      fetchData();
+    } catch (error) {
+      console.error('Error adding data:', error);
+    }
+  };
+
+  const deleteData = async (id) => {
+    try {
+      await axios.delete(`/api/data/${id}`);
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
+
+  return (
+    <ApiContext.Provider value={{ data, addData, deleteData }}>
+      {children}
+    </ApiContext.Provider>
+  );
+};
