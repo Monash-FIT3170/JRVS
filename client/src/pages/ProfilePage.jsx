@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import LeftSidebar from '../components/LeftSidebar';
 import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
 import avatar from '../assets/images/Avatar.png';
 
-import { useApi } from '../context/GoalProvider';
-
-
+import { useApi } from '../context/ApiProvider';
 
 const ProfilePage = () => {
-  const { data, addData, deleteData, isLoading } = useApi();
+  const { data, isLoading } = useApi();
 
   return (
     <div>

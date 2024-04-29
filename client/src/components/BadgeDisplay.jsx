@@ -10,15 +10,6 @@ badgeImages['Default'] = Badge4;
 badgeImages['Badge1'] = Badge1;
 badgeImages['Badge2'] = Badge2;
 badgeImages['Badge3'] = Badge3;
-const badgeNames = [
-    "AI Novice",
-    "Ethics Hero", 
-    "Society's Eye",
-    "Fake Spotter",
-    "Gov Guardian",
-    "Visionary",
-    "Biz Brain"
-];
 
 function getBadgeImage(badgeImage){
   if (badgeImages.hasOwnProperty(badgeImage)) {

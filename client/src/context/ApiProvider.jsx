@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 // Create a context for MongoDB API
 const ApiContext = createContext();
 
 // Custom hook to use MongoDB context
-export const useMongoDB = () => useContext(MongoDBContext);
+export const useApi = () => useContext(ApiContext);
 
 // MongoDB API Provider component
-export const MongoDBProvider = ({ children }) => {
+export const ApiProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
