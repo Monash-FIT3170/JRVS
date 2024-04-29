@@ -4,7 +4,7 @@ import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
 import avatar from '../assets/images/Avatar.png';
 
-import { useApi } from '../context/ApiProvider';
+import { useApi } from '../context/GoalProvider';
 
 
 

@@ -1,63 +1,89 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
 
-const ApiContext = createContext({});
+// Create a context for MongoDB API
+const ApiContext = createContext();
 
-export const useApi = () => {
-  return useContext(ApiContext);
-};
+// Custom hook to use MongoDB context
+export const useMongoDB = () => useContext(MongoDBContext);
 
-const api = axios.create({
-  baseURL: 'http://localhost:5000', // Set your backend base URL here
-});
+// MongoDB API Provider component
+export const MongoDBProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-export const ApiProvider = ({ children }) => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // State for loading status
+  // Define your MongoDB API base URL
+  const baseURL = 'http://localhost:5000';
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get('/api/badges');
-        setData(response.data);
-        setIsLoading(false); // Set loading state to false after data is fetched
-      } catch (error) {
-        console.error('Error fetching data:', error);
+  // Generic function to make API requests
+  const fetchData = async (url, options = {}) => {
+    setLoading(true);
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
       }
+      const data = await response.json();
+      setLoading(false);
+      return data;
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+      throw error;
+    }
+  };
+
+  // Function to fetch data from MongoDB
+  const fetchDataFromMongoDB = async (endpoint) => {
+    const url = `${baseURL}/${endpoint}`;
+    return fetchData(url);
+  };
+
+  // Function to post data to MongoDB
+  const postDataToMongoDB = async (endpoint, data) => {
+    const url = `${baseURL}/${endpoint}`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     };
-
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await api.get('/api/badges');
-      setData(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+    return fetchData(url, options);
   };
 
-  const addData = async (newData) => {
-    try {
-      await api.post('/api/badges', newData);
-      fetchData();
-    } catch (error) {
-      console.error('Error adding data:', error);
-    }
+  // Function to update data in MongoDB
+  const updateDataInMongoDB = async (endpoint, data) => {
+    const url = `${baseURL}/${endpoint}`;
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    return fetchData(url, options);
   };
 
-  const deleteData = async (id) => {
-    try {
-      await axios.delete(`/api/badges/${id}`);
-      fetchData();
-    } catch (error) {
-      console.error('Error deleting data:', error);
-    }
+  // Function to delete data from MongoDB
+  const deleteDataFromMongoDB = async (endpoint) => {
+    const url = `${baseURL}/${endpoint}`;
+    const options = {
+      method: 'DELETE',
+    };
+    return fetchData(url, options);
   };
 
   return (
-    <ApiContext.Provider value={{ data, addData, deleteData, isLoading }}>
+    <ApiContext.Provider
+      value={{
+        loading,
+        error,
+        fetchDataFromMongoDB,
+        postDataToMongoDB,
+        updateDataInMongoDB,
+        deleteDataFromMongoDB,
+      }}
+    >
       {children}
     </ApiContext.Provider>
   );
