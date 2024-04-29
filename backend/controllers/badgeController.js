@@ -15,13 +15,23 @@ const getBadges = asyncHandler (async (req, res) => {
 // @route   POST /api/badges
 // @access  Private
 const setBadge = asyncHandler (async (req, res) => {
-    if (!req.body.text) {
+    if (!req.body.name) {
         res.status(400)
-        throw new Error("please add a text field")
+        throw new Error("please add a name field")
+    }
+    if (!req.body.description) {
+        res.status(400)
+        throw new Error("please add a description field")
+    }
+    if (!req.body.imagePath) {
+        res.status(400)
+        throw new Error("please add a imagePath field")
     }
 
     const badge = await Badge.create({
-        text: req.body.text
+        name: req.body.name,
+        description: req.body.description,
+        imagePath: req.body.imagePath
     })
     
     res.status(200).json(badge)

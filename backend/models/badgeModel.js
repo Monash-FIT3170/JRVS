@@ -2,10 +2,22 @@ const mongoose = require('mongoose')
 
 const badgeSchema = mongoose.Schema(
     {
-        text: {
+        name: {
             type: String,
-            required: [true, 'Please add a text value']
+            required: true,
         },
+        description: {
+            type: String,
+            required: true,
+        },
+        achievedTimestamp: {
+            type: Date,
+            default: Date.now,
+        },
+        imagePath: {
+            type: String, // Binary data of the image
+            required: true, // Mime type of the image
+        }
     },  
     {
         timestamps: true
