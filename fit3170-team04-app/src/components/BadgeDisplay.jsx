@@ -5,7 +5,11 @@ import Badge3 from "../assets/images/Badge3.png";
 import Badge4 from "../assets/images/Badge4.png";
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
-const badgeImages = [Badge1, Badge2, Badge3, Badge4, Badge1, Badge2, Badge3];
+const badgeImages = {};
+badgeImages['Default'] = Badge4;
+badgeImages['Badge1'] = Badge1;
+badgeImages['Badge2'] = Badge2;
+badgeImages['Badge3'] = Badge3;
 const badgeNames = [
     "AI Novice",
     "Ethics Hero", 
@@ -15,6 +19,14 @@ const badgeNames = [
     "Visionary",
     "Biz Brain"
 ];
+
+function getBadgeImage(badgeImage){
+  if (badgeImages.hasOwnProperty(badgeImage)) {
+    return badgeImages[badgeImage];
+} else {
+    return badgeImages['Default'];
+}
+}
 
 function BadgeContainer(badges) {
   console.log(badges)
@@ -34,7 +46,8 @@ function BadgeContainer(badges) {
           <div key={index} className="relative inline-block">
           <img
             className="w-[200px] p-2 cursor-pointer hover:scale-105 ease-in-out duration-300"
-            src={badge.imagePath}
+            src={getBadgeImage(badge.imagePath)
+              }
             alt="/"
           />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-1 text-lg font-bold">{badge.name}</div>
