@@ -1,11 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ApiContext = createContext();
+const ApiContext = createContext({});
 
 export const useApi = () => {
   return useContext(ApiContext);
 };
+
+const api = axios.create({
+  baseURL: 'http://localhost:5000', // Set your backend base URL here
+});
 
 export const ApiProvider = ({ children }) => {
   const [data, setData] = useState([]);
@@ -13,7 +17,7 @@ export const ApiProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/data');
+        const response = await api.get('/api/goals');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -25,7 +29,7 @@ export const ApiProvider = ({ children }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/data');
+      const response = await api.get('/api/goals');
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -34,7 +38,7 @@ export const ApiProvider = ({ children }) => {
 
   const addData = async (newData) => {
     try {
-      await axios.post('/api/data', newData);
+      await api.post('/api/goals', newData);
       fetchData();
     } catch (error) {
       console.error('Error adding data:', error);
@@ -43,7 +47,7 @@ export const ApiProvider = ({ children }) => {
 
   const deleteData = async (id) => {
     try {
-      await axios.delete(`/api/data/${id}`);
+      await axios.delete(`/api/goals/${id}`);
       fetchData();
     } catch (error) {
       console.error('Error deleting data:', error);
