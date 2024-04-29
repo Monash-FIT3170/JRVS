@@ -13,12 +13,14 @@ const api = axios.create({
 
 export const ApiProvider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // State for loading status
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get('/api/goals');
+        const response = await api.get('/api/badges');
         setData(response.data);
+        setIsLoading(false); // Set loading state to false after data is fetched
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -29,7 +31,7 @@ export const ApiProvider = ({ children }) => {
 
   const fetchData = async () => {
     try {
-      const response = await api.get('/api/goals');
+      const response = await api.get('/api/badges');
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -38,7 +40,7 @@ export const ApiProvider = ({ children }) => {
 
   const addData = async (newData) => {
     try {
-      await api.post('/api/goals', newData);
+      await api.post('/api/badges', newData);
       fetchData();
     } catch (error) {
       console.error('Error adding data:', error);
@@ -47,7 +49,7 @@ export const ApiProvider = ({ children }) => {
 
   const deleteData = async (id) => {
     try {
-      await axios.delete(`/api/goals/${id}`);
+      await axios.delete(`/api/badges/${id}`);
       fetchData();
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -55,7 +57,7 @@ export const ApiProvider = ({ children }) => {
   };
 
   return (
-    <ApiContext.Provider value={{ data, addData, deleteData }}>
+    <ApiContext.Provider value={{ data, addData, deleteData, isLoading }}>
       {children}
     </ApiContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LeftSidebar from '../components/LeftSidebar';
 import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -9,9 +9,7 @@ import { useApi } from '../context/ApiProvider';
 
 
 const ProfilePage = () => {
-  const { data, addData, deleteData } = useApi();
-
-  console.log(data)
+  const { data, addData, deleteData, isLoading } = useApi();
 
   return (
     <div>
@@ -38,7 +36,7 @@ const ProfilePage = () => {
           <Grid item xs={8} style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
               <h2 className='russo-one-regular text-4xl'>My Badges</h2>
-              <BadgeContainer />
+              {isLoading ? <p>Loading...</p> : <BadgeContainer />}
               {/* Add content for badges */}
             </div>
             <div style={{ border: '2px solid #2196f3', padding: '20px', flexGrow: '2', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
