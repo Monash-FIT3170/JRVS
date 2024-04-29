@@ -20,7 +20,6 @@ function getBadgeImage(badgeImage){
 }
 
 function BadgeContainer(badges) {
-  console.log(badges)
   const slideLeft = () => {
     var slider = document.getElementById('slider');
     slider.scrollLeft = slider.scrollLeft - 400;

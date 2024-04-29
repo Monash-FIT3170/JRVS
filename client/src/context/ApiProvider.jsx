@@ -8,38 +8,31 @@ export const useApi = () => useContext(ApiContext);
 
 // MongoDB API Provider component
 export const ApiProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   // Define your MongoDB API base URL
   const baseURL = 'http://localhost:5000';
 
   // Generic function to make API requests
   const fetchData = async (url, options = {}) => {
-    setLoading(true);
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}`);
       }
       const data = await response.json();
-      setLoading(false);
       return data;
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
       throw error;
     }
   };
 
-  // Function to fetch data from MongoDB
-  const fetchDataFromMongoDB = async (endpoint) => {
+  // Function to get data from MongoDB
+  const getData = async (endpoint) => {
     const url = `${baseURL}/${endpoint}`;
     return fetchData(url);
   };
 
   // Function to post data to MongoDB
-  const postDataToMongoDB = async (endpoint, data) => {
+  const postData = async (endpoint, data) => {
     const url = `${baseURL}/${endpoint}`;
     const options = {
       method: 'POST',
@@ -52,7 +45,7 @@ export const ApiProvider = ({ children }) => {
   };
 
   // Function to update data in MongoDB
-  const updateDataInMongoDB = async (endpoint, data) => {
+  const updateData = async (endpoint, data) => {
     const url = `${baseURL}/${endpoint}`;
     const options = {
       method: 'PUT',
@@ -65,7 +58,7 @@ export const ApiProvider = ({ children }) => {
   };
 
   // Function to delete data from MongoDB
-  const deleteDataFromMongoDB = async (endpoint) => {
+  const deleteData = async (endpoint) => {
     const url = `${baseURL}/${endpoint}`;
     const options = {
       method: 'DELETE',
@@ -76,12 +69,10 @@ export const ApiProvider = ({ children }) => {
   return (
     <ApiContext.Provider
       value={{
-        loading,
-        error,
-        fetchDataFromMongoDB,
-        postDataToMongoDB,
-        updateDataInMongoDB,
-        deleteDataFromMongoDB,
+        getData,
+        postData,
+        updateData,
+        deleteData,
       }}
     >
       {children}
