@@ -8,7 +8,7 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 const badgeImages = [Badge1, Badge2, Badge3, Badge4, Badge1, Badge2, Badge3];
 const badgeNames = [
     "AI Novice",
-    "Ethics Hero",
+    "Ethics Hero", 
     "Society's Eye",
     "Fake Spotter",
     "Gov Guardian",
@@ -16,7 +16,8 @@ const badgeNames = [
     "Biz Brain"
 ];
 
-function BadgeContainer() {
+function BadgeContainer(badges) {
+  console.log(badges)
   const slideLeft = () => {
     var slider = document.getElementById('slider');
     slider.scrollLeft = slider.scrollLeft - 400;
@@ -29,14 +30,14 @@ function BadgeContainer() {
     <div className="relative flex items-center">
          <MdChevronLeft className='opacity-50 cursor-pointer hover:opacity-100' onClick={slideLeft} size={40} />
       <div id="slider" className="w-full h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide">
-        {badgeNames.map((badge, index) => (
+        {badges.badges.map((badge, index) => (
           <div key={index} className="relative inline-block">
           <img
             className="w-[200px] p-2 cursor-pointer hover:scale-105 ease-in-out duration-300"
-            src={badgeImages[index]}
+            src={badge.imagePath}
             alt="/"
           />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-1 text-lg font-bold">{badge}</div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-1 text-lg font-bold">{badge.name}</div>
         </div>
         ))}
       </div>
