@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './assets/styles/tailwind.css' // Import Tailwind CSS
+import './assets/styles/russoFont.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ApiProvider } from './context/ApiProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ApiProvider>
+      <App />
+    </ApiProvider>
   </React.StrictMode>
 );
 
