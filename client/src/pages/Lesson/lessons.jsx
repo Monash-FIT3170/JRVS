@@ -1,12 +1,11 @@
-import Navbar from "../../Components/navbar/Navbar";
 import { AppBar, Toolbar, Typography, Button, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios"
 import "./lessons.css"
-import TextBox from "../../Components/contentTypes/textBox";
-import Carousel from "../../Components/content/contentCarousal";
-import ImageTextBox from "../../Components/contentTypes/imageTextBox";
-import BotBox from "../../Components/content/botBox";
+import TextBox from "../../components/contentTypes/textBox";
+import Carousel from "../../components/content/contentCarousal";
+import ImageTextBox from "../../components/contentTypes/imageTextBox";
+import BotBox from "../../components/content/botBox";
 
 function Lessons() {
 

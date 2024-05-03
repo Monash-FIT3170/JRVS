@@ -21,14 +21,15 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 
 ### Running the app ###
 - To install dependencies: npm install
-- Add .env file to parent directory (outest) with the following:
+- Add .env file to server directory with the following:
 ```
 NODE_ENV = development
 PORT = 5000
 MONGO_URI = mongodb+srv://mver0017:<password>@doraicluster.yrznyo1.mongodb.net/?retryWrites=true&w=majority&appName=DorAICluster
 ```
 - Make sure that your IP is added to the mongodb database, by going to network access in the database, 'add current IP address'
-- To run both backend, frontend: npm run dev
+- run server: run run server
+- run client: npm start
 
 Inside that directory, you can run several commands:
 

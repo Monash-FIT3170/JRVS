@@ -1,7 +1,7 @@
-import Navbar from "../../Components/navbar/Navbar";
-import MultipleChoiceQ from "../../Components/QuestionTypes/mcq";
-import TrueFalse from "../../Components/QuestionTypes/truefalse";
-import ShortAnswer from "../../Components/QuestionTypes/shortans";
+
+import MultipleChoiceQ from "../../components/QuestionTypes/mcq";
+import TrueFalse from "../../components/QuestionTypes/truefalse";
+import ShortAnswer from "../../components/QuestionTypes/shortans";
 import { Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios"
@@ -41,9 +41,7 @@ export default function Quizzes() {
 
   return (
     <div className="Home">
-      <Navbar></Navbar>
 
-   
       <header className="App-header">
         <Typography sx= {{fontSize: 80}}>
           Quiz topic 1
