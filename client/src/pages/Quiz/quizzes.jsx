@@ -4,16 +4,26 @@ import TrueFalse from "../../components/QuestionTypes/truefalse";
 import ShortAnswer from "../../components/QuestionTypes/shortans";
 import { Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-import axios from "axios"
-export default function Quizzes() {
 
+import { useApi } from '../../context/ApiProvider.jsx';
+
+export default function Quizzes() {
+  const { getData } = useApi();
   const [items, setItems] = useState([]);
+  const [isQuizLoading, setIsQuizLoading] = useState(true);
+
   useEffect(() => {
-    axios.get("http://localhost:5000/api/quizzes")
-      .then(response => setItems(response.data))
-      
-      .catch(error => console.error(error));
-  }, []);
+    const fetchData = async () => {
+      try {
+        const responseData = await getData('api/quizzes');
+        setItems(responseData);
+        setIsQuizLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [getData])
 
   console.log(items)
 
@@ -46,7 +56,7 @@ export default function Quizzes() {
         <Typography sx= {{fontSize: 80}}>
           Quiz topic 1
         </Typography>
-      {mappedQuestions}
+      {isQuizLoading ? <p>loading...</p> : mappedQuestions}
       </header>
       
 
