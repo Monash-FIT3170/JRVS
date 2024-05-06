@@ -33,6 +33,15 @@ const LeftSidebar = () => {
 
           <li>
             <Link
+              to="/quiz"
+              className="block text-sm py-2 px-4 hover:bg-blue-900 rounded transition duration-200"
+            >
+              Quiz
+            </Link>
+          </li>
+
+          <li>
+            <Link
               to="/profile"
               className="block text-sm py-2 px-4 hover:bg-blue-900 rounded transition duration-200"
             >
