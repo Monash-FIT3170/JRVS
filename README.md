@@ -25,11 +25,14 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 ```
 NODE_ENV = development
 PORT = 5000
-MONGO_URI = mongodb+srv://mver0017:<password>@doraicluster.yrznyo1.mongodb.net/?retryWrites=true&w=majority&appName=DorAICluster
+MONGO_URI = mongodb+srv://mver0017:<password>@doraicluster.yrznyo1.mongodb.net/DoraiApp
 ```
+
+REPLACE <password> with the password from MongoDB 
+
+
 - Make sure that your IP is added to the mongodb database, by going to network access in the database, 'add current IP address'
-- run server: run run server
-- run client: npm start
+- from the main folder, call 'npm run dev'
 
 Inside that directory, you can run several commands:
 
