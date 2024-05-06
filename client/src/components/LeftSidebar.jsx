@@ -24,6 +24,15 @@ const LeftSidebar = () => {
 
           <li>
             <Link
+              to="/learningPath"
+              className="block text-sm py-2 px-4 hover:bg-blue-900 rounded transition duration-200"
+            >
+              Learning Path
+            </Link>
+          </li>
+          
+          <li>
+            <Link
               to="/lesson"
               className="block text-sm py-2 px-4 hover:bg-blue-900 rounded transition duration-200"
             >
