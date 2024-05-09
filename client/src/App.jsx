@@ -9,6 +9,7 @@ import Quizzes from './pages/Quiz/quizzes';
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import UnitsPage from './pages/UnitsPage';
 
 const App = () =>  {
   return (
@@ -29,8 +30,7 @@ const App = () =>  {
         <Route exact path="/quiz" element={<ProtectedRoute/>}>
           <Route exact path="/quiz" element={<Quizzes/>}/>
         </Route>
-        <Route path="/register" element={<RegistrationPage/>}/>
-        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/units" element={<UnitsPage/>} />
         <Route element={<NotFoundPage />} />
       </Routes>
     </Router>
