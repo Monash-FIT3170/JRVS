@@ -26,7 +26,7 @@ const CustomizePage = () => {
 
   return (
     
-      <div style ={{ backgroundColor: '#3CA3EE', overflowY: 'hidden', overflowY: 'hidden', overflowX: 'hidden', height: '100vh', display: 'flex', flexDirection: 'column'}} >
+      <div style ={{ backgroundColor: '#3CA3EE', overflowY: 'hidden', overflowX: 'hidden', height: '100vh', display: 'flex', flexDirection: 'column'}} >
         <Grid container spacing={2} columns={22} style={{paddingTop: '40px', paddingLeft: '60px', paddingRight: '80px', marginBottom: '20px'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
                 <h2 className='russo-one-regular text-5xl text-white'>JRVS</h2>

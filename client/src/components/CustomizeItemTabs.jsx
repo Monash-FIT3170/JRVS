@@ -4,6 +4,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Grid from '@mui/material/Unstable_Grid2';
+import box from '../assets/images/box.png';
+import avatar from '../assets/images/Avatar.png';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,11 +70,40 @@ export default function BasicTabs() {
           <Tab style={{borderTopRightRadius: 15}} label="Borders" {...a11yProps(4)} />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        Shop goes here
+      <CustomTabPanel value={value} index={0} style={{display: 'flex', flex: '1', alignItems: 'center', justifyContent: 'center'}}>
+      <Grid container spacing={2} columns={19} style={{marginTop: '60px'}}>
+        <Grid xs={1} ></Grid>
+            <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+                    <h2 className='russo-one-regular text-3xl'>Item Box</h2>
+                    <img src={box} alt='avatar icon' style={{padding: '40px'}}></img>
+                    <h2 className='russo-one-regular text-4xl'>100🪙</h2>
+            </Grid>
+            <Grid xs={1} ></Grid>
+            <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+                    <h2 className='russo-one-regular text-3xl'>Lucky Box</h2>
+                    <img src={box} alt='avatar icon' style={{padding: '30px'}}></img>
+                    <h2 className='russo-one-regular text-4xl'>500🪙</h2>
+            </Grid>
+            <Grid xs={1} ></Grid>
+            <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+                    <h2 className='russo-one-regular text-3xl'>Mystery Box</h2>
+                    <img src={box} alt='avatar icon' style={{padding: '20px'}}></img>
+                    <h2 className='russo-one-regular text-4xl text-red-500'>2000🪙</h2>
+            </Grid>
+            <Grid xs={1} ></Grid>
+        </Grid>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        avatars go here
+      <CustomTabPanel value={value} index={1} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
+        <Grid container spacing={2} columns={25}>
+            {[1,2,3,4,5,6,7,8,9,10,11,12].map((element, index) => (
+                <Grid xs={5} >
+                <div style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+                    <img src={avatar} alt='avatar icon' style={{padding: '20px'}}></img>
+                </div>
+                
+                </Grid>
+            ))}
+        </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         accessories go here
