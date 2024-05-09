@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import LeftSidebar from '../components/LeftSidebar';
 import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -36,8 +37,12 @@ const ProfilePage = () => {
             <div style={{marginBottom: '20px', flexGrow: '1', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <img src={avatar} alt='avatar icon'></img>
             </div>
-            <div style={{padding: '20px', marginBottom: '20px', flexGrow: '1', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '60%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' , backgroundColor: '#3CA3EE'}}>
+            <Link
+              to="/customize"
+            >
               <h2 className='russo-one-regular text-3xl'>customize avatar</h2>
+            </Link>
             </div>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
               <h2 className='russo-one-regular text-4xl'>@Username</h2>
