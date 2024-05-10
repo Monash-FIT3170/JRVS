@@ -23,7 +23,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component={'span'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -75,21 +75,21 @@ export default function BasicTabs() {
       <Grid container spacing={2} columns={19} style={{marginTop: '60px'}}>
         <Grid xs={1} ></Grid>
             <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
-                    <h2 className='russo-one-regular text-3xl'>Item Box</h2>
+                    <p className='russo-one-regular text-3xl'>Item Box</p>
                     <img src={box} alt='avatar icon' style={{padding: '40px'}}></img>
-                    <h2 className='russo-one-regular text-4xl'>100🪙</h2>
+                    <p className='russo-one-regular text-4xl'>100🪙</p>
             </Grid>
             <Grid xs={1} ></Grid>
             <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
-                    <h2 className='russo-one-regular text-3xl'>Lucky Box</h2>
+                    <p className='russo-one-regular text-3xl'>Lucky Box</p>
                     <img src={box} alt='avatar icon' style={{padding: '30px'}}></img>
-                    <h2 className='russo-one-regular text-4xl'>500🪙</h2>
+                    <p className='russo-one-regular text-4xl'>500🪙</p>
             </Grid>
             <Grid xs={1} ></Grid>
             <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
-                    <h2 className='russo-one-regular text-3xl'>Mystery Box</h2>
+                    <p className='russo-one-regular text-3xl'>Mystery Box</p>
                     <img src={box} alt='avatar icon' style={{padding: '20px'}}></img>
-                    <h2 className='russo-one-regular text-4xl text-red-500'>2000🪙</h2>
+                    <p className='russo-one-regular text-4xl text-red-500'>2000🪙</p>
             </Grid>
             <Grid xs={1} ></Grid>
         </Grid>
