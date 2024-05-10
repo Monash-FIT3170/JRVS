@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Grid from '@mui/material/Unstable_Grid2';
 import box from '../assets/images/box.png';
 import avatar from '../assets/images/Avatar.png';
+import Avatars from "./Avatars";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -95,14 +96,7 @@ export default function BasicTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
         <Grid container spacing={2} columns={25}>
-            {[1,2,3,4,5,6,7,8,9,10,11,12].map((element, index) => (
-                <Grid xs={5} >
-                <div style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
-                    <img src={avatar} alt='avatar icon' style={{padding: '20px'}}></img>
-                </div>
-                
-                </Grid>
-            ))}
+            <Avatars></Avatars>
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>

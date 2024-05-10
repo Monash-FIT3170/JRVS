@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LabTabs from '../components/CustomizeItemTabs';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useApi } from '../context/ApiProvider';
 import avatar from '../assets/images/Avatar.png';
 
-import { useApi } from '../context/ApiProvider';
 
 const CustomizePage = () => {
   const { getData } = useApi();
@@ -46,18 +46,23 @@ const CustomizePage = () => {
         </Grid>
         <Grid container spacing={0} columns={24}>
           <Grid xs={8} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{padding: '20px', marginBottom: '40px',flexGrow: '1', width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' , backgroundColor: 'white', borderRadius: '20px'}}>
-              <img src={avatar} alt='avatar icon'></img>
+            <div style={{position: 'relative', padding: '20px', marginBottom: '20px',flexGrow: '1', width: '75%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' , backgroundColor: 'white', borderRadius: '20px'}}>
+                <div id='userAvatar' style={{padding: '30px', zIndex: '1'}}>
+                <img src={avatar}></img>
+                </div>
+                <div>
+                <img src={avatar} style={{position: 'absolute', bottom: '0', right: '0', padding: '30px'}}></img>
+                </div>
             </div>
-            <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '80%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
+            <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
               <h2 className='russo-one-regular text-4xl'>@Username</h2>
             </div>
-            <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '80%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
+            <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
               <h2 className='russo-one-regular text-4xl'>1020🪙</h2>
             </div>
           </Grid>
           <Grid xs={16} style={{paddingRight: '80px', paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
-            <div style={{ border: '2px solid #2196f3', marginBottom: '40px', flexGrow: '1', width: '100%', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
+            <div style={{ border: '2px solid #2196f3', marginBottom: '35px', flexGrow: '1', width: '100%', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
               <LabTabs></LabTabs>
             </div>
           </Grid>
