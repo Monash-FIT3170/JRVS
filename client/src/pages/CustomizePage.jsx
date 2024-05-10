@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import LabTabs from '../components/CustomizeItemTabs';
+import LabTabs from '../components/characterCustomization/CustomizeItemTabs';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useApi } from '../context/ApiProvider';
 import avatar from '../assets/images/Avatar.png';
