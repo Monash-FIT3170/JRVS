@@ -8,6 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import box from '../assets/images/box.png';
 import Avatars from "./Avatars";
 import Backgrounds from "./Backgrounds";
+import Borders from "./Borders";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -101,8 +102,8 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={2} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
         <Backgrounds></Backgrounds>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        borders go here
+      <CustomTabPanel value={value} index={3} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
+        <Borders></Borders>
       </CustomTabPanel>
     </Box>
   );
