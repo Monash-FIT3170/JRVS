@@ -5,7 +5,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Unstable_Grid2';
-import box from '../assets/images/box.png';
+import box from '../../assets/images/box.png';
 import Avatars from "./Avatars";
 import Backgrounds from "./Backgrounds";
 import Borders from "./Borders";

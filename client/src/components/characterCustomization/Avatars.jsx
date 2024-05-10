@@ -1,8 +1,8 @@
 import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
-import Tick from '../assets/images/greenTick.png';
+import Tick from '../../assets/images/greenTick.png';
 
-const images = require.context('../assets/images/avatars', false, /\.png$/);
+const images = require.context('../../assets/images/avatars', false, /\.png$/);
 const imageList = images.keys().map(image => images(image));
 
 console.log(imageList.indexOf(images('./_Avatar.png')));
