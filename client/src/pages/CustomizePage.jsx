@@ -7,6 +7,8 @@ import Avatar from '../components/characterCustomization/Avatar';
 
 
 const CustomizePage = () => {
+    //TODO fetch coins here
+    const coins = 1020;
   return (
     
       <div style ={{ backgroundColor: '#3CA3EE', overflowY: 'hidden', overflowX: 'hidden', height: '100vh', display: 'flex', flexDirection: 'column'}} >
@@ -17,7 +19,7 @@ const CustomizePage = () => {
                 <Grid xs={15} ></Grid>
                 <Grid xs={5} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{padding:'10px', backgroundColor: 'white', borderRadius: '20px'}}>
-                    <p className='russo-one-regular text-4xl'>&nbsp;1020🪙&nbsp;</p>
+                    <p className='russo-one-regular text-4xl'>&nbsp;{coins}🪙&nbsp;</p>
                 </div>
                 <Link to="/">
                     <p className='russo-one-regular text-5xl'>🎓</p>
@@ -35,7 +37,7 @@ const CustomizePage = () => {
               <p className='russo-one-regular text-4xl'>@Username</p>
             </div>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
-              <p className='russo-one-regular text-4xl'>1020🪙</p>
+              <p className='russo-one-regular text-4xl'>{coins}🪙</p>
             </div>
           </Grid>
           <Grid xs={16} style={{paddingRight: '80px', paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
