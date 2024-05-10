@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Unstable_Grid2';
 import box from '../assets/images/box.png';
-import avatar from '../assets/images/Avatar.png';
 import Avatars from "./Avatars";
+import Backgrounds from "./Backgrounds";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,9 +66,8 @@ export default function BasicTabs() {
         >
           <Tab style={{borderTopLeftRadius: 15,}} label="Shop" {...a11yProps(0)} />
           <Tab label="Avatars" {...a11yProps(1)} />
-          <Tab label="Accessories" {...a11yProps(2)} />
-          <Tab label="Backgrounds" {...a11yProps(3)} />
-          <Tab style={{borderTopRightRadius: 15}} label="Borders" {...a11yProps(4)} />
+          <Tab label="Backgrounds" {...a11yProps(2)} />
+          <Tab style={{borderTopRightRadius: 15}} label="Borders" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0} style={{display: 'flex', flex: '1', alignItems: 'center', justifyContent: 'center'}}>
@@ -95,17 +94,14 @@ export default function BasicTabs() {
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-        <Grid container spacing={2} columns={25}>
+        <Grid container spacing={1} columns={25}>
             <Avatars></Avatars>
         </Grid>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        accessories go here
+      <CustomTabPanel value={value} index={2} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
+        <Backgrounds></Backgrounds>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        backgrounds go here
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
         borders go here
       </CustomTabPanel>
     </Box>

@@ -12,8 +12,8 @@ const Avatars = () => {
   return (
     <Grid container spacing={2} columns={25}>
         {Object.keys(imageList).map((imageName, index) => (
-            <Grid xs={5} >
-            <div style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: "#80BAE4" }} onClick={() => handleImageClick(imageName)}>
+            <Grid xs={5} style={{padding:'20px'}}>
+            <div style={{ border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: "#80BAE4" }} onClick={() => handleImageClick(imageName)}>
                 <img key={index} src={imageList[imageName]} alt={imageName} style={{padding: '20px'}} />
             </div>
             
