@@ -7,23 +7,6 @@ import Avatar from '../components/characterCustomization/Avatar';
 
 
 const CustomizePage = () => {
-  const { getData } = useApi();
-  const [data, setData] = useState(undefined);
-  const [isBadgeLoading, setIsBadgeLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseData = await getData('api/badges');
-        setData(responseData);
-        setIsBadgeLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [getData])
-
   return (
     
       <div style ={{ backgroundColor: '#3CA3EE', overflowY: 'hidden', overflowX: 'hidden', height: '100vh', display: 'flex', flexDirection: 'column'}} >
