@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import LabTabs from '../components/characterCustomization/CustomizeItemTabs';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useApi } from '../context/ApiProvider';
-import avatar from '../assets/images/Avatar.png';
-import DefaultBorder from '../assets/images/borders/_white.png';
+import Avatar from '../components/characterCustomization/Avatar';
 
 
 const CustomizePage = () => {
@@ -47,16 +46,8 @@ const CustomizePage = () => {
         </Grid>
         <Grid container spacing={0} columns={24}>
           <Grid xs={8} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{position: 'relative', padding: '0px', marginBottom: '20px',flexGrow: '1', width: '75%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' , backgroundColor: 'white', borderRadius: '20px'}}>
-                <div id='userAvatar' style={{zIndex: '2', position: 'absolute', bottom: '45.1%', right: '50%', transform: 'translate(50%, 50%)', height: '70%', width: '70%'}}>
-                <img src={avatar}></img>
-                </div>
-                <div id='userBackground' style={{zIndex: '1', position: 'absolute', bottom: '50%', right: '50%', transform: 'translate(50%, 50%)', backgroundColor: 'white', borderRadius: '20px', height: '80%', width: '80%'}}>                
-                </div>
-                <div id='userBorder' style={{zIndex: '0', position: 'relative', bottom: '0', right: '0', height: '100%', width: '100%', borderRadius: '20px', backgroundColor: 'white'}}>
-                <img src={DefaultBorder} style={{borderRadius: '20px'}}></img>
-                </div>
-            </div>
+            {/* TODO pass the current names for initialization */}
+            <Avatar avatarPath='_default.png' backgroundPath='_default.png' borderPath='_default.png'/>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
               <p className='russo-one-regular text-4xl'>@Username</p>
             </div>
@@ -72,7 +63,12 @@ const CustomizePage = () => {
         </Grid>
         <Grid container spacing={2} columns={15}>
             <Grid xs={5} ></Grid>
-            <Grid xs={2} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: '#27CA40', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+            <Grid xs={2} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: '#27CA40', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={function(){
+                //TODO store the names of selected customizations
+                console.log(document.getElementById('userBorder').getAttribute("data-name"));
+                console.log(document.getElementById('userAvatar').getAttribute("data-name"));
+                console.log(document.getElementById('userBackground').getAttribute("data-name"));
+            }}>
                 <Link to="/profile">
                     <p className='russo-one-regular text-4xl'>Save</p>
                 </Link>

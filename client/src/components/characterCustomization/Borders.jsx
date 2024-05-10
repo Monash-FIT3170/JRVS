@@ -6,11 +6,21 @@ const images = require.context('../../assets/images/borders', false, /\.(png|gif
 const imageList = images.keys().map(image => images(image));
 var selected = '0';
 
+function ImageName(index){
+    let string = imageList[index];
+    let filename = string.split("/").pop();
+    let name = filename.split(".")[0];
+    let extension = "." + filename.split(".").pop();
+    return name + extension;
+}
+
 const Borders = () => {
     const handleImageClick = (imageName) => {
         if (imageName==selected){
             imageName = '0';
         }
+        let name = ImageName(imageName);
+        document.getElementById('userBorder').setAttribute("data-name", name);
         document.getElementById('userBorder').innerHTML = `<img src=${imageList[imageName]} style="border-radius: 20px; width: 100%;"></img>`;
         document.getElementById('border_'+selected).innerHTML = ``;
         document.getElementById('border_'+imageName).innerHTML = `<img src=${Tick} style="border: 2px solid #2196f3; z-index: 2; padding: 20px; position: absolute; bottom: 0; right: 0; width: 100%; background-color: rgba(0,0,0,0.5); border-radius: 15px;"/>`;
@@ -25,7 +35,7 @@ const Borders = () => {
                 <div id={'border_'+imageName} style={{width: '100%', position: 'relative'}}>
                     {imageName == selected ? <img src={Tick} style={{border: '2px solid #2196f3', zIndex: '2', padding: '20px', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: '15px'}}/> : null}
                 </div>
-                <div id='userBackground' style={{zIndex: '1', position: 'absolute', bottom: '50%', right: '50%', transform: 'translate(50%, 50%)', backgroundColor: '#80BAE4', borderRadius: '20px', height: '77%', width: '77%'}}>
+                <div style={{zIndex: '1', position: 'absolute', bottom: '50%', right: '50%', transform: 'translate(50%, 50%)', backgroundColor: '#80BAE4', borderRadius: '20px', height: '77%', width: '77%'}}>
                 </div>
             </div>
             
