@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import avatar from '../assets/images/Avatar.png';
+import { useApi } from '../context/ApiProvider';
 
 
 
@@ -11,6 +12,8 @@ const RegistrationPage = () => {
     const [email, setEmail] = useState('')
     const [school, setSchool] = useState('')
     const [password, setPassword] = useState('')
+
+    const {postData} = useApi();
 
 
     const handleSubmit = async (e) =>{
@@ -30,6 +33,8 @@ const RegistrationPage = () => {
                 'Content-Type': 'application/json'
             }
         })
+
+    
 
         // receive json
         const json = await response.json()
