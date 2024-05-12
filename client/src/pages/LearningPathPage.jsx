@@ -13,6 +13,14 @@ import { learningPathData, savedProgressData } from './learningPathData.js';
 
 const LearningPathPage = () => {
 
+  // Colour theme
+  const theme = {
+    treeBackgroundColor: "#3CA3EE", // Tree background colour
+    nodeBackgroundColor: "#646464", // Locked node colour
+    nodeActiveBackgroundColor: "#A366FF", // Unlocked node colour
+    nodeHoverBorderColor: `#FFFFFF` // Node border colour
+  };
+
   // TODO: Retrieve learning path data from database, rather than it being hard-coded
   // TODO: Retreive user's progress from database, rather than it being hard-coded
 
@@ -33,7 +41,7 @@ const LearningPathPage = () => {
         <h2>Learning Path</h2>
         
         <SkillProvider>
-          <SkillTreeGroup>
+          <SkillTreeGroup theme={theme}>
             {({ skillCount }) => ( //SkillGroupDataType
               <SkillTree
                 treeId="first-tree"
