@@ -10,8 +10,10 @@ const CustomizePage = () => {
     //TODO fetch coins here
     const coins = 1020;
   return (
-    
       <div style ={{ backgroundColor: '#3CA3EE', overflowY: 'hidden', overflowX: 'hidden', height: '100vh', display: 'flex', flexDirection: 'column'}} >
+        <div id="box_overlay" style={{display: 'block', zIndex: '-1', position: 'fixed', top: '0', left:'0', width:'100%', height: '100%', backgroundColor: 'rgba(60, 163, 238, 0)', transition: 'background-color 2s ease'}}>
+        <div id="fake_box" style={{zIndex: '11', position: 'fixed'}}></div>
+        </div>
         <Grid container spacing={2} columns={22} style={{paddingTop: '40px', paddingLeft: '60px', paddingRight: '80px', marginBottom: '20px'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
                 <p className='russo-one-regular text-5xl text-white'>JRVS</p>
