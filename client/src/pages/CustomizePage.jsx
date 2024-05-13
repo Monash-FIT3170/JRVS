@@ -16,7 +16,7 @@ const CustomizePage = () => {
         <div id= 'spline_box' style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', border: 'none', zIndex: '-1'}}>
             <canvas id="spline_animation"></canvas>
         </div>
-        <Grid container spacing={2} columns={22} style={{paddingTop: '40px', paddingLeft: '60px', paddingRight: '80px', marginBottom: '20px'}}>
+        <Grid container spacing={2} columns={22} style={{paddingTop: '30px', paddingLeft: '60px', paddingRight: '80px', marginBottom: '10px'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
                 <p className='russo-one-regular text-5xl text-white'>JRVS</p>
                 </Grid>
