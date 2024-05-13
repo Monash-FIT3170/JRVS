@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 
 
 
-export default function TrueFalse(data) {
+export default function TrueFalse({question, index}) {
   
 
   const [value, setValue] = useState('');
@@ -28,7 +28,7 @@ export default function TrueFalse(data) {
 
 
   const handleSubmit = (event) => {
-    if (value === data.data.item.answer){
+    if (value === question.answer){
       
       setHelperText('Correct!');
       
@@ -38,7 +38,7 @@ export default function TrueFalse(data) {
   
     }
   }
-    const mappedOptions = data.data.item.options.map((item) => (
+    const mappedOptions = question.options.map((item) => (
         <FormControlLabel value={item.option} key = {item.option} control={<Radio />} label={item.option} />
       ));
     
@@ -47,7 +47,7 @@ export default function TrueFalse(data) {
       return (
         <FormControl >
          
-        <FormLabel id="mcq-label" sx={{color: 'black'}}>{data.data.index+1}:{data.data.item.question}</FormLabel>
+        <FormLabel id="mcq-label" sx={{color: 'black'}}>{index+1}:{question.question}</FormLabel>
         <RadioGroup  onChange = {handleRadioChange} row> 
         {mappedOptions}
           

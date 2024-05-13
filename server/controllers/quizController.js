@@ -1,4 +1,30 @@
 
+
+
+
+const asyncHandler = require('express-async-handler')
+
+const quizModel = require('../models/quizModel')
+
+
+const getQuiz = asyncHandler (async (req, res) => {
+    const quizId = req.params.id
+    const quiz = await quizModel.findById(quizId)
+
+    if (!quiz) {
+        res.status(404).json({message: 'Quiz not found'})
+    } else {
+        res.status(200).json(quiz);
+    }
+})
+
+
+module.exports = {
+    getQuiz
+}
+
+/*
+
 const asyncHandler = require('express-async-handler')
 
 const Quiz = require('../models/quizModel')
@@ -54,3 +80,5 @@ module.exports = {
     getQuestions,
     setQuestions
 }
+
+*/

@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { FormHelperText } from '@mui/material';
 
 
-export default function ShortAnswer(data) {
+export default function ShortAnswer({question, index}) {
   const [value, setValue] = useState('');
 
   const [helperText, setHelperText] = useState('');
@@ -23,7 +23,7 @@ export default function ShortAnswer(data) {
 
   return (
     <FormControl >
-        <FormLabel id="mcq-label" sx={{color: 'black'}}>{data.data.index+1}: {data.data.item.question}</FormLabel>
+        <FormLabel id="mcq-label" sx={{color: 'black'}}>{index+1}: {question.question}</FormLabel>
         <TextField
             sx={{color: 'white'}}
           id="outlined-textarea"
