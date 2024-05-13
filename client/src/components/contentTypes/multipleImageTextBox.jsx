@@ -12,7 +12,7 @@ export default function MultipleImageTextBox(props) {
                 </Typography>
                 <ImageList 
                     sx={{maxWidth: '50%', maxHeight: '50%', padding: '10px'}}
-                    cols={props.imageSrcs.length}
+                    cols={Math.ceil(Math.sqrt(props.imageSrcs.length))}
                 >
                     {props.imageSrcs.map((imageSrc) => (
                         <ImageListItem>

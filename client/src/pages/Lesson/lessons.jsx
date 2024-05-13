@@ -57,8 +57,7 @@ function Lessons() {
                 return <ListBox points={contentObject.points} heading={contentObject.heading}></ListBox>
             } else if (contentObject.type === 'multipleImageTextBox') {
                 return <MultipleImageTextBox imageSrcs={contentObject.imageSrcs} heading={contentObject.heading} text={contentObject.text}></MultipleImageTextBox>
-            }
-            return <></>
+            } else return <></>;
         })
     }
 
@@ -77,29 +76,35 @@ function Lessons() {
                         <h1 className="saira-font-container">JRVS</h1>
                     </Grid>
                     <Grid item>
-                        <h1 className="sarala-font-container">✨{isLessonLoading ? 'loading...' : lesson.title}✨</h1>
-                    </Grid>
-                    <Grid item>
                         <Button className="button-font" variant="contained" sx={{backgroundColor: '#2196F3'}}>Profile</Button>
                     </Grid>
                 </Grid>
                 </Toolbar>
             </AppBar>
             
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                
-            }}>
-                {onIntroduction ? <BotBox/> : <></>}
-                {isLessonLoading ? <p style={{padding: '10px'}}>loading...</p> : <Carousel boxes={contentBoxes} onStatus={handleStatus} onIntroduction={handleIntroStatus}></Carousel>}
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                }}
+            >
+                <h1 style={{paddingBottom: '25px'}} className="title-font">{isLessonLoading ? 'loading...' : lesson.title.toUpperCase()}</h1>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    {onIntroduction ? <BotBox/> : <></>}
+                    {isLessonLoading ? <p style={{padding: '10px'}}>loading...</p> : <Carousel boxes={contentBoxes} onStatus={handleStatus} onIntroduction={handleIntroStatus}></Carousel>}
+                </Box>
             </Box>
             
             <Box
