@@ -9,6 +9,7 @@ import box from '../../assets/images/box.png';
 import Avatars from "./Avatars";
 import Backgrounds from "./Backgrounds";
 import Borders from "./Borders";
+import { Application } from '@splinetool/runtime';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,28 +43,37 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-var style = document.createElement('style');
-style.innerHTML = `
-@keyframes example {
-  0%   {background-color:red; left:0px; top:0px;}
-  25%  {background-color:yellow; left:200px; top:0px;}
-  50%  {background-color:blue; left:200px; top:200px;}
-  75%  {background-color:green; left:0px; top:200px;}
-  100% {background-color:red; left:0px; top:0px;}
-}
-`;
-document.head.appendChild(style);
 
 
 function startOverlay(box_id){
-  const rect = document.getElementById(box_id).getBoundingClientRect();
-  document.getElementById('fake_box').innerHTML = `<div id="fake_box_div" style="position: fixed; width: ${rect.width}px; height: ${rect.height}px; top: ${rect.top}px; left: ${rect.left}px; transition: left 1.5s ease;"><img src=${box} style="padding: 30px;"></img></div>`;
-  document.getElementById("box_overlay").style.zIndex = "10";
-  document.getElementById("box_overlay").style.backgroundColor = 'rgba(60, 163, 238, 1)';
-  setTimeout(function() {
-    document.getElementById('fake_box_div').style.left = `calc(50% - ${rect.width/2}px)`;
-    
-  }, 1500);
+  const canvas = document.getElementById('spline_animation');
+  const spline = new Application(canvas);
+  spline
+    .load('https://prod.spline.design/AqrULcxsEgV8KGmI/scene.splinecode')
+    .then(() => {
+      spline.stop();
+    });
+    const rect = document.getElementById(box_id).getBoundingClientRect();
+    document.getElementById('fake_box').innerHTML = `<div id="fake_box_div" style="position: fixed; width: ${rect.width}px; height: ${rect.height}px; top: ${rect.top}px; left: ${rect.left}px; transition: left 1.5s ease;"><img src=${box} style="padding: 30px;"></img></div>`;
+    document.getElementById("box_overlay").style.zIndex = "10";
+    document.getElementById("box_overlay").style.backgroundColor = 'rgba(60, 163, 238, 1)';
+    setTimeout(function() {
+      document.getElementById('fake_box_div').style.left = `calc(50% - ${rect.width/2}px)`;
+    }, 1500);
+    setTimeout(function() {
+      document.getElementById("spline_box").style.zIndex = "12";
+      spline.play();
+      document.getElementById('fake_box').innerHTML = ``;
+    }, 3500);
+    setTimeout(function() {
+      document.getElementById("box_overlay").style.backgroundColor = 'rgba(60, 163, 238, 0)';
+    }, 9000);
+    setTimeout(function() {
+      document.getElementById("spline_box").style.zIndex = "-1";
+    }, 10500);
+    setTimeout(function() {
+      document.getElementById("box_overlay").style.zIndex = "-1";
+    }, 11500);
 }
 
 export default function BasicTabs() {
