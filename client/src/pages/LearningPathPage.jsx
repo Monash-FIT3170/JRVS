@@ -1,5 +1,5 @@
 import React from 'react';
-import LeftSidebar from '../components/LeftSidebar';
+import Menu from '../components/MenuBar.jsx';
 import {
   SkillTreeGroup,
   SkillTree,
@@ -10,15 +10,19 @@ import {
 
 // Import hard-coded learning path data
 import { learningPathData, savedProgressData } from './learningPathData.js';
+import '../assets/styles/App.css'
 
 const LearningPathPage = () => {
 
-  // Colour theme
+  // Coloured background theme
   const theme = {
-    treeBackgroundColor: "#3CA3EE", // Tree background colour
+    border:"transparent",
+    borderRadius: '8px',
+    treeBackgroundColor: "#transparent", // Tree background colour //Note it is set to a broken value which makes the popup black
     nodeBackgroundColor: "#646464", // Locked node colour
     nodeActiveBackgroundColor: "#A366FF", // Unlocked node colour
-    nodeHoverBorderColor: `#FFFFFF` // Node border colour
+    nodeHoverBorderColor: `#FFFFFF`, // Node border colour
+    
   };
 
   // TODO: Retrieve learning path data from database, rather than it being hard-coded
@@ -33,23 +37,39 @@ const LearningPathPage = () => {
     // TODO: Navigate to that lesson's page, using the id retrieved here
 
     // alert("Hello! The lesson selected is " + node.key);
+    
+    // Go straight to the lesson 
+    // TODO: query db to get the type of lesson. Can't do it normally because of nested data, so something like "const lessonType = learningPathData.find(item => item.id === "1");" doesnt work
+    
+    // HARDCODED FOR NOW
+    const videos = ["4", "10", "11", "12"];
+    const lessons = ["1", "2", "3", "7", "8", "9"];
+    const quizzes = ["5", "6", "13", "14", "15"];
+    
+    var output;
+    if (lessons.includes(node.key)) {output = "lesson"}
+    else if (videos.includes(node.key)) {output = "video"}
+    else if (quizzes.includes(node.key)) {output = "quiz"}
+
+    // console.log("http://localhost:3000/" + output + "/:" + node.key)
+
+    window.location.href = "http://localhost:3000/" + output + "/:" + node.key;
   }
 
   return (
-    <div>
-        <LeftSidebar />
-        <h2>Learning Path</h2>
-        
+    <div style={{ backgroundColor: '#3CA3EE' }}>
+        <Menu title="Recognising AI" subtitle="Learning Path"/> {/* TODO: Have the page title match what is stored in the DB */}
+        {/* {document.body.style = 'background: red;'} */}
         <SkillProvider>
           <SkillTreeGroup theme={theme}>
             {({ skillCount }) => ( //SkillGroupDataType
               <SkillTree
                 treeId="first-tree"
-                title="Skill Tree"
+                title=""
                 data={learningPathData} // SkillType
 
                 // Other useful fields (the rest we won't need):
-                savedData={savedProgressData} // To load user progress
+                // savedData={savedProgressData} // To load user progress
                 handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
               />
             )}
