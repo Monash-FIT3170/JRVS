@@ -89,7 +89,11 @@ function Quizzes() {
                 backgroundColor: '#3CA3EE',
             }}
         >
-            <MenuBar />
+
+            {/* The idea is to get the Topic name and question and pass through menu bar looks clean*/}
+            <MenuBar 
+            title='Topic 1: What is AI'
+            subtitle='Get ready to learn more about AI today'/>
 
             <Grid container
                 direction="column"

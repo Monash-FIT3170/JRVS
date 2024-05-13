@@ -18,33 +18,35 @@ export default function MultipleChoiceQ({question, index}) {
   const [value, setValue] = useState('');
   const [helperText, setHelperText] = useState('');
   const [correct, setCorrect] = useState('white')
+  const [buttonColor, setButtonColor] = useState('white');
+
   const handleRadioChange = (event) => {
     setValue(event.target.value);
-    setHelperText('')
-
-
-    setCorrect('red')
-
-   
+    setHelperText('');
+    setButtonColor('white'); // Reset button color when user makes a new selection
   };
 
   
 
   const handleSubmit = (event) => {
+    console.log(value)
+    console.log(question.answer)
     if (value === question.answer){
       
-      setHelperText('Correct!');
-      setCorrect('red')
+      
+       setHelperText('Correct!');
+      setButtonColor('green'); // Set to green if correct
       
     }
     else {
       setHelperText('Incorrect...');
+      setButtonColor('red'); // Set to red if incorrect
   
     }
   }
 
   const mappedOptions = question.options.map((item) => (
-    <FormControlLabel  value={item.option} key = {item.option} control={<Radio />} label={item.option} />
+    <FormControlLabel  value={item.value} key = {item.value} control={<Radio />} label={item.value} />
   ));
 
 
@@ -57,9 +59,9 @@ export default function MultipleChoiceQ({question, index}) {
     </RadioGroup>
     {}
 
-    <FormHelperText sx={{color: {correct}}}>{helperText}</FormHelperText>
+    <FormHelperText sx={{ fontSize:20, color: buttonColor }}>{helperText}</FormHelperText>
 
-    <Button sx={{ mt: 1, mr: 1 , borderRadius: '10px' }} onClick={handleSubmit} variant="outlined">
+    <Button  sx={{ mt: 1, mr: 1 , borderRadius: '10px'}} onClick={handleSubmit} variant="outlined">
           Check Answer
         </Button>
         <br></br>
