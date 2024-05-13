@@ -4,12 +4,15 @@ import { IconButton } from "@mui/material";
 import FaceIcon from '@mui/icons-material/Face';
 import SchoolIcon from '@mui/icons-material/School';
 
-const MenuBar = () => {
+const MenuBar = ({title, subtitle}) => {
+    title = title ? title : "";
+    subtitle = subtitle ? subtitle : "";
+
     //TODO: fetch coins here
     const coins = 1000;
 
     return (
-        <Grid container spacing={2} columns={22} style={{paddingTop: '30px', paddingLeft: '60px', paddingRight: '80px', backgroundColor: '#3CA3EE'}}>
+        <Grid container spacing={2} columns={22} style={{ padding: '30px 80px 20px 60px', backgroundColor: '#3CA3EE'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
                 <p className='russo-one-regular text-5xl text-white'>JRVS</p>
             </Grid>
@@ -19,7 +22,7 @@ const MenuBar = () => {
                     <p className='russo-one-regular text-4xl'>&nbsp;{coins} ⭐️&nbsp;</p>
                 </div>
     
-                <IconButton href="/lesson" aria-label="school" style={{ color: "white", fontSize: "40px" }}>
+                <IconButton href="/" aria-label="school" style={{ color: "white", fontSize: "40px" }}>
                     <SchoolIcon fontSize="inherit" />
                 </IconButton>
 
@@ -27,7 +30,22 @@ const MenuBar = () => {
                     <FaceIcon fontSize="inherit" />
                 </IconButton>
             </Grid>
-        </Grid>
+
+            <Grid xs={1}></Grid>
+            <Grid xs={20}>
+                <Grid xs={22}>
+                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '50px' ,fontWeight: '700', color: 'white' }}>
+                    {title}
+                </p>
+                </Grid>
+                <Grid xs={22}>
+                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '30px' ,fontWeight: '400', color: 'white' }}>
+                    {subtitle}
+                </p>
+                </Grid>
+            </Grid>
+            <Grid xs={1}></Grid>
+        </Grid>        
     )
 }
 
