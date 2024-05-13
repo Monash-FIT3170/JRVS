@@ -5,6 +5,7 @@ import Lessons from './pages/Lesson/lessons';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import Quizzes from './pages/Quiz/quizzes';
+import Quizzes2 from './pages/Quiz/quizzes';
 
 const App = () =>  {
   return (
@@ -14,6 +15,7 @@ const App = () =>  {
         <Route path="/lesson/:lessonId" element={<Lessons/>} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/quiz" element={<Quizzes/>} />
+  
         <Route element={<NotFoundPage />} />
       </Routes>
     </Router>
