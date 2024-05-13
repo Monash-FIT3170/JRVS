@@ -49,7 +49,7 @@ export default function Carousel({boxes, onStatus, onIntroduction}) {
 
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+        <Box sx={{ maxWidth: '75%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
         <Button onClick={handlePrev} sx={{color: '#FFFFFF'}}><ArrowBackIosNewIcon/></Button>
         <Box>{boxes[activeIndex]}</Box>
         <Button onClick={handleNext} sx={{color: '#FFFFFF'}}><ArrowForwardIosIcon/></Button>
