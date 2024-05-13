@@ -4,6 +4,7 @@ import LeftSidebar from '../components/LeftSidebar';
 import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
 import avatar from '../assets/images/Avatar.png';
+import MenuBar from '../components/MenuBar';
 
 import { useApi } from '../context/ApiProvider';
 
@@ -27,7 +28,7 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <LeftSidebar />
+      <MenuBar />
       <div className='ml-48'>
         <Grid container spacing={2}>
           <Grid xs={12} style={{ padding: '40px'}}>
