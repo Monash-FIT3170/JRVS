@@ -24,7 +24,7 @@ const LeftSidebar = () => {
 
           <li>
             <Link
-              to="/lesson"
+              to="/lesson/6640516ed3dd29919eec460d"
               className="block text-sm py-2 px-4 hover:bg-blue-900 rounded transition duration-200"
             >
               Lesson
