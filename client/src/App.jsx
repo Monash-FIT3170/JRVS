@@ -31,6 +31,7 @@ const App = () =>  {
           <Route exact path="/quiz" element={<Quizzes/>}/>
         </Route>
         <Route path="/units" element={<UnitsPage/>} />
+        <Route path="/lesson/:lessonId" element={<Lessons/>} />
         <Route element={<NotFoundPage />} />
       </Routes>
     </Router>
