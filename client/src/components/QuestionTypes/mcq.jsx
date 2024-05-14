@@ -1,70 +1,80 @@
-
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Button from '@mui/material/Button';
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  Button,
+  Typography,
+  Box,
+  Grid
+} from '@mui/material';
 import { useState } from 'react';
-import { FormHelperText } from '@mui/material';
 
 
 
 
-export default function MultipleChoiceQ({question, index}) {
+export default function MultipleChoiceQ({ question, index, setSelection, userValues}) {
   
-  // This allows us to store a value, and a setValue to set the value to smth else.
-  //By default we have left the default value to empty
-  const [value, setValue] = useState('');
-  const [helperText, setHelperText] = useState('');
-  const [correct, setCorrect] = useState('white')
-  const [buttonColor, setButtonColor] = useState('white');
-
+ 
   const handleRadioChange = (event) => {
-    setValue(event.target.value);
-    setHelperText('');
-    setButtonColor('white'); // Reset button color when user makes a new selection
+    let newValues = event.target.value;
+    setSelection(question.question, newValues);
+ 
   };
 
-  
-
-  const handleSubmit = (event) => {
-    console.log(value)
-    console.log(question.answer)
-    if (value === question.answer){
-      
-      
-       setHelperText('Correct!');
-      setButtonColor('green'); // Set to green if correct
-      
-    }
-    else {
-      setHelperText('Incorrect...');
-      setButtonColor('red'); // Set to red if incorrect
-  
-    }
-  }
 
   const mappedOptions = question.options.map((item) => (
-    <FormControlLabel  value={item.value} key = {item.value} control={<Radio />} label={item.value} />
+    
+    <FormControlLabel sx={{
+      border: 1, 
+      borderColor: '#ccc',
+      borderRadius: '8px', 
+      padding: '8px',
+      margin: '8px', 
+      display: 'flex', 
+      alignItems: 'center',
+      fontFamily: '"Roboto-Regular", Helvetica'
+      
+    }}  value={item.value} key = {item.option} control={<Radio />} label={item.option} />
   ));
 
+  
 
 
   return (
-    <FormControl sx={{ border: 0, boxShadow: 2,borderRadius: '10px', bgcolor:'white', borderColor: 'black' , color:'black', px: 13, py: 3, my:3}}>
-    <FormLabel id="mcq-label" sx={{color: 'black', fontWeight: 1000, fontSize: 30}}>{index+1}: {question.question}</FormLabel>
-    <RadioGroup onChange = {handleRadioChange} > 
-    {mappedOptions}
-    </RadioGroup>
-    {}
+    <Grid container>
+      <Grid item={true} xs={12} display="flex" justifyContent="center">
+      <Box  sx={{
+            border: 0,
+            boxShadow: 2,
+            borderRadius: '40px',
+            bgcolor: 'white',
+            borderColor: 'black',
+            color: 'black',
+            minHeight: '200px', 
+            minWidth: '785px',
+            maxWidth: '1012px', 
+            padding: 2, 
+            display: 'flex',
+            flexDirection: 'column', 
+          }}>
 
-    <FormHelperText sx={{ fontSize:20, color: buttonColor }}>{helperText}</FormHelperText>
+        <Box sx= {{mx:'35px', mb:'35px'}} >
+          <Typography sx={{ display: "inline", color: '#3ca3ee', fontSize: '30px', lineHeight: '60px', fontWeight: 700, mr:'5px'}}>Question {index+1}</Typography>
+          <Typography sx={{ display: "inline", color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px',  lineHeight: '32px', }}></Typography>{/*Needs fixing to display total question fix another time */}
+          <Typography sx={{display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px'}}>{question.question}</Typography>
+          
 
-    <Button  sx={{ mt: 1, mr: 1 , borderRadius: '10px'}} onClick={handleSubmit} variant="outlined">
-          Check Answer
-        </Button>
-        <br></br>
-  </FormControl>
+          <RadioGroup  value={userValues[question.question] || ''} onChange={handleRadioChange} >
+          {mappedOptions}
+        </RadioGroup>
+        </Box>
+       
+   
+      </Box>
+
+      </Grid>
+    </Grid>
   )
 }
