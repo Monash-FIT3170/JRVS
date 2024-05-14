@@ -1,11 +1,12 @@
 import * as React from "react";
+import { useRef } from 'react';
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Unstable_Grid2';
-import box from '../../assets/images/box.png';
+import box from '../../assets/images/box_test.png';
 import Avatars from "./Avatars";
 import Backgrounds from "./Backgrounds";
 import Borders from "./Borders";
@@ -43,15 +44,18 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
+function Store(spline){
+  const obj = spline.findObjectByName('JRVS');
+  console.log(obj);
+}
 
 function startOverlay(box_id){
   const canvas = document.getElementById('spline_animation');
   const spline = new Application(canvas);
   spline
-    .load('https://prod.spline.design/AqrULcxsEgV8KGmI/scene.splinecode')
+    .load('https://prod.spline.design/arRT0vRiIJOv-x28/scene.splinecode')
     .then(() => {
-      spline.stop();
+      Store(spline);
     });
     const rect = document.getElementById(box_id).getBoundingClientRect();
     document.getElementById('fake_box').innerHTML = `<div id="fake_box_div" style="position: fixed; width: ${rect.width}px; height: ${rect.height}px; top: ${rect.top}px; left: ${rect.left}px; transition: left 1.5s ease;"><img src=${box} style="padding: 30px;"></img></div>`;
@@ -73,7 +77,7 @@ function startOverlay(box_id){
     }, 10500);
     setTimeout(function() {
       document.getElementById("box_overlay").style.zIndex = "-1";
-    }, 11500);
+    }, 12000);
 }
 
 export default function BasicTabs() {
