@@ -10,6 +10,7 @@ import ImageTextBox from "../../components/contentTypes/imageTextBox";
 import BotBox from "../../components/content/botBox";
 
 import { useApi } from '../../context/ApiProvider.jsx';
+import MenuBar from "../../components/MenuBar.jsx";
 
 function Lessons() {
 
@@ -64,24 +65,15 @@ function Lessons() {
     return (
         <Box
             sx={{
+                position: 'fixed',
                 width: '100vw',
                 height: '100vh',
                 backgroundColor: '#3CA3EE',
             }}
         >
-            <AppBar position="static" elevation={0} sx={{padding: '60px', backgroundColor: '#3CA3EE'}}>
-                <Toolbar>
-                <Grid container justifyContent="space-between" alignItems="center">
-                    <Grid item>
-                        <h1 className="saira-font-container">JRVS</h1>
-                    </Grid>
-                    <Grid item>
-                        <Button className="button-font" variant="contained" sx={{backgroundColor: '#2196F3'}}>Profile</Button>
-                    </Grid>
-                </Grid>
-                </Toolbar>
-            </AppBar>
             
+            <Box sx={{padding: '10px'}}><MenuBar/></Box>
+
             <Box
                 sx={{
                     display: 'flex',
@@ -93,6 +85,7 @@ function Lessons() {
                     left: 0,
                     width: '100%',
                     height: '100%',
+                    zIndex: -100
                 }}
             >
                 <h1 style={{paddingBottom: '25px'}} className="title-font">{isLessonLoading ? 'loading...' : lesson.title.toUpperCase()}</h1>
