@@ -1,12 +1,16 @@
 import { AppBar, Toolbar, Button, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import "./lessons.css"
 import TextBox from "../../components/contentTypes/textBox";
+import ListBox from "../../components/contentTypes/listBox.jsx"
+import MultipleImageTextBox from "../../components/contentTypes/multipleImageTextBox.jsx";
 import Carousel from "../../components/content/contentCarousal";
 import ImageTextBox from "../../components/contentTypes/imageTextBox";
 import BotBox from "../../components/content/botBox";
 
 import { useApi } from '../../context/ApiProvider.jsx';
+import MenuBar from "../../components/MenuBar.jsx";
 
 function Lessons() {
 
@@ -14,7 +18,7 @@ function Lessons() {
     const { getData } = useApi();
     const [lesson, setLesson] = useState([]);
     const [isLessonLoading, setIsLessonLoading] = useState(true);
-    const lessonId = '662da929a3144336a01c1c6b' // would need to get lesson id from path map node
+    const { lessonId }  = useParams();
   
     useEffect(() => {
       const fetchData = async () => {
@@ -27,13 +31,18 @@ function Lessons() {
         }
       };
       fetchData();
-    }, [getData])
+    }, [getData, lessonId])
 
 
     const [hasFinishedCarousel, setHasFinishedCarousel] = useState(false);
+    const [onIntroduction, setOnIntroduction] = useState(true);
 
     const handleStatus = (status) => {
         setHasFinishedCarousel(status);
+    }
+
+    const handleIntroStatus = (status) => {
+        setOnIntroduction(status);
     }
     
     //console.log(lesson.content)
@@ -42,52 +51,53 @@ function Lessons() {
     if (lesson.content) {
         contentBoxes = lesson.content.map((contentObject) => {
             if (contentObject.type === 'textBox') {
-                return <TextBox text={contentObject.text}></TextBox>
+                return <TextBox text={contentObject.text} heading={contentObject.heading}></TextBox>
             } else if (contentObject.type === 'imageTextBox') {
-                return <ImageTextBox text={contentObject.text} imageSrc={contentObject.imageSrc}></ImageTextBox>
-            }
-            return <></>
+                return <ImageTextBox text={contentObject.text} imageSrc={contentObject.imageSrc} heading={contentObject.heading}></ImageTextBox>
+            } else if (contentObject.type === 'listBox') {
+                return <ListBox points={contentObject.points} heading={contentObject.heading}></ListBox>
+            } else if (contentObject.type === 'multipleImageTextBox') {
+                return <MultipleImageTextBox imageSrcs={contentObject.imageSrcs} heading={contentObject.heading} text={contentObject.text}></MultipleImageTextBox>
+            } else return <></>;
         })
     }
 
     return (
         <Box
             sx={{
+                position: 'fixed',
                 width: '100vw',
                 height: '100vh',
-                backgroundColor: '#FFFDFD',
+                backgroundColor: '#3CA3EE',
             }}
         >
-            <AppBar position="static" elevation={0} sx={{padding: '60px', backgroundColor: '#FFFDFD'}}>
-                <Toolbar>
-                <Grid container justifyContent="space-between" alignItems="center">
-                    <Grid item>
-                        <h1 className="saira-font-container">JRVS</h1>
-                    </Grid>
-                    <Grid item>
-                        <h1 className="sarala-font-container">✨{isLessonLoading ? 'loading...' : lesson.title}✨</h1>
-                    </Grid>
-                    <Grid item>
-                        <Button className="button-font" variant="contained" sx={{backgroundColor: '#2196F3'}}>Profile</Button>
-                    </Grid>
-                </Grid>
-                </Toolbar>
-            </AppBar>
             
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                
-            }}>
-                <BotBox/>
-                {isLessonLoading ? <p style={{padding: '10px'}}>loading...</p> : <Carousel boxes={contentBoxes} onStatus={handleStatus}></Carousel>}
+            <Box sx={{padding: '10px'}}><MenuBar/></Box>
+
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    zIndex: -100
+                }}
+            >
+                <h1 style={{paddingBottom: '25px'}} className="title-font">{isLessonLoading ? 'loading...' : lesson.title.toUpperCase()}</h1>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    {onIntroduction ? <BotBox/> : <></>}
+                    {isLessonLoading ? <p style={{padding: '10px'}}>loading...</p> : <Carousel boxes={contentBoxes} onStatus={handleStatus} onIntroduction={handleIntroStatus}></Carousel>}
+                </Box>
             </Box>
             
             <Box
