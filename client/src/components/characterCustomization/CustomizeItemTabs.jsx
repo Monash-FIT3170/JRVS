@@ -14,6 +14,7 @@ import Avatars from "./Avatars";
 import Backgrounds from "./Backgrounds";
 import Borders from "./Borders";
 import { Application } from '@splinetool/runtime';
+import bg from '../../assets/images/backgrounds/city.png'
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,23 +85,27 @@ function startOverlay(box_id){
       document.getElementById("spline_box").appendChild(canvas);
       spline.play();
       spline.setVariables({Common: common, Rare: rare, Epic: epic, box1: box1, box2: box2, box3: box3});
-      document.getElementById('fake_box').innerHTML = ``;
+      document.getElementById('fake_box_div').innerHTML = ``;
     }, 3500);
     setTimeout(function() {
       spline.setVariables({Common: 0, Rare: 0, Epic: 0})
     }, 7500);
     setTimeout(function() {
-      document.getElementById("box_overlay").style.backgroundColor = 'rgba(60, 163, 238, 0)';
-    }, 9000);
+      document.getElementById('fake_box_div').innerHTML = `<img src=${bg} style=" max-width: none; max-height: none; position: absolute; top: 50%; left: 50%; transform: translate(-48%, -50%); width: 300px; border-radius: 20px;"></img>`;
+    }, 7800);
     setTimeout(function() {
+      document.getElementById("box_overlay").style.backgroundColor = 'rgba(60, 163, 238, 0)';
+    }, 10000);
+    setTimeout(function() {
+      document.getElementById('fake_box').innerHTML = ``;
       document.getElementById("spline_box").style.zIndex = "-1";
-      document.getElementById("spline_box").removeChild(document.getElementById("spline_box").firstChild);
       spline.stop();
-      reloadSpine();
     }, 10500);
     setTimeout(function() {
       document.getElementById("box_overlay").style.zIndex = "-1";
-    }, 11500);
+      document.getElementById("spline_box").removeChild(document.getElementById("spline_box").firstChild);
+      reloadSpine();
+    }, 12000);
 }
 
 export default function BasicTabs() {

@@ -11,8 +11,8 @@ const CustomizePage = () => {
   return (
       <div style ={{ backgroundColor: '#3CA3EE', overflowY: 'hidden', overflowX: 'hidden', height: '100vh', display: 'flex', flexDirection: 'column'}} >
         <div id="box_overlay" style={{display: 'block', zIndex: '-1', position: 'fixed', top: '0', left:'0', width:'100%', height: '100%', backgroundColor: 'rgba(60, 163, 238, 0)', transition: 'background-color 2s ease'}}>
-        <div id="fake_box" style={{zIndex: '11', position: 'fixed'}}></div>
         </div>
+        <div id="fake_box" style={{zIndex: '13', position: 'fixed'}}></div>
         <div id= 'spline_box' style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', border: 'none', zIndex: '-1'}}>
         </div>
         <Grid container spacing={2} columns={22} style={{paddingTop: '30px', paddingLeft: '60px', paddingRight: '80px', marginBottom: '10px'}}>
