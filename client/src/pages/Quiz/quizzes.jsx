@@ -60,12 +60,23 @@ function Quizzes() {
     }
 
     const handleNextClick = () => {
-        if (currentIndex < questions.length - 1) {
-            setCurrentIndex(currentIndex + 1);
 
 
+        const currentQuestion = questions[currentIndex];
+        if (userValues[currentQuestion.question] !== undefined) {
+            if (currentIndex < questions.length - 1) {
+                setCurrentIndex(currentIndex + 1);
+            }
+        }
+        else{
+
+            //temporary for now, introduce helper text in the future
+            alert('Please select an option before proceeding.');
         }
     };
+
+
+
 
 
     //should fix to use a proper id rather than take in the question
@@ -108,11 +119,11 @@ function Quizzes() {
         <Box sx={{
             width: '100vw',
             height: '100vh',
-            backgroundColor: '#3CA3EE',
+
         }}
         >
             <MenuBar />
-            <Grid container direction="column"alignItems="center">
+            <Grid container direction="column" alignItems="center">
                 <Box>
                     <Typography sx={{ display: "block", color: 'white', fontSize: '40px', lineHeight: '30px', fontWeight: 700, pl: 6 }}>Quiz</Typography>
                     <Typography sx={{ fontFamily: "sans-serif", display: "inline", color: 'white', fontSize: '30px', fontWeight: 100, pl: 6 }}>Do you know what AI is?</Typography>

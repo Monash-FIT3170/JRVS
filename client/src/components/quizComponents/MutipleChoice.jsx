@@ -4,7 +4,8 @@ import {
   FormControlLabel,
   Typography,
   Box,
-  Grid
+  Grid,
+  FormControl,
 } from '@mui/material';
 import StyledBox from './StyledBox';
 import { useState } from 'react';
@@ -43,9 +44,10 @@ export default function MultipleChoice({ question, index, setSelection, userValu
   return (
     <Grid container>
       <Grid item={true} xs={12} display="flex" justifyContent="center">
-        <StyledBox  >
-
-          <Box sx={{ mx: '35px', mb: '35px' }} >
+        <StyledBox >
+        <FormControl sx={{ mx: '35px', mb: '35px' }} >
+         
+          
             <Typography sx={{ display: "inline", color: '#3ca3ee', fontSize: '30px', lineHeight: '60px', fontWeight: 700, mr: '5px' }}>Question {index + 1}</Typography>
             <Typography sx={{ display: "inline", color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', lineHeight: '32px', }}></Typography>{/*Needs fixing to display total question fix another time */}
             <Typography sx={{ display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px' }}>{question.question}</Typography>
@@ -54,8 +56,9 @@ export default function MultipleChoice({ question, index, setSelection, userValu
             <RadioGroup value={userValues[question.question] || ''} onChange={handleRadioChange} >
               {mappedOptions}
             </RadioGroup>
-          </Box>
+            
 
+          </FormControl>
 
         </StyledBox>
 

@@ -12,7 +12,7 @@ const MenuBar = ({title, subtitle}) => {
     const coins = 1000;
 
     return (
-        <Grid container spacing={2} columns={22} style={{ padding: '30px 80px 20px 60px', backgroundColor: '#3CA3EE'}}>
+        <Grid container spacing={2} columns={22} style={{ padding: '30px 80px 20px 60px'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
                 <p className='russo-one-regular text-5xl text-white'>JRVS</p>
             </Grid>
@@ -34,12 +34,12 @@ const MenuBar = ({title, subtitle}) => {
             <Grid xs={1}></Grid>
             <Grid xs={20}>
                 <Grid xs={22}>
-                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '50px' ,fontWeight: '700', color: 'white' }}>
+                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '50px' ,fontWeight: '700' }}>
                     {title}
                 </p>
                 </Grid>
                 <Grid xs={22}>
-                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '30px' ,fontWeight: '400', color: 'white' }}>
+                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '30px' ,fontWeight: '400' }}>
                     {subtitle}
                 </p>
                 </Grid>

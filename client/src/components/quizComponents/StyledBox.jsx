@@ -7,8 +7,8 @@ const StyledBox = ({ children }) => {
       sx={{
         border: 0,
         boxShadow: 2,
-        borderRadius: '40px',
-        bgcolor: 'white',
+        borderRadius: '15px',
+        bgcolor: '#F2F5FA',
         borderColor: 'black',
         color: 'black',
         minHeight: '200px',
@@ -17,6 +17,7 @@ const StyledBox = ({ children }) => {
         padding: 2,
         display: 'flex',
         flexDirection: 'column',
+        my: 3,
       }}
     >
       {children}

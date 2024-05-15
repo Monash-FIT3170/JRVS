@@ -9,9 +9,11 @@ const ActionButton = ({ onClick, children }) => {
       onClick={onClick}
       sx={{
         ':hover': { backgroundColor: '#E6B635' },
-        padding: '15px',
+        padding: 3,
+        px:5,
         borderRadius: '15px',
-        backgroundColor: '#FFC93C'
+        backgroundColor: '#FFD700',
+        fontSize:15
       }}
     >
       {children}
