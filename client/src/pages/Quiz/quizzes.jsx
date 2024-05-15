@@ -2,10 +2,13 @@
 import MultipleChoiceQ from "../../components/QuestionTypes/mcq";
 import TrueFalse from "../../components/QuestionTypes/truefalse";
 import ShortAnswer from "../../components/QuestionTypes/shortans";
+import DragDropQuiz from "./dragdropQuiz.jsx";
+
 import { Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 
 import { useApi } from '../../context/ApiProvider.jsx';
+
 
 export default function Quizzes() {
   const { getData } = useApi();
@@ -25,7 +28,8 @@ export default function Quizzes() {
     fetchData();
   }, [getData])
 
-  console.log(items)
+
+
 
     const mappedQuestions = items.map((item, index) => {
       if (item.type === 'MultipleChoiceQ') {
@@ -38,8 +42,8 @@ export default function Quizzes() {
       }
       
       
-      else if (item.type === 'ShortAnswer'){
-        return <ShortAnswer data={{item, index}}></ShortAnswer>
+      else if (item.type === 'dragdrop'){
+        return <DragDropQuiz items={{item}}></DragDropQuiz>
       }
       else {
         return null; 
