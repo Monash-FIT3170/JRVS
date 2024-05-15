@@ -43,7 +43,7 @@ const LearningPathPage = () => {
     
     // HARDCODED FOR NOW
     const videos = ["4", "10", "11", "12"];
-    const lessons = ["1", "2", "3", "7", "8", "9"];
+    const lessons = ["6640555ed3dd29919eec460e", "6640516ed3dd29919eec460d", "66435798d953163fd76256c4", "6643460e6e0276ae96a000b4", "66434e8bd953163fd76256c2", "6643514dd953163fd76256c3"];
     const quizzes = ["5", "6", "13", "14", "15"];
     
     var output;

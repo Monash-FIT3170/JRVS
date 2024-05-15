@@ -9,7 +9,7 @@ import videoIcon from '../assets/images/VideoIcon.png';
 */
 export const learningPathData = [ // SkillType
   {
-    id: "1",
+    id: "6640555ed3dd29919eec460e",
     icon: lessonIcon,
     title: "Introduction to AI recognition",
     tooltip: {
@@ -17,7 +17,7 @@ export const learningPathData = [ // SkillType
     },
     children: [
       {
-        id: "2",
+        id: "6640516ed3dd29919eec460d",
         icon: lessonIcon,
         title: "Recognising AI in real life",
         tooltip: {
@@ -46,7 +46,7 @@ export const learningPathData = [ // SkillType
         ]
       },
       {
-        id: "3",
+        id: "66435798d953163fd76256c4",
         icon: lessonIcon,
         title: "Types of AI recognition",
         tooltip: {
@@ -62,7 +62,7 @@ export const learningPathData = [ // SkillType
             },
             children: [
               {
-                id: "7",
+                id: "6643460e6e0276ae96a000b4",
                 icon: lessonIcon,
                 title: "Image recognition",
                 tooltip: {
@@ -91,7 +91,7 @@ export const learningPathData = [ // SkillType
                 ]
               },
               {
-                id: "8",
+                id: "66434e8bd953163fd76256c2",
                 icon: lessonIcon,
                 title: "Speech recognition",
                 tooltip: {
@@ -120,7 +120,7 @@ export const learningPathData = [ // SkillType
                 ]
               },
               {
-                id: "9",
+                id: "6643514dd953163fd76256c3",
                 icon: lessonIcon,
                 title: "Natural language processing",
                 tooltip: {
