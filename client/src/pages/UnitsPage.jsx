@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useApi } from '../context/ApiProvider';
 import UnitCard from '../components/UnitCard';
+import MenuBar from '../components/MenuBar';
 
 const UnitsPage = () => {
   // const { getData } = useApi();
@@ -34,11 +35,11 @@ const UnitsPage = () => {
   } 
 
   return (
-    // Top NavBar
-    //imageColour="#66CC66"
+    
     <div>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
-      <Grid container spacing={3} padding={10}>
+      <MenuBar title="Unit Overview" subtitle="Get ready to learn more about AI today"></MenuBar>
+      <Grid container rowSpacing={6} columnSpacing={5} padding={10}>
         <Grid item xs={3} onClick={routeChange}>
           <UnitCard title="Introduction to AI" progress={70} imageColour="#66CC66" icon="code"></UnitCard>
         </Grid>
@@ -50,6 +51,9 @@ const UnitsPage = () => {
         </Grid>
         <Grid item xs={3} onClick={routeChange}>
           <UnitCard title="Types of AI" progress={100} imageColour="#4885FF" icon="memory"></UnitCard>
+        </Grid>
+        <Grid item xs={3} onClick={routeChange}>
+          <UnitCard title="Ethical Issues in AI" progress={100} imageColour="#ff9966" icon="balance"></UnitCard>
         </Grid>
       </Grid>
     </div>
