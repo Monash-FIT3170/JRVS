@@ -55,6 +55,7 @@ function startOverlay(box_id){
   spline
     .load('https://prod.spline.design/arRT0vRiIJOv-x28/scene.splinecode')
     .then(() => {
+      spline.stop();
       Store(spline);
     });
     const rect = document.getElementById(box_id).getBoundingClientRect();
