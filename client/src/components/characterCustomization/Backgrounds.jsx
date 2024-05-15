@@ -16,7 +16,7 @@ function ImageName(index){
 
 const Backgrounds = () => {
     const handleImageClick = (imageName) => {
-        if (imageName==selected){
+        if (imageName===selected){
             imageName = '0';
         }
         let name = ImageName(imageName);
@@ -30,11 +30,11 @@ const Backgrounds = () => {
     <Grid container spacing={2} columns={25}>
         {Object.keys(imageList).map((imageName, index) => (
             <Grid key={'backgroundKey_'+index} xs={5} style={{padding: '20px'}}>
-            <div style={{padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: "#80BAE4", height: '100%', width: '100%' }} onClick={() => handleImageClick(imageName)}>
-                <img src={imageList[imageName]} style={{ borderRadius: '15px'}} />
+            <div style={{padding: '20px', border: '2px solid #2196f3', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: "#80BAE4", height: '100%', width: '100%' }} onClick={() => handleImageClick(imageName)}>
+                <img src={imageList[imageName]} alt={'background'} style={{ borderRadius: '15px'}} />
             </div>
             <div id={'background_'+imageName} style={{width: '100%', position: 'relative'}}>
-                    {imageName == selected ? <img src={Tick} style={{border: '2px solid #2196f3', zIndex: '1', padding: '20px', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: '15px'}}/> : null}
+                    {imageName === selected ? <img src={Tick} alt={'tick'} style={{border: '2px solid #2196f3', zIndex: '1', padding: '20px', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: '15px'}}/> : null}
             </div>
             
             </Grid>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import LabTabs from '../components/characterCustomization/CustomizeItemTabs';
 import Grid from '@mui/material/Unstable_Grid2';
