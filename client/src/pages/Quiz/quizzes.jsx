@@ -37,11 +37,11 @@ function Quizzes() {
     }, [getData])
 
     let questions = quizzes.questions
-    console.log(questions)
+    
     const handlePrevClick = () => {
         if (currentIndex > 0) {
             setCurrentIndex(currentIndex - 1)
-            console.log(currentIndex)
+            
 
         }
     };
@@ -49,9 +49,17 @@ function Quizzes() {
     const submitForm = () => {
         let correctCount = 0;
         questions.forEach(question => {
-            if (userValues[question.questionText] === question.answer) {
+
+            if (question.type ==='Reorder'){
+                if (userValues[question.questionText].toString() === question.answer.toString()) {
+                    correctCount += 1;
+                }
+
+            }
+            else if (userValues[question.questionText] === question.answer) {
                 correctCount += 1;
             }
+            
         });
 
         setUserScore(correctCount)
@@ -61,8 +69,6 @@ function Quizzes() {
     }
 
     const handleNextClick = () => {
-
-
         const currentQuestion = questions[currentIndex];
         if (userValues[currentQuestion.questionText] !== undefined) {
             if (currentIndex < questions.length - 1) {

@@ -4,11 +4,11 @@ import { Container, Draggable } from "react-smooth-dnd";
 
 
 import {
-    List,
+
     ListItem,
-    ListItemIcon,
+
     ListItemText,
-    ListItemSecondaryAction,
+
     Grid,
     Typography
 
@@ -19,13 +19,49 @@ import ReorderIcon from '@mui/icons-material/Reorder';
 //uses react-smooth-dnd
 export default function Reorder({ question, index, setSelection, userValues }) {
 
-    const [items, setItems] = useState(question.options);
+    let order = userValues[question.questionText] || question.options
+
+    //We can set the selection first before we do anything just in case
+    
+    const onDrop = ({ removedIndex, addedIndex }) => {
+        //We remove the item with splice, then add the item back to the new index
+        const [removedOption] = order.splice(removedIndex, 1);
+        order.splice(addedIndex, 0, removedOption);
+        setSelection(question.questionText, order);
+    }
 
 
+    const mappedIndex = (order).map((item,idx) => (
+        <Draggable key={item}>
+        <ListItem sx={{
+          
+           
+            my: '8px',
+            ml: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            fontFamily: '"Roboto-Regular", Helvetica',
+           
+            
+           
+            
+          
 
-    const mappedOptions = items.map((item) => (
-        <Draggable key={item.value}>
+        }}  >
+           
+           <ListItemText
+                    primary={idx + 1}
+                    primaryTypographyProps={{fontSize: '18px', fontWeight: 500}} 
+                />
 
+        </ListItem>
+    </Draggable>
+       
+    ))
+
+
+    const mappedOptions = (order).map((item) => (
+        <Draggable key={item}>
             <ListItem sx={{
                 border: 1,
                 borderColor: '#ccc',
@@ -38,8 +74,8 @@ export default function Reorder({ question, index, setSelection, userValues }) {
                 width: '50%'
 
             }}  >
-                <ReorderIcon />
-                <ListItemText primary={item.option} />
+               
+                <ListItemText primary={item} sx={{fontSize: 700}} />
 
 
             </ListItem>
@@ -47,18 +83,31 @@ export default function Reorder({ question, index, setSelection, userValues }) {
     ))
     return (
         <Grid container>
-            <Grid item={true} xs={12} display="flex" justifyContent="center">
+            <Grid item xs={12} display="flex" justifyContent="center">
                 <StyledBox >
 
+                    <Grid xs={12}>
+                        <Typography sx={{ display: "inline", color: '#3ca3ee', fontSize: '30px', lineHeight: '60px', fontWeight: 700, mr: '5px' }}>Question {index + 1}</Typography>
+                        <Typography sx={{ display: "inline", color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', lineHeight: '32px', }}></Typography>{/*Needs fixing to display total question fix another time */}
+                        <Typography sx={{ display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px' }}>{question.questionText}</Typography>
+                        
+                        <Grid container>
+                        <Grid xs={1}>
+                        <Container >
+                        {mappedIndex}
+                            </Container>
+                                
+                        </Grid>
 
-                    <Typography sx={{ display: "inline", color: '#3ca3ee', fontSize: '30px', lineHeight: '60px', fontWeight: 700, mr: '5px' }}>Question {index + 1}</Typography>
-                    <Typography sx={{ display: "inline", color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', lineHeight: '32px', }}></Typography>{/*Needs fixing to display total question fix another time */}
-                    <Typography sx={{ display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px' }}>{question.questionText}</Typography>
 
-                    <Container lockAxis="y" onDrop={null}>
-                        {mappedOptions}
-                    </Container>
+                        <Grid  xs={11}>
+                            <Container lockAxis="y" onDrop={onDrop}>
+                                {mappedOptions}
+                            </Container>
+                        </Grid>
 
+                        </Grid>
+                    </Grid>
                 </StyledBox>
 
             </Grid>
