@@ -5,7 +5,7 @@ import Tick from '../../assets/images/greenTick.png';
 const images = require.context('../../assets/images/avatars', false, /\.png$/);
 const imageList = images.keys().map(image => images(image));
 
-console.log(imageList.indexOf(images('./_default.png')));
+//console.log(imageList.indexOf(images('./_default.png')));
 
 function ImageName(index){
     let string = imageList[index];
