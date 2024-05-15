@@ -1,4 +1,4 @@
-import { Button, Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import MultipleChoice from "../../components/quizComponents/MutipleChoice.jsx";
 import TrueFalse from "../../components/quizComponents/TrueFalse.jsx";
@@ -6,6 +6,7 @@ import ShortAnswer from "../../components/quizComponents/ShortAnswer.jsx";
 import Submitted from "../../components/quizComponents/Submitted.jsx";
 import MenuBar from "../../components/MenuBar.jsx";
 import ActionButton from "../../components/quizComponents/ActionButton.jsx";
+import Reorder from "../../components/quizComponents/Reorder.jsx";
 
 import { useApi } from '../../context/ApiProvider.jsx';
 
@@ -14,7 +15,7 @@ function Quizzes() {
     const { getData } = useApi();
     const [quizzes, setQuiz] = useState([]);
 
-    const quizId = '664195feb8f2d148bfc3ea5c' // would need to get quizzes id from path map node
+    const quizId = '66446db52dbda027471da7eb' // would need to get quizzes id from path map node
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userValues, setUserValues] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -36,7 +37,7 @@ function Quizzes() {
     }, [getData])
 
     let questions = quizzes.questions
-
+    console.log(questions)
     const handlePrevClick = () => {
         if (currentIndex > 0) {
             setCurrentIndex(currentIndex - 1)
@@ -48,7 +49,7 @@ function Quizzes() {
     const submitForm = () => {
         let correctCount = 0;
         questions.forEach(question => {
-            if (userValues[question.question] === question.answer) {
+            if (userValues[question.questionText] === question.answer) {
                 correctCount += 1;
             }
         });
@@ -63,7 +64,7 @@ function Quizzes() {
 
 
         const currentQuestion = questions[currentIndex];
-        if (userValues[currentQuestion.question] !== undefined) {
+        if (userValues[currentQuestion.questionText] !== undefined) {
             if (currentIndex < questions.length - 1) {
                 setCurrentIndex(currentIndex + 1);
             }
@@ -80,10 +81,10 @@ function Quizzes() {
 
 
     //should fix to use a proper id rather than take in the question
-    const setSelections = (id, value) => {
+    const setSelections = (questionText, value) => {
         setUserValues(prevUserValues => ({
             ...prevUserValues,
-            [id]: value
+            [questionText]: value
         }));
 
     };
@@ -107,6 +108,10 @@ function Quizzes() {
 
             else if (questions[currentIndex].type === 'ShortAnswer') {
                 return <ShortAnswer question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
+            }
+            else if (questions[currentIndex].type === 'Reorder') {
+                
+                return <Reorder question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
             }
             else {
                 return null;

@@ -3,12 +3,10 @@ import {
   RadioGroup,
   FormControlLabel,
   Typography,
-  Box,
   Grid,
   FormControl,
 } from '@mui/material';
 import StyledBox from './StyledBox';
-import { useState } from 'react';
 
 
 
@@ -18,7 +16,8 @@ export default function MultipleChoice({ question, index, setSelection, userValu
 
   const handleRadioChange = (event) => {
     let newValues = event.target.value;
-    setSelection(question.question, newValues);
+    
+    setSelection(question.questionText, newValues);
 
   };
 
@@ -50,10 +49,10 @@ export default function MultipleChoice({ question, index, setSelection, userValu
           
             <Typography sx={{ display: "inline", color: '#3ca3ee', fontSize: '30px', lineHeight: '60px', fontWeight: 700, mr: '5px' }}>Question {index + 1}</Typography>
             <Typography sx={{ display: "inline", color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', lineHeight: '32px', }}></Typography>{/*Needs fixing to display total question fix another time */}
-            <Typography sx={{ display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px' }}>{question.question}</Typography>
+            <Typography sx={{ display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px' }}>{question.questionText}</Typography>
 
 
-            <RadioGroup value={userValues[question.question] || ''} onChange={handleRadioChange} >
+            <RadioGroup value={userValues[question.questionText] || ''} onChange={handleRadioChange} >
               {mappedOptions}
             </RadioGroup>
             

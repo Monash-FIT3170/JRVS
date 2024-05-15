@@ -13,7 +13,7 @@ export default function ShortAnswer({ question, index, setSelection, userValues 
 
   const handleChange = (event) => {
     let newValues = event.target.value;
-    setSelection(question.question, newValues);
+    setSelection(question.questionText, newValues);
   };
 
   return (
@@ -25,7 +25,7 @@ export default function ShortAnswer({ question, index, setSelection, userValues 
           <Box sx={{ mx: '35px', mb: '35px' }} >
             <Typography sx={{ display: "inline", color: '#3ca3ee', fontSize: '30px', lineHeight: '60px', fontWeight: 700, mr: '5px' }}>Question {index + 1}</Typography>
             <Typography sx={{ display: "inline", color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', lineHeight: '32px', }}></Typography>{/*Needs fixing to display total question fix another time */}
-            <Typography sx={{ display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px' }}>{question.question}</Typography>
+            <Typography sx={{ display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px' }}>{question.questionText}</Typography>
             <TextField
 
               id="outlined-basic"
@@ -34,7 +34,7 @@ export default function ShortAnswer({ question, index, setSelection, userValues 
               variant="outlined"
 
               sx={{ width: '40%' }}
-              value={userValues[question.question] || ''}
+              value={userValues[question.questionText] || ''}
               onChange={handleChange}
             />
 
