@@ -47,12 +47,8 @@ export default function Submitted({ score, totalScore }) {
                     </div>
                 </Box>
 
-
-
             </Grid>
             <Grid item xs={12} display="flex" justifyContent="center">
-
-
                 <Button variant="contained" className="button-font"
                     sx={{ ':hover': { backgroundColor: '#E6B635' }, padding: '14px', mt: '20px', borderRadius: '15px', backgroundColor: '#FFC93C', fontSize: '20px', fontWeight: 700, fontFamily: '"Roboto-Bold", Helvetica' }}>
                     Return to learning path
