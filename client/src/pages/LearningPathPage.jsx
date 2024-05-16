@@ -64,20 +64,48 @@ const LearningPathPage = () => {
         // alert("Hello! The lesson selected is " + node.key);
 
         // Go straight to the lesson
-        // TODO: query db to get the type of lesson. Can't do it normally because of nested data, so something like "const lessonType = learningPathData.find(item => item.id === "1");" doesnt work
 
-        // HARDCODED FOR NOW
-        const videos = ["4", "10", "11", "12"];
-        const lessons = [
-            "6640555ed3dd29919eec460e",
-            "6640516ed3dd29919eec460d",
-            "66435798d953163fd76256c4",
-            "6643460e6e0276ae96a000b4",
-            "66434e8bd953163fd76256c2",
-            "6643514dd953163fd76256c3",
-        ];
-        const quizzes = ["5", "6", "13", "14", "15"];
+        // Function to recursively find lessons, videos, and quizzes
+        const findLessonTypes = (data) => {
+            const lessons = [];
+            const videos = [];
+            const quizzes = [];
 
+            if (Array.isArray(data)) {
+            for (let item of data) {
+                const { lessons: itemLessons, videos: itemVideos, quizzes: itemQuizzes } = findLessonTypes(item);
+                lessons.push(...itemLessons);
+                videos.push(...itemVideos);
+                quizzes.push(...itemQuizzes);
+            }
+            // Checks what the data type is, appends to appropriate array
+            } else if (typeof data === 'object' && data !== null) {
+            if (data.type === 'lesson') {
+                lessons.push(data.id);
+            } else if (data.type === 'video') {
+                videos.push(data.id);
+            } else if (data.type === 'quiz') {
+                quizzes.push(data.id);
+            }
+
+            if (data.children) {
+                const { lessons: childLessons, videos: childVideos, quizzes: childQuizzes } = findLessonTypes(data.children);
+                lessons.push(...childLessons);
+                videos.push(...childVideos);
+                quizzes.push(...childQuizzes);
+            }
+            }
+
+            return { lessons, videos, quizzes };
+        };
+
+         // Find all lesson, video, and quiz ids in the learning path data
+        const { lessons, videos, quizzes } = findLessonTypes(learningPathData);
+        // console.log('Lesson IDs:', lessons);
+        // console.log('Video IDs:', videos);
+        // console.log('Quiz IDs:', quizzes);
+
+        // Checks with node key is in the array
         var output;
         if (lessons.includes(node.key)) {
             output = "lesson";
