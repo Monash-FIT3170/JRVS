@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Menu from "../components/MenuBar.jsx";
+
 import {
     SkillTreeGroup,
     SkillTree,
@@ -17,7 +18,8 @@ const LearningPathPage = () => {
     const { getData } = useApi();
 
     const [learningPathData, setLearningPathData] = useState([]);
-    const [isUnitLoading, setIsUnitLoading] = useState(true); // TODO: set loading spinner
+    const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
+    const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
 
     // TODO: unit id hardcoded for now
     const unitId = '6644a3eca92b3c9ccb9e33d8' // would need to get lesson id from path map node
@@ -28,6 +30,9 @@ const LearningPathPage = () => {
                 const responseData = await getData("api/units/" + unitId);
                 setLearningPathData(responseData.data);
                 setIsUnitLoading(false);
+
+                setLearningPathTitle(responseData.title);
+                
             } catch (error) {
                 console.log(error);
             }
@@ -90,26 +95,29 @@ const LearningPathPage = () => {
 
     return (
         <div style={{ backgroundColor: "#3CA3EE" }}>
-            <Menu title="Recognising AI" subtitle="Learning Path" />{" "}
+            <Menu title={learningPathTitle} subtitle="Learning Path" />{" "}
             {/* TODO: Have the page title match what is stored in the DB */}
             {/* {document.body.style = 'background: red;'} */}
-            <SkillProvider>
-                <SkillTreeGroup theme={theme}>
-                    {(
-                        { skillCount } //SkillGroupDataType
-                    ) => (
-                        <SkillTree
-                            treeId="first-tree"
-                            title=""
-                            data={learningPathData} // SkillType
-                            // Other useful fields (the rest we won't need):
-                            // savedData={savedProgressData} // To load user progress
-                            handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
-                        />
-                    )}
-                </SkillTreeGroup>
-            </SkillProvider>
-            ;
+            {isUnitLoading ? (
+                <div className="spinner"></div>
+            ) : (
+                <SkillProvider>
+                    <SkillTreeGroup theme={theme}>
+                        {(
+                            { skillCount } //SkillGroupDataType
+                        ) => (
+                            <SkillTree
+                                treeId="first-tree"
+                                title=""
+                                data={learningPathData} // SkillType
+                                // Other useful fields (the rest we won't need):
+                                // savedData={savedProgressData} // To load user progress
+                                handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
+                            />
+                        )}
+                    </SkillTreeGroup>
+                </SkillProvider>
+            )}
         </div>
     );
 };

@@ -23,6 +23,7 @@
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.2",
     "nodemon": "^3.1.0",
+    "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "yarn": "^1.22.22"
   },
