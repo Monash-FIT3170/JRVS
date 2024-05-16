@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Container, Draggable } from "react-smooth-dnd";
 
@@ -14,7 +14,7 @@ import {
 
 } from '@mui/material';
 import StyledBox from "./StyledBox";
-import ReorderIcon from '@mui/icons-material/Reorder';
+
 
 //uses react-smooth-dnd
 export default function Reorder({ question, index, setSelection, userValues }) {
@@ -32,7 +32,7 @@ export default function Reorder({ question, index, setSelection, userValues }) {
 
 
     const mappedIndex = (order).map((item,idx) => (
-        <Draggable key={item}>
+        <Draggable key={idx}>
         <ListItem sx={{
           
            
@@ -42,10 +42,7 @@ export default function Reorder({ question, index, setSelection, userValues }) {
             alignItems: 'center',
             fontFamily: '"Roboto-Regular", Helvetica',
            
-            
-           
-            
-          
+                  
 
         }}  >
            
@@ -93,7 +90,7 @@ export default function Reorder({ question, index, setSelection, userValues }) {
                         
                         <Grid container>
                         <Grid xs={1}>
-                        <Container >
+                        <Container  lockAxis="x,y">
                         {mappedIndex}
                             </Container>
                                 

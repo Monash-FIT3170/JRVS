@@ -15,7 +15,7 @@ function Quizzes() {
     const { getData } = useApi();
     const [quizzes, setQuiz] = useState([]);
 
-    const quizId = '66446db52dbda027471da7eb' // would need to get quizzes id from path map node
+    const quizId = '664195feb8f2d148bfc3ea5c' // would need to get quizzes id from path map node
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userValues, setUserValues] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
