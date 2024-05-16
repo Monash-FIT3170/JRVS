@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import StyledBox from './StyledBox';
 
 import {
-
   Typography,
   Box,
   Grid
@@ -17,8 +16,6 @@ export default function ShortAnswer({ question, index, setSelection, userValues 
   };
 
   return (
-
-
     <Grid container>
       <Grid item={true} xs={12} display="flex" justifyContent="center">
         <StyledBox>
@@ -32,7 +29,6 @@ export default function ShortAnswer({ question, index, setSelection, userValues 
               label="Enter the text here"
               placeholder="Enter your answer"
               variant="outlined"
-
               sx={{ width: '40%' }}
               value={userValues[question.questionText] || ''}
               onChange={handleChange}

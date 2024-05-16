@@ -1,20 +1,12 @@
 import React from "react";
-
 import { Container, Draggable } from "react-smooth-dnd";
-
-
 import {
-
     ListItem,
-
     ListItemText,
-
     Grid,
     Typography
-
 } from '@mui/material';
 import StyledBox from "./StyledBox";
-
 
 //uses react-smooth-dnd
 export default function Reorder({ question, index, setSelection, userValues }) {
@@ -30,27 +22,18 @@ export default function Reorder({ question, index, setSelection, userValues }) {
         setSelection(question.questionText, order);
     }
 
-
     const mappedIndex = (order).map((item,idx) => (
         <Draggable key={idx}>
         <ListItem sx={{
-          
-           
             my: '8px',
             ml: '10px',
             display: 'flex',
             alignItems: 'center',
             fontFamily: '"Roboto-Regular", Helvetica',
-           
-                  
-
         }}  >
-           
            <ListItemText
                     primary={idx + 1}
-                    primaryTypographyProps={{fontSize: '18px', fontWeight: 500}} 
-                />
-
+                    primaryTypographyProps={{fontSize: '18px', fontWeight: 500}} />
         </ListItem>
     </Draggable>
        
