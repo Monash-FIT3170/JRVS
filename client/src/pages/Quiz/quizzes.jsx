@@ -6,6 +6,7 @@ import { Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 
 import { useApi } from '../../context/ApiProvider.jsx';
+import ImageQuiz from "../../components/QuestionTypes/imagequiz.jsx";
 
 export default function Quizzes() {
   const { getData } = useApi();
@@ -41,6 +42,11 @@ export default function Quizzes() {
       else if (item.type === 'ShortAnswer'){
         return <ShortAnswer data={{item, index}}></ShortAnswer>
       }
+
+      else if (item.type === 'ImageQuiz'){
+        return <ImageQuiz data={{item, index}}></ImageQuiz>
+      }
+
       else {
         return null; 
       }
@@ -50,9 +56,10 @@ export default function Quizzes() {
 
 
   return (
-    <div className="Home">
+    <div className="Home" style={{ backgroundColor: '#3CA3EE', height: '100vh'}}>
 
       <header className="App-header">
+        
         <Typography sx= {{fontSize: 80}}>
           Quiz topic 1
         </Typography>
