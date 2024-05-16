@@ -8,7 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import redbox from '../../assets/images/box_1.png';
 import silverbox from '../../assets/images/box_2.png';
 import goldbox from '../../assets/images/box_3.png';
-import { Avatars, Borders, Backgrounds } from "./TileCreator";
+import { Avatars, Borders, Backgrounds, avatarImageList, borderImageList, backgroundImageList } from "./TileCreator";
 import { Application } from '@splinetool/runtime';
 import bg from '../../assets/images/backgrounds/city.png';
 
@@ -25,21 +25,17 @@ function reloadSpine(){
     });
 }
 
-function startOverlay(box_id, coins, spendCoins){
-  spendCoins(coins);
-    var new_box = ('box1' === box_id ? redbox : ('box2' === box_id ? silverbox : goldbox));
-    console.log(new_box);
+function startOverlay(box_id, image, rarity, new_item){
     var rect = document.getElementById(box_id).getBoundingClientRect();
-    document.getElementById('fake_box').innerHTML = `<div id="fake_box_div" style="position: fixed; width: ${rect.width}px; height: ${rect.height}px; top: ${rect.top}px; left: ${rect.left}px; transition: left 1.5s ease;"><img src=${new_box} style="padding: 30px;"></img></div>`;
+    document.getElementById('fake_box').innerHTML = `<div id="fake_box_div" style="position: fixed; width: ${rect.width}px; height: ${rect.height}px; top: ${rect.top}px; left: ${rect.left}px; transition: left 1.5s ease;"><img src=${image} style="padding: 30px;"></img></div>`;
     document.getElementById("box_overlay").style.zIndex = "10";
     document.getElementById("box_overlay").style.backgroundColor = 'rgba(60, 163, 238, 1)';
-    var common = 'box1' === box_id ? 100 : 0;
-    var rare = 'box2' === box_id ? 100 : 0;
-    var epic = 'box3' === box_id ? 100 : 0;
+    var common = 'common' === rarity ? 100 : 0;
+    var rare = 'rare' === rarity ? 100 : 0;
+    var epic = 'epic' === rarity ? 100 : 0;
     var box1 = 'box1' === box_id ? 100 : 0;
     var box2 = 'box2' === box_id ? 100 : 0;
     var box3 = 'box3' === box_id ? 100 : 0;
-    spline.setVariables({Common: common, Rare: rare, Epic: epic, box1: box1, box2: box2, box3: box3});
     setTimeout(function() {
       document.getElementById('fake_box_div').style.left = `calc(50% - ${rect.width/2}px)`;
     }, 1500);
@@ -52,42 +48,86 @@ function startOverlay(box_id, coins, spendCoins){
     }, 3500);
     setTimeout(function() {
       spline.setVariables({Common: 0, Rare: 0, Epic: 0})
-    }, 7500);
+    }, 8500);
     setTimeout(function() {
-      document.getElementById('fake_box_div').innerHTML = `<img src=${bg} style=" max-width: none; max-height: none; position: absolute; top: 50%; left: 50%; transform: translate(-48%, -50%); width: 300px; border-radius: 20px;"></img>`;
-    }, 7750);
+      document.getElementById('fake_box_div').innerHTML = `<img src=${new_item} style=" max-width: none; max-height: none; position: absolute; top: 50%; left: 50%; transform: translate(-48%, -50%); width: 300px; border-radius: 20px;"></img>`;
+    }, 8800);
     setTimeout(function() {
       document.getElementById("box_overlay").style.backgroundColor = 'rgba(60, 163, 238, 0)';
-    }, 10000);
+    }, 11000);
     setTimeout(function() {
       document.getElementById('fake_box').innerHTML = ``;
       document.getElementById("spline_box").style.zIndex = "-1";
       spline.stop();
-    }, 10500);
+    }, 11500);
     setTimeout(function() {
       document.getElementById("box_overlay").style.zIndex = "-1";
       document.getElementById("spline_box").removeChild(document.getElementById("spline_box").firstChild);
       reloadSpine();
-    }, 12000);
+    }, 13000);
 }
 
-export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, setBorder}) {
-  const unlockedAvatars = ['_default.png'];
-  const unlockedBorders = ['_default.png'];
-  const unlockedBackgrounds = ['_default.png'];
-  const [value, setValue] = React.useState(0);
+function fetchUnlocked(){
+  return {avatars: ['_default.png'], borders: ['_default.png'], backgrounds: ['_default.png']};
+}
+const unlocks = fetchUnlocked();
+function saveUnlocked(avatars, borders, backgrounds){
+  return;
+}
 
+export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, setBorder, currentAvatar, currentBackground, currentBorder}) {
+  const [value, setValue] = React.useState(0);
+  const [unlockedAvatars, setUnlockAvater] = React.useState(unlocks.avatars);
+  const [unlockedBorders, setUnlockBorder] = React.useState(unlocks.borders);
+  const [unlockedBackgrounds, setUnlockBackground] = React.useState(unlocks.backgrounds);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+  function clickBox(cost, id, spend, image){
+    if (coins>=cost){
+      const rarity = 'rare';
+      var new_item = null;
+      var tries = 0;
+      while (new_item === null && tries < 10){
+        const num = getRandomInt(0,3);
+        if (num===0){
+          const unlockables = avatarImageList.filter(image => !unlockedAvatars.includes(image.name));
+          if (unlockables.length!==0){
+            const num2 = getRandomInt(0,unlockables.length);
+            new_item = unlockables[num2];
+            setUnlockAvater(prev => prev + [new_item.name]);
+          }
+        } else if (num===1){
+          const unlockables = borderImageList.filter(image => !unlockedBorders.includes(image.name));
+          if (unlockables.length!==0){
+            const num2 = getRandomInt(0,unlockables.length);
+            new_item = unlockables[num2];
+            setUnlockBorder(prev => prev + [new_item.name]);
+          };
+        } else {
+          const unlockables = backgroundImageList.filter(image => !unlockedBackgrounds.includes(image.name));
+          if (unlockables.length!==0){
+            const num2 = getRandomInt(0,unlockables.length);
+            new_item = unlockables[num2];
+            setUnlockBackground(prev => prev + [new_item.name]);
+          }
+        }
+        tries++;
+      }
+      startOverlay(id, image, rarity, new_item.source);
+      spend(cost);
+    }
+  }
   function LootBox({id, name, image, cost}){
     return (
-      <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => coins>=cost?startOverlay(id, cost, spendCoins):null}>
-                    <p className={coins >= cost ?'russo-one-regular text-3xl':'russo-one-regular text-3xl text-red-500'}>{name}</p>
-                    <img id={id} src={image} alt={name} style={{padding: '30px'}}></img>
-                    <p className={coins >= cost ?'russo-one-regular text-4xl':'russo-one-regular text-4xl text-red-500'}>{cost}🪙</p>
-            </Grid>
+      <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={()=>clickBox(cost, id, spendCoins, image)}>
+          <p className={coins >= cost ?'russo-one-regular text-3xl':'russo-one-regular text-3xl text-red-500'}>{name}</p>
+          <img id={id} src={image} alt={name} style={{padding: '30px'}}/>
+          <p className={coins >= cost ?'russo-one-regular text-4xl':'russo-one-regular text-4xl text-red-500'}>{cost}🪙</p>
+      </Grid>
     );
   }
   return (
@@ -123,13 +163,13 @@ export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, 
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-          <Avatars unlocked={unlockedAvatars} change={setAvatar}/>
+          <Avatars unlocked={unlockedAvatars} change={setAvatar} current={currentAvatar}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-          <Backgrounds unlocked={unlockedBackgrounds} change={setBackground}/>
+          <Backgrounds unlocked={unlockedBackgrounds} change={setBackground} current={currentBackground}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-          <Borders unlocked={unlockedBorders} change={setBorder}/>
+          <Borders unlocked={unlockedBorders} change={setBorder} current={currentBorder}/>
       </CustomTabPanel>
     </Box>
   );

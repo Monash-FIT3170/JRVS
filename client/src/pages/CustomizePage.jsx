@@ -5,7 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Avatar from '../components/characterCustomization/Avatar';
 
 function fetchCoins(){
-  return 1020;
+  return 10020;
 }
 function saveCoins(){
   return;
@@ -70,7 +70,7 @@ export default function CustomizePage () {
           </Grid>
           <Grid xs={16} style={{paddingRight: '80px', paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{ border: '2px solid #2196f3', marginBottom: '35px', flexGrow: '1', width: '100%', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
-              <LabTabs coins={coins} spendCoins={spendCoins} setAvatar={setAvatar} setBackground={setBackground} setBorder={setBorder}/>
+              <LabTabs coins={coins} spendCoins={spendCoins} setAvatar={setAvatar} setBackground={setBackground} setBorder={setBorder} currentAvatar={avatar} currentBackground={background} currentBorder={border}/>
             </div>
           </Grid>
         </Grid>

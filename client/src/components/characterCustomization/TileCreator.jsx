@@ -5,15 +5,15 @@ import Locked from '../../assets/images/locked.png';
 const avatarImages = require.context('../../assets/images/avatars', false, /\.png$/);
 const backgroundImages = require.context('../../assets/images/backgrounds', false, /\.png$/);
 const borderImages = require.context('../../assets/images/borders', false, /\.(png|gif)$/);
-const avatarImageList = avatarImages.keys().map(image => ({
+export const avatarImageList = avatarImages.keys().map(image => ({
     name: image.slice(2),
     source: avatarImages(image)
   }));
-const backgroundImageList = backgroundImages.keys().map(image => ({
+  export const backgroundImageList = backgroundImages.keys().map(image => ({
     name: image.slice(2),
     source: backgroundImages(image)
   }));
-const borderImageList = borderImages.keys().map(image => ({
+  export const borderImageList = borderImages.keys().map(image => ({
     name: image.slice(2),
     source: borderImages(image)
   }));
@@ -33,23 +33,24 @@ function Border({image}){
   );
 }
 
-export function Avatars({unlocked, change}){
-    return <TileCreator unlocked={unlocked} change={change} type='Avatar' Tile={Avatar} imageList={avatarImageList}/>;
+export function Avatars({unlocked, change, current}){
+    return <TileCreator unlocked={unlocked} change={change} type='Avatar' Tile={Avatar} imageList={avatarImageList} current={current}/>;
 }
-export function Borders({unlocked, change}){
-    return <TileCreator unlocked={unlocked} change={change} type='Border' Tile={Border} imageList={borderImageList}/>;
+export function Borders({unlocked, change, current}){
+    return <TileCreator unlocked={unlocked} change={change} type='Border' Tile={Border} imageList={borderImageList} current={current}/>;
 }
-export function Backgrounds({unlocked, change}){
-    return <TileCreator unlocked={unlocked} change={change} type='Background' Tile={Background} imageList={backgroundImageList}/>;
+export function Backgrounds({unlocked, change, current}){
+    return <TileCreator unlocked={unlocked} change={change} type='Background' Tile={Background} imageList={backgroundImageList} current={current}/>;
 }
 
 //  avatars generated with https://www.canva.com/
 //  using images -> concept art
 //  using the prompt 'robot _____ avatar headshot, clear background'
 //  then background removal tool
-function TileCreator({unlocked, type, Tile, imageList, change}){
+function TileCreator({unlocked, type, Tile, imageList, change, current}){
     const defaultImage = imageList[0];
-    const [selected, setSelected] = useState(defaultImage);
+    const currentData = imageList.find(image=>image.name===current);
+    const [selected, setSelected] = useState(currentData);
 
     useEffect(() => {
         change(selected.name);
@@ -75,8 +76,7 @@ function TileCreator({unlocked, type, Tile, imageList, change}){
 // handles the selection of a new tile
 function selectTile(image, unlocked, selected, setSelected, defaultImage){
     // only process unlocked tiles
-    // TODO remove the ! when not testing anymore
-    if (!unlocked.includes(image.name)){
+    if (unlocked.includes(image.name)){
         // if selected again, change back to default
         if(image===selected){
             setSelected(defaultImage);
