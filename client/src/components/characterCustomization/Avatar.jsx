@@ -4,9 +4,9 @@ const backgrounds = require.context('../../assets/images/backgrounds', false, /\
 const borders = require.context('../../assets/images/borders', false, /\.(png|gif)$/);
 
 export default function Avatar({avatar, background, border}){
-    var avatarPath = avatars('./' + avatar);
-    var backgroundPath = backgrounds('./' + background);
-    var borderPath = borders('./' + border);
+    const avatarPath = avatars('./' + avatar);
+    const backgroundPath = backgrounds('./' + background);
+    const borderPath = borders('./' + border);
     return (
         <div style={{position: 'relative', padding: '0px', marginBottom: '20px',flexGrow: '1', width: '75%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' , backgroundColor: 'white', borderRadius: '20px'}}>
                 <div data-name={avatar} id='userAvatar' style={{zIndex: '2', position: 'absolute', bottom: '45%', right: '50%', transform: 'translate(50%, 50%)', height: '70%', width: '70%'}}>

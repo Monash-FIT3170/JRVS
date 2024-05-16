@@ -33,27 +33,26 @@ function Border({image}){
   );
 }
 
-export function Avatars({unlocked}){
-    return <TileCreator unlocked={unlocked} type='Avatar' Tile={Avatar} imageList={avatarImageList}/>;
+export function Avatars({unlocked, change}){
+    return <TileCreator unlocked={unlocked} change={change} type='Avatar' Tile={Avatar} imageList={avatarImageList}/>;
 }
-export function Borders({unlocked}){
-    return <TileCreator unlocked={unlocked} type='Border' Tile={Border} imageList={borderImageList}/>;
+export function Borders({unlocked, change}){
+    return <TileCreator unlocked={unlocked} change={change} type='Border' Tile={Border} imageList={borderImageList}/>;
 }
-export function Backgrounds({unlocked}){
-    return <TileCreator unlocked={unlocked} type='Background' Tile={Background} imageList={backgroundImageList}/>;
+export function Backgrounds({unlocked, change}){
+    return <TileCreator unlocked={unlocked} change={change} type='Background' Tile={Background} imageList={backgroundImageList}/>;
 }
 
 //  avatars generated with https://www.canva.com/
 //  using images -> concept art
 //  using the prompt 'robot _____ avatar headshot, clear background'
 //  then background removal tool
-function TileCreator({unlocked, type, Tile, imageList}){
+function TileCreator({unlocked, type, Tile, imageList, change}){
     const defaultImage = imageList[0];
     const [selected, setSelected] = useState(defaultImage);
 
     useEffect(() => {
-        document.getElementById('user'+type).setAttribute("data-name", selected.name);
-        document.getElementById('user'+type).innerHTML = `<img src=${selected.source} style="width: 100%; border-radius: 20px;"></img>`;
+        change(selected.name);
       }, [selected]);
 
   return (

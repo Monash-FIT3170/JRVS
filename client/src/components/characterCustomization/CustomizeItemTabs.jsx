@@ -8,10 +8,9 @@ import Grid from '@mui/material/Unstable_Grid2';
 import redbox from '../../assets/images/box_1.png';
 import silverbox from '../../assets/images/box_2.png';
 import goldbox from '../../assets/images/box_3.png';
-import { Avatars, Borders, Bakcgrounds } from "./TileCreator";
+import { Avatars, Borders, Backgrounds } from "./TileCreator";
 import { Application } from '@splinetool/runtime';
 import bg from '../../assets/images/backgrounds/city.png';
-import { Backgrounds } from "./TileCreator";
 
 var canvas = document.createElement("canvas");
 var spline = null;
@@ -26,7 +25,8 @@ function reloadSpine(){
     });
 }
 
-function startOverlay(box_id){
+function startOverlay(box_id, coins, spendCoins){
+  spendCoins(coins);
     var new_box = ('box1' === box_id ? redbox : ('box2' === box_id ? silverbox : goldbox));
     console.log(new_box);
     var rect = document.getElementById(box_id).getBoundingClientRect();
@@ -71,18 +71,25 @@ function startOverlay(box_id){
     }, 12000);
 }
 
-export default function BasicTabs() {
+export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, setBorder}) {
   const unlockedAvatars = ['_default.png'];
   const unlockedBorders = ['_default.png'];
   const unlockedBackgrounds = ['_default.png'];
-  //TODO fetch coins here
-  const coins = 1020;
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  function LootBox({id, name, image, cost}){
+    return (
+      <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => coins>=cost?startOverlay(id, cost, spendCoins):null}>
+                    <p className={coins >= cost ?'russo-one-regular text-3xl':'russo-one-regular text-3xl text-red-500'}>{name}</p>
+                    <img id={id} src={image} alt={name} style={{padding: '30px'}}></img>
+                    <p className={coins >= cost ?'russo-one-regular text-4xl':'russo-one-regular text-4xl text-red-500'}>{cost}🪙</p>
+            </Grid>
+    );
+  }
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 2, borderColor: "divider"}}>
@@ -107,34 +114,22 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={0} style={{display: 'flex', flex: '1', alignItems: 'center', justifyContent: 'center'}}>
       <Grid container spacing={2} columns={19} style={{marginTop: '60px'}}>
         <Grid xs={1} ></Grid>
-            <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => startOverlay('box1')}>
-                    <p className='russo-one-regular text-3xl'>Red Box</p>
-                    <img id='box1' src={redbox} alt={'red box'} style={{padding: '30px'}}></img>
-                    <p className={coins >= 100 ?'russo-one-regular text-4xl':'russo-one-regular text-4xl text-red-500'}>100🪙</p>
-            </Grid>
+            <LootBox id='box1' name='Red Box' image={redbox} cost={100}/>
             <Grid xs={1} ></Grid>
-            <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => startOverlay('box2')}>
-                    <p className='russo-one-regular text-3xl'>Silver Box</p>
-                    <img id='box2' src={silverbox} alt={'silver box'} style={{padding: '30px'}}></img>
-                    <p className={coins >= 500 ?'russo-one-regular text-4xl':'russo-one-regular text-4xl text-red-500'}>500🪙</p>
-            </Grid>
+            <LootBox id='box2' name='Silver Box' image={silverbox} cost={500}/>
             <Grid xs={1} ></Grid>
-            <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => startOverlay('box3')}>
-                    <p className='russo-one-regular text-3xl'>Golden Box</p>
-                    <img id='box3' src={goldbox} alt={'golden box'} style={{padding: '30px'}}></img>
-                    <p className={coins >= 2000 ?'russo-one-regular text-4xl':'russo-one-regular text-4xl text-red-500'}>2000🪙</p>
-            </Grid>
+            <LootBox id='box3' name='Golden Box' image={goldbox} cost={2000}/>
             <Grid xs={1} ></Grid>
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-          <Avatars unlocked={unlockedAvatars}/>
+          <Avatars unlocked={unlockedAvatars} change={setAvatar}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-          <Backgrounds unlocked={unlockedBorders}/>
+          <Backgrounds unlocked={unlockedBackgrounds} change={setBackground}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-          <Borders unlocked={unlockedBackgrounds}/>
+          <Borders unlocked={unlockedBorders} change={setBorder}/>
       </CustomTabPanel>
     </Box>
   );
