@@ -1,0 +1,101 @@
+import React, { useState, useEffect } from 'react';
+import Grid from '@mui/material/Unstable_Grid2';
+import Tick from '../../assets/images/greenTick.png';
+import Locked from '../../assets/images/locked.png';
+const avatarImages = require.context('../../assets/images/avatars', false, /\.png$/);
+const backgroundImages = require.context('../../assets/images/backgrounds', false, /\.png$/);
+const borderImages = require.context('../../assets/images/borders', false, /\.(png|gif)$/);
+const avatarImageList = avatarImages.keys().map(image => ({
+    name: image.slice(2),
+    source: avatarImages(image)
+  }));
+const backgroundImageList = backgroundImages.keys().map(image => ({
+    name: image.slice(2),
+    source: backgroundImages(image)
+  }));
+const borderImageList = borderImages.keys().map(image => ({
+    name: image.slice(2),
+    source: borderImages(image)
+  }));
+
+function Avatar({image}){
+  return (<div style={{padding: '20px'}}><img src={image.source} alt={'avatar'} style={{borderRadius: '20px'}} /></div>);
+}
+function Background({image}){
+  return (<div style={{padding: '20px'}}><img src={image.source} alt={'background'} style={{ borderRadius: '20px'}} /></div>);
+}
+function Border({image}){
+  return (
+    <div style={{position: 'relative'}}>
+      <img  src={image.source} alt={'border'} style={{ borderRadius: '20px'}} />
+      <div style={{zIndex: '1', position: 'absolute', bottom: '50%', right: '50%', transform: 'translate(50%, 50%)', backgroundColor: '#80BAE4', borderRadius: '20px', height: '77%', width: '77%'}}/>
+    </div>
+  );
+}
+
+export function Avatars({unlocked}){
+    return <TileCreator unlocked={unlocked} type='Avatar' Tile={Avatar} imageList={avatarImageList}/>;
+}
+export function Borders({unlocked}){
+    return <TileCreator unlocked={unlocked} type='Border' Tile={Border} imageList={borderImageList}/>;
+}
+export function Backgrounds({unlocked}){
+    return <TileCreator unlocked={unlocked} type='Background' Tile={Background} imageList={backgroundImageList}/>;
+}
+
+//  avatars generated with https://www.canva.com/
+//  using images -> concept art
+//  using the prompt 'robot _____ avatar headshot, clear background'
+//  then background removal tool
+function TileCreator({unlocked, type, Tile, imageList}){
+    const defaultImage = imageList[0];
+    const [selected, setSelected] = useState(defaultImage);
+
+    useEffect(() => {
+        document.getElementById('user'+type).setAttribute("data-name", selected.name);
+        document.getElementById('user'+type).innerHTML = `<img src=${selected.source} style="width: 100%; border-radius: 20px;"></img>`;
+      }, [selected]);
+
+  return (
+    <Grid container spacing={2} columns={25}>
+        {(imageList).map((image, index) => (
+            <Grid key={type+'Key_'+index} xs={5} style={{padding:'20px'}}>
+            <div style={{ border: '2px solid #2196f3', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: "#80BAE4", height: '100%', width: '100%' }} onClick={() => selectTile(image, unlocked, selected, setSelected, defaultImage)}>
+                <Tile image={image}/>
+                <div style={{width: '100%', position: 'relative'}}>
+                    <TileOverlay image={image} selected={selected} unlocked={unlocked}/>
+                </div>
+            </div>
+            
+            </Grid>
+        ))}
+    </Grid>
+  );
+};
+
+// handles the selection of a new tile
+function selectTile(image, unlocked, selected, setSelected, defaultImage){
+    // only process unlocked tiles
+    // TODO remove the ! when not testing anymore
+    if (!unlocked.includes(image.name)){
+        // if selected again, change back to default
+        if(image===selected){
+            setSelected(defaultImage);
+        } else {
+            setSelected(image);
+        }
+        
+    }
+}
+
+function TileOverlay({image, selected, unlocked}){
+    // shows tick overlay for selected item
+    if (image === selected){
+        return <img src={Tick} alt={'tick'} style={{border: '2px solid #2196f3', zIndex: '1', padding: '20px', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: '20px'}}/>;
+    }
+    // shows locked overlay for locked items
+    if (!unlocked.includes(image.name)){
+        return <img src={Locked} alt={'locked'} style={{border: '2px solid #2196f3', zIndex: '1', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: '20px'}}/>
+    }
+    return null;
+}

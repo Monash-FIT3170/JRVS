@@ -35,7 +35,7 @@ const CustomizePage = () => {
         <Grid container spacing={0} columns={24}>
           <Grid xs={8} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             {/* TODO pass the current names for initialization */}
-            <Avatar avatarPath='_default.png' backgroundPath='_default.png' borderPath='_default.png'/>
+            <Avatar avatar='_default.png' background='_default.png' border='_default.png'/>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
               <p className='russo-one-regular text-4xl'>@Username</p>
             </div>

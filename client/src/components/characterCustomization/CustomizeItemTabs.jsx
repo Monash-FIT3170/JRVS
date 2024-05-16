@@ -8,51 +8,16 @@ import Grid from '@mui/material/Unstable_Grid2';
 import redbox from '../../assets/images/box_1.png';
 import silverbox from '../../assets/images/box_2.png';
 import goldbox from '../../assets/images/box_3.png';
-import Avatars from "./Avatars";
-import Backgrounds from "./Backgrounds";
-import Borders from "./Borders";
+import { Avatars, Borders, Bakcgrounds } from "./TileCreator";
 import { Application } from '@splinetool/runtime';
-import bg from '../../assets/images/backgrounds/city.png'
-
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography component={'span'}>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import bg from '../../assets/images/backgrounds/city.png';
+import { Backgrounds } from "./TileCreator";
 
 var canvas = document.createElement("canvas");
 var spline = null;
 reloadSpine();
 
 function reloadSpine(){
-
   spline = new Application(canvas);
   spline
     .load('https://prod.spline.design/arRT0vRiIJOv-x28/scene.splinecode')
@@ -107,6 +72,9 @@ function startOverlay(box_id){
 }
 
 export default function BasicTabs() {
+  const unlockedAvatars = ['_default.png'];
+  const unlockedBorders = ['_default.png'];
+  const unlockedBackgrounds = ['_default.png'];
   //TODO fetch coins here
   const coins = 1020;
   const [value, setValue] = React.useState(0);
@@ -160,16 +128,46 @@ export default function BasicTabs() {
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-        <Grid container spacing={1} columns={25}>
-            <Avatars></Avatars>
-        </Grid>
+          <Avatars unlocked={unlockedAvatars}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-        <Backgrounds></Backgrounds>
+          <Backgrounds unlocked={unlockedBorders}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3} style={{height: '60vh', overflowY:'scroll', overflow: 'auto'}}>
-        <Borders></Borders>
+          <Borders unlocked={unlockedBackgrounds}/>
       </CustomTabPanel>
     </Box>
   );
+}
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography component={'span'}>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
 }
