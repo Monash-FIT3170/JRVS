@@ -20,6 +20,7 @@ const createUser = asyncHandler(async (req, res) => {
 
 // Update user points
 const updatePoints = asyncHandler(async (req, res) => {
+    console.log(req.body); // Check what data is being received
     const { username } = req.body;
 
     // Find user and update their points

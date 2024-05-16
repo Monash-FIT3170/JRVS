@@ -11,7 +11,7 @@ import { useApi } from '../../context/ApiProvider.jsx';
 function Lessons() {
 
 
-    const { getData } = useApi();
+    const { getData, postData } = useApi();
     const [lesson, setLesson] = useState([]);
     const [isLessonLoading, setIsLessonLoading] = useState(true);
     const lessonId = '662da929a3144336a01c1c6b' // would need to get lesson id from path map node
@@ -28,6 +28,15 @@ function Lessons() {
       };
       fetchData();
     }, [getData])
+
+    const handleUpdatePoints = async () => {
+        try {
+            const updatedUser = await postData('api/users/updatePoints', { username: 'testuser' });
+            console.log('Points updated:', updatedUser.points); // Console log the updated points
+        } catch (error) {
+            console.error('Failed to update points:', error);
+        }
+    };
 
 
     const [hasFinishedCarousel, setHasFinishedCarousel] = useState(false);
@@ -102,7 +111,13 @@ function Lessons() {
             >
                 <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
                 {hasFinishedCarousel && (
-                <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Next</Button>)}
+                <>
+                <Box sx={{ display: 'flex', marginRight: '60px' }}> {/* New container for multiple buttons */}
+                    <Button variant="contained" cis lassName="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '10px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Next</Button>
+                    <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}} onClick = {handleUpdatePoints}>Submit</Button>
+                </Box>
+            </>
+            )}
             </Box>
         </Box>
     );
