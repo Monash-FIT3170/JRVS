@@ -7,15 +7,24 @@ import ProfilePage from './pages/ProfilePage';
 import Quizzes from './pages/Quiz/quizzes';
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () =>  {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/lesson" element={<Lessons/>} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/quiz" element={<Quizzes/>} />
+        <Route exact path="/" element={<ProtectedRoute/>}>
+          <Route exact path="/" element={<HomePage />}/>
+        </Route>
+        <Route exact path="/lesson" element={<ProtectedRoute/>}>
+          <Route exact path="/lesson" element={<Lessons/>}/>
+        </Route>
+        <Route exact path="/profile" element={<ProtectedRoute/>}>
+          <Route exact path="/profile" element={<ProfilePage />}/>
+        </Route>
+        <Route exact path="/quiz" element={<ProtectedRoute/>}>
+          <Route exact path="/quiz" element={<Quizzes/>}/>
+        </Route>
         <Route path="/register" element={<RegistrationPage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route element={<NotFoundPage />} />
