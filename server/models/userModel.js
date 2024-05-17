@@ -32,6 +32,18 @@ const userSchema = mongoose.Schema(
         points: {
             type: Number,
             required: true,
+        },
+        avatar: {
+            type: String,
+            required: false,
+        },
+        border: {
+            type: String,
+            required: false,
+        },
+        background: {
+            type: String,
+            required: false,
         }
     },  
     {

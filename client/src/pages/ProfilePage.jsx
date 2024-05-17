@@ -4,7 +4,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import avatar from '../assets/images/Avatar.png';
 import MenuBar from '../components/MenuBar';
 import { Button } from "@mui/material";
-
 import { useApi } from '../context/ApiProvider';
 
 const ProfilePage = () => {

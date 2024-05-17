@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
   const { username, firstname, lastname, email, school, password} = req.body;
 
   try {
-    const user = new User({ username, firstname, lastname, email, school, password, points: 0});
+    const user = new User({ username, firstname, lastname, email, school, password, points: 0, avatar: '_default.png', border: '_default.png', background: '_default.png'});
     await user.save();
     res.status(201).json({message: 'User created'});
   } catch (error) {

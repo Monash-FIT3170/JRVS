@@ -22,15 +22,14 @@ const createUser = asyncHandler(async (req, res) => {
 
 // Update user points
 const updatePoints = asyncHandler(async (req, res) => {
-    const { username } = req.body;
-
+    const { username, newCoins } = req.body;
     // Find user and update their points
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
 
-    user.points += 100;  // Increase points by 100
+    user.points = newCoins;
     await user.save();
 
     res.status(200).json({
@@ -59,9 +58,23 @@ const getUserById = asyncHandler(async (req, res) => {
     res.json(user);
 });
 
+const updateAvatar = asyncHandler(async (req, res) => {
+    const { username, avatar, border, background } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    user.avatar = avatar;
+    user.border = border;
+    user.background = background;
+    await user.save();
+});
+
 module.exports = {
     createUser,
     updatePoints,
     getUserByUsername,
-    getUserById
+    getUserById,
+    updateAvatar
 };

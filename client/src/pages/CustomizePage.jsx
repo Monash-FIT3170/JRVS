@@ -3,35 +3,54 @@ import { Link } from 'react-router-dom';
 import LabTabs from '../components/characterCustomization/CustomizeItemTabs';
 import Grid from '@mui/material/Unstable_Grid2';
 import Avatar from '../components/characterCustomization/Avatar';
-
-function fetchCoins(){
-  return 10020;
-}
-function saveCoins(){
-  return;
-}
-function fetchAvatar(){
-  return {
-    avatar: '_default.png',
-    border: '_default.png',
-    background: '_default.png'
-  };
-}
-function saveAvatar(avatar, border, background){
-  return;
-}
-const fetchedAvatar = fetchAvatar();
-const username = 'Username';
+import MenuBar from '../components/MenuBar';
+import { useApi } from '../context/ApiProvider';
 
 export default function CustomizePage () {
-  const [coins, setCoins] = useState(fetchCoins());
-  const [avatar, setAvatar] = useState(fetchedAvatar.avatar);
-  const [border, setBorder] = useState(fetchedAvatar.border);
-  const [background, setBackground] = useState(fetchedAvatar.background);
+  const { getData, postData } = useApi();
+  const [coins, setCoins] = useState(0);
+  const [username, setUsername] = useState('Loading');
+  const [avatar, setAvatar] = useState('_default.png');
+  const [border, setBorder] = useState('_default.png');
+  const [background, setBackground] = useState('_default.png');
   useEffect(() => {
-    saveCoins();
-  }, [coins]);
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await postData('api/auth/current', {token});
+        const userData = await getData(`api/users/id/${res.decoded.id}`);
+        setUsername(userData.username);
+        setCoins(userData.points);
+        setAvatar(userData.avatar);
+        setBorder(userData.border);
+        setBackground(userData.background);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, [])
+  async function saveAvatar() {
+    try {
+      if (username != 'Loading') {
+        console.log(username);
+        await postData('api/users/updateAvatar', {username, avatar, border, background});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  async function saveCoins(newCoins){
+    try {
+      if (username != 'Loading') {
+        await postData('api/users/updatePoints', {username, newCoins});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   function spendCoins(amount){
+    saveCoins(coins - amount);
     setCoins(prev => prev-amount);
   }
   return (
@@ -41,23 +60,7 @@ export default function CustomizePage () {
         <div id="fake_box" style={{zIndex: '13', position: 'fixed'}}></div>
         <div id= 'spline_box' style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', border: 'none', zIndex: '-1'}}>
         </div>
-        <Grid container spacing={2} columns={22} style={{paddingTop: '30px', paddingLeft: '60px', paddingRight: '80px', marginBottom: '10px'}}>
-            <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
-                <p className='russo-one-regular text-5xl text-white'>JRVS</p>
-                </Grid>
-                <Grid xs={15} ></Grid>
-                <Grid xs={5} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{padding:'10px', backgroundColor: 'white', borderRadius: '20px'}}>
-                    <p className='russo-one-regular text-4xl'>&nbsp;{coins}🪙&nbsp;</p>
-                </div>
-                <Link to="/">
-                    <p className='russo-one-regular text-5xl'>🎓</p>
-                </Link>
-                <Link to="/profile">
-                    <p className='russo-one-regular text-5xl'>👤</p>
-                </Link>
-            </Grid>
-        </Grid>
+        <MenuBar coins={coins}/>
         <Grid container spacing={0} columns={24}>
           <Grid xs={8} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <Avatar avatar={avatar} background={background} border={border}/>
@@ -76,10 +79,10 @@ export default function CustomizePage () {
         </Grid>
         <Grid container spacing={2} columns={15}>
             <Grid xs={5} ></Grid>
-            <Grid xs={2} style={{ padding: '15px', border: '2px solid #2196f3', backgroundColor: '#27CA40', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => saveAvatar(avatar, border, background)}>
-                <Link to="/profile">
+            <Grid xs={2} style={{ padding: '15px', border: '2px solid #2196f3', backgroundColor: '#27CA40', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => saveAvatar()}>
+                
                     <p className='russo-one-regular text-4xl'>Save</p>
-                </Link>
+                
             </Grid>
             <Grid xs={1} ></Grid>
             <Grid xs={2} style={{ padding: '15px', border: '2px solid #2196f3', backgroundColor: '#DF4E4E', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
