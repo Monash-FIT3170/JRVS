@@ -12,7 +12,7 @@ import { useApi } from '../context/ApiProvider';
 
 const ProfilePage = () => {
   const { getData } = useApi();
-  const [data, setData] = useState(undefined);
+  const [badges, setBadges] = useState(undefined);
   const [isBadgeLoading, setIsBadgeLoading] = useState(true);
   const [user, setUser] = useState({ username: '', points: 0 });
   const [isUserLoading, setIsUserLoading] = useState(true);
@@ -21,7 +21,7 @@ const ProfilePage = () => {
     const fetchData = async () => {
       try {
         const responseData = await getData('api/badges');
-        setData(responseData);
+        setBadges(responseData);
         setIsBadgeLoading(false);
       } catch (error) {
         console.log(error);
@@ -57,17 +57,17 @@ const ProfilePage = () => {
             {/* TODO: ADD LINK TO CUSTOMISE PAGE */}
           </div>
           <div style={{ border: '1px solid black', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
-            <h2 className='russo-one-regular text-4xl'>@username</h2>
+            <h2 className='russo-one-regular text-4xl'>@{user.username}</h2>
             {/* TODO: link username  */}
           </div>
           <div style={{ border: '1px solid black', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
-            <h2 className='russo-one-regular text-4xl'>7492 ⭐️</h2>
+            <h2 className='russo-one-regular text-4xl'>{user.points} ⭐️</h2>
           </div>
         </Grid>
         <Grid xs={8} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
           <div style={{ border: '1px solid black', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
-            <h2 className='russo-one-regular text-4xl'>My Badges</h2>
-            {isBadgeLoading ? <p>Loading...</p> : <BadgeContainer badges={data}/>}
+            <h2 style={{ font: 'Roboto', fontWeight: '700', fontSize: '40px' }}>My Badges</h2>
+            {isBadgeLoading ? <p>Loading...</p> : <BadgeContainer badges={badges}/>}
             {/* Add content for badges */}
           </div>
           {/* <div style={{ border: '2px solid #2196f3', padding: '20px', flexGrow: '2', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
