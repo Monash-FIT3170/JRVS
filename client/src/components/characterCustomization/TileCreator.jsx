@@ -90,11 +90,11 @@ function selectTile(image, unlocked, selected, setSelected, defaultImage){
 function TileOverlay({image, selected, unlocked}){
     // shows tick overlay for selected item
     if (image === selected){
-        return <img src={Tick} alt={'tick'} style={{border: '2px solid #2196f3', zIndex: '1', padding: '20px', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: '20px'}}/>;
+        return <img src={Tick} alt={'tick'} style={{border: '2px solid #2196f3', zIndex: '1', padding: '20px', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.35)', borderRadius: '20px'}}/>;
     }
     // shows locked overlay for locked items
     if (!unlocked.includes(image.name)){
-        return <img src={Locked} alt={'locked'} style={{border: '2px solid #2196f3', zIndex: '1', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: '20px'}}/>
+        return <img src={Locked} alt={'locked'} style={{border: '2px solid #2196f3', zIndex: '1', position: 'absolute', bottom: '0', right: '0', width:'100%', backgroundColor: 'rgba(0,0,0,0.75)', borderRadius: '20px'}}/>
     }
     return null;
 }
