@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import CustomizePage from './pages/CustomizePage';
 import Quizzes from './pages/Quiz/quizzes';
 import RegistrationPage from './pages/RegistrationPage';
+import LoginPage from './pages/LoginPage';
 
 const App = () =>  {
   return (
@@ -18,6 +19,7 @@ const App = () =>  {
         <Route path="/customize" element={<CustomizePage/>} />
         <Route path="/quiz" element={<Quizzes/>} />
         <Route path="/register" element={<RegistrationPage/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
         <Route element={<NotFoundPage />} />
       </Routes>
     </Router>
