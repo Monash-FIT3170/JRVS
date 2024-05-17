@@ -10,7 +10,6 @@ import silverbox from '../../assets/images/box_2.png';
 import goldbox from '../../assets/images/box_3.png';
 import { Avatars, Borders, Backgrounds, avatarImageList, borderImageList, backgroundImageList } from "./TileCreator";
 import { Application } from '@splinetool/runtime';
-import bg from '../../assets/images/backgrounds/city.png';
 
 var canvas = document.createElement("canvas");
 var spline = null;

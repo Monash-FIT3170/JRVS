@@ -14,7 +14,7 @@ function fetchAvatar(){
   return {
     avatar: '_default.png',
     border: '_default.png',
-    background: 'artic.png'
+    background: '_default.png'
   };
 }
 function saveAvatar(avatar, border, background){
