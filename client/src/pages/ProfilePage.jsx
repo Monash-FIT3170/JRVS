@@ -18,7 +18,7 @@ const ProfilePage = () => {
   const [isUserLoading, setIsUserLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBadges = async () => {
       try {
         const responseData = await getData('api/badges');
         setBadges(responseData);
@@ -38,7 +38,7 @@ const ProfilePage = () => {
         setIsUserLoading(true);
       }
     };
-    fetchData();
+    fetchBadges();
     fetchUser();
 
   }, [getData])
