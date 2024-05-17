@@ -1,11 +1,12 @@
 import React from 'react';
-import LeftSidebar from '../components/LeftSidebar';
+import MenuBar from '../components/MenuBar';
 
 const HomePage = () => {
   return (
     <div>
-        <LeftSidebar />
-        <h2>Home</h2>
+        <MenuBar 
+        title='UNIT OVERVIEW'
+        subtitle='Get ready to learn more about AI today'/>
     </div>
   );
 }
