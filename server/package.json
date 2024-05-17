@@ -4,8 +4,8 @@
   "description": "React web application for teaching kids how to use AI",
   "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "server": "nodemon backend/server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js"
   },
   "author": "Max Verhoef",
   "license": "Apache-2.0",
