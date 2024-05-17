@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 
 const UnitCard = ({ title, progress, imageColour, icon }) => {
     return (
-        <Card style={{borderRadius: 15}}>
+        <Card style={{borderRadius: 15}} className="unit-card">
             <React.Fragment>
                 <CardContent style={{ padding: 0 }}>
                     <div style={{

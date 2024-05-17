@@ -118,7 +118,7 @@ const LearningPathPage = () => {
         // console.log("http://localhost:3000/" + output + "/:" + node.key)
 
         window.location.href =
-            "http://localhost:3000/" + output + "/:" + node.key;
+            "http://localhost:3000/" + output + "/" + node.key;
     };
 
     return (

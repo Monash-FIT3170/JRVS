@@ -48,6 +48,11 @@
   margin: auto;
 }
 
+div.unit-card:hover {
+  box-shadow: 3px 3px 5px rgb(153, 153, 153);
+  transition: 0.8s;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
