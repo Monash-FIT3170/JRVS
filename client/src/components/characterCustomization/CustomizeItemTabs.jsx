@@ -50,7 +50,7 @@ function startOverlay(box_id, image, rarity, new_item){
       spline.setVariables({Common: 0, Rare: 0, Epic: 0})
     }, 8500);
     setTimeout(function() {
-      document.getElementById('fake_box_div').innerHTML = `<img src=${new_item} style=" max-width: none; max-height: none; position: absolute; top: 50%; left: 50%; transform: translate(-48%, -50%); width: 300px; border-radius: 20px;"></img>`;
+      document.getElementById('fake_box_div').innerHTML = new_item;
     }, 8800);
     setTimeout(function() {
       document.getElementById("box_overlay").style.backgroundColor = 'rgba(60, 163, 238, 0)';
@@ -115,37 +115,43 @@ export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, 
   }
   function clickBox(cost, id, spend, image){
     if (coins>=cost){
-      const rarity = 'rare';
+      var rarity = 'common';
       var new_item = null;
       var tries = 0;
       while (new_item === null && tries < 10){
-        const num = getRandomInt(0,3);
+        var num = getRandomInt(0,3);
         if (num===0){
           const unlockables = avatarImageList.filter(image => !unlockedAvatars.includes(image.name));
           if (unlockables.length!==0){
             const num2 = getRandomInt(0,unlockables.length);
             new_item = unlockables[num2];
-            setUnlockAvater(prev => prev.concat([new_item.name]));
+            setUnlockAvater(prev => prev.concat([unlockables[num2].name]));
+            new_item = `<img src=${new_item.source} style=" max-width: none; max-height: none; position: absolute; top: 50%; left: 50%; transform: translate(-48%, -50%); width: 300px; border-radius: 20px;"></img>`;
           }
         } else if (num===1){
           const unlockables = borderImageList.filter(image => !unlockedBorders.includes(image.name));
           if (unlockables.length!==0){
             const num2 = getRandomInt(0,unlockables.length);
+            rarity = 'rare';
             new_item = unlockables[num2];
-            setUnlockBorder(prev => prev.concat([new_item.name]));
+            setUnlockBorder(prev => prev.concat([unlockables[num2].name]));
+            new_item = `<img src=${new_item.source} style=" max-width: none; max-height: none; position: absolute; top: 50%; left: 50%; transform: translate(-48%, -50%); width: 300px; border-radius: 20px;"></img>
+                        <div style=" z-index=15; background-color: rgb(20, 123, 198); max-width: none; max-height: none; position: absolute; top: 50%; left: 50%; transform: translate(-48%, -50%); width: 220px; height: 220px; border-radius: 20px;"/>`;
           };
         } else {
           const unlockables = backgroundImageList.filter(image => !unlockedBackgrounds.includes(image.name));
           if (unlockables.length!==0){
             const num2 = getRandomInt(0,unlockables.length);
+            rarity = 'epic';
             new_item = unlockables[num2];
-            setUnlockBackground(prev => prev.concat([new_item.name]));
+            setUnlockBackground(prev => prev.concat([unlockables[num2].name]));
+            new_item = `<img src=${new_item.source} style=" max-width: none; max-height: none; position: absolute; top: 50%; left: 50%; transform: translate(-48%, -50%); width: 300px; border-radius: 20px;"></img>`;
           }
         }
         tries++;
       }
       if (tries !== 10){
-        startOverlay(id, image, rarity, new_item.source);
+        startOverlay(id, image, rarity, new_item);
         spend(cost);
       }
       
@@ -153,10 +159,10 @@ export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, 
   }
   function LootBox({id, name, image, cost}){
     return (
-      <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={()=>clickBox(cost, id, spendCoins, image)}>
-          <p className={coins >= cost ?'russo-one-regular text-3xl':'russo-one-regular text-3xl text-red-500'}>{name}</p>
+      <Grid xs={5} style={{ padding: '20px', border: '2px solid #2196f3', backgroundColor: "#80BAE4", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={()=>clickBox(cost, id, spendCoins, image)}>
+          <p className={coins >= cost ?'russo-one-regular text-3xl text-white':'russo-one-regular text-3xl text-red-500'}>{name}</p>
           <img id={id} src={image} alt={name} style={{padding: '30px'}}/>
-          <p className={coins >= cost ?'russo-one-regular text-4xl':'russo-one-regular text-4xl text-red-500'}>{cost}🪙</p>
+          <p className={coins >= cost ?'russo-one-regular text-4xl text-white':'russo-one-regular text-4xl text-red-500'}>{cost}🪙</p>
       </Grid>
     );
   }
@@ -182,12 +188,12 @@ export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, 
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0} style={{display: 'flex', flex: '1', alignItems: 'center', justifyContent: 'center'}}>
-      <Grid container spacing={2} columns={19} style={{marginTop: '60px'}}>
+      <Grid container spacing={2} columns={21} style={{marginTop: '60px'}}>
         <Grid xs={1} ></Grid>
             <LootBox id='box1' name='Red Box' image={redbox} cost={100}/>
-            <Grid xs={1} ></Grid>
+            <Grid xs={2} ></Grid>
             <LootBox id='box2' name='Silver Box' image={silverbox} cost={500}/>
-            <Grid xs={1} ></Grid>
+            <Grid xs={2} ></Grid>
             <LootBox id='box3' name='Golden Box' image={goldbox} cost={2000}/>
             <Grid xs={1} ></Grid>
         </Grid>
