@@ -3,6 +3,7 @@ import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
 import avatar from '../assets/images/Avatar.png';
 import MenuBar from '../components/MenuBar';
+import { Button } from "@mui/material";
 
 import { useApi } from '../context/ApiProvider';
 
@@ -51,13 +52,11 @@ const ProfilePage = () => {
             <div style={{marginBottom: '20px', flexGrow: '1', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <img src={avatar} alt='avatar icon'></img>
             </div>
+            <Button href="/customize">
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '60%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' , backgroundColor: '#3CA3EE'}}>
-            <Link
-              to="/customize"
-            >
-              <h2 className='russo-one-regular text-3xl'>customize avatar</h2>
-            </Link>
+              <h2 href="/customize" className='russo-one-regular text-3xl'>customize avatar</h2>
             </div>
+            </Button>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
               <h2 className='russo-one-regular text-4xl'>{'@'+user.username}</h2>
             </div>
