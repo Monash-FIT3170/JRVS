@@ -1,3 +1,7 @@
+:root {
+  --app-blue: #3CA3EE;
+}
+
 .App {
   text-align: center;
 }
@@ -36,3 +40,10 @@
     transform: rotate(360deg);
   }
 }
+
+.App-page {
+  background-color: var(--app-blue);
+  align-items: center;
+  justify-content: center;
+}
+
