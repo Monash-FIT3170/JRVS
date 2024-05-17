@@ -3,21 +3,28 @@ import Mascot from '../assets/images/Mascot.png';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useApi } from '../context/ApiProvider';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginPage = () => {
     // Create the hooks for the different inputs
-    const [userName, setUserName] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate();
 
     const {postData} = useApi();
 
 
-    const handleSubmit = async (e) =>{
-        // stop site from reloading
-        e.preventDefault()
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          const res = await postData('api/auth/login', { username, password });
+          localStorage.setItem('token', res.data.token);
+          navigate('/');
+        } catch (error) {
+          console.error('Login failed', error);
+        }
+      };
 
 
     return (
@@ -35,8 +42,8 @@ const LoginPage = () => {
                             <span className="text-gray-700">Username</span>
                             <input type='text' 
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            onChange={(e) => setUserName(e.target.value)}
-                            value={userName}
+                            onChange={(e) => setUsername(e.target.value)}
+                            value={username}
                             ></input>
                         </div>
 
