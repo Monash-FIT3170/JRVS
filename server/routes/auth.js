@@ -58,4 +58,10 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.post('/current', async (req, res) => {
+  const {token} = req.body;
+  const decoded = jwt.verify(token, 'your_jwt_secret');
+  res.json({ decoded });
+})
+
 module.exports = router;

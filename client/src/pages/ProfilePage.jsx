@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 import { useApi } from '../context/ApiProvider';
 
 const ProfilePage = () => {
-  const { getData } = useApi();
+  const { getData, postData } = useApi();
   const [data, setData] = useState(undefined);
   const [isBadgeLoading, setIsBadgeLoading] = useState(true);
   const [user, setUser] = useState({ username: '', points: 0 });
@@ -26,8 +26,10 @@ const ProfilePage = () => {
     };
     const fetchUser = async () => {
       try {
-        const username = 'testuser'; 
-        const userData = await getData(`api/users/${username}`);
+        const token = localStorage.getItem('token');
+        const res = await postData('api/auth/current', {token});
+        const userData = await getData(`api/users/id/${res.decoded.id}`);
+        console.log(userData);
         setUser({ username: userData.username, points: userData.points });
         setIsUserLoading(false);
       } catch (error) {
@@ -39,10 +41,9 @@ const ProfilePage = () => {
     fetchUser();
 
   }, [getData])
-
   return (
     <div>
-      <MenuBar />
+      <MenuBar coins={user.points}/>
       <div className='ml-48'>
         <Grid container spacing={2}>
           <Grid xs={12} style={{ padding: '40px'}}>

@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 // controllers/userController.js
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
@@ -39,9 +41,18 @@ const updatePoints = asyncHandler(async (req, res) => {
 });
 
 // Fetch specific user data
-const getUser = asyncHandler(async (req, res) => {
+const getUserByUsername = asyncHandler(async (req, res) => {
     const { username } = req.params;
     const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+});
+
+const getUserById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById( id );
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
@@ -51,5 +62,6 @@ const getUser = asyncHandler(async (req, res) => {
 module.exports = {
     createUser,
     updatePoints,
-    getUser
+    getUserByUsername,
+    getUserById
 };

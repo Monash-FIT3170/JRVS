@@ -4,13 +4,9 @@ import { IconButton } from "@mui/material";
 import FaceIcon from '@mui/icons-material/Face';
 import SchoolIcon from '@mui/icons-material/School';
 
-const MenuBar = ({title, subtitle}) => {
+function MenuBar ({coins, title, subtitle}) {
     title = title ? title : "";
     subtitle = subtitle ? subtitle : "";
-
-    //TODO: fetch coins here
-    const coins = 1000;
-
     return (
         <Grid container spacing={2} columns={22} style={{ padding: '30px 80px 20px 60px', backgroundColor: '#3CA3EE'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
