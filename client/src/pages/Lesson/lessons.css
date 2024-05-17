@@ -7,6 +7,14 @@ body {
     margin: 0;
 }
 
+.title-font {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: x-large;
+    color: white;
+}
+
 .saira-font-container { 
     font-family: "Saira", sans-serif;
     font-style: normal;

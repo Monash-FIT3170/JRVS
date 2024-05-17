@@ -14,6 +14,8 @@ const ProfilePage = () => {
   const { getData } = useApi();
   const [data, setData] = useState(undefined);
   const [isBadgeLoading, setIsBadgeLoading] = useState(true);
+  const [user, setUser] = useState({ username: '', points: 0 });
+  const [isUserLoading, setIsUserLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +27,20 @@ const ProfilePage = () => {
         console.log(error);
       }
     };
+    const fetchUser = async () => {
+      try {
+        const username = 'testuser'; 
+        const userData = await getData(`api/users/${username}`);
+        setUser({ username: userData.username, points: userData.points });
+        setIsUserLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsUserLoading(true);
+      }
+    };
     fetchData();
+    fetchUser();
+
   }, [getData])
 
   return (
