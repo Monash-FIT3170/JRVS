@@ -1,58 +1,29 @@
 import React, { useState } from 'react'
 import avatar from '../assets/images/Avatar.png';
 import { useApi } from '../context/ApiProvider';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const RegistrationPage = () => {
     // Create the hooks for the different inputs
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [userName, setUserName] = useState('')
+    const [firstname, setFirstname] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [school, setSchool] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate();
 
     const {postData} = useApi();
 
-
-    const handleSubmit = async (e) =>{
-        // stop site from reloading
-        e.preventDefault()
-
-        // create user object to post
-        const user = {username: userName, firstname: firstName, lastname: lastName, email: email, school: school, password: password}
-
-
-        // call a fetch to POST the user
-        const response = await fetch('http://localhost:5000/api/users', {
-            method: 'POST',
-            body: JSON.stringify(user),
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            }
-        })
-
-    
-
-        // receive json
-        const json = await response.json()
-
-        // error check
-        if(!response.ok){
-            console.log(json.error)
-        }
-
-        // if response ok then console log user added
-        if(response.ok){
-            setUserName('')
-            setFirstName('')
-            setLastName('')
-            setEmail('')
-            setSchool('')
-            setPassword('')
-            console.log('new user added', json)
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          const res = await postData('api/auth/register', {username, firstname, lastname, email, school, password});
+          console.log(res);
+          navigate('/login');
+        } catch (error) {
+          console.error('Registration failed', error);
         }
     }
 
@@ -88,16 +59,16 @@ const RegistrationPage = () => {
                                 <span class="text-gray-700 mr">First name</span>
                                 <input type='text' 
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={(e) => setFirstName(e.target.value)}
-                                value={firstName}
+                                onChange={(e) => setFirstname(e.target.value)}
+                                value={firstname}
                                 ></input>
                             </label>
                             <label>
                                 <span class="text-gray-700">Last name</span>
                                 <input type='text' 
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={(e) => setLastName(e.target.value)}
-                                value={lastName}
+                                onChange={(e) => setLastname(e.target.value)}
+                                value={lastname}
                                 ></input>
                             </label>
                         </div>   
@@ -106,8 +77,8 @@ const RegistrationPage = () => {
                             <span class="text-gray-700">Username</span>
                             <input type='text' 
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            onChange={(e) => setUserName(e.target.value)}
-                            value={userName}
+                            onChange={(e) => setUsername(e.target.value)}
+                            value={username}
                             ></input>
                         </label>
                         
@@ -123,7 +94,7 @@ const RegistrationPage = () => {
 
                         <label class="block">
                             <span class="text-gray-700">School</span>
-                            <input type="search" 
+                            <input type="text" 
                             class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             onChange={(e) => setSchool(e.target.value)}
                             value={school}
@@ -132,7 +103,7 @@ const RegistrationPage = () => {
 
                         <label class="block">
                             <span class="text-gray-700">Password</span>
-                            <input type='text' 
+                            <input type='password' 
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             onChange={(e)=> setPassword(e.target.value)}
                             value={password}

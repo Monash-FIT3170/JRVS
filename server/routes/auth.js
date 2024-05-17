@@ -6,13 +6,39 @@ const router = express.Router();
 
 // Register route
 router.post('/register', async (req, res) => {
-  const { username, password } = req.body;
+  if (!req.body.username) {
+    return res.status(400).json({ error: "Please provide a username" });
+  }
+
+  if (!req.body.firstname) {
+    return res.status(400).json({ error: "Please provide a firstname" });
+  }
+
+  if (!req.body.lastname) {
+    return res.status(400).json({ error: "Please provide a lastname" });
+  }
+
+  if (!req.body.email) {
+    return res.status(400).json({ error: "Please provide an email" });
+  }
+
+  if (!req.body.school) {
+    return res.status(400).json({ error: "Please provide a school" });
+  }
+
+  if (!req.body.password) {
+    return res.status(400).json({ error: "Please provide a password" });
+  }
+
+  const { username, firstname, lastname, email, school, password} = req.body;
+
   try {
-    const user = new User({ username, password });
+    const user = new User({ username, firstname, lastname, email, school, password, points: 0});
     await user.save();
-    res.status(201).send('User created');
+    res.status(201).json({message: 'User created'});
   } catch (error) {
-    res.status(400).send('Error creating user');
+    console.log(error)
+    res.status(400).json({message: 'Error creating user'});
   }
 });
 
