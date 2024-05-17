@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Mascot from '../assets/images/Mascot.png';
-import Logo from '../assets/images/Logo.png';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useApi } from '../context/ApiProvider';
 
 
@@ -20,24 +20,15 @@ const LoginPage = () => {
 
 
     return (
-        <div className='flex'>
-            {/* Left Blue Panel */}
-            <div className="h-screen bg-ai-blue w-96 mr-24"></div>
-
-            {/* Avatar Middle Panel */}
-            <div className='h-screen place-content-evenly mr-48'>
-                {/* Avatar */}
-                <div>
-                    <img src={Mascot} alt='mascot picture'></img></div>
-            </div>
-
-            {/* Form */}
-            <form className='create' onSubmit={handleSubmit}>
-                <div className='h-screen place-content-evenly ml-24'>
-                    <img src={Logo} alt='Logo Icon'></img>
-
-                    {/* Create the grid layout */}
-                    <div className="grid grid-cols-1 gap-6">
+        <Grid container spacing={2} className="relative h-screen">
+            <Grid xs={3}>
+                {/* Left Blue Panel */}
+                <div className="h-full w-full bg-ai-blue"></div>
+            </Grid>
+            <Grid xs={9} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                {/* Form */}
+                <form className="p-5 flex flex-col items-center justify-center space-y-4" onSubmit={handleSubmit}>
+                        <h1 className='russo-one-regular text-7xl text-ai-blue'>JRVS</h1>
 
                         <label className="block">
                             <span className="text-gray-700">Username</span>
@@ -62,10 +53,16 @@ const LoginPage = () => {
                                 Login
                             </button>                    
                         </label>
-                    </div>
+                </form>
+            </Grid>
+            {/* Avatar Middle Panel */}
+            <div className='absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2'>
+                {/* Avatar */}
+                <div>
+                    <img src={Mascot} alt='mascot picture' className="w-0 sm:w-24 md:w-48 lg:w-64 xl:w-80"/>
                 </div>
-            </form>
-        </div>
+            </div>
+        </Grid>
         
     )
 }
