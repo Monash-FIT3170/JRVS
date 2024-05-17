@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect} from 'react';
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -10,6 +10,7 @@ import silverbox from '../../assets/images/box_2.png';
 import goldbox from '../../assets/images/box_3.png';
 import { Avatars, Borders, Backgrounds, avatarImageList, borderImageList, backgroundImageList } from "./TileCreator";
 import { Application } from '@splinetool/runtime';
+import { useApi } from '../../context/ApiProvider';
 
 var canvas = document.createElement("canvas");
 var spline = null;
@@ -66,22 +67,49 @@ function startOverlay(box_id, image, rarity, new_item){
     }, 13000);
 }
 
-function fetchUnlocked(){
-  return {avatars: ['_default.png'], borders: ['_default.png'], backgrounds: ['_default.png']};
-}
-const unlocks = fetchUnlocked();
-function saveUnlocked(avatars, borders, backgrounds){
-  return;
-}
-
 export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, setBorder, currentAvatar, currentBackground, currentBorder}) {
-  const [value, setValue] = React.useState(0);
-  const [unlockedAvatars, setUnlockAvater] = React.useState(unlocks.avatars);
-  const [unlockedBorders, setUnlockBorder] = React.useState(unlocks.borders);
-  const [unlockedBackgrounds, setUnlockBackground] = React.useState(unlocks.backgrounds);
+  const { getData, postData } = useApi();
+  const [value, setValue] = useState(0);
+  const [unlockedAvatars, setUnlockAvater] = useState(['_default.png']);
+  const [unlockedBorders, setUnlockBorder] = useState(['_default.png']);
+  const [unlockedBackgrounds, setUnlockBackground] = useState(['_default.png']);
+  const [username, setUsername] = useState('Loading');
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await postData('api/auth/current', {token});
+        const userData = await getData(`api/users/id/${res.decoded.id}`);
+        setUsername(userData.username);
+        if(userData.unlockedAvatars.length!==0){
+          setUnlockAvater(userData.unlockedAvatars);
+          setUnlockBorder(userData.unlockedBorders);
+          setUnlockBackground(userData.unlockedBackgrounds);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, [])
+
+  useEffect(() => {
+    async function saveAvatar() {
+      try {
+        if (username != 'Loading') {
+          await postData('api/users/updateUnlocked', {username, unlockedAvatars, unlockedBorders, unlockedBackgrounds});
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    saveAvatar();
+  }, [unlockedAvatars, unlockedBorders, unlockedBackgrounds])
+
+
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   }
@@ -97,27 +125,30 @@ export default function BasicTabs({coins, spendCoins, setAvatar, setBackground, 
           if (unlockables.length!==0){
             const num2 = getRandomInt(0,unlockables.length);
             new_item = unlockables[num2];
-            setUnlockAvater(prev => prev + [new_item.name]);
+            setUnlockAvater(prev => prev.concat([new_item.name]));
           }
         } else if (num===1){
           const unlockables = borderImageList.filter(image => !unlockedBorders.includes(image.name));
           if (unlockables.length!==0){
             const num2 = getRandomInt(0,unlockables.length);
             new_item = unlockables[num2];
-            setUnlockBorder(prev => prev + [new_item.name]);
+            setUnlockBorder(prev => prev.concat([new_item.name]));
           };
         } else {
           const unlockables = backgroundImageList.filter(image => !unlockedBackgrounds.includes(image.name));
           if (unlockables.length!==0){
             const num2 = getRandomInt(0,unlockables.length);
             new_item = unlockables[num2];
-            setUnlockBackground(prev => prev + [new_item.name]);
+            setUnlockBackground(prev => prev.concat([new_item.name]));
           }
         }
         tries++;
       }
-      startOverlay(id, image, rarity, new_item.source);
-      spend(cost);
+      if (tries !== 10){
+        startOverlay(id, image, rarity, new_item.source);
+        spend(cost);
+      }
+      
     }
   }
   function LootBox({id, name, image, cost}){

@@ -33,8 +33,8 @@ export default function CustomizePage () {
   async function saveAvatar() {
     try {
       if (username != 'Loading') {
-        console.log(username);
         await postData('api/users/updateAvatar', {username, avatar, border, background});
+        //TODO route back to profile page
       }
     } catch (error) {
       console.log(error);
@@ -80,9 +80,7 @@ export default function CustomizePage () {
         <Grid container spacing={2} columns={15}>
             <Grid xs={5} ></Grid>
             <Grid xs={2} style={{ padding: '15px', border: '2px solid #2196f3', backgroundColor: '#27CA40', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => saveAvatar()}>
-                
-                    <p className='russo-one-regular text-4xl'>Save</p>
-                
+                <p className='russo-one-regular text-4xl'>Save</p>
             </Grid>
             <Grid xs={1} ></Grid>
             <Grid xs={2} style={{ padding: '15px', border: '2px solid #2196f3', backgroundColor: '#DF4E4E', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>

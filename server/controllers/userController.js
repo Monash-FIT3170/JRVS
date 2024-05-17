@@ -71,10 +71,27 @@ const updateAvatar = asyncHandler(async (req, res) => {
     await user.save();
 });
 
+const updateUnlocked = asyncHandler(async (req, res) => {
+    const { username, unlockedAvatars, unlockedBorders, unlockedBackgrounds } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+    const avatarSet = new Set([...unlockedAvatars, ...user.unlockedAvatars]);
+    user.unlockedAvatars = [...avatarSet];
+    const borderSet = new Set([...unlockedBorders, ...user.unlockedBorders]);
+    user.unlockedBorders = [...borderSet];
+    const backgroundSet = new Set([...unlockedBackgrounds, ...user.unlockedBackgrounds]);
+    user.unlockedBackgrounds = [...backgroundSet];
+    await user.save();
+});
+
+
 module.exports = {
     createUser,
     updatePoints,
     getUserByUsername,
     getUserById,
-    updateAvatar
+    updateAvatar,
+    updateUnlocked
 };
