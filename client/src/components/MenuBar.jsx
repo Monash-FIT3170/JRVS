@@ -12,7 +12,7 @@ const MenuBar = ({title, subtitle}) => {
     const coins = 1000;
 
     return (
-        <Grid container spacing={2} columns={22} style={{ padding: '30px 80px 20px 60px', backgroundColor: '#3CA3EE'}}>
+        <Grid container spacing={2} columns={22} style={{ padding: '30px 30px 20px 60px', backgroundColor: '#3CA3EE'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
                 <p className='russo-one-regular text-5xl text-white'>JRVS</p>
             </Grid>
