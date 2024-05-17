@@ -6,6 +6,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import Quizzes from './pages/Quiz/quizzes';
 import LearningPathPage from './pages/LearningPathPage';
+import UnitsPage from './pages/UnitsPage';
 
 const App = () =>  {
   return (
@@ -14,8 +15,10 @@ const App = () =>  {
         <Route path="/" element={<HomePage />} />
         <Route path="/lesson" element={<Lessons/>} />
         <Route path="/learningPath" element={<LearningPathPage/>} />
+        <Route path="/lesson/:lessonId" element={<Lessons/>} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/quiz" element={<Quizzes/>} />
+        <Route path="/units" element={<UnitsPage/>} />
         <Route element={<NotFoundPage />} />
       </Routes>
     </Router>

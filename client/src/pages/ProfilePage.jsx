@@ -10,6 +10,8 @@ const ProfilePage = () => {
   const { getData } = useApi();
   const [data, setData] = useState(undefined);
   const [isBadgeLoading, setIsBadgeLoading] = useState(true);
+  const [user, setUser] = useState({ username: '', points: 0 });
+  const [isUserLoading, setIsUserLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +23,20 @@ const ProfilePage = () => {
         console.log(error);
       }
     };
+    const fetchUser = async () => {
+      try {
+        const username = 'testuser'; 
+        const userData = await getData(`api/users/${username}`);
+        setUser({ username: userData.username, points: userData.points });
+        setIsUserLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsUserLoading(true);
+      }
+    };
     fetchData();
+    fetchUser();
+
   }, [getData])
 
   return (
@@ -40,11 +55,12 @@ const ProfilePage = () => {
               <h2 className='russo-one-regular text-3xl'>customize avatar</h2>
             </div>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
-              <h2 className='russo-one-regular text-4xl'>@Username</h2>
+              <h2 className='russo-one-regular text-4xl'>{'@'+user.username}</h2>
             </div>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
-              <h2 className='russo-one-regular text-4xl'>7492</h2>
+              <h2 className='russo-one-regular text-4xl'>{isUserLoading ? 'Loading...' : user.points}</h2>
             </div>
+            
           </Grid>
           <Grid xs={8} style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
