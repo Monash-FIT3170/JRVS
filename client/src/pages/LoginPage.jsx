@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Mascot from '../assets/images/Mascot.png';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useApi } from '../context/ApiProvider';
+import { Link } from 'react-router-dom';
 
 
 
@@ -20,7 +21,7 @@ const LoginPage = () => {
 
 
     return (
-        <Grid container spacing={2} className="relative h-screen">
+        <Grid container className="relative h-screen">
             <Grid xs={3}>
                 {/* Left Blue Panel */}
                 <div className="h-full w-full bg-ai-blue"></div>
@@ -30,29 +31,31 @@ const LoginPage = () => {
                 <form className="p-5 flex flex-col items-center justify-center space-y-4" onSubmit={handleSubmit}>
                         <h1 className='russo-one-regular text-7xl text-ai-blue'>JRVS</h1>
 
-                        <label className="block">
+                        <div>
                             <span className="text-gray-700">Username</span>
                             <input type='text' 
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             onChange={(e) => setUserName(e.target.value)}
                             value={userName}
                             ></input>
-                        </label>
+                        </div>
 
-                        <label className="block">
+                        <div>
                             <span className="text-gray-700">Password</span>
                             <input type='text' 
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             onChange={(e)=> setPassword(e.target.value)}
                             value={password}
                             ></input>
-                        </label>
+                        </div>
 
-                        <label className="block">
+                        <div>
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                                 Login
                             </button>                    
-                        </label>
+                        </div>
+
+                        <p>Don’t have an account? <Link to="/register" className="text-blue-500 hover:text-blue-700">Sign Up</Link></p>
                 </form>
             </Grid>
             {/* Avatar Middle Panel */}
