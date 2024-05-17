@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import LeftSidebar from '../components/LeftSidebar';
 import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
 import avatar from '../assets/images/Avatar.png';

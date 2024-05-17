@@ -1,8 +1,11 @@
-const express = require('express')
-const router = express.Router()
-const {getUsers, postUsers} = require('../controllers/userController')
+const express = require('express');
+const router = express.Router();
+const { createUser, updatePoints, getUser } = require('../controllers/userController');
 
-router.route('/').get(getUsers).post(postUsers)
+// Route to update user points
+router.post('/', createUser)
+router.post('/updatePoints', updatePoints); 
+router.get('/:username', getUser)
 
 
-module.exports = router
+module.exports = router;

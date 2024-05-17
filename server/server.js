@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/api/auth', authRoutes);
 app.use('/api/goals', require('./routes/goalRoutes'))
 app.use('/api/badges', require('./routes/badgeRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/quizzes', require('./routes/quizRoutes'))
 app.use('/api/lessons', require('./routes/lessonRoutes'))
 app.use('/api/users', require('./routes/userRoutes'))

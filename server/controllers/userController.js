@@ -1,60 +1,55 @@
-const asyncHandler = require('express-async-handler')
+// controllers/userController.js
+const asyncHandler = require('express-async-handler');
+const User = require('../models/userModel');
 
-const User = require('../models/userModel')
+// Create a new user
+const createUser = asyncHandler(async (req, res) => {
+    const { username } = req.body;
 
-// @desc    Get user
-// @route   GET /api/users
-// @access  Private
-const getUsers = asyncHandler(async(req, res) => {
-    const users = await User.find()
+    // Check if the user already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+        return res.status(400).json({ message: 'User already exists' });
+    }
 
-    res.status(200).json(users) 
-})
+    // Create new user with given username and default points
+    const user = await User.create({ username });
 
-// @desc    Set user
-// @route   POST /api/users
-// @access  Private
-const postUsers = asyncHandler(async(req,res) => {
-    if(!req.body.username){
-        res.status(400)
-        throw new Error("please add a username field")
-    }
-    if(!req.body.firstname){
-        res.status(400)
-        throw new Error("please add a firstname field")
-    }
-    if(!req.body.lastname){
-        res.status(400)
-        throw new Error("please add a lastname field")
-    }
-    if(!req.body.email){
-        res.status(400)
-        throw new Error("please add an email field")
-    }
-    if(!req.body.school){
-        res.status(400)
-        throw new Error("please add a school field")
-    }
-    if(!req.body.password){
-        res.status(400)
-        throw new Error("please add a password field")
-    }
-    
-    // Create the new user
-    const user = await User.create({
-        username: req.body.username,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        school: req.body.school,
-        password: req.body.password,
-        points: 0
-    })
+    res.status(201).json(user);
+});
 
-    res.status(200).json(user)  
-})
+// Update user points
+const updatePoints = asyncHandler(async (req, res) => {
+    const { username } = req.body;
+
+    // Find user and update their points
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    user.points += 100;  // Increase points by 100
+    await user.save();
+
+    res.status(200).json({
+        message: "Points updated successfully",
+        username: user.username,
+        points: user.points
+    });
+});
+
+// Fetch specific user data
+const getUser = asyncHandler(async (req, res) => {
+    const { username } = req.params;
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+});
 
 module.exports = {
-    getUsers,
-    postUsers
-}
+    createUser,
+    updatePoints,
+    getUser
+};
