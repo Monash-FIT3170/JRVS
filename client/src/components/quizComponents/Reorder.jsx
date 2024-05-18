@@ -8,11 +8,11 @@ import {
 } from '@mui/material';
 import StyledBox from "./StyledBox";
 
+
 //uses react-smooth-dnd
 export default function Reorder({ question, index, setSelection, userValues }) {
-
+    
     let order = userValues[question.questionText] || question.options
-
     //We can set the selection first before we do anything just in case
     const onDrop = ({ removedIndex, addedIndex }) => {
         //We remove the item with splice, then add the item back to the new index

@@ -33,6 +33,7 @@ export default function Submitted({ score, totalScore }) {
                     alignItems: 'center',
                     pt: 2,
                     pb: 4,
+                    mt:5,
                     display: 'flex',
                     flexDirection: 'column',
                 }}>

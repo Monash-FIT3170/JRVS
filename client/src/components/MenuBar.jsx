@@ -8,7 +8,7 @@ function MenuBar ({coins, title, subtitle}) {
     title = title ? title : "";
     subtitle = subtitle ? subtitle : "";
     return (
-        <Grid container spacing={2} columns={22} style={{ padding: '30px 80px 20px 60px'}}>
+        <Grid container spacing={2} columns={22} style={{ padding: '30px 80px 20px 60px', backgroundColor: '#3CA3EE'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
                 <p className='russo-one-regular text-5xl text-white'>JRVS</p>
             </Grid>
@@ -30,12 +30,12 @@ function MenuBar ({coins, title, subtitle}) {
             <Grid xs={1}></Grid>
             <Grid xs={20}>
                 <Grid xs={22}>
-                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '50px' ,fontWeight: '700' }}>
+                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '50px' ,fontWeight: '700', color: 'white' }}>
                     {title}
                 </p>
                 </Grid>
                 <Grid xs={22}>
-                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '30px' ,fontWeight: '400' }}>
+                <p style={{ textAlign: 'center', font: 'Roboto', fontSize: '30px' ,fontWeight: '400', color: 'white' }}>
                     {subtitle}
                 </p>
                 </Grid>

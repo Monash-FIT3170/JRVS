@@ -8,6 +8,7 @@ import Submitted from "../../components/quizComponents/Submitted.jsx";
 import MenuBar from "../../components/MenuBar.jsx";
 import ActionButton from "../../components/quizComponents/ActionButton.jsx";
 import Reorder from "../../components/quizComponents/Reorder.jsx";
+import ImageQuiz from "../../components/quizComponents/ImageQuiz.jsx";
 
 import { useApi } from '../../context/ApiProvider.jsx';
 
@@ -48,6 +49,7 @@ function Quizzes() {
     };
 
     const submitForm = () => {
+        console.log(userValues)
         let correctCount = 0;
         questions.forEach(question => {
 
@@ -97,12 +99,10 @@ function Quizzes() {
     };
 
 
-
     const renderQuestion = () => {
         if (isSubmitted) {
             return <Submitted score={userScore} totalScore={totalScore} />; // Render the Submitted component after submission
         }
-
 
         else if (questions) {
             if (questions[currentIndex].type === 'MultipleChoice') {
@@ -120,6 +120,10 @@ function Quizzes() {
                 
                 return <Reorder question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
             }
+            else if (questions[currentIndex].type === 'ImageQuiz') {
+                
+                return <ImageQuiz question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
+            }
             else {
                 return null;
             }
@@ -131,21 +135,22 @@ function Quizzes() {
         <Box sx={{
             width: '100vw',
             height: '100vh',
-
+            backgroundColor: '#3CA3EE',
+            overflow: 'auto'
         }}
         >
-            <MenuBar />
-            <Grid container direction="column" alignItems="center">
-                <Box>
+            <MenuBar  />
+            <Grid container direction="column" alignItems="center" sx={{backgroundColor: '#3CA3EE'}}>
+                <Box> 
                     <Typography sx={{ display: "block", color: 'white', fontSize: '40px', lineHeight: '30px', fontWeight: 700, pl: 6 }}>Quiz</Typography>
-                    <Typography sx={{ fontFamily: "sans-serif", display: "inline", color: 'white', fontSize: '30px', fontWeight: 100, pl: 6 }}>Do you know what AI is?</Typography>
+                    <Typography sx={{ fontFamily: "sans-serif", display: "inline", color: 'white', fontSize: '30px', fontWeight: 100, pl: 6}}>{quizzes.topic}</Typography>
 
                     {renderQuestion()}
                 </Box>
 
             </Grid>
 
-            {/*THE BUTTONS FIX to be neater instead of harcoding them */}
+            
             <Box sx={{
                 position: 'fixed',
                 bottom: 0,
@@ -154,7 +159,9 @@ function Quizzes() {
                 justifyContent: currentIndex > 0 ? 'space-between' : 'flex-end',
                 paddingBottom: '60px',
                 paddingLeft: '60px',
-                paddingRight: '60px'
+                paddingRight: '60px',
+             
+                
             }}>
                 {isSubmitted === false && currentIndex > 0 && (<ActionButton onClick={handlePrevClick}>Back</ActionButton>)}
                 {isSubmitted === false && questions && currentIndex === questions.length - 1 ? (<ActionButton onClick={submitForm}>Submit</ActionButton>)
