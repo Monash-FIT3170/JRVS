@@ -34,7 +34,6 @@ export default function CustomizePage () {
     try {
       if (username != 'Loading') {
         await postData('api/users/updateAvatar', {username, avatar, border, background});
-        //TODO route back to profile page
       }
     } catch (error) {
       console.log(error);

@@ -27,7 +27,7 @@ function BadgeContainer(badges) {
             {badges.badges.map((badge, index) => (
               <div key={index} className="flex flex-col items-center">
                 <img
-                  className="w-[200px] p-2 cursor-pointer hover:scale-105 ease-in-out duration-300"
+                  className="h-[200px] p-2 cursor-pointer hover:scale-105 ease-in-out duration-300"
                   src={getBadgeImage(badge.imagePath)}
                   alt="/"
                 />
