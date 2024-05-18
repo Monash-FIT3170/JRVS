@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import MultipleChoice from "../../components/quizComponents/MutipleChoice.jsx";
 import TrueFalse from "../../components/quizComponents/TrueFalse.jsx";
 import ShortAnswer from "../../components/quizComponents/ShortAnswer.jsx";
@@ -15,7 +16,7 @@ function Quizzes() {
     const { getData } = useApi();
     const [quizzes, setQuiz] = useState([]);
 
-    const quizId = '664195feb8f2d148bfc3ea5c' // would need to get quizzes id from path map node
+    const { quizId }  = useParams();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userValues, setUserValues] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -34,7 +35,7 @@ function Quizzes() {
             }
         };
         fetchData();
-    }, [getData])
+    }, [getData, quizId])
 
     let questions = quizzes.questions
     
