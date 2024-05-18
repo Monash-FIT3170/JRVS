@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 // controllers/userController.js
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
@@ -20,15 +22,14 @@ const createUser = asyncHandler(async (req, res) => {
 
 // Update user points
 const updatePoints = asyncHandler(async (req, res) => {
-    const { username } = req.body;
-
+    const { username, newCoins } = req.body;
     // Find user and update their points
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
 
-    user.points += 100;  // Increase points by 100
+    user.points = newCoins;
     await user.save();
 
     res.status(200).json({
@@ -39,7 +40,7 @@ const updatePoints = asyncHandler(async (req, res) => {
 });
 
 // Fetch specific user data
-const getUser = asyncHandler(async (req, res) => {
+const getUserByUsername = asyncHandler(async (req, res) => {
     const { username } = req.params;
     const user = await User.findOne({ username });
     if (!user) {
@@ -48,8 +49,49 @@ const getUser = asyncHandler(async (req, res) => {
     res.json(user);
 });
 
+const getUserById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById( id );
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+});
+
+const updateAvatar = asyncHandler(async (req, res) => {
+    const { username, avatar, border, background } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    user.avatar = avatar;
+    user.border = border;
+    user.background = background;
+    await user.save();
+});
+
+const updateUnlocked = asyncHandler(async (req, res) => {
+    const { username, unlockedAvatars, unlockedBorders, unlockedBackgrounds } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+    const avatarSet = new Set([...unlockedAvatars, ...user.unlockedAvatars]);
+    user.unlockedAvatars = [...avatarSet];
+    const borderSet = new Set([...unlockedBorders, ...user.unlockedBorders]);
+    user.unlockedBorders = [...borderSet];
+    const backgroundSet = new Set([...unlockedBackgrounds, ...user.unlockedBackgrounds]);
+    user.unlockedBackgrounds = [...backgroundSet];
+    await user.save();
+});
+
+
 module.exports = {
     createUser,
     updatePoints,
-    getUser
+    getUserByUsername,
+    getUserById,
+    updateAvatar,
+    updateUnlocked
 };

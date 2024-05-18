@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import Lessons from './pages/Lesson/lessons';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
+import CustomizePage from './pages/CustomizePage';
 import Quizzes from './pages/Quiz/quizzes';
 import UnitsPage from './pages/UnitsPage';
 import RegistrationPage from './pages/RegistrationPage';
@@ -22,6 +23,9 @@ const App = () =>  {
         </Route>
         <Route exact path="/profile" element={<ProtectedRoute/>}>
           <Route exact path="/profile" element={<ProfilePage />}/>
+        </Route>
+        <Route exact path="/customize" element={<ProtectedRoute/>}>
+          <Route exact path="/customize" element={<CustomizePage />}/>
         </Route>
         <Route exact path="/quiz" element={<ProtectedRoute/>}>
           <Route exact path="/quiz" element={<Quizzes/>}/>
