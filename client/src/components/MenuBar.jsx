@@ -3,10 +3,34 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { IconButton } from "@mui/material";
 import FaceIcon from '@mui/icons-material/Face';
 import SchoolIcon from '@mui/icons-material/School';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import Logout from '@mui/icons-material/Logout';
 
 const MenuBar = ({coins, title, subtitle}) => {
     title = title ? title : "";
     subtitle = subtitle ? subtitle : "";
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        window.location.href = "/profile";
+    };
+
+    const handleLogout = () => {
+        setAnchorEl(null);
+        localStorage.removeItem('token');
+        window.location.href = "/login";
+    }
+
     return (
         <Grid container spacing={2} columns={22} style={{ padding: '30px 30px 20px 60px', backgroundColor: '#3CA3EE'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
@@ -21,10 +45,33 @@ const MenuBar = ({coins, title, subtitle}) => {
                 <IconButton href="/" aria-label="school" style={{ color: "white", fontSize: "40px" }}>
                     <SchoolIcon fontSize="inherit" />
                 </IconButton>
+                <React.Fragment>
+                    <IconButton onClick={handleClick} aria-label="face" style={{ color: "white", fontSize: "40px" }}>
+                        <FaceIcon fontSize="inherit" />
+                    </IconButton>
 
-                <IconButton href="/profile" aria-label="face" style={{ color: "white", fontSize: "40px" }}>
-                    <FaceIcon fontSize="inherit" />
-                </IconButton>
+                    <Menu
+                        anchorEl={anchorEl}
+                        id="account-menu"
+                        open={open}
+                        onClose={handleClose}
+                        onClick={handleClose}
+                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    >
+                        <MenuItem onClick={handleClose}>
+                            My Profile
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={handleLogout}>
+                            <ListItemIcon>
+                                <Logout fontSize="small" />
+                            </ListItemIcon>
+                            Logout
+                        </MenuItem>
+                    </Menu>
+                </React.Fragment>
+                
             </Grid>
 
             <Grid xs={1}></Grid>
