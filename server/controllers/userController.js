@@ -1,41 +1,67 @@
-// controllers/userController.js
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const crypto = require('crypto');
+
+
+//functions for encryption and decryption
+const encrypt = (text) => {
+    const key = process.env.ENCRYPTION_KEY;
+    const iv = process.env.ENCRYPTION_IV;
+    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), Buffer.from(iv));
+    let encrypted = cipher.update(text.toString()); // Ensure text is a string
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    return encrypted.toString('hex');
+};
+
+const decrypt = (text) => {
+    const key = process.env.ENCRYPTION_KEY;
+    const iv = process.env.ENCRYPTION_IV;
+    const encryptedText = Buffer.from(text, 'hex');
+    const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), Buffer.from(iv));
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString();
+};
 
 // Create a new user
 const createUser = asyncHandler(async (req, res) => {
     const { username } = req.body;
-
-    // Check if the user already exists
     const existingUser = await User.findOne({ username });
+
     if (existingUser) {
         return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Create new user with given username and default points
-    const user = await User.create({ username });
+    // Encrypt initial points (0)
+    const encryptedPoints = encrypt('0');
 
+    const user = await User.create({ username, points: encryptedPoints });
     res.status(201).json(user);
 });
 
 // Update user points
 const updatePoints = asyncHandler(async (req, res) => {
-    console.log(req.body); // Check what data is being received
+    console.log('Request Body:', req.body);
     const { username } = req.body;
 
-    // Find user and update their points
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
 
-    user.points += 100;  // Increase points by 100
+  
+
+    // Decrypt current points
+    let decryptedPoints = parseInt(decrypt(user.points), 10);
+    decryptedPoints += 100;  // Increase points by 100
+    user.points = encrypt(decryptedPoints.toString()); // Encrypt 
+
     await user.save();
 
     res.status(200).json({
         message: "Points updated successfully",
         username: user.username,
-        points: user.points
+        points: decryptedPoints  // Decrypt
     });
 });
 
@@ -43,10 +69,15 @@ const updatePoints = asyncHandler(async (req, res) => {
 const getUser = asyncHandler(async (req, res) => {
     const { username } = req.params;
     const user = await User.findOne({ username });
+
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
-    res.json(user);
+
+
+    const decryptedPoints = parseInt(decrypt(user.points), 10);
+
+    res.json({ ...user._doc, points: decryptedPoints });
 });
 
 module.exports = {

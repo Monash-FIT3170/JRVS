@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     points: {
-        type: Number,
+        type: String,
         default: 0 // Starting with 0 points
     },
     // badges: {

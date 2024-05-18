@@ -25,7 +25,7 @@ const ProfilePage = () => {
     };
     const fetchUser = async () => {
       try {
-        const username = 'testuser'; 
+        const username = 'testuser3'; 
         const userData = await getData(`api/users/${username}`);
         setUser({ username: userData.username, points: userData.points });
         setIsUserLoading(false);
