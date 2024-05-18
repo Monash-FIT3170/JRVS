@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BadgeContainer from '../components/BadgeDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
-import avatar from '../assets/images/Avatar.png';
 import MenuBar from '../components/MenuBar'
 import DefaultButton from '../components/DefaultButton';
 
@@ -61,7 +60,6 @@ const ProfilePage = () => {
           </div>
           <div style={{ border: '1px solid black', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
             <h2 className='russo-one-regular text-4xl'>@{user.username}</h2>
-            {/* TODO: link username  */}
           </div>
           <div style={{ border: '1px solid black', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
             <h2 className='russo-one-regular text-4xl'>{isUserLoading ? 'Loading...' : user.points} ⭐️</h2>
