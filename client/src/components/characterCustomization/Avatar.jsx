@@ -8,7 +8,7 @@ export default function Avatar({avatar, background, border}){
     const backgroundPath = backgrounds('./' + background);
     const borderPath = borders('./' + border);
     return (
-        <div style={{position: 'relative', padding: '0px', marginBottom: '20px',flexGrow: '1', width: '75%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' , backgroundColor: 'white', borderRadius: '20px'}}>
+        <div style={{position: 'relative', flexGrow: '1', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' , backgroundColor: 'white', borderRadius: '20px'}}>
                 <div data-name={avatar} id='userAvatar' style={{zIndex: '2', position: 'absolute', bottom: '45%', right: '50%', transform: 'translate(50%, 50%)', height: '70%', width: '70%'}}>
                 <img src={avatarPath} alt={'avatar'} style={{width: '100%'}}></img>
                 </div>

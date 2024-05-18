@@ -34,7 +34,6 @@ export default function CustomizePage () {
     try {
       if (username != 'Loading') {
         await postData('api/users/updateAvatar', {username, avatar, border, background});
-        //TODO route back to profile page
       }
     } catch (error) {
       console.log(error);
@@ -63,7 +62,9 @@ export default function CustomizePage () {
         <MenuBar coins={coins}/>
         <Grid container spacing={0} columns={24}>
           <Grid xs={8} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Avatar avatar={avatar} background={background} border={border}/>
+            <div style={{width: '75%', marginBottom: '20px'}}>
+              <Avatar avatar={avatar} background={background} border={border}/>
+            </div>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
               <p className='russo-one-regular text-4xl'>@{username}</p>
             </div>
@@ -80,7 +81,9 @@ export default function CustomizePage () {
         <Grid container spacing={2} columns={15}>
             <Grid xs={5} ></Grid>
             <Grid xs={2} style={{ padding: '15px', border: '2px solid #2196f3', backgroundColor: '#27CA40', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}} onClick={() => saveAvatar()}>
-                <p className='russo-one-regular text-4xl'>Save</p>
+                <Link to="/profile">
+                    <p className='russo-one-regular text-4xl'>Save</p>
+                </Link>
             </Grid>
             <Grid xs={1} ></Grid>
             <Grid xs={2} style={{ padding: '15px', border: '2px solid #2196f3', backgroundColor: '#DF4E4E', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
