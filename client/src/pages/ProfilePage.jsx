@@ -12,7 +12,7 @@ import { useApi } from '../context/ApiProvider';
 import Avatar from '../components/characterCustomization/Avatar';
 
 const ProfilePage = () => {
-  const { getData } = useApi();
+  const { getData, postData } = useApi();
   const [badges, setBadges] = useState(undefined);
   const [isBadgeLoading, setIsBadgeLoading] = useState(true);
   const [user, setUser] = useState({ username: '', points: 0 });
@@ -55,12 +55,11 @@ const ProfilePage = () => {
           <h2 style={{ color: 'white', font: 'Roboto', fontWeight: '700', fontSize: '60px' }}>Welcome User</h2>
         </Grid>
         <Grid xs={4} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-          <div style={{ border: '1px solid black', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
+          <div style={{ border: '1px solid black', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
             <Avatar avatar={avatar.avatar} background={avatar.background} border={avatar.border}/>
-            <DefaultButton href='/' text='Customise Avatar' />
-            {/* TODO: ADD LINK TO CUSTOMISE PAGE */}
+            <DefaultButton href='/customize' text='Customise Avatar' />
           </div>
-          <div style={{ border: '1px solid black', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
+          <div style={{ border: '1px solid black', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
             <h2 className='russo-one-regular text-4xl'>@{user.username}</h2>
             {/* TODO: link username  */}
           </div>
