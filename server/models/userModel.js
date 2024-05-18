@@ -30,7 +30,7 @@ const userSchema = mongoose.Schema(
             required: true,
         },
         points: {
-            type: Number,
+            type: String,
             required: true,
         },
         avatar: {

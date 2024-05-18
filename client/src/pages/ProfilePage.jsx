@@ -31,7 +31,7 @@ const ProfilePage = () => {
         const res = await postData('api/auth/current', {token});
         const userData = await getData(`api/users/id/${res.decoded.id}`);
         console.log(userData);
-        setUser({ username: userData.username, points: userData.points });
+        setUser({ username: userData.username, points: userData.points || 0 });
         setAvatar({avatar: userData.avatar, border: userData.border, background: userData.background})
         setIsUserLoading(false);
       } catch (error) {

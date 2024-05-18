@@ -3,59 +3,101 @@ const mongoose = require('mongoose')
 // controllers/userController.js
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const crypto = require('crypto');
+
+const encrypt = (text) => {
+    try {
+        const key = Buffer.from(process.env.ENCRYPTION_KEY); 
+        const iv = Buffer.from(process.env.ENCRYPTION_IV);   
+        const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+        let encrypted = cipher.update(text, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+        return encrypted;
+    } catch (error) {
+        console.error('Encryption error:', error);
+        throw new Error('Encryption failed');
+    }
+};
+
+const decrypt = (text) => {
+    if (!text || text.length <= 1) {
+        return null; // Handle this scenario appropriately
+    }
+    try {
+        const key = Buffer.from(process.env.ENCRYPTION_KEY);
+        const iv = Buffer.from(process.env.ENCRYPTION_IV);
+        const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+        let decrypted = decipher.update(text, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        return decrypted;
+    } catch (error) {
+        console.error('Decryption error:', error);
+        throw new Error('Decryption failed');
+    }
+};
 
 // Create a new user
 const createUser = asyncHandler(async (req, res) => {
     const { username } = req.body;
 
-    // Check if the user already exists
+   
     const existingUser = await User.findOne({ username });
     if (existingUser) {
         return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Create new user with given username and default points
-    const user = await User.create({ username });
+
+    // Encrypt initial points (0)
+    const initialPoints = '0';  
+    const encryptedPoints = encrypt(initialPoints);  // Encrypt the initial points
+
+    const user = await User.create({ username, points: encryptedPoints });
 
     res.status(201).json(user);
 });
 
+
 // Update user points
 const updatePoints = asyncHandler(async (req, res) => {
     const { username, newCoins } = req.body;
-    // Find user and update their points
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
 
-    user.points = newCoins;
+    const encryptedPoints = encrypt(newCoins.toString());
+    user.points = encryptedPoints;
     await user.save();
 
     res.status(200).json({
         message: "Points updated successfully",
         username: user.username,
-        points: user.points
+        points: decrypt(encryptedPoints)  
     });
 });
 
-// Fetch specific user data
+// Fetch specific user data by username
 const getUserByUsername = asyncHandler(async (req, res) => {
     const { username } = req.params;
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
-    res.json(user);
+
+    const decryptedPoints = decrypt(user.points);  
+    res.json({ ...user._doc, points: decryptedPoints });
 });
 
+// Fetch specific user data by ID
 const getUserById = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const user = await User.findById( id );
+    const user = await User.findById(id);
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
-    res.json(user);
+
+    const decryptedPoints = decrypt(user.points); 
+    res.json({ ...user._doc, points: decryptedPoints });
 });
 
 const updateAvatar = asyncHandler(async (req, res) => {
