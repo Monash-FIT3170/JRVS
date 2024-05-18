@@ -44,8 +44,12 @@ const MenuBar = ({title, subtitle}) => {
 
     const handleClose = () => {
         setAnchorEl(null);
-        window.location.href = "/profile";
     };
+
+    const handleProfile = () => {
+        setAnchorEl(null);
+        window.location.href = "/profile";
+    }
 
     const handleLogout = () => {
         setAnchorEl(null);
@@ -81,7 +85,7 @@ const MenuBar = ({title, subtitle}) => {
                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={handleProfile}>
                             My Profile
                         </MenuItem>
                         <Divider />
