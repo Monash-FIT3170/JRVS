@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import { useApi } from '../context/ApiProvider';
+
 import Grid from '@mui/material/Unstable_Grid2';
 import { IconButton } from "@mui/material";
 import FaceIcon from '@mui/icons-material/Face';
@@ -9,12 +11,32 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Logout from '@mui/icons-material/Logout';
 
-const MenuBar = ({coins, title, subtitle}) => {
+const MenuBar = ({title, subtitle}) => {
     title = title ? title : "";
     subtitle = subtitle ? subtitle : "";
 
+    const { getData, postData } = useApi();
+    const [user, setUser] = useState({ username: '', points: 0 });
+    const [isUserLoading, setIsUserLoading] = useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+  
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const res = await postData('api/auth/current', {token});
+          const userData = await getData(`api/users/id/${res.decoded.id}`);
+          console.log(userData);
+          setUser({ username: userData.username, points: userData.points || 0 });
+          setIsUserLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsUserLoading(true);
+        }
+      };
+      fetchUser();
+    }, [getData])
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -39,7 +61,7 @@ const MenuBar = ({coins, title, subtitle}) => {
             <Grid xs={15}></Grid>
             <Grid xs={5} style={{ color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ padding:'10px', backgroundColor: '#FFC700', borderRadius: '20px' }}>
-                    <p className='russo-one-regular text-4xl'>&nbsp;{coins} ⭐️&nbsp;</p>
+                    <p className='russo-one-regular text-4xl'>&nbsp;{user.points} ⭐️&nbsp;</p>
                 </div>
     
                 <IconButton href="/" aria-label="school" style={{ color: "white", fontSize: "40px" }}>

@@ -48,10 +48,10 @@ const ProfilePage = () => {
   }, [getData])
   return (
     <div className='App-page'>
-      <MenuBar coins={user.points}/>
+      <MenuBar />
       <Grid container spacing={2} style={{ padding: '0 30px 0 20px'}}>
         <Grid xs={12} style={{ padding: '0 0 10px 40px' }}>
-          <h2 style={{ color: 'white', font: 'Roboto', fontWeight: '700', fontSize: '60px' }}>Welcome User</h2>
+          <h2 style={{ color: 'white', font: 'Roboto', fontWeight: '700', fontSize: '60px' }}>MY PROFILE</h2>
         </Grid>
         <Grid xs={4} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{ border: '1px solid black', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
@@ -69,11 +69,7 @@ const ProfilePage = () => {
           <div style={{ border: '1px solid black', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
             <h2 style={{ font: 'Roboto', fontWeight: '700', fontSize: '40px' }}>My Badges</h2>
             {isBadgeLoading ? <p>Loading...</p> : <BadgeContainer badges={badges}/>}
-            {/* Add content for badges */}
           </div>
-          {/* <div style={{ border: '2px solid #2196f3', padding: '20px', flexGrow: '2', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
-            <h2 className='russo-one-regular text-4xl'>Units</h2>
-          </div> */}
         </Grid>
       </Grid>
     </div>
