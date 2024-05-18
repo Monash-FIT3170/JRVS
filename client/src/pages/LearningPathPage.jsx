@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Menu from "../components/MenuBar.jsx";
+import quizIcon from '../assets/images/QuizIcon.png';
+import lessonIcon from '../assets/images/WrittenLessonIcon.png';
+import videoIcon from '../assets/images/VideoIcon.png';
 
 import {
     SkillTreeGroup,
@@ -28,7 +31,8 @@ const LearningPathPage = () => {
         const fetchData = async () => {
             try {
                 const responseData = await getData("api/units/" + unitId);
-                setLearningPathData(responseData.data);
+                const dataWithIcons = replaceIconData(responseData.data);
+                setLearningPathData(dataWithIcons);
                 setIsUnitLoading(false);
 
                 setLearningPathTitle(responseData.title);
@@ -39,6 +43,29 @@ const LearningPathPage = () => {
         };
         fetchData();
     }, [getData]);
+
+    const replaceIconData = (data) => {
+        for (let item of data) {
+            item = replaceIconDataRecursive(item);
+        }
+        return data;
+    }
+
+    const replaceIconDataRecursive = (item) => {
+        if (item.icon === "lessonIcon"){
+            item.icon = lessonIcon;
+        } else if (item.icon === "quizIcon"){
+            item.icon = quizIcon;
+        } else if (item.icon === "videoIcon"){
+            item.icon = videoIcon;
+        }
+        if (item.children.length !== 0) {
+            for (let i = 0; i<item.children.length; i++){
+                item.children[i] = replaceIconDataRecursive(item.children[i])
+            }
+        }
+        return item;
+    }
 
     // Coloured background theme
     const theme = {
