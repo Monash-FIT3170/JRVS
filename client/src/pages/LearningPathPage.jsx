@@ -13,6 +13,7 @@ import { useApi } from '../context/ApiProvider';
 // Import hard-coded learning path data
 import { savedProgressData } from "./learningPathData.js";
 import "../assets/styles/App.css";
+import { Box } from "@mui/material";
 
 const LearningPathPage = () => {
     const { getData } = useApi();
@@ -123,7 +124,7 @@ const LearningPathPage = () => {
 
     return (
         <div style={{ backgroundColor: "#3CA3EE" }}>
-            <Menu title={learningPathTitle} subtitle="Learning Path" />{" "}
+            <Box sx={{padding: '10px'}}><Menu title={learningPathTitle} subtitle="Learning Path" /></Box>{" "}
             {/* TODO: Have the page title match what is stored in the DB */}
             {/* {document.body.style = 'background: red;'} */}
             {isUnitLoading ? (
