@@ -15,14 +15,6 @@ const App = () =>  {
   return (
     <Router>
       <Routes>
-<<<<<<< HEAD
-        <Route path="/" element={<HomePage />} />
-        <Route path="/lesson/:lessonId" element={<Lessons/>} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/quiz/:quizId" element={<Quizzes/>} />
-        <Route path="/units" element={<UnitsPage/>} />
-        <Route path = "*"element={<NotFoundPage />} />
-=======
         <Route exact path="/" element={<ProtectedRoute/>}>
           <Route exact path="/" element={<HomePage />}/>
         </Route>
@@ -35,8 +27,8 @@ const App = () =>  {
         <Route exact path="/customize" element={<ProtectedRoute/>}>
           <Route exact path="/customize" element={<CustomizePage />}/>
         </Route>
-        <Route exact path="/quiz" element={<ProtectedRoute/>}>
-          <Route exact path="/quiz" element={<Quizzes/>}/>
+        <Route exact path="/quiz/:quizId" element={<ProtectedRoute/>}>
+          <Route exact path="/quiz/:quizId" element={<Quizzes/>}/>
         </Route>
         <Route exact path="/units" element={<ProtectedRoute/>}>
           <Route path="/units" element={<UnitsPage/>} />
@@ -44,7 +36,6 @@ const App = () =>  {
         <Route path="/register" element={<RegistrationPage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route element={<NotFoundPage />} />
->>>>>>> main
       </Routes>
     </Router>
   );
