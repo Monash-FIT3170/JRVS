@@ -32,6 +32,30 @@ const userSchema = mongoose.Schema(
         points: {
             type: Number,
             required: true,
+        },
+        avatar: {
+            type: String,
+            required: false,
+        },
+        border: {
+            type: String,
+            required: false,
+        },
+        background: {
+            type: String,
+            required: false,
+        },
+        unlockedAvatars: {
+            type: Array,
+            required: false,
+        },
+        unlockedBorders: {
+            type: Array,
+            required: false,
+        },
+        unlockedBackgrounds: {
+            type: Array,
+            required: false,
         }
     },  
     {
