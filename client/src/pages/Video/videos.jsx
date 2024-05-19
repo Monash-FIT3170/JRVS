@@ -54,7 +54,7 @@ function Videos() {
                 }}
             >
                 <h1 style={{paddingBottom: '25px'}} className="title-font">{isVideoLoading ? 'loading...' : video.title.toUpperCase()}</h1>
-                <h1 style={{paddingBottom: '25px'}} className="heading-font">{isVideoLoading ? 'loading...' : video.heading}</h1>
+                <h1 style={{paddingBottom: '25px'}} className="video-heading-font">{isVideoLoading ? 'loading...' : video.heading}</h1>
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -75,7 +75,7 @@ function Videos() {
                     paddingBottom: '60px'
                 }}
             >
-                <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
+                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>RETURN TO LEARNING PATH</Button>
             </Box>
         </Box>
     );
