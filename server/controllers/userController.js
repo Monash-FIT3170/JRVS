@@ -35,6 +35,7 @@ const decrypt = (text) => {
         console.error('Decryption error:', error);
         throw new Error('Decryption failed');
     }
+    
 };
 
 // Create a new user
