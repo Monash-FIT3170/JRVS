@@ -39,7 +39,7 @@ const UnitsPage = () => {
     <div>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
       <MenuBar title="Unit Overview" subtitle="Get ready to learn more about AI today"></MenuBar>
-      <Grid container rowSpacing={6} columnSpacing={5} padding={10}>
+      <Grid container rowSpacing={6} columnSpacing={5} padding={10} backgroundColor='white'>
         <Grid item xs={3} onClick={routeChange}>
           <UnitCard title="Introduction to AI" progress={70} imageColour="#66CC66" icon="code"></UnitCard>
         </Grid>

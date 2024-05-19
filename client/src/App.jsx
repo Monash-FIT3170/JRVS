@@ -27,8 +27,8 @@ const App = () =>  {
         <Route exact path="/customize" element={<ProtectedRoute/>}>
           <Route exact path="/customize" element={<CustomizePage />}/>
         </Route>
-        <Route exact path="/quiz" element={<ProtectedRoute/>}>
-          <Route exact path="/quiz" element={<Quizzes/>}/>
+        <Route exact path="/quiz/:quizId" element={<ProtectedRoute/>}>
+          <Route exact path="/quiz/:quizId" element={<Quizzes/>}/>
         </Route>
         <Route exact path="/units" element={<ProtectedRoute/>}>
           <Route path="/units" element={<UnitsPage/>} />
