@@ -16,14 +16,13 @@ body {
     color: white;
 }
 
-.saira-font-container { 
-    font-family: "Saira", sans-serif;
+.video-heading-font {
+    font-family: "Roboto", sans-serif;
     font-style: normal;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    color: #2196F3;
-    text-shadow: -2px 2px 3px rgba(0, 0, 0, 0.25);
-} 
+    font-weight: 300;
+    font-size: large;
+    color: white;
+}
 
 .button-font {
     font-family: "ABeeZee", sans-serif;
