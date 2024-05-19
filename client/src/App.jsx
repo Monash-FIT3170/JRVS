@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+// import HomePage from './pages/HomePage';
 import Lessons from './pages/Lesson/lessons';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
@@ -18,7 +18,7 @@ const App = () =>  {
     <Router>
       <Routes>
         <Route exact path="/" element={<ProtectedRoute/>}>
-          <Route exact path="/" element={<HomePage />}/>
+          <Route exact path="/" element={<UnitsPage />}/>
         </Route>
         <Route exact path="/lesson/:lessonId" element={<ProtectedRoute/>}>
           <Route exact path="/lesson/:lessonId" element={<Lessons/>}/>
