@@ -1,3 +1,7 @@
+:root {
+  --app-blue: #3CA3EE;
+}
+
 .App {
   text-align: center;
 }
@@ -57,3 +61,9 @@ div.unit-card:hover {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.App-page {
+  background-color: var(--app-blue);
+  align-items: center;
+  justify-content: center;
+}
+

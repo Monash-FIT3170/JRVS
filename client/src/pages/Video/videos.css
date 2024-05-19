@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sarala:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+    position: relative;
+    height: 100vh;
+    margin: 0;
+}
+
+.title-font {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: x-large;
+    color: white;
+}
+
+.video-heading-font {
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: large;
+    color: white;
+}
+
+.button-font {
+    font-family: "ABeeZee", sans-serif;
+}
+
+.sarala-font-container {
+    font-family: "Sarala", sans-serif;
+    font-weight: 700;
+    font-size: 70;
+    font-style: normal;
+    color: #0281C9;
+    text-shadow: -2px 2px 3px rgba(0, 0, 0, 0.25);
+    padding-bottom: 5px;
+    position: relative;
+    display: inline-block;
+}
+
+.sarala-font-container::after {
+    content: "";
+    position: absolute;
+    left: -50px;
+    right: -50px;
+    bottom: 0;
+    border-bottom: 3px solid currentColor;
+}

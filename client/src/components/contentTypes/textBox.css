@@ -5,6 +5,7 @@
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
+    color: black;
 }
 
 .heading-font {
@@ -12,4 +13,5 @@
     font-weight: 700;
     font-style: normal;
     font-size: large;
+    color: black;
 }

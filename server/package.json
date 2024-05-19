@@ -4,19 +4,21 @@
   "description": "React web application for teaching kids how to use AI",
   "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "server": "nodemon backend/server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js"
   },
   "author": "Max Verhoef",
   "license": "Apache-2.0",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
-    "mongodb": "^6.6.0",
-    "mongoose": "^8.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.3.5",
     "nodemon": "^3.1.0"
   }
 }
