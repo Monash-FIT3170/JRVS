@@ -57,22 +57,43 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 
-// Update user points
+//Update user points
+// const updatePoints = asyncHandler(async (req, res) => {
+//     const { username, newCoins } = req.body;
+//     const user = await User.findOne({ username });
+//     if (!user) {
+//         return res.status(404).json({ message: "User not found" });
+//     }
+
+//     const encryptedPoints = encrypt(newCoins.toString());
+//     user.points = encryptedPoints;
+//     await user.save();
+
+//     res.status(200).json({
+//         message: "Points updated successfully",
+//         username: user.username,
+//         points: decrypt(encryptedPoints)  
+//     });
+// });
+
 const updatePoints = asyncHandler(async (req, res) => {
-    const { username, newCoins } = req.body;
+    const { username } = req.body;
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
 
-    const encryptedPoints = encrypt(newCoins.toString());
+    // Decrypt current points, add 100, and encrypt again
+    const currentPoints = parseInt(decrypt(user.points)); // Decrypt and convert to integer
+    const newPoints = currentPoints + 100; // Add 100 points
+    const encryptedPoints = encrypt(newPoints.toString()); // Encrypt the new points total
     user.points = encryptedPoints;
     await user.save();
 
     res.status(200).json({
         message: "Points updated successfully",
         username: user.username,
-        points: decrypt(encryptedPoints)  
+        points: newPoints  // Optionally return decrypted new points for immediate frontend update
     });
 });
 
