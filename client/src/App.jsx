@@ -10,6 +10,7 @@ import UnitsPage from './pages/UnitsPage';
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import Videos from './pages/Video/videos';
 
 const App = () =>  {
   return (
@@ -29,6 +30,9 @@ const App = () =>  {
         </Route>
         <Route exact path="/quiz/:quizId" element={<ProtectedRoute/>}>
           <Route exact path="/quiz/:quizId" element={<Quizzes/>}/>
+        </Route>
+        <Route exact path="/video/:videoId" element={<ProtectedRoute/>}>
+          <Route exact path="/video/:videoId" element={<Videos/>}/>
         </Route>
         <Route exact path="/units" element={<ProtectedRoute/>}>
           <Route path="/units" element={<UnitsPage/>} />
