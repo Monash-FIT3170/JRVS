@@ -59,7 +59,7 @@ export default function CustomizePage () {
         <div id="fake_box" style={{zIndex: '13', position: 'fixed'}}></div>
         <div id= 'spline_box' style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', border: 'none', zIndex: '-1'}}>
         </div>
-        <MenuBar coins={coins}/>
+        <MenuBar />
         <Grid container spacing={0} columns={24}>
           <Grid xs={8} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{width: '75%', marginBottom: '20px'}}>
