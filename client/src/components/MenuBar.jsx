@@ -68,7 +68,7 @@ const MenuBar = ({title, subtitle}) => {
                     <p className='russo-one-regular text-4xl'>&nbsp;{user.points} ⭐️&nbsp;</p>
                 </div>
     
-                <IconButton href="/" aria-label="school" style={{ color: "white", fontSize: "40px" }}>
+                <IconButton href="/units" aria-label="school" style={{ color: "white", fontSize: "40px" }}>
                     <SchoolIcon fontSize="inherit" />
                 </IconButton>
                 <React.Fragment>

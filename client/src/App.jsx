@@ -6,6 +6,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import CustomizePage from './pages/CustomizePage';
 import Quizzes from './pages/Quiz/quizzes';
+import LearningPathPage from './pages/LearningPathPage';
 import UnitsPage from './pages/UnitsPage';
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
@@ -21,6 +22,9 @@ const App = () =>  {
         </Route>
         <Route exact path="/lesson/:lessonId" element={<ProtectedRoute/>}>
           <Route exact path="/lesson/:lessonId" element={<Lessons/>}/>
+        </Route>
+        <Route exact path="/learningPath" element={<ProtectedRoute/>}>
+          <Route exact path="/learningPath" element={<LearningPathPage/>}/>
         </Route>
         <Route exact path="/profile" element={<ProtectedRoute/>}>
           <Route exact path="/profile" element={<ProfilePage />}/>

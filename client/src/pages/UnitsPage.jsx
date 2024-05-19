@@ -30,7 +30,7 @@ const UnitsPage = () => {
 
   const routeChange = () => {
     // let path = "/lessonPath";
-    let path = "/lessonPath"
+    let path = "/learningPath"
     navigate(path);
   } 
 

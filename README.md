@@ -33,18 +33,3 @@ REPLACE <password> with the password from MongoDB
 
 - Make sure that your IP is added to the mongodb database, by going to network access in the database, 'add current IP address'
 - from the main folder, call 'npm run dev'
-
-Inside that directory, you can run several commands:
-
-&nbsp;&nbsp;&nbsp;&nbsp;npm start\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts the development server.
-
-&nbsp;&nbsp;&nbsp;&nbsp;npm run build\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bundles the app into static files for production.
-
-&nbsp;&nbsp;&nbsp;&nbsp;npm test\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts the test runner.
-
-&nbsp;&nbsp;&nbsp;&nbsp;npm run eject\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes this tool and copies build dependencies, configuration files\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and scripts into the app directory. If you do this, you can’t go back!
