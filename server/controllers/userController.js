@@ -20,8 +20,9 @@ const encrypt = (text) => {
 };
 
 const decrypt = (text) => {
-    if (!text || text.length <= 1) {
-        return null; // Handle this scenario appropriately
+    
+    if (!text || text.length < 2) {
+        return '0'; // Handle this scenario appropriately
     }
     try {
         const key = Buffer.from(process.env.ENCRYPTION_KEY);
@@ -77,15 +78,12 @@ const createUser = asyncHandler(async (req, res) => {
 // });
 
 const updatePoints = asyncHandler(async (req, res) => {
-    const { username } = req.body;
+    const { username, newPoints } = req.body;
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
 
-    // Decrypt current points, add 100, and encrypt again
-    const currentPoints = decrypt(user.points) || '0'; // Decrypt
-    let newPoints = parseInt(currentPoints) + 100; // Add 100 points
     const strNewPoints = newPoints.toString(); // convert to string
     const encryptedPoints = encrypt(strNewPoints); // Encrypt the new points total
     user.points = encryptedPoints;

@@ -88,7 +88,7 @@ function Quizzes() {
         setIsSubmitted(true);
         // update user points
         try {
-            const response = await postData('api/users/updatePoints', { username: user.username});
+            const response = await postData('api/users/updatePoints', { username: user.username, newPoints: parseInt(user.points) + 100});
             console.log('Points updated:', response.points);
         } catch (error) {
             console.error('Failed to update points', error);

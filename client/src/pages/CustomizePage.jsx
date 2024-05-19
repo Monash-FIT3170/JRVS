@@ -39,10 +39,10 @@ export default function CustomizePage () {
       console.log(error);
     }
   };
-  async function saveCoins(newCoins){
+  async function saveCoins(newPoints){
     try {
       if (username != 'Loading') {
-        await postData('api/users/updatePoints', {username, newCoins});
+        await postData('api/users/updatePoints', {username, newPoints});
       }
     } catch (error) {
       console.log(error);
