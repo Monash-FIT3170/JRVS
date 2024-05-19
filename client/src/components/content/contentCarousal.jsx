@@ -27,7 +27,7 @@ export default function Carousel({boxes, onStatus, onIntroduction}) {
         setSeenBoxes(prevSeenBoxes => {
             const newSeenBoxes = new Set(prevSeenBoxes);
             newSeenBoxes.add(newIndex);
-            const hasCompletedLesson = seenBoxes.size === boxes.length;
+            const hasCompletedLesson = seenBoxes.size >= boxes.length - 1;
             sendStatusToParent(hasCompletedLesson);
             return newSeenBoxes;
         });
@@ -43,7 +43,7 @@ export default function Carousel({boxes, onStatus, onIntroduction}) {
         setSeenBoxes(prevSeenBoxes => {
             const newSeenBoxes = new Set(prevSeenBoxes);
             newSeenBoxes.add(newIndex);
-            const hasCompletedLesson = seenBoxes.size === boxes.length;
+            const hasCompletedLesson = seenBoxes.size >= boxes.length - 1;
             sendStatusToParent(hasCompletedLesson);
             return newSeenBoxes;
         });
