@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Container, Draggable } from "react-smooth-dnd";
 import {
     ListItem,
@@ -7,12 +7,18 @@ import {
     Typography
 } from '@mui/material';
 import StyledBox from "./StyledBox";
+import BotBox from "../../components/content/botBox";
 
 
 //uses react-smooth-dnd
 export default function Reorder({ question, index, setSelection, userValues }) {
     
     let order = userValues[question.questionText] || question.options
+    useEffect(() => {
+        setSelection(question.questionText, order);
+    }, [question]);
+
+    
     //We can set the selection first before we do anything just in case
     const onDrop = ({ removedIndex, addedIndex }) => {
         //We remove the item with splice, then add the item back to the new index
@@ -20,6 +26,8 @@ export default function Reorder({ question, index, setSelection, userValues }) {
         order.splice(addedIndex, 0, removedOption);
         setSelection(question.questionText, order);
     }
+
+
 
     const mappedIndex = (order).map((item, idx) => (
         <Draggable key={idx}>
