@@ -93,6 +93,7 @@ function Quizzes() {
         } catch (error) {
             console.error('Failed to update points', error);
         }
+        
 
     }
 
