@@ -17,7 +17,6 @@
         "@mui/icons-material": "^5.15.17",
         "@mui/material": "^5.15.17",
         "axios": "^1.6.8",
-        "beautiful-skill-tree": "^1.7.1",
         "colors": "^1.4.0",
         "concurrently": "^8.2.2",
         "cors": "^2.8.5",
@@ -28,8 +27,5 @@
         "mongoose": "^8.3.2",
         "nodemon": "^3.1.0",
         "react-toastify": "^10.0.5"
-    },
-    "devDependencies": {
-        "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
     }
 }
