@@ -14,15 +14,16 @@ import { useApi } from '../../context/ApiProvider.jsx';
 
 
 function Quizzes() {
-    const { getData } = useApi();
+    const { getData, postData } = useApi();
     const [quizzes, setQuiz] = useState([]);
-
     const { quizId }  = useParams();
+    const [user, setUser] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userValues, setUserValues] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [userScore, setUserScore] = useState(0)
     const [totalScore, setTotalScore] = useState(0)
+
 
 
     useEffect(() => {
@@ -34,9 +35,22 @@ function Quizzes() {
             } catch (error) {
                 console.log(error);
             }
+        }
+        // get user
+        const fetchUser = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const res = await postData('api/auth/current', {token});
+                const userData = await getData(`api/users/id/${res.decoded.id}`);
+                console.log(userData);
+                setUser(userData);
+            } catch (error) {
+                console.log(error);
+            }
         };
         fetchData();
-    }, [getData, quizId])
+        fetchUser();
+    }, [getData, quizId, postData])
 
     let questions = quizzes.questions
     
@@ -48,8 +62,12 @@ function Quizzes() {
         }
     };
 
-    const submitForm = () => {
+    const submitForm = async () => {
         console.log(userValues)
+        console.log("Current user data:", user);
+        if (!user || !user.username) {
+            console.error("No user data available for updating points.");
+        }
         let correctCount = 0;
         questions.forEach(question => {
 
@@ -68,6 +86,14 @@ function Quizzes() {
         setUserScore(correctCount)
         setTotalScore(questions.length)
         setIsSubmitted(true);
+        // update user points
+        try {
+            const response = await postData('api/users/updatePoints', { username: user.username, newPoints: parseInt(user.points) + 100});
+            console.log('Points updated:', response.points);
+        } catch (error) {
+            console.error('Failed to update points', error);
+        }
+        
 
     }
 

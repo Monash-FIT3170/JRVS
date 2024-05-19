@@ -20,8 +20,9 @@ const encrypt = (text) => {
 };
 
 const decrypt = (text) => {
-    if (!text || text.length <= 1) {
-        return null; // Handle this scenario appropriately
+    
+    if (!text || text.length < 2) {
+        return '0'; // Handle this scenario appropriately
     }
     try {
         const key = Buffer.from(process.env.ENCRYPTION_KEY);
@@ -34,6 +35,7 @@ const decrypt = (text) => {
         console.error('Decryption error:', error);
         throw new Error('Decryption failed');
     }
+    
 };
 
 // Create a new user
@@ -57,22 +59,41 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 
-// Update user points
+//Update user points
+// const updatePoints = asyncHandler(async (req, res) => {
+//     const { username, newCoins } = req.body;
+//     const user = await User.findOne({ username });
+//     if (!user) {
+//         return res.status(404).json({ message: "User not found" });
+//     }
+
+//     const encryptedPoints = encrypt(newCoins.toString());
+//     user.points = encryptedPoints;
+//     await user.save();
+
+//     res.status(200).json({
+//         message: "Points updated successfully",
+//         username: user.username,
+//         points: decrypt(encryptedPoints)  
+//     });
+// });
+
 const updatePoints = asyncHandler(async (req, res) => {
-    const { username, newCoins } = req.body;
+    const { username, newPoints } = req.body;
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
 
-    const encryptedPoints = encrypt(newCoins.toString());
+    const strNewPoints = newPoints.toString(); // convert to string
+    const encryptedPoints = encrypt(strNewPoints); // Encrypt the new points total
     user.points = encryptedPoints;
     await user.save();
 
     res.status(200).json({
         message: "Points updated successfully",
         username: user.username,
-        points: decrypt(encryptedPoints)  
+        points: newPoints  // Optionally return decrypted new points for immediate frontend update
     });
 });
 
