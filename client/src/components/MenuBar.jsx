@@ -4,11 +4,11 @@ import { IconButton } from "@mui/material";
 import FaceIcon from '@mui/icons-material/Face';
 import SchoolIcon from '@mui/icons-material/School';
 
-function MenuBar ({coins, title, subtitle}) {
+const MenuBar = ({coins, title, subtitle}) => {
     title = title ? title : "";
     subtitle = subtitle ? subtitle : "";
     return (
-        <Grid container spacing={2} columns={22} style={{ padding: '30px 80px 20px 60px', backgroundColor: '#3CA3EE'}}>
+        <Grid container spacing={2} columns={22} style={{ padding: '30px 30px 20px 60px', backgroundColor: '#3CA3EE'}}>
             <Grid xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
                 <p className='russo-one-regular text-5xl text-white'>JRVS</p>
             </Grid>
