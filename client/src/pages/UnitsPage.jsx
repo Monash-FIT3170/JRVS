@@ -40,19 +40,19 @@ const UnitsPage = () => {
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
       <MenuBar title="Unit Overview" subtitle="Get ready to learn more about AI today"></MenuBar>
       <Grid container rowSpacing={6} columnSpacing={5} padding={10} backgroundColor='white'>
-        <Grid item xs={3} onClick={routeChange}>
+        <Grid item xs={6} sm={6} md={4} lg={3} onClick={routeChange}>
           <UnitCard title="Introduction to AI" progress={70} imageColour="#66CC66" icon="code"></UnitCard>
         </Grid>
-        <Grid item xs={3} onClick={routeChange}>
-          <UnitCard title="Recognising AI" progress={20} imageColour="#A366FF" icon="search"></UnitCard>
+        <Grid item xs={6} sm={6} md={4} lg={3} onClick={routeChange}>
+          <UnitCard title="Recognising AI" progress={0} imageColour="#A366FF" icon="search"></UnitCard>
         </Grid>
-        <Grid item xs={3} onClick={routeChange}>
+        <Grid item xs={6} sm={6} md={4} lg={3} onClick={routeChange}>
           <UnitCard title="Understanding Intelligence" progress={50} imageColour="#FFC93C" icon="tips_and_updates"></UnitCard>
         </Grid>
-        <Grid item xs={3} onClick={routeChange}>
+        <Grid item xs={6} sm={6} md={4} lg={3} onClick={routeChange}>
           <UnitCard title="Types of AI" progress={100} imageColour="#4885FF" icon="memory"></UnitCard>
         </Grid>
-        <Grid item xs={3} onClick={routeChange}>
+        <Grid item xs={6} sm={6} md={4} lg={3} onClick={routeChange}>
           <UnitCard title="Ethical Issues in AI" progress={100} imageColour="#ff9966" icon="balance"></UnitCard>
         </Grid>
       </Grid>

@@ -21,7 +21,7 @@ const UnitCard = ({ title, progress, imageColour, icon }) => {
                         alignItems: "center",
                         justifyContent: "center",
                         display: "flex"
-                    }}><Icon style={{ fontSize: 88, color: "white" }}>{icon}</Icon>
+                    }}><Icon style={{ fontSize: 160, color: "white" }}>{icon}</Icon>
                     </div>
                 </CardContent>
                 <CardContent>
