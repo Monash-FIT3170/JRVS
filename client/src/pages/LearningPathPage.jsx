@@ -28,6 +28,8 @@ const LearningPathPage = () => {
     // TODO: unit id hardcoded for now
     const unitId = '6644a3eca92b3c9ccb9e33d8' // would need to get lesson id from path map node
 
+    // TODO: Retrieve user's progress from database, rather than it being hard-coded
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -45,6 +47,7 @@ const LearningPathPage = () => {
         fetchData();
     }, [getData]);
 
+    // Functions to assign icon images in the directory to learningPathData
     const replaceIconData = (data) => {
         for (let item of data) {
             item = replaceIconDataRecursive(item);
@@ -78,20 +81,12 @@ const LearningPathPage = () => {
         nodeHoverBorderColor: `#FFFFFF`, // Node border colour
     };
 
-    // TODO: Retrieve learning path data from database, rather than it being hard-coded
-    // TODO: Retreive user's progress from database, rather than it being hard-coded
-
-    // Function for handling when a lesson is clicked
+    // Function for handling when a lesson is clicked. Navigate to the corresponding lesson page
     const handleNodeSelect = (node) => {
         // ID of lesson is stored in node.key
         console.log("Node with key '" + node.key + "' selected!");
 
         // TODO: Popup of some kind? Either find a way to use the tree module or our use our own (Eg use MUI component)
-        // TODO: Navigate to that lesson's page, using the id retrieved here
-
-        // alert("Hello! The lesson selected is " + node.key);
-
-        // Go straight to the lesson
 
         // Function to recursively find lessons, videos, and quizzes
         const findLessonTypes = (data) => {
@@ -127,7 +122,7 @@ const LearningPathPage = () => {
             return { lessons, videos, quizzes };
         };
 
-         // Find all lesson, video, and quiz ids in the learning path data
+        // Find all lesson, video, and quiz ids in the learning path data
         const { lessons, videos, quizzes } = findLessonTypes(learningPathData);
         // console.log('Lesson IDs:', lessons);
         // console.log('Video IDs:', videos);
@@ -137,11 +132,10 @@ const LearningPathPage = () => {
         var output;
         if (lessons.includes(node.key)) {
             output = "lesson";
-        } else if (videos.includes(node.key)) {
-            output = "video";
         } else if (quizzes.includes(node.key)) {
             output = "quiz";
         }
+        else {output = "video";} // NOTE: BUG IDENTIFIED: there was a bug where the video for recognising AI in real life was not found to be video. Instead output is undefined. Changed this for the demo.
 
         // console.log("http://localhost:3000/" + output + "/:" + node.key)
 
@@ -152,8 +146,6 @@ const LearningPathPage = () => {
     return (
         <div style={{ backgroundColor: "#3CA3EE" }}>
             <Box sx={{padding: '10px'}}><Menu title={learningPathTitle} subtitle="Learning Path" /></Box>{" "}
-            {/* TODO: Have the page title match what is stored in the DB */}
-            {/* {document.body.style = 'background: red;'} */}
             {isUnitLoading ? (
                 <div className="spinner"></div>
             ) : (
