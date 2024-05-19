@@ -16,7 +16,6 @@ import { useApi } from '../../context/ApiProvider.jsx';
 function Quizzes() {
     const { getData, postData } = useApi();
     const [quizzes, setQuiz] = useState([]);
-
     const { quizId }  = useParams();
     const [user, setUser] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,7 +23,6 @@ function Quizzes() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [userScore, setUserScore] = useState(0)
     const [totalScore, setTotalScore] = useState(0)
-    const [username, setUsername] = useState('Loading');
 
 
 
@@ -37,20 +35,22 @@ function Quizzes() {
             } catch (error) {
                 console.log(error);
             }
-            // try {
-            //     const userData = await getData('api/users/'); 
-            //     if (userData) {
-            //         setUser(userData);
-            //     } else {
-            //         console.log("No user data found.");
-            //     }
-            // } catch (error) {
-            //     console.error("Error fetching user data:", error);
-            // }
-            
+        }
+        // get user
+        const fetchUser = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const res = await postData('api/auth/current', {token});
+                const userData = await getData(`api/users/id/${res.decoded.id}`);
+                console.log(userData);
+                setUser(userData);
+            } catch (error) {
+                console.log(error);
+            }
         };
         fetchData();
-    }, [getData, quizId])
+        fetchUser();
+    }, [getData, quizId, postData])
 
     let questions = quizzes.questions
     
@@ -86,12 +86,10 @@ function Quizzes() {
         setUserScore(correctCount)
         setTotalScore(questions.length)
         setIsSubmitted(true);
-
+        // update user points
         try {
             const response = await postData('api/users/updatePoints', { username: user.username});
-            if (response && response.points !== undefined) {
-                setUser(prev => ({ ...prev, points: response.points }));
-            }
+            console.log('Points updated:', response.points);
         } catch (error) {
             console.error('Failed to update points', error);
         }

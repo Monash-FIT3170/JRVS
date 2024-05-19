@@ -84,9 +84,10 @@ const updatePoints = asyncHandler(async (req, res) => {
     }
 
     // Decrypt current points, add 100, and encrypt again
-    const currentPoints = parseInt(decrypt(user.points)); // Decrypt and convert to integer
-    const newPoints = currentPoints + 100; // Add 100 points
-    const encryptedPoints = encrypt(newPoints.toString()); // Encrypt the new points total
+    const currentPoints = decrypt(user.points) || '0'; // Decrypt
+    let newPoints = parseInt(currentPoints) + 100; // Add 100 points
+    const strNewPoints = newPoints.toString(); // convert to string
+    const encryptedPoints = encrypt(strNewPoints); // Encrypt the new points total
     user.points = encryptedPoints;
     await user.save();
 
