@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Mascot from '../assets/images/Mascot.png';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useApi } from '../context/ApiProvider';
 import { Link } from 'react-router-dom';

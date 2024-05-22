@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import avatar from '../assets/images/Avatar.png';
 import { useApi } from '../context/ApiProvider';
 import { useNavigate } from 'react-router-dom';
+import Grid from '@mui/material/Unstable_Grid2';
+import BotBox from "../components/content/botBox";
 
 
 const RegistrationPage = () => {
@@ -12,9 +13,11 @@ const RegistrationPage = () => {
     const [email, setEmail] = useState('')
     const [school, setSchool] = useState('')
     const [password, setPassword] = useState('')
+    const [avatarColor, setAvatarColor] = useState('blue')
     const navigate = useNavigate();
 
     const {postData} = useApi();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,28 +32,49 @@ const RegistrationPage = () => {
 
 
     return (
-        <div className='flex'>
-            {/* Left Blue Panel */}
-            <div className="h-screen bg-ai-blue w-96 mr-24"></div>
+        <Grid container className="relative h-screen">
+            <Grid xs={2}>
+                {/* Left Blue Panel */}
+                <div className="h-full w-full bg-ai-blue"></div>
+            </Grid>
 
             {/* Avatar Middle Panel */}
-            <div className='h-screen place-content-evenly mr-48'>
+            <Grid xs={4} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 {/* Avatar */}
                 <div>
-                    <img src={avatar} alt='avatar icon'></img></div>
+                    <BotBox
+                        backgroundColor="transparent"
+                        boxShadow=""
+                        width={{ xs: '0px', sm: '0px', md: '400px', lg: '400px', xl: '400px' }}
+                        height={{ xs: '0px', sm: '0px', md: '400px', lg: '400px', xl: '400px' }}
+                        color={avatarColor}
+                    />
+                </div>
                 
                 {/* Colour boxes */}
                 <div className='flex place-content-evenly'>
-                    <div class="rounded-md bg-red-400 w-8 h-8 mr-4 hover:bg-red-300"></div>
-                    <div class="rounded-md bg-cyan-400 w-8 h-8 mr-4 hover:bg-cyan-300"></div>
-                    <div class="rounded-md bg-purple-500 w-8 h-8 mr-4 hover:bg-purple-400"></div>
-                    <div class="rounded-md bg-green-300 w-8 h-8 mr-4 hover:bg-green-200"></div>
+                    <div
+                        className="rounded-md bg-red-400 w-8 h-8 mr-4 hover:bg-red-300"
+                        onClick={() => setAvatarColor('red')}
+                    ></div>
+                    <div
+                        className="rounded-md bg-cyan-400 w-8 h-8 mr-4 hover:bg-cyan-300"
+                        onClick={() => setAvatarColor('blue')}
+                    ></div>
+                    <div
+                        className="rounded-md bg-purple-500 w-8 h-8 mr-4 hover:bg-purple-400"
+                        onClick={() => setAvatarColor('purple')}
+                    ></div>
+                    <div
+                        className="rounded-md bg-green-300 w-8 h-8 mr-4 hover:bg-green-200"
+                        onClick={() => setAvatarColor('green')}
+                    ></div>
                 </div>
-            </div>
+                </Grid>
 
-            {/* Form */}
-            <form className='create' onSubmit={handleSubmit}>
-                <div className='h-screen place-content-evenly ml-24'>
+            <Grid xs={4} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                {/* Form */}
+                <form  className="p-5 flex flex-col items-center justify-center space-y-4" onSubmit={handleSubmit}>
                     <p class="text-6xl font-bold text-ai-blue mb-12 text-center">SIGN UP</p>
                     {/* Create the grid layout */}
                     <div class="grid grid-cols-1 gap-6">
@@ -116,10 +140,11 @@ const RegistrationPage = () => {
                             </button>                    
                         </label>
                     </div>
-                </div>
-            </form>
-        </div>
-        
+                </form>
+            </Grid>
+            <Grid xs={2}>
+            </Grid>
+        </Grid>
     )
 }
 

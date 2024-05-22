@@ -45,7 +45,8 @@ const ProfilePage = () => {
     fetchBadges();
     fetchUser();
 
-  }, [getData])
+  }, [getData, postData])
+
   return (
     <div className='App-page'>
       <MenuBar />
