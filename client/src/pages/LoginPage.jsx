@@ -4,6 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useApi } from '../context/ApiProvider';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import BotBox from "../components/content/botBox";
 
 
 const LoginPage = () => {
@@ -69,9 +70,15 @@ const LoginPage = () => {
             {/* Avatar Middle Panel */}
             <div className='absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2'>
                 {/* Avatar */}
-                <div>
+                <BotBox
+                    backgroundColor="transparent"
+                    boxShadow=""
+                    width={{ xs: '0px', sm: '0px', md: '400px', lg: '400px', xl: '400px' }}
+                    height={{ xs: '0px', sm: '0px', md: '400px', lg: '400px', xl: '400px' }}
+                />
+                {/* <div>
                     <img src={Mascot} alt='mascot picture' className="w-0 sm:w-24 md:w-48 lg:w-64 xl:w-80"/>
-                </div>
+                </div> */}
             </div>
         </Grid>
         
