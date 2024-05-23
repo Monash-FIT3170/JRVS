@@ -77,7 +77,7 @@ const LearningPathPage = () => {
         borderRadius: "8px",
         treeBackgroundColor: "#transparent", // Tree background colour //Note it is set to a broken value which makes the popup black
         nodeBackgroundColor: "#646464", // Locked node colour
-        nodeActiveBackgroundColor: "#A366FF", // Unlocked node colour
+        nodeActiveBackgroundColor: "#FDC700", // Unlocked node colour
         nodeHoverBorderColor: `#FFFFFF`, // Node border colour
     };
 
