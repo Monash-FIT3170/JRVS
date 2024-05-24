@@ -1,6 +1,6 @@
-# DorAI-The-Explorer #
+# JRVS #
 ### Project 4 - FIT3170 - 2024 ###
-DorAI is an educational app that makes AI easy to understand and exciting to learn through interactive learning paths and modifiable content.
+JRVS is an educational app that makes AI easy to understand and exciting to learn through interactive learning paths and modifiable content.
 ### Team: ###
 - Max Verhoef, 32497342, Release Train Engineer, mver0017@student.monash.edu
 - Jasraj Bhasin, 32522118, Software Architect, jbha0006@student.monash.edu
@@ -18,6 +18,7 @@ DorAI is an educational app that makes AI easy to understand and exciting to lea
 - Selina Tang, 31493238, Product Manager, stan0146@student.monash.edu
 - Glenn Kurniawan, 33109249, Product Manager, gkur0003@student.monash.edu
 - Vivian Pham, 31475477, Product Manager, vpha0021@student.monash.edu
+- Riordan Alfredo, Mentor, riordan.alfredo@monash.edu
 
 ### Running the app ###
 - To install dependencies: npm install
