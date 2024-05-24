@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import Mascot from '../assets/images/Mascot.png';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useApi } from '../context/ApiProvider';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import BotBox from "../components/content/botBox";
 
 
 const LoginPage = () => {
@@ -11,8 +10,12 @@ const LoginPage = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
+    const location = useLocation();
 
     const {postData} = useApi();
+
+    // Get avatarState from state or default to blue
+    const avatarState = location.state?.avatarState || 'blue';
 
 
     const handleSubmit = async (e) => {
@@ -21,7 +24,7 @@ const LoginPage = () => {
           const res = await postData('api/auth/login', { username, password });
           console.log(res)
           localStorage.setItem('token', res.token);
-          navigate('/');
+          navigate('/', { state: { avatarState } });
         } catch (error) {
           console.error('Login failed', error);
         }
@@ -63,15 +66,19 @@ const LoginPage = () => {
                             </button>                    
                         </div>
 
-                        <p>Don’t have an account? <Link to="/register" className="text-blue-500 hover:text-blue-700">Sign Up</Link></p>
+                        <p>Don’t have an account? <Link to="/register" state= {{ avatarState }} className="text-blue-500 hover:text-blue-700">Sign Up</Link></p>
                 </form>
             </Grid>
             {/* Avatar Middle Panel */}
             <div className='absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2'>
                 {/* Avatar */}
-                <div>
-                    <img src={Mascot} alt='mascot picture' className="w-0 sm:w-24 md:w-48 lg:w-64 xl:w-80"/>
-                </div>
+                <BotBox
+                    backgroundColor="transparent"
+                    boxShadow=""
+                    width={{ xs: '0px', sm: '0px', md: '400px', lg: '400px', xl: '400px' }}
+                    height={{ xs: '0px', sm: '0px', md: '400px', lg: '400px', xl: '400px' }}
+                    avatarState={avatarState}
+                />
             </div>
         </Grid>
         
