@@ -21,6 +21,8 @@ JRVS is an educational app that makes AI easy to understand and exciting to lear
 - Riordan Alfredo, Mentor, riordan.alfredo@monash.edu
 
 ### Running the app ###
+Pre-requisites
+Make sure that your IP is added to the mongodb database, by going to network access in the database, 'add current IP address'
 Ensure node version is >= 18
 
 1. yarn install-all
