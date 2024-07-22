@@ -21,5 +21,7 @@ JRVS is an educational app that makes AI easy to understand and exciting to lear
 - Riordan Alfredo, Mentor, riordan.alfredo@monash.edu
 
 ### Running the app ###
+Ensure node version is >= 18
+
 1. yarn install-all
 2. yarn dev
