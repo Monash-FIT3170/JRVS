@@ -7,7 +7,8 @@
     "start": "node server/server.js",
     "server": "nodemon server/server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-all": "for D in */; do yarn --cwd \"${D}\"; done"
   },
   "author": "Max Verhoef",
   "license": "Apache-2.0",
