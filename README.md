@@ -25,5 +25,6 @@ Pre-requisites:
 - Make sure that your IP is added to the mongodb database, by going to network access in the database, 'add current IP address'
 - Ensure node version is >= 18
 
-1. yarn install-all
-2. yarn dev
+1. delete all yarn.lock files, node_modules and package-lock.json files
+2. npm run install-all
+3. npm run dev

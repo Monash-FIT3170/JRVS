@@ -8,7 +8,7 @@
     "server": "nodemon server/server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install-all": "yarn && for D in */; do yarn --cwd \"${D}\"; done"
+    "install-all": "npm install && for D in */; do (cd \"$D\" && npm install); done"
   },
   "author": "Max Verhoef",
   "license": "Apache-2.0",
