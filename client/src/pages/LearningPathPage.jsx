@@ -3,6 +3,7 @@ import Menu from "../components/MenuBar.jsx";
 import quizIcon from '../assets/images/QuizIcon.png';
 import lessonIcon from '../assets/images/WrittenLessonIcon.png';
 import videoIcon from '../assets/images/VideoIcon.png';
+import { Modal } from '@mui/base/Modal';
 
 import {
     SkillTreeGroup,
@@ -15,8 +16,11 @@ import { useApi } from '../context/ApiProvider';
 
 // Import hard-coded learning path data
 import { savedProgressData } from "./learningPathData.js";
+
 import "../assets/styles/App.css";
-import { Box } from "@mui/material";
+// import { Box } from "@mui/material";
+import { Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+
 
 const LearningPathPage = () => {
     const { getData } = useApi();
@@ -24,6 +28,24 @@ const LearningPathPage = () => {
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
+
+    const [selectedNode, setSelectedNode] = useState(null); // State for the selected node
+    const [isModalOpen, setIsModalOpen] = useState(false); // State for modal open/close
+    
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+        setSelectedNode(null);
+    };
+
+    // Coloured background theme
+    const customTheme = {
+        border: "transparent",
+        borderRadius: "8px",
+        treeBackgroundColor: "#transparent", // Tree background colour //Note it is set to a broken value which makes the popup black
+        nodeBackgroundColor: "#646464", // Locked node colour
+        nodeActiveBackgroundColor: "#FDC700", // Unlocked node colour
+        nodeHoverBorderColor: `#FFFFFF`, // Node border colour
+    };
 
     // TODO: unit id hardcoded for now
     const unitId = '6644a3eca92b3c9ccb9e33d8' // would need to get lesson id from path map node
@@ -71,15 +93,6 @@ const LearningPathPage = () => {
         return item;
     }
 
-    // Coloured background theme
-    const theme = {
-        border: "transparent",
-        borderRadius: "8px",
-        treeBackgroundColor: "#transparent", // Tree background colour //Note it is set to a broken value which makes the popup black
-        nodeBackgroundColor: "#646464", // Locked node colour
-        nodeActiveBackgroundColor: "#FDC700", // Unlocked node colour
-        nodeHoverBorderColor: `#FFFFFF`, // Node border colour
-    };
 
     // Function for handling when a lesson is clicked. Navigate to the corresponding lesson page
     const handleNodeSelect = (node) => {
@@ -139,9 +152,14 @@ const LearningPathPage = () => {
 
         // console.log("http://localhost:3000/" + output + "/:" + node.key)
 
-        window.location.href =
-            "http://localhost:3000/" + output + "/" + node.key;
+        // window.location.href = "http://localhost:3000/" + output + "/" + node.key;
+
+        // Set the selected node and open the modal
+        setSelectedNode({ ...node, type: output });
+        setIsModalOpen(true);
     };
+
+    
 
     return (
         <div style={{ backgroundColor: "#3CA3EE" }}>
@@ -150,7 +168,7 @@ const LearningPathPage = () => {
                 <div className="spinner"></div>
             ) : (
                 <SkillProvider>
-                    <SkillTreeGroup theme={theme}>
+                    <SkillTreeGroup theme={customTheme}>
                         {(
                             { skillCount } //SkillGroupDataType
                         ) => (
@@ -159,13 +177,35 @@ const LearningPathPage = () => {
                                 title=""
                                 data={learningPathData} // SkillType
                                 // Other useful fields (the rest we won't need):
-                                // savedData={savedProgressData} // To load user progress
+                                description={false}
+                                //disabled="false"
+                                savedData={savedProgressData} // To load user progress
                                 handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
                             />
                         )}
                     </SkillTreeGroup>
                 </SkillProvider>
             )}
+
+            <Dialog open={isModalOpen} onClose={handleModalClose}>
+                <DialogTitle>Node Selected</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        {selectedNode && `You selected a ${selectedNode.type} node with key: ${selectedNode.key}`}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleModalClose} color="primary">
+                        Close
+                    </Button>
+                    <Button 
+                        onClick={() => window.location.href = `http://localhost:3000/${selectedNode.type}/${selectedNode.key}`} 
+                        color="primary"
+                    >
+                        Go to {selectedNode && selectedNode.type}
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

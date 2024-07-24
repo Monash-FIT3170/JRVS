@@ -161,16 +161,16 @@ export const learningPathData = [ // SkillType
   This will need to be retrieved from the database
 */
 export const savedProgressData = { //SavedDataType. Note that nodeState can be set to: 'locked' | 'unlocked' | 'selected';
-  '1': {
+  '6640555ed3dd29919eec460e': {
     nodeState: 'selected',
   },
-  '2': {
+  '6640516ed3dd29919eec460d': {
     nodeState: 'selected',
   },
-  '3': {
+  '66435798d953163fd76256c4': {
     nodeState: 'selected',
   },
-  '5': {
+  '6643460e6e0276ae96a000b4': {
     nodeState: 'selected',
   },
   '7': {
