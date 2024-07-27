@@ -1,5 +1,5 @@
-import { AppBar, Toolbar, Button, Box, Grid, LinearProgress } from "@mui/material";
-import { height, styled } from '@mui/system';
+import {  Button, Box, LinearProgress } from "@mui/material";
+import { styled } from '@mui/system';
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import "./lessons.css"
@@ -27,7 +27,7 @@ const normalise = (value, min, max) => ((value - min) * 100) / (max - min);
 function Lessons() {
 
 
-    const { getData } = useApi();
+    const { getData, postData, updateData } = useApi();
     const [lesson, setLesson] = useState([]);
     const [isLessonLoading, setIsLessonLoading] = useState(true);
     const { lessonId }  = useParams();
@@ -37,7 +37,6 @@ function Lessons() {
         try {
           const responseData = await getData('api/lessons/' + lessonId);
           setLesson(responseData);
-          setIsLessonLoading(false);
         } catch (error) {
           console.log(error);
         }
@@ -49,6 +48,28 @@ function Lessons() {
     const [hasFinishedCarousel, setHasFinishedCarousel] = useState(false);
     const [onIntroduction, setOnIntroduction] = useState(true);
     const [seenNum, setSeenNum] = useState(1);
+    const [lastSectionIndex, setLastSectionIndex] = useState(0)
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const token = localStorage.getItem('token');
+            const res = await postData('api/auth/current', {token});
+            console.log(res);
+            const responseData = await getData(`api/lessonProgress/${lessonId}/${res.decoded.id}`);
+            if (responseData.progressNum && responseData.lastSectionIndex) {
+                console.log(responseData.lastSectionIndex)
+                setLastSectionIndex(responseData.lastSectionIndex);
+                setSeenNum(responseData.progressNum)
+            }
+            setIsLessonLoading(false);
+          } catch (error) {
+            console.log(error);
+            setIsLessonLoading(false);
+          }
+        };
+        fetchData();
+      }, [getData, postData, lessonId])
 
     const handleStatus = (status) => {
         setHasFinishedCarousel(status);
@@ -58,8 +79,49 @@ function Lessons() {
         setOnIntroduction(status);
     }
 
-    const handleProgress = (seenNum) => {
-        setSeenNum(seenNum);
+    const handleProgress = async (newSeenNum, newLastSectionIndex) => {
+        setSeenNum((currentSeenNum) => {
+            return newSeenNum > currentSeenNum ? newSeenNum : currentSeenNum;
+        });
+        setLastSectionIndex(newLastSectionIndex);
+
+        const token = localStorage.getItem('token');
+
+        try {
+            const res = await postData('api/auth/current', {token});
+            const userId = res.decoded.id;
+
+            const lessonProgress = {
+                userId: userId,
+                lessonId: lessonId,
+                lastSectionIndex: newLastSectionIndex,
+                progressNum: newSeenNum
+            }
+
+            await updateData(`api/lessonProgress/${lessonId}/${userId}`, lessonProgress);
+        } catch (error) {
+            console.log('Error updating of lesson progress', error);
+        }
+
+        try {
+            const res = await postData('api/auth/current', {token});
+            const userId = res.decoded.id;
+
+            const lessonProgress = {
+                userId: userId,
+                lessonId: lessonId,
+                lastSectionIndex: newLastSectionIndex,
+                progressNum: newSeenNum
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            await postData(`api/lessonProgress/${lessonId}/${userId}`, lessonProgress);
+
+        } catch (error) {
+            console.log('Error for creation of lesson progress', error);
+        }
+ 
     }
     
     //console.log(lesson.content)
@@ -105,15 +167,15 @@ function Lessons() {
                     zIndex: -100
                 }}
             >
-                <h1 style={{paddingBottom: '25px'}} className="title-font">{isLessonLoading ? 'loading...' : lesson.title.toUpperCase()}</h1>
+                <h1 style={{paddingBottom: '25px'}} className="title-font">{isLessonLoading || !lesson.title ? 'loading...' : lesson.title.toUpperCase()}</h1>
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    {onIntroduction ? <BotBox/> : <></>}
-                    {isLessonLoading ? <p style={{padding: '10px'}}>loading...</p> : <Carousel boxes={contentBoxes} onStatus={handleStatus} onIntroduction={handleIntroStatus} onSeenNum={handleProgress}></Carousel>}
+                    {onIntroduction && lastSectionIndex === 0 ? <BotBox/> : <></>}
+                    {isLessonLoading ? <p style={{padding: '10px'}}>loading...</p> : <Carousel boxes={contentBoxes} onStatus={handleStatus} onIntroduction={handleIntroStatus} onSeenNum={handleProgress} startingIndex={lastSectionIndex}></Carousel>}
                 </Box>
             </Box>
             
@@ -130,9 +192,9 @@ function Lessons() {
                 <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
                 <Box sx={{display: 'flex', width: '25%', alignItems: 'center'}}>
                     <CustomLinearProgress sx={{width: '100%'}}  variant="determinate" value={normalise(seenNum, 1, contentBoxes.length)}/>
-                    <h1 style={{paddingLeft: '10px'}} className="progress-font">{normalise(seenNum, 1, contentBoxes.length)}%</h1>
+                    <h1 style={{paddingLeft: '10px'}} className="progress-font">{Math.round(normalise(seenNum, 1, contentBoxes.length))}%</h1>
                 </Box>
-                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', visibility: hasFinishedCarousel ? 'visible' : 'hidden'}}>Next</Button>
+                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', visibility: hasFinishedCarousel || (seenNum === contentBoxes.length) ? 'visible' : 'hidden'}}>Next</Button>
             </Box>
         </Box>
     );
