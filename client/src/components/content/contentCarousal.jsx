@@ -5,13 +5,19 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import '../../pages/Lesson/lessons.css'
 
-export default function Carousel({boxes, onStatus, onIntroduction}) {
+export default function Carousel({boxes, onStatus, onIntroduction, onSeenNum}) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [seenBoxes, setSeenBoxes] = useState(new Set().add(0));
 
     const sendStatusToParent = (hasCompletedLesson) => {
         if (onStatus) {
             onStatus(hasCompletedLesson);
+        }
+    }
+
+    const sendSeenNumberToParent = (seenNumber) => {
+        if (onSeenNum) {
+            onSeenNum(seenNumber);
         }
     }
 
@@ -28,6 +34,7 @@ export default function Carousel({boxes, onStatus, onIntroduction}) {
             const newSeenBoxes = new Set(prevSeenBoxes);
             newSeenBoxes.add(newIndex);
             const hasCompletedLesson = seenBoxes.size >= boxes.length - 1;
+            sendSeenNumberToParent(newSeenBoxes.size);
             sendStatusToParent(hasCompletedLesson);
             return newSeenBoxes;
         });
@@ -44,6 +51,7 @@ export default function Carousel({boxes, onStatus, onIntroduction}) {
             const newSeenBoxes = new Set(prevSeenBoxes);
             newSeenBoxes.add(newIndex);
             const hasCompletedLesson = seenBoxes.size >= boxes.length - 1;
+            sendSeenNumberToParent(newSeenBoxes.size);
             sendStatusToParent(hasCompletedLesson);
             return newSeenBoxes;
         });
