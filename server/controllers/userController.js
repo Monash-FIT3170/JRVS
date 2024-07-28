@@ -151,12 +151,13 @@ const updateUnlocked = asyncHandler(async (req, res) => {
 
 const getAllUsers = asyncHandler(async (req, res) => {
     try {
-        const users = await User.find({});
-        const decryptedUsers = users.map(user => ({
-            ...user._doc,
-            points: decrypt(user.points)
+        const users = await User.find({}, 'username _id school'); // Select only username, _id, and school fields
+        const userData = users.map(user => ({
+            id: user._id,
+            username: user.username,
+            school: user.school
         }));
-        res.status(200).json(decryptedUsers);
+        res.status(200).json(userData);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
