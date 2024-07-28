@@ -56,7 +56,7 @@ function Lessons() {
             const token = localStorage.getItem('token');
             const res = await postData('api/auth/current', {token});
             console.log(res);
-            const responseData = await getData(`api/lessonProgress/${lessonId}/${res.decoded.id}`);
+            const responseData = await getData(`api/lessonProgress/${res.decoded.id}/${lessonId}`);
             if (responseData.progressNum && responseData.lastSectionIndex) {
                 console.log(responseData.lastSectionIndex)
                 setLastSectionIndex(responseData.lastSectionIndex);
@@ -98,7 +98,7 @@ function Lessons() {
                 progressNum: newSeenNum
             }
 
-            await updateData(`api/lessonProgress/${lessonId}/${userId}`, lessonProgress);
+            await updateData(`api/lessonProgress/${userId}/${lessonId}`, lessonProgress);
         } catch (error) {
             console.log('Error updating of lesson progress', error);
         }
@@ -116,7 +116,7 @@ function Lessons() {
 
             await new Promise(resolve => setTimeout(resolve, 2000));
 
-            await postData(`api/lessonProgress/${lessonId}/${userId}`, lessonProgress);
+            await postData(`api/lessonProgress/${userId}/${lessonId}`, lessonProgress);
 
         } catch (error) {
             console.log('Error for creation of lesson progress', error);
