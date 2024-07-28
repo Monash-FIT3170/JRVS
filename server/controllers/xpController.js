@@ -1,6 +1,8 @@
 const XP = require('../models/xpModel');
 const User = require('../models/userModel');
 
+const { calculateLevel } = require('../utils/levelUtils');
+
 const addXP = async (req, res) => {
     try {
         const { userId, amount } = req.body;
@@ -10,7 +12,18 @@ const addXP = async (req, res) => {
         }
         const xpEntry = new XP({ userId, amount });
         await xpEntry.save();
-        res.status(200).json(xpEntry);
+
+        // Calculate total XP and update user's level
+        const totalXP = await XP.aggregate([
+            { $match: { userId: user._id } },
+            { $group: { _id: null, totalXP: { $sum: '$amount' } } }
+        ]);
+
+        const level = calculateLevel(totalXP[0].totalXP);
+        user.level = level;
+        await user.save();
+
+        res.status(200).json({ xpEntry, level });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
