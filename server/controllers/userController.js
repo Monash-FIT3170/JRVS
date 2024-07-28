@@ -149,6 +149,19 @@ const updateUnlocked = asyncHandler(async (req, res) => {
     await user.save();
 });
 
+const getAllUsers = asyncHandler(async (req, res) => {
+    try {
+        const users = await User.find({});
+        const decryptedUsers = users.map(user => ({
+            ...user._doc,
+            points: decrypt(user.points)
+        }));
+        res.status(200).json(decryptedUsers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 module.exports = {
     createUser,
@@ -156,5 +169,6 @@ module.exports = {
     getUserByUsername,
     getUserById,
     updateAvatar,
-    updateUnlocked
+    updateUnlocked,
+    getAllUsers
 };
