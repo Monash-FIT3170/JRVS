@@ -12,11 +12,15 @@ import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Videos from './pages/Video/videos';
+import LeaderboardPage from "./pages/LeaderboardPage";
 
 const App = () =>  {
   return (
     <Router>
       <Routes>
+        <Route exact path="/leaderboard" element={<ProtectedRoute/>}>
+          <Route exact path="/leaderboard" element={<LeaderboardPage />}/>
+        </Route>
         <Route exact path="/" element={<ProtectedRoute/>}>
           <Route exact path="/" element={<UnitsPage />}/>
         </Route>
