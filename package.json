@@ -8,7 +8,8 @@
     "server": "nodemon server/server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install-all": "npm install && for D in */; do (cd \"$D\" && npm install); done"
+    "install-all-mac": "npm install && for D in */; do (cd \"$D\" && npm install); done",
+    "install-all-win": "npm install && for /D %D in (*) do @if exist \"%D\\package.json\" npm install --prefix \"%D\""
   },
   "author": "Max Verhoef",
   "license": "Apache-2.0",

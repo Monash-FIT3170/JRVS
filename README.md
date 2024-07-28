@@ -26,5 +26,6 @@ Pre-requisites:
 - Ensure node version is >= 18
 
 1. delete all yarn.lock files, node_modules and package-lock.json files
-2. npm run install-all
-3. npm run dev
+2. update .env file with mongo_uri password, encryption_key and encrpytion_iv
+3. npm run install-all-mac or install-all-win (if on mac or windows)
+4. npm run dev
