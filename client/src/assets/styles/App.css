@@ -65,6 +65,5 @@ div.unit-card:hover {
   background-color: var(--app-blue);
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
