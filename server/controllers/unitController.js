@@ -1,13 +1,13 @@
 const asyncHandler = require('express-async-handler')
 
+const unitsModel = require('../models/unitsModel')
 const unitModel = require('../models/unitModel')
 
 // @desc    Get Unit
 // @route   GET /api/units
 // @access  Private
 const getUnits = asyncHandler (async (req, res) => {
-    const unitId = req.params.id
-    const units = await unitModel.find();
+    const units = await unitsModel.find();
     res.status(200).json(units);
 })
 
