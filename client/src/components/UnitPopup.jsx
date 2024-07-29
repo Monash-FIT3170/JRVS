@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
 const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete, isAdmin }) => {
     const handleEnterLesson = () => {
@@ -69,6 +70,9 @@ const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete
         <Dialog open={isOpen} onClose={onClose}>
             <DialogTitle style={dialogTitleStyle}>
                 <span style={titleStyle}>{node && node.title}</span>
+                <IconButton edge="end" color="inherit" onClick={onClose} aria-label="close" style={{margin: '12px'}}>
+                    <CloseIcon />
+                </IconButton>
             </DialogTitle>
             <DialogContent>
                 <DialogContentText style={contentStyle}>
@@ -76,7 +80,7 @@ const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete
                 </DialogContentText>
             </DialogContent>
             <DialogActions style={{ justifyContent: 'center' }}>
-                <Button onClick={onClose} style={buttonSecondary}>Back</Button>
+                {/* <Button onClick={onClose} style={buttonSecondary}>Back</Button> */}
                 <Button onClick={handleEnterLesson} style={buttonPrimary}>Enter</Button>
             </DialogActions>
             {
