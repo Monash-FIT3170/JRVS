@@ -3,16 +3,16 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 
 const UnitPopup = ({ isOpen, node, onClose }) => {
     const handleEnterLesson = () => {
-        window.location.href = `http://localhost:3000/${node.type}/${node.key}`;
+        window.location.href = `http://localhost:3000/${node.type}/${node.id}`;
     };
 
     return (
         <Dialog open={isOpen} onClose={onClose}>
-            <DialogTitle>Node Selected</DialogTitle>
+            <DialogTitle>Node Selected {node && node.title}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {node && `You selected a ${node.type} node with key: ${node.key}`}
-                </DialogContentText>
+                    {node && `You selected a ${node.type} nodess with id: ${node.id}`}
+                </DialogContentText> 
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="primary">
