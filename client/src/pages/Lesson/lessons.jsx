@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Button, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import "./lessons.css"
 import TextBox from "../../components/contentTypes/textBox";
 import ListBox from "../../components/contentTypes/listBox.jsx"
@@ -13,7 +13,7 @@ import { useApi } from '../../context/ApiProvider.jsx';
 import MenuBar from "../../components/MenuBar.jsx";
 
 function Lessons() {
-
+    const navigate = useNavigate();
 
     const { getData } = useApi();
     const [lesson, setLesson] = useState([]);
@@ -61,6 +61,10 @@ function Lessons() {
             } else return <></>;
         })
     }
+
+    const handleBackClick = () => {
+        navigate(-1); // Go back to the previous page
+    };
 
     return (
         <Box
@@ -110,7 +114,7 @@ function Lessons() {
                     paddingBottom: '60px'
                 }}
             >
-                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
+                <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
                 {hasFinishedCarousel && (
                 <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Next</Button>)}
             </Box>

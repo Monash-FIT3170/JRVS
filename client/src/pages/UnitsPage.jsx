@@ -26,8 +26,9 @@ const UnitsPage = () => {
 
     const navigate = useNavigate();
 
-    const routeChange = () => {
-        let path = "/learningPath";
+    const routeChange = (unitId) => {
+      console.log(unitId);
+      let path = `/learningPath/${unitId}`;
         navigate(path);
     };
 
@@ -58,7 +59,7 @@ const UnitsPage = () => {
                             sm={6}
                             md={4}
                             lg={3}
-                            onClick={routeChange}
+                            onClick={() => routeChange(unit._id)}
                         >
                             <UnitCard
                                 title={unit.title}
