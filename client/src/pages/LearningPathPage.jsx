@@ -102,11 +102,6 @@ const LearningPathPage = () => {
         // window.location.href = "http://localhost:3000/" + currentNode.type + "/" + node.id;
     };
 
-    const handlePopupClose = () => {
-        setIsPopupOpen(false);
-        setSelectedNode(null);
-    };
-
    // Recursive function to find the details of the selected node
     const findSelectedNode = (tree, id) => {
         for (const node of tree) {
@@ -126,6 +121,28 @@ const LearningPathPage = () => {
             }
         }
         return null; // Return null if the id is not found
+    };
+
+    const handlePopupClose = () => {
+        // Close the popup
+        setIsPopupOpen(false);
+        setSelectedNode(null);
+    };
+
+    const handlePopupInsert = () => {
+        // TODO: Handle an insert of child. A new node should be inserted between this node and its children
+    };
+
+    const handlePopupAppend = () => {
+        // TODO: Handle an append of a child. A new node should be added to this nodes's children
+    };
+
+    const handlePopupEdit = () => {
+        // TODO: Handle an editing of a node. Navigate to a new page
+    };
+
+    const handlePopupDelete = () => {
+        // TODO: Handle a delelete of a node. 
     };
     
 
@@ -153,10 +170,16 @@ const LearningPathPage = () => {
                 </SkillProvider>
             )}
         
+            {/* { isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete, isAdmin } */}
             <UnitPopup 
                 isOpen={isModalOpen} 
                 node={selectedNode} 
                 onClose={handlePopupClose} 
+                onInsert={handlePopupInsert} 
+                onAppend={handlePopupAppend} 
+                onEdit={handlePopupEdit} 
+                onDelete={handlePopupDelete} 
+                isAdmin={true} // True for testing, change later
             />
 
         </div>
