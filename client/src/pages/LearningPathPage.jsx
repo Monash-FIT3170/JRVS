@@ -26,7 +26,7 @@ const LearningPathPage = () => {
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
 
     // TODO: unit id hardcoded for now
-    const unitId = '6644a3eca92b3c9ccb9e33d8' // would need to get lesson id from path map node
+    const unitId = '66a373b0dc35a50ef9c2e43c' // would need to get lesson id from path map node
 
     // TODO: Retrieve user's progress from database, rather than it being hard-coded
 
