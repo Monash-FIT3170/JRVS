@@ -1,6 +1,15 @@
 const asyncHandler = require('express-async-handler')
 
+const unitsModel = require('../models/unitsModel')
 const unitModel = require('../models/unitModel')
+
+// @desc    Get Unit
+// @route   GET /api/units
+// @access  Private
+const getUnits = asyncHandler (async (req, res) => {
+    const units = await unitsModel.find();
+    res.status(200).json(units);
+})
 
 // @desc    Get Unit
 // @route   GET /api/units/:id
@@ -20,5 +29,6 @@ const getUnit = asyncHandler (async (req, res) => {
 
 
 module.exports = {
+    getUnits,
     getUnit
 }
