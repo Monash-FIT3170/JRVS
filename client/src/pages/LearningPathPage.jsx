@@ -17,7 +17,10 @@ import { useApi } from '../context/ApiProvider';
 // Import hard-coded learning path data
 import { savedProgressData } from "./learningPathData.js";
 import "../assets/styles/App.css";
-import { Box } from "@mui/material";
+// import { Box } from "@mui/material";
+import { Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import UnitPopup from "../components/UnitPopup.jsx";
+
 
 const LearningPathPage = () => {
     const { getData } = useApi();
@@ -25,6 +28,9 @@ const LearningPathPage = () => {
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
+
+    const [selectedNode, setSelectedNode] = useState(null); // State for the selected node
+    const [isModalOpen, setIsPopupOpen] = useState(false); // State for popup open/close
     
     const { unitId } = useParams();
 
@@ -139,8 +145,16 @@ const LearningPathPage = () => {
 
         // console.log("http://localhost:3000/" + output + "/:" + node.key)
 
-        window.location.href =
-            "http://localhost:3000/" + output + "/" + node.key;
+        setSelectedNode({ ...node, type: output });
+        setIsPopupOpen(true);
+
+        // window.location.href =
+        //     "http://localhost:3000/" + output + "/" + node.key;
+    };
+
+    const handlePopupClose = () => {
+        setIsPopupOpen(false);
+        setSelectedNode(null);
     };
 
     return (
@@ -166,6 +180,13 @@ const LearningPathPage = () => {
                     </SkillTreeGroup>
                 </SkillProvider>
             )}
+        
+            <UnitPopup 
+                isOpen={isModalOpen} 
+                node={selectedNode} 
+                onClose={handlePopupClose} 
+            />
+
         </div>
     );
 };
