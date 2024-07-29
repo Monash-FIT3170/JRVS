@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+mongoose.connect('your_mongodb_uri', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.log(err));
 // A userProgress object to keep track of each user's progress.
 // It holds the necessary learning paths that the user is assigned to, as well as lesson nodes within each lesson path that has been completed.
 

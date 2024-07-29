@@ -21,16 +21,11 @@ JRVS is an educational app that makes AI easy to understand and exciting to lear
 - Riordan Alfredo, Mentor, riordan.alfredo@monash.edu
 
 ### Running the app ###
-- To install dependencies: npm install
-- Add .env file to server directory with the following:
-```
-NODE_ENV = development
-PORT = 5000
-MONGO_URI = mongodb+srv://mver0017:<password>@doraicluster.yrznyo1.mongodb.net/DoraiApp
-```
-
-REPLACE <password> with the password from MongoDB 
-
-
+Pre-requisites:
 - Make sure that your IP is added to the mongodb database, by going to network access in the database, 'add current IP address'
-- from the main folder, call 'npm run dev'
+- Ensure node version is >= 18
+
+1. delete all yarn.lock files, node_modules and package-lock.json files
+2. update .env file with mongo_uri password, encryption_key and encrpytion_iv
+3. npm run install-all-mac or install-all-win (if on mac or windows)
+4. npm run dev

@@ -4,7 +4,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Icon from '@mui/material/Icon';
 import LinearProgress from '@mui/material/LinearProgress';
-import { inline } from '@floating-ui/dom';
 import Box from '@mui/material/Box';
 
 
