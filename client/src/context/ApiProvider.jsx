@@ -13,8 +13,19 @@ export const ApiProvider = ({ children }) => {
 
   // Generic function to make API requests
   const fetchData = async (url, options = {}) => {
+    const token = localStorage.getItem('token'); // Get the token from local storage
+    const defaultHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    const headers = {
+      ...defaultHeaders,
+      ...options.headers,
+      'Authorization': token ? `Bearer ${token}` : undefined,
+    };
+
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(url, { ...options, headers });
       if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -36,9 +47,6 @@ export const ApiProvider = ({ children }) => {
     const url = `${baseURL}/${endpoint}`;
     const options = {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(data),
     };
     return fetchData(url, options);
@@ -49,9 +57,6 @@ export const ApiProvider = ({ children }) => {
     const url = `${baseURL}/${endpoint}`;
     const options = {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(data),
     };
     return fetchData(url, options);
@@ -67,15 +72,15 @@ export const ApiProvider = ({ children }) => {
   };
 
   return (
-    <ApiContext.Provider
-      value={{
-        getData,
-        postData,
-        updateData,
-        deleteData,
-      }}
-    >
-      {children}
-    </ApiContext.Provider>
+      <ApiContext.Provider
+          value={{
+            getData,
+            postData,
+            updateData,
+            deleteData,
+          }}
+      >
+        {children}
+      </ApiContext.Provider>
   );
 };

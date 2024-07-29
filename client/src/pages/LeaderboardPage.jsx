@@ -11,20 +11,32 @@ const LeaderboardPage = () => {
     useEffect(() => {
         const fetchLeaderboardData = async () => {
             try {
-                const leaderboardResponse = await getData(`api/xp/leaderboard?timePeriod=${timePeriod}&userGroup=${userGroup}`);
-                const usersResponse = await getData('api/users');
+                let startDate, endDate;
+                const endDateObj = new Date();
+                const startDateObj = new Date();
 
-                const userXpMap = {};
-                leaderboardResponse.forEach(item => {
-                    userXpMap[item.userId] = item.totalXP;
-                });
+                switch (timePeriod) {
+                    case 'day':
+                        startDateObj.setDate(endDateObj.getDate() - 1);
+                        break;
+                    case 'week':
+                        startDateObj.setDate(endDateObj.getDate() - 7);
+                        break;
+                    case 'month':
+                        startDateObj.setMonth(endDateObj.getMonth() - 1);
+                        break;
+                    case 'all-time':
+                    default:
+                        startDateObj.setFullYear(1970);
+                        break;
+                }
 
-                const completeLeaderboardData = usersResponse.map(user => ({
-                    username: user.username,
-                    xp: userXpMap[user._id] || 0,
-                }));
+                startDate = startDateObj.toISOString();
+                endDate = endDateObj.toISOString();
 
-                setLeaderboardData(completeLeaderboardData.sort((a, b) => b.xp - a.xp));
+                const leaderboardResponse = await getData(`api/xp/leaderboard?startDate=${startDate}&endDate=${endDate}&userGroup=${userGroup}`);
+
+                setLeaderboardData(leaderboardResponse.sort((a, b) => b.totalXP - a.totalXP));
             } catch (error) {
                 console.error(error);
             }
@@ -96,6 +108,7 @@ const LeaderboardPage = () => {
                             <tr>
                                 <th className="py-2">Rank</th>
                                 <th className="py-2">Username</th>
+                                <th className="py-2">School</th>
                                 <th className="py-2">XP</th>
                             </tr>
                             </thead>
@@ -104,7 +117,8 @@ const LeaderboardPage = () => {
                                 <tr key={index} className="border-b">
                                     <td className="py-2">{index + 1}</td>
                                     <td className="py-2">{user.username}</td>
-                                    <td className="py-2">{user.xp}</td>
+                                    <td className="py-2">{user.school}</td>
+                                    <td className="py-2">{user.totalXP}</td>
                                 </tr>
                             ))}
                             </tbody>
@@ -117,3 +131,4 @@ const LeaderboardPage = () => {
 };
 
 export default LeaderboardPage;
+

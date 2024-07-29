@@ -54,29 +54,68 @@ const getXPWithinPeriod = async (req, res) => {
 
 const getLeaderboard = async (req, res) => {
     try {
-        const { school, startDate, endDate } = req.query;
+        const { startDate, endDate, userGroup } = req.query;
         const start = new Date(startDate);
         const end = new Date(endDate);
 
         let users;
 
-        // if the school param exists filter for that schools users
-        // otherwise calculate for all users
-        if (school) {
-            const schoolExists = await User.exists({ school });
-            if (!schoolExists) {
-                return res.status(404).json({ error: 'School not found' });
+        if (userGroup === 'school') {
+            // Get the user's school from the user making the request
+            const requestingUser = req.user;
+            if (!requestingUser) {
+                return res.status(404).json({ error: 'User not found' });
             }
-            users = await User.find({ school });
+            const school = requestingUser.school;
+
+            // If the user's school is available, filter for that school's users
+            if (school) {
+                const schoolExists = await User.exists({ school });
+                if (!schoolExists) {
+                    return res.status(404).json({ error: 'School not found' });
+                }
+                users = await User.find({ school });
+            } else {
+                return res.status(404).json({ error: 'School not found for the requesting user' });
+            }
         } else {
+            // Fetch all users if userGroup is 'all'
             users = await User.find();
         }
 
         const userIds = users.map(user => user._id);
 
-        const xpEntries = await XP.aggregate([
-            { $match: { userId: { $in: userIds }, timestamp: { $gte: start, $lte: end } } },
-            { $group: { _id: '$userId', totalXP: { $sum: '$amount' } } },
+        // Left join to include all users, even those without XP entries
+        const xpEntries = await User.aggregate([
+            { $match: { _id: { $in: userIds } } },
+            {
+                $lookup: {
+                    from: 'xps',
+                    let: { userId: '$_id' },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ['$userId', '$$userId'] },
+                                        { $gte: ['$timestamp', start] },
+                                        { $lte: ['$timestamp', end] }
+                                    ]
+                                }
+                            }
+                        },
+                        { $group: { _id: '$userId', totalXP: { $sum: '$amount' } } }
+                    ],
+                    as: 'xpDetails'
+                }
+            },
+            {
+                $project: {
+                    username: 1,
+                    school: 1,
+                    totalXP: { $ifNull: [{ $arrayElemAt: ['$xpDetails.totalXP', 0] }, 0] }
+                }
+            },
             { $sort: { totalXP: -1 } }
         ]);
 
