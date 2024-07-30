@@ -8,7 +8,7 @@ const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete
     };
 
     const titleStyle = {
-        color: '#1a73e8', // Blue color
+        color: '#3ca3ee', // Blue color
         fontSize: '24px', 
         fontWeight: 'bold',
         textAlign: 'center',
@@ -30,7 +30,7 @@ const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete
 
     const buttonPrimary = {
         ...buttonStyle,
-        backgroundColor: '#1a73e8',
+        backgroundColor: '#3ca3ee',
         color: '#fff'
     };
 
