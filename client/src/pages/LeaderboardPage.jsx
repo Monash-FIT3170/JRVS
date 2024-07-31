@@ -3,7 +3,7 @@ import MenuBar from "../components/MenuBar";
 import { useApi } from '../context/ApiProvider';
 
 const LeaderboardPage = () => {
-    const { getData } = useApi();
+    const { getData, postData } = useApi();
     const [timePeriod, setTimePeriod] = useState('all-time');
     const [userGroup, setUserGroup] = useState('all');
     const [leaderboardData, setLeaderboardData] = useState([]);
