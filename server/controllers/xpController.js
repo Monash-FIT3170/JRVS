@@ -5,23 +5,29 @@ const { calculateLevel } = require('../utils/levelUtils');
 
 const addXP = async (req, res) => {
     try {
-        const { userId, amount } = req.body;
-        const user = await User.findById(userId);
-        if (!user) {
+        // Retrieve the requesting user from the request
+        const requestingUser = req.user;
+
+        if (!requestingUser) {
             return res.status(404).json({ error: 'User not found' });
         }
+
+        const { amount } = req.body;
+        const userId = requestingUser._id;
+
+        // Create a new XP entry
         const xpEntry = new XP({ userId, amount });
         await xpEntry.save();
 
-        // Calculate total XP and update user's level
+        // Calculate total XP for the user
         const totalXP = await XP.aggregate([
-            { $match: { userId: user._id } },
+            { $match: { userId: userId } },
             { $group: { _id: null, totalXP: { $sum: '$amount' } } }
         ]);
 
-        const level = calculateLevel(totalXP[0].totalXP);
-        user.level = level;
-        await user.save();
+        const level = calculateLevel(totalXP[0]?.totalXP || 0);
+        requestingUser.level = level;
+        await requestingUser.save();
 
         res.status(200).json({ xpEntry, level });
     } catch (err) {
@@ -31,14 +37,18 @@ const addXP = async (req, res) => {
 
 const getXPWithinPeriod = async (req, res) => {
     try {
-        const { userId, startDate, endDate } = req.query;
-        const user = await User.findById(userId);
-        if (!user) {
+        const { startDate, endDate } = req.query;
+        const requestingUser = req.user;
+
+        if (!requestingUser) {
             return res.status(404).json({ error: 'User not found' });
         }
+
         const start = new Date(startDate);
         const end = new Date(endDate);
+        const userId = requestingUser._id;
 
+        // Retrieve XP entries within the period for the user
         const xpEntries = await XP.find({
             userId,
             timestamp: { $gte: start, $lte: end }
@@ -60,7 +70,7 @@ const getLeaderboard = async (req, res) => {
 
         let users;
 
-        if (userGroup === 'school') {
+        if (userGroup === 'school' || userGroup === 'class') {
             // Get the user's school from the user making the request
             const requestingUser = req.user;
             if (!requestingUser) {

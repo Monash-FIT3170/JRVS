@@ -5,6 +5,6 @@ const authenticate = require('../middleware/authMiddleware');  // Import the aut
 
 router.route('/').post(addXP);
 router.route('/get-xp-within-period').get(getXPWithinPeriod);
-router.route('/leaderboard').get(authenticate, getLeaderboard);  // Add the middleware here
+router.route('/leaderboard').get(authenticate, getLeaderboard);  // Uses authentication middleware to get the logged in user
 
 module.exports = router;
