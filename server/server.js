@@ -26,6 +26,7 @@ app.use('/api/lessons', require('./routes/lessonRoutes'))
 app.use('/api/units', require('./routes/unitRoutes'))
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/videos', require('./routes/videoRoutes'))
+app.use('/api/schools', require('./routes/schoolRoutes'))
 
 app.use(errorHandler)
 
