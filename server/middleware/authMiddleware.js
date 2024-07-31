@@ -6,10 +6,12 @@ const authenticate = async (req, res, next) => {
     console.log(token);
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
+        const user = await User.findById(decoded.id);
+
+        console.log(decoded, user)
 
         if (!user) {
-            throw new Error();
+            res.status(401).json({ error: 'User not found in database' });
         }
 
         req.token = token;
