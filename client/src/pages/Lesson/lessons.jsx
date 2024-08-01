@@ -199,7 +199,7 @@ function Lessons() {
                     <CustomLinearProgress sx={{width: '100%'}}  variant="determinate" value={normalise(seenNum, 1, contentBoxes.length)}/>
                     <h1 style={{paddingLeft: '10px'}} className="progress-font">{Math.round(normalise(seenNum, 1, contentBoxes.length))}%</h1>
                 </Box>
-                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', visibility: hasFinishedCarousel || (seenNum === contentBoxes.length) ? 'visible' : 'hidden'}}>Next</Button>
+                <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', visibility: hasFinishedCarousel || (seenNum === contentBoxes.length) ? 'visible' : 'hidden'}}>Next</Button>
             </Box>
         </Box>
     );
