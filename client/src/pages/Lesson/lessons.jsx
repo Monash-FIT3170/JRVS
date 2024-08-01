@@ -1,7 +1,7 @@
 import {  Button, Box, LinearProgress } from "@mui/material";
 import { styled } from '@mui/system';
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import "./lessons.css"
 import TextBox from "../../components/contentTypes/textBox";
 import ListBox from "../../components/contentTypes/listBox.jsx"
@@ -25,6 +25,7 @@ const CustomLinearProgress = styled(LinearProgress)(({ theme }) => ({
 const normalise = (value, min, max) => ((value - min) * 100) / (max - min);
 
 function Lessons() {
+    const navigate = useNavigate();
 
 
     const { getData, postData, updateData } = useApi();
@@ -141,6 +142,10 @@ function Lessons() {
         })
     }
 
+    const handleBackClick = () => {
+        navigate(-1); // Go back to the previous page
+    };
+
     return (
         <Box
             sx={{
@@ -189,7 +194,7 @@ function Lessons() {
                     paddingBottom: '60px'
                 }}
             >
-                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
+                <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
                 <Box sx={{display: 'flex', width: '25%', alignItems: 'center'}}>
                     <CustomLinearProgress sx={{width: '100%'}}  variant="determinate" value={normalise(seenNum, 1, contentBoxes.length)}/>
                     <h1 style={{paddingLeft: '10px'}} className="progress-font">{Math.round(normalise(seenNum, 1, contentBoxes.length))}%</h1>

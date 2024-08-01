@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from 'react-router-dom';
 import Menu from "../components/MenuBar.jsx";
 import quizIcon from '../assets/images/QuizIcon.png';
 import lessonIcon from '../assets/images/WrittenLessonIcon.png';
@@ -24,9 +25,8 @@ const LearningPathPage = () => {
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
-
-    // TODO: unit id hardcoded for now
-    const unitId = '66a373b0dc35a50ef9c2e43c' // would need to get lesson id from path map node
+    
+    const { unitId } = useParams();
 
     // TODO: Retrieve user's progress from database, rather than it being hard-coded
 
