@@ -36,9 +36,9 @@ export default function TrueFalse({ question, index, setSelection, userValues })
   };
 
   const mappedOptions = question.options.map((item) => (
-    <Grid item xs={6} display="flex" justifyContent="center">
+  
       <Button
-        variant="outlined"
+        
         value={item.value}
         onClick={checkAnswer}
         disabled={isDisabled}
@@ -50,16 +50,14 @@ export default function TrueFalse({ question, index, setSelection, userValues })
           borderRadius: '15px',
           backgroundColor: getButtonStyles(item.value),
           color: '#3CA3EE',
-          fontSize: 20,
-          '&.Mui-disabled': {
-            color: item.value === selectedAnswer ? 'white' : 'grey'
-          },
+          fontSize: 20
+          
         }}
 
       >
         {item.option}
       </Button>
-    </Grid>
+
   ));
 
   return (

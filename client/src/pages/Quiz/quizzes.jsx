@@ -26,7 +26,7 @@ function Quizzes() {
     const [isQuizLoading, setIsQuizLoading] = useState(true);
 
 
-
+    //This retrieves data from DB and sets the questions
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -56,14 +56,7 @@ function Quizzes() {
 
     let questions = quizzes.questions
 
-    const handlePrevClick = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1)
-
-
-        }
-    };
-
+    //When the user submits the quiz, tally up the scores
     const submitForm = async () => {
         console.log(userValues)
         console.log("Current user data:", user);
@@ -72,12 +65,10 @@ function Quizzes() {
         }
         let correctCount = 0;
         questions.forEach(question => {
-
             if (question.type === 'Reorder') {
                 if (userValues[question.questionText].toString() === question.answer.toString()) {
                     correctCount += 1;
                 }
-
             }
             else if (userValues[question.questionText] === question.answer) {
                 correctCount += 1;
@@ -99,6 +90,14 @@ function Quizzes() {
 
     }
 
+    //Handles previous and next button pages
+    const handlePrevClick = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1)
+
+
+        }
+    };
     const handleNextClick = () => {
         const currentQuestion = questions[currentIndex];
         if (userValues[currentQuestion.questionText] !== undefined) {
@@ -112,9 +111,6 @@ function Quizzes() {
             alert('Please select an option before proceeding.');
         }
     };
-
-
-
 
 
     //should fix to use a proper id rather than take in the question
@@ -132,31 +128,26 @@ function Quizzes() {
             return <Submitted score={userScore} totalScore={totalScore} />; // Render the Submitted component after submission
         }
 
-        else if (questions) {
-            if (questions[currentIndex].type === 'MultipleChoice') {
-                return <MultipleChoice question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
-            }
-            else if (questions[currentIndex].type === 'TrueFalse') {
-                return <TrueFalse question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
-            }
+        const componentMap = {
+            'MultipleChoice': MultipleChoice,
+            'TrueFalse': TrueFalse,
+            'ShortAnswer': ShortAnswer,
+            'Reorder': Reorder,
+            'ImageQuiz': ImageQuiz,
+        };
 
+        const QuestionComponent = componentMap[questions[currentIndex]?.type] || null;
 
-            else if (questions[currentIndex].type === 'ShortAnswer') {
-                return <ShortAnswer question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
-            }
-            else if (questions[currentIndex].type === 'Reorder') {
+        return QuestionComponent ? (
+            <QuestionComponent
+                question={questions[currentIndex]}
+                index={currentIndex}
+                setSelection={setSelections}
+                userValues={userValues}
+            />
+        ) : null;
+    };
 
-                return <Reorder question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
-            }
-            else if (questions[currentIndex].type === 'ImageQuiz') {
-
-                return <ImageQuiz question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
-            }
-            else {
-                return null;
-            }
-        }
-    }
 
     return (
 
@@ -173,7 +164,6 @@ function Quizzes() {
                     <Box>
                         <Typography sx={{ display: "block", color: 'white', fontSize: '40px', lineHeight: '30px', fontWeight: 700, pl: 6 }}>Quiz</Typography>
                         <Typography sx={{ fontFamily: "sans-serif", display: "inline", color: 'white', fontSize: '30px', fontWeight: 100, pl: 6 }}>{quizzes.topic}</Typography>
-
                         {renderQuestion()}
                     </Box>
 
