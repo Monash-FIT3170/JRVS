@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { useApi } from "../context/ApiProvider";
 import UnitCard from "../components/UnitCard";
 import MenuBar from "../components/MenuBar";
+
+import NewLessons from "../components/newLessons";
 
 const UnitsPage = () => {
     const { getData } = useApi();
@@ -33,15 +36,21 @@ const UnitsPage = () => {
     };
 
     return (
+
         <div>
             <link
                 rel="stylesheet"
                 href="https://fonts.googleapis.com/icon?family=Material+Icons"
             ></link>
+
             <MenuBar
                 title="Unit Overview"
                 subtitle="Get ready to learn more about AI today"
             ></MenuBar>
+            
+              <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
+                    <NewLessons />
+                </Box>
             <Grid
                 container
                 rowSpacing={6}

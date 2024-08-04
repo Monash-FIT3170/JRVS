@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useApi } from '../../context/ApiProvider';
+import { useApi } from '../../context/ApiProvider.jsx';
 import MenuBar from '../../components/MenuBar.jsx';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const VideoCreation = () => {
+const CreateVideo = () => {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [heading, setHeading] = useState('');
@@ -131,4 +131,4 @@ const VideoCreation = () => {
   );
 };
 
-export default VideoCreation;
+export default CreateVideo;
