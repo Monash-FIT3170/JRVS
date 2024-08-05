@@ -56,6 +56,10 @@ const userSchema = mongoose.Schema(
         unlockedBackgrounds: {
             type: Array,
             required: false,
+        },
+        assignedUnits: {
+            type: Array,
+            required: true
         }
     },  
     {
