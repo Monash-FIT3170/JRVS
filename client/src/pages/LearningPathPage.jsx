@@ -17,7 +17,10 @@ import { useApi } from '../context/ApiProvider';
 // Import hard-coded learning path data
 import { savedProgressData } from "./learningPathData.js";
 import "../assets/styles/App.css";
-import { Box } from "@mui/material";
+// import { Box } from "@mui/material";
+import { Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import UnitPopup from "../components/UnitPopup.jsx";
+
 
 const LearningPathPage = () => {
     const { getData } = useApi();
@@ -25,6 +28,9 @@ const LearningPathPage = () => {
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
+
+    const [selectedNode, setSelectedNode] = useState(null); // State for the selected node
+    const [isModalOpen, setIsPopupOpen] = useState(false); // State for popup open/close
     
     const { unitId } = useParams();
 
@@ -86,62 +92,59 @@ const LearningPathPage = () => {
         // ID of lesson is stored in node.key
         console.log("Node with key '" + node.key + "' selected!");
 
-        // TODO: Popup of some kind? Either find a way to use the tree module or our use our own (Eg use MUI component)
+        // Retrieve current node details for the popup
+        var currentNode = findSelectedNode(learningPathData, node.key);
 
-        // Function to recursively find lessons, videos, and quizzes
-        const findLessonTypes = (data) => {
-            const lessons = [];
-            const videos = [];
-            const quizzes = [];
+        // Store current node for popup
+        setSelectedNode(currentNode);
+        setIsPopupOpen(true);
 
-            if (Array.isArray(data)) {
-            for (let item of data) {
-                const { lessons: itemLessons, videos: itemVideos, quizzes: itemQuizzes } = findLessonTypes(item);
-                lessons.push(...itemLessons);
-                videos.push(...itemVideos);
-                quizzes.push(...itemQuizzes);
-            }
-            // Checks what the data type is, appends to appropriate array
-            } else if (typeof data === 'object' && data !== null) {
-            if (data.type === 'lesson') {
-                lessons.push(data.id);
-            } else if (data.type === 'video') {
-                videos.push(data.id);
-            } else if (data.type === 'quiz') {
-                quizzes.push(data.id);
-            }
-
-            if (data.children) {
-                const { lessons: childLessons, videos: childVideos, quizzes: childQuizzes } = findLessonTypes(data.children);
-                lessons.push(...childLessons);
-                videos.push(...childVideos);
-                quizzes.push(...childQuizzes);
-            }
-            }
-
-            return { lessons, videos, quizzes };
-        };
-
-        // Find all lesson, video, and quiz ids in the learning path data
-        const { lessons, videos, quizzes } = findLessonTypes(learningPathData);
-        // console.log('Lesson IDs:', lessons);
-        // console.log('Video IDs:', videos);
-        // console.log('Quiz IDs:', quizzes);
-
-        // Checks with node key is in the array
-        var output;
-        if (lessons.includes(node.key)) {
-            output = "lesson";
-        } else if (quizzes.includes(node.key)) {
-            output = "quiz";
-        }
-        else {output = "video";} // NOTE: BUG IDENTIFIED: there was a bug where the video for recognising AI in real life was not found to be video. Instead output is undefined. Changed this for the demo.
-
-        // console.log("http://localhost:3000/" + output + "/:" + node.key)
-
-        window.location.href =
-            "http://localhost:3000/" + output + "/" + node.key;
+        // window.location.href = "http://localhost:3000/" + currentNode.type + "/" + node.id;
     };
+
+   // Recursive function to find the details of the selected node
+    const findSelectedNode = (tree, id) => {
+        for (const node of tree) {
+            if (node.id === id) {
+                return {
+                    id: node.id,
+                    type: node.type,
+                    title: node.title,
+                    content: node.tooltip ? node.tooltip.content : null
+                };
+            }
+            else if (node.children && node.children.length > 0) {
+                const result = findSelectedNode(node.children, id);
+                if (result) {
+                    return result;
+                }
+            }
+        }
+        return null; // Return null if the id is not found
+    };
+
+    const handlePopupClose = () => {
+        // Close the popup
+        setIsPopupOpen(false);
+        setSelectedNode(null);
+    };
+
+    const handlePopupInsert = () => {
+        // TODO: Handle an insert of child. A new node should be inserted between this node and its children
+    };
+
+    const handlePopupAppend = () => {
+        // TODO: Handle an append of a child. A new node should be added to this nodes's children
+    };
+
+    const handlePopupEdit = () => {
+        // TODO: Handle an editing of a node. Navigate to a new page
+    };
+
+    const handlePopupDelete = () => {
+        // TODO: Handle a delelete of a node. 
+    };
+    
 
     return (
         <div style={{ backgroundColor: "#3CA3EE" }}>
@@ -166,6 +169,19 @@ const LearningPathPage = () => {
                     </SkillTreeGroup>
                 </SkillProvider>
             )}
+        
+            {/* { isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete, isAdmin } */}
+            <UnitPopup 
+                isOpen={isModalOpen} 
+                node={selectedNode} 
+                onClose={handlePopupClose} 
+                onInsert={handlePopupInsert} 
+                onAppend={handlePopupAppend} 
+                onEdit={handlePopupEdit} 
+                onDelete={handlePopupDelete} 
+                isAdmin={true} // True for testing, change later
+            />
+
         </div>
     );
 };
