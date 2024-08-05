@@ -6,6 +6,9 @@ const router = express.Router();
 
 // Register route
 router.post('/register', async (req, res) => {
+  if (!req.body.usertype) {
+    return res.status(400).json({ error: "Please select a usertype" });
+  }
   if (!req.body.username) {
     return res.status(400).json({ error: "Please provide a username" });
   }
@@ -30,10 +33,10 @@ router.post('/register', async (req, res) => {
     return res.status(400).json({ error: "Please provide a password" });
   }
 
-  const { username, firstname, lastname, email, school, password} = req.body;
+  const { usertype, username, firstname, lastname, email, school, password} = req.body;
 
   try {
-    const user = new User({ username, firstname, lastname, email, school, password, points: 0, avatar: '_default.png', border: '_default.png', background: '_default.png', unlockedAvatars: ['_default.png'], unlockedBorders: ['_default.png'], unlockedBackgrounds: ['_default.png'] });
+    const user = new User({ usertype, username, firstname, lastname, email, school, password, points: 0, avatar: '_default.png', border: '_default.png', background: '_default.png', unlockedAvatars: ['_default.png'], unlockedBorders: ['_default.png'], unlockedBackgrounds: ['_default.png'] });
     await user.save();
     res.status(201).json({message: 'User created'});
   } catch (error) {
