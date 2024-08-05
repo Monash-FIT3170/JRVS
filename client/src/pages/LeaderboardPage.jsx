@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import MenuBar from "../components/MenuBar";
 import { useApi } from '../context/ApiProvider';
 import Grid from "@mui/material/Unstable_Grid2";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const LeaderboardPage = () => {
-    const { getData, postData } = useApi();
+    const { getData } = useApi();
     const [timePeriod, setTimePeriod] = useState('all-time');
     const [userGroup, setUserGroup] = useState('all');
     const [leaderboardData, setLeaderboardData] = useState([]);
+    const [loading, setLoading] = useState(true); // Add loading state
 
     useEffect(() => {
         const fetchLeaderboardData = async () => {
+            setLoading(true); // Set loading to true before fetching data
             try {
                 let startDate, endDate;
                 const endDateObj = new Date();
@@ -40,6 +43,8 @@ const LeaderboardPage = () => {
                 setLeaderboardData(leaderboardResponse.sort((a, b) => b.totalXP - a.totalXP));
             } catch (error) {
                 console.error(error);
+            } finally {
+                setLoading(false); // Set loading to false after fetching data
             }
         };
 
@@ -47,14 +52,14 @@ const LeaderboardPage = () => {
     }, [timePeriod, userGroup, getData]);
 
     return (
-        <div className='App-page' style={{ height:'100vh' }}>
+        <div className='App-page' style={{ height: '100vh' }}>
             <MenuBar />
-            <Grid container spacing={2} style={{ padding: '0 30px 0 20px'}}>
-                <Grid xs={12} style={{ padding: '0 0 10px 40px', textAlign: 'center'}}>
+            <Grid container spacing={2} style={{ padding: '0 30px 0 20px' }}>
+                <Grid xs={12} style={{ padding: '0 0 10px 40px', textAlign: 'center' }}>
                     <h2 style={{ color: 'white', font: 'Roboto', fontWeight: '700', fontSize: '60px' }}>LEADERBOARD</h2>
                 </Grid>
                 <Grid xs={0} md={3}></Grid>
-                <Grid xs={12} md={6} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                <Grid xs={12} md={6} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                     <div style={{
                         border: '1px solid black',
                         padding: '20px',
@@ -109,34 +114,37 @@ const LeaderboardPage = () => {
                             maxHeight: '100%',
                             overflowY: 'scroll'
                         }}>
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                <tr>
-                                    <th className="py-2">Rank</th>
-                                    <th className="py-2">Username</th>
-                                    <th className="py-2">School</th>
-                                    <th className="py-2">XP</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {leaderboardData.map((user, index) => (
-                                    <tr key={index} className="border-b">
-                                        <td className="py-2">{index + 1}</td>
-                                        <td className="py-2">{user.username}</td>
-                                        <td className="py-2">{user.school}</td>
-                                        <td className="py-2">{user.totalXP}</td>
+                            {loading ? (
+                                <CircularProgress /> // Loading indicator
+                            ) : (
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead>
+                                    <tr>
+                                        <th className="py-2">Rank</th>
+                                        <th className="py-2">Username</th>
+                                        <th className="py-2">School</th>
+                                        <th className="py-2">XP</th>
                                     </tr>
-                                ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    {leaderboardData.map((user, index) => (
+                                        <tr key={index} className="border-b">
+                                            <td className="py-2">{index + 1}</td>
+                                            <td className="py-2">{user.username}</td>
+                                            <td className="py-2">{user.school}</td>
+                                            <td className="py-2">{user.totalXP}</td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
                     </div>
                 </Grid>
-                <Grid xs={0} md={3} ></Grid>
+                <Grid xs={0} md={3}></Grid>
             </Grid>
         </div>
     );
 };
 
 export default LeaderboardPage;
-

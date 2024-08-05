@@ -65,7 +65,7 @@ const MenuBar = ({title, subtitle}) => {
             <Grid xs={15}></Grid>
             <Grid xs={5} style={{ color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ padding:'10px', backgroundColor: '#FFC700', borderRadius: '20px' }}>
-                    <p className='russo-one-regular text-4xl'>&nbsp;{user.points} ⭐️&nbsp;</p>
+                    <p className='russo-one-regular text-4xl'>&nbsp;{user.points} 💰&nbsp;</p>
                 </div>
     
                 <IconButton href="/units" aria-label="school" style={{ color: "white", fontSize: "40px" }}>

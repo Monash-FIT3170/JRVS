@@ -25,6 +25,8 @@ const addXP = async (req, res) => {
             { $group: { _id: null, totalXP: { $sum: '$amount' } } }
         ]);
 
+        console.log(totalXP);
+
         const level = calculateLevel(totalXP[0]?.totalXP || 0);
         requestingUser.level = level;
         await requestingUser.save();
