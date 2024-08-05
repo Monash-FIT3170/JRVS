@@ -9,6 +9,8 @@ import MenuBar from "../../components/MenuBar.jsx";
 import ActionButton from "../../components/quizComponents/ActionButton.jsx";
 import Reorder from "../../components/quizComponents/Reorder.jsx";
 import ImageQuiz from "../../components/quizComponents/ImageQuiz.jsx";
+import FillInTheBlanks from "../../components/quizComponents/FillInTheBlanks.jsx";
+
 
 import { useApi } from '../../context/ApiProvider.jsx';
 import "../../assets/styles/App.css";
@@ -151,6 +153,9 @@ function Quizzes() {
             else if (questions[currentIndex].type === 'ImageQuiz') {
 
                 return <ImageQuiz question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
+            }
+            else if (questions[currentIndex].type === 'FillInTheBlanks') {/
+                return <FillInTheBlanks question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues/>
             }
             else {
                 return null;
