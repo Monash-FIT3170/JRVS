@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Menu from "../components/MenuBar.jsx";
 import quizIcon from '../assets/images/QuizIcon.png';
 import lessonIcon from '../assets/images/WrittenLessonIcon.png';
@@ -22,7 +22,7 @@ import { Box } from "@mui/material";
 const LearningPathPage = () => {
     const { getData } = useApi();
     const navigate = useNavigate();
-    
+
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
