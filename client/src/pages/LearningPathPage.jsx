@@ -9,16 +9,11 @@ import {
     SkillTreeGroup,
     SkillTree,
     SkillProvider,
-    SkillType,
-    SkillGroupDataType,
 } from "beautiful-skill-tree";
 import { useApi } from '../context/ApiProvider';
 
-// Import hard-coded learning path data
-import { savedProgressData } from "./learningPathData.js";
 import "../assets/styles/App.css";
-// import { Box } from "@mui/material";
-import { Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import UnitPopup from "../components/UnitPopup.jsx";
 
 
@@ -87,10 +82,10 @@ const LearningPathPage = () => {
         nodeHoverBorderColor: `#FFFFFF`, // Node border colour
     };
 
-    // Function for handling when a lesson is clicked. Navigate to the corresponding lesson page
+    // Function for handling when a lesson is clicked. Retrieve the details of the node and display a popup.
     const handleNodeSelect = (node) => {
         // ID of lesson is stored in node.key
-        console.log("Node with key '" + node.key + "' selected!");
+        // console.log("Node with key '" + node.key + "' selected!");
 
         // Retrieve current node details for the popup
         var currentNode = findSelectedNode(learningPathData, node.key);
@@ -98,8 +93,6 @@ const LearningPathPage = () => {
         // Store current node for popup
         setSelectedNode(currentNode);
         setIsPopupOpen(true);
-
-        // window.location.href = "http://localhost:3000/" + currentNode.type + "/" + node.id;
     };
 
    // Recursive function to find the details of the selected node
@@ -138,11 +131,11 @@ const LearningPathPage = () => {
     };
 
     const handlePopupEdit = () => {
-        // TODO: Handle an editing of a node. Navigate to a new page
+        // TODO: Handle an editing of a node. Navigate to the lesson edit page
     };
 
     const handlePopupDelete = () => {
-        // TODO: Handle a delelete of a node. 
+        // TODO: Handle a delete of a node. 
     };
     
 
