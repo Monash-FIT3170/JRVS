@@ -21,7 +21,8 @@ import { Box } from "@mui/material";
 
 const LearningPathPage = () => {
     const { getData } = useApi();
-
+    const navigate = useNavigate();
+    
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
