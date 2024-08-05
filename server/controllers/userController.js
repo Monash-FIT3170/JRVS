@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 // controllers/userController.js
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const XP = require('../models/xpModel');
 const crypto = require('crypto');
 
 const encrypt = (text) => {
@@ -79,21 +80,34 @@ const createUser = asyncHandler(async (req, res) => {
 // });
 
 const updatePoints = asyncHandler(async (req, res) => {
-    const { username, newPoints } = req.body;
-    const user = await User.findOne({ username });
-    if (!user) {
-        return res.status(404).json({ message: "User not found" });
-    }
+    const { newPoints } = req.body;
+    const user = req.user; // Get the logged-in user from the middleware
 
-    const strNewPoints = newPoints.toString(); // convert to string
-    const encryptedPoints = encrypt(strNewPoints); // Encrypt the new points total
+    // Decrypt the existing points
+    const decryptedPoints = parseInt(decrypt(user.points), 10);
+
+    // Add the new points to the decrypted points
+    const updatedPoints = decryptedPoints + newPoints;
+
+    // Convert the updated points total to string and encrypt it
+    const strUpdatedPoints = updatedPoints.toString();
+    const encryptedPoints = encrypt(strUpdatedPoints);
+
+    // Update the user's points
     user.points = encryptedPoints;
     await user.save();
+
+    // Create a new XP entry for the user with timestamp
+    const xpEntry = new XP({
+        userId: user._id,
+        amount: newPoints
+    });
+    await xpEntry.save();
 
     res.status(200).json({
         message: "Points updated successfully",
         username: user.username,
-        points: newPoints  // Optionally return decrypted new points for immediate frontend update
+        points: updatedPoints  // Optionally return decrypted updated points for immediate frontend update
     });
 });
 
@@ -149,6 +163,20 @@ const updateUnlocked = asyncHandler(async (req, res) => {
     await user.save();
 });
 
+const getAllUsers = asyncHandler(async (req, res) => {
+    try {
+        const users = await User.find({}, 'username _id school'); // Select only username, _id, and school fields
+        const userData = users.map(user => ({
+            id: user._id,
+            username: user.username,
+            school: user.school
+        }));
+        res.status(200).json(userData);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 module.exports = {
     createUser,
@@ -156,5 +184,6 @@ module.exports = {
     getUserByUsername,
     getUserById,
     updateAvatar,
-    updateUnlocked
+    updateUnlocked,
+    getAllUsers
 };
