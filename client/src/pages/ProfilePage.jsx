@@ -51,8 +51,11 @@ const ProfilePage = () => {
     <div className='App-page'>
       <MenuBar />
       <Grid container spacing={2} style={{ padding: '0 30px 0 20px'}}>
-        <Grid xs={12} style={{ padding: '0 0 10px 40px' }}>
+        <Grid xs={10} style={{ padding: '0 0 10px 40px' }}>
           <h2 style={{ color: 'white', font: 'Roboto', fontWeight: '700', fontSize: '60px' }}>MY PROFILE</h2>
+        </Grid>
+        <Grid xs={2}>
+            <DefaultButton text = 'Edit Profile' href='/editprofile'></DefaultButton>
         </Grid>
         <Grid xs={4} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{ border: '1px solid black', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '90%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
