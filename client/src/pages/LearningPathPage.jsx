@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Menu from "../components/MenuBar.jsx";
 import quizIcon from '../assets/images/QuizIcon.png';
 import lessonIcon from '../assets/images/WrittenLessonIcon.png';
@@ -21,6 +21,7 @@ import { Box } from "@mui/material";
 
 const LearningPathPage = () => {
     const { getData } = useApi();
+    const navigate = useNavigate();
 
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
@@ -49,24 +50,20 @@ const LearningPathPage = () => {
 
     // Functions to assign icon images in the directory to learningPathData
     const replaceIconData = (data) => {
-        for (let item of data) {
-            item = replaceIconDataRecursive(item);
-        }
-        return data;
+        // Map based replacement
+        return data.map(item => replaceIconDataRecursive(item));
     }
 
+    // Creates an inconMap to replace with parent child relationships
     const replaceIconDataRecursive = (item) => {
-        if (item.icon === "lessonIcon"){
-            item.icon = lessonIcon;
-        } else if (item.icon === "quizIcon"){
-            item.icon = quizIcon;
-        } else if (item.icon === "videoIcon"){
-            item.icon = videoIcon;
-        }
-        if (item.children.length !== 0) {
-            for (let i = 0; i<item.children.length; i++){
-                item.children[i] = replaceIconDataRecursive(item.children[i])
-            }
+        const iconMap = {
+            'lessonIcon': lessonIcon,
+            'quizIcon': quizIcon,
+            'videoIcon': videoIcon
+        };
+        item.icon = iconMap[item.icon] || item.icon;
+        if (item.children && item.children.length) {
+            item.children = item.children.map(child => replaceIconDataRecursive(child));
         }
         return item;
     }
@@ -88,59 +85,38 @@ const LearningPathPage = () => {
 
         // TODO: Popup of some kind? Either find a way to use the tree module or our use our own (Eg use MUI component)
 
-        // Function to recursively find lessons, videos, and quizzes
+        // Function to find lessons, videos, and quizzes
+        // This is a flattened data structure approach that handles each item and all its children in one go,
+        // and collects the data during traveral
         const findLessonTypes = (data) => {
             const lessons = [];
             const videos = [];
             const quizzes = [];
 
-            if (Array.isArray(data)) {
-            for (let item of data) {
-                const { lessons: itemLessons, videos: itemVideos, quizzes: itemQuizzes } = findLessonTypes(item);
-                lessons.push(...itemLessons);
-                videos.push(...itemVideos);
-                quizzes.push(...itemQuizzes);
-            }
-            // Checks what the data type is, appends to appropriate array
-            } else if (typeof data === 'object' && data !== null) {
-            if (data.type === 'lesson') {
-                lessons.push(data.id);
-            } else if (data.type === 'video') {
-                videos.push(data.id);
-            } else if (data.type === 'quiz') {
-                quizzes.push(data.id);
-            }
+            const traverse = (item) => {
+                if (item.type === 'lesson') {
+                    lessons.push(item.id);
+                } else if (item.type === 'video') {
+                    videos.push(item.id);
+                } else if (item.type === 'quiz') {
+                    quizzes.push(item.id);
+                }
+                if (item.children) {
+                    item.children.forEach(child => traverse(child));
+                }
+            };
 
-            if (data.children) {
-                const { lessons: childLessons, videos: childVideos, quizzes: childQuizzes } = findLessonTypes(data.children);
-                lessons.push(...childLessons);
-                videos.push(...childVideos);
-                quizzes.push(...childQuizzes);
-            }
-            }
-
+            data.forEach(item => traverse(item));
             return { lessons, videos, quizzes };
         };
 
-        // Find all lesson, video, and quiz ids in the learning path data
         const { lessons, videos, quizzes } = findLessonTypes(learningPathData);
-        // console.log('Lesson IDs:', lessons);
-        // console.log('Video IDs:', videos);
-        // console.log('Quiz IDs:', quizzes);
 
-        // Checks with node key is in the array
-        var output;
-        if (lessons.includes(node.key)) {
-            output = "lesson";
-        } else if (quizzes.includes(node.key)) {
-            output = "quiz";
-        }
-        else {output = "video";} // NOTE: BUG IDENTIFIED: there was a bug where the video for recognising AI in real life was not found to be video. Instead output is undefined. Changed this for the demo.
+        const output = lessons.includes(node.key) ? "lesson" :
+                       quizzes.includes(node.key) ? "quiz" :
+                       "video";
 
-        // console.log("http://localhost:3000/" + output + "/:" + node.key)
-
-        window.location.href =
-            "http://localhost:3000/" + output + "/" + node.key;
+        navigate(`/${output}/${node.key}`);
     };
 
     return (
