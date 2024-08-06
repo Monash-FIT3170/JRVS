@@ -27,8 +27,8 @@ const LearningPathPage = () => {
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
     
     const { unitId } = useParams();
+    const { userId } = useParams();
 
-    // TODO: Retrieve user's progress from database, rather than it being hard-coded
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,6 +39,18 @@ const LearningPathPage = () => {
                 setIsUnitLoading(false);
 
                 setLearningPathTitle(responseData.title);
+
+                const  progressResponseData = await getData(`api/progress/${userId}/assignedUnits/${unitId}`);
+                
+                // Assuming this is a correct learning progress object
+                const progressData = progressResponseData.data.completedLessons.length;
+
+                const unitData = await getData(`api/units/${unitId}`);
+                const totalLessons = unitData.data.numberOfLessons;
+
+                const progressPercentage = (progressData / totalLessons) * 100;
+
+                
                 
             } catch (error) {
                 console.log(error);
