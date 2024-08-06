@@ -97,12 +97,14 @@ const updatePoints = asyncHandler(async (req, res) => {
     user.points = encryptedPoints;
     await user.save();
 
-    // Create a new XP entry for the user with timestamp
-    const xpEntry = new XP({
-        userId: user._id,
-        amount: newPoints
-    });
-    await xpEntry.save();
+    if (newPoints > 0) { // if the new points is negative then don't add xp entries
+        // Create a new XP entry for the user with timestamp
+        const xpEntry = new XP({
+            userId: user._id,
+            amount: newPoints
+        });
+        await xpEntry.save();
+    }
 
     res.status(200).json({
         message: "Points updated successfully",
