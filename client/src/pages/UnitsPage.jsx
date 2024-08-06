@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
+import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
 
 import { useApi } from "../context/ApiProvider";
@@ -8,40 +9,39 @@ import MenuBar from "../components/MenuBar";
 
 const UnitsPage = () => {
     const { getData } = useApi();
-    const [units, setUnits] = useState(undefined);
-    const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
+    const [units, setUnits] = useState([]);
+    const [isUnitLoading, setIsUnitLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const fetchData = useCallback(async () => {
+        try {
+            const unitsResponse = await getData("api/units");
+            setUnits(unitsResponse);
+            setIsUnitLoading(false);
+        } catch (error) {
+            setError("Failed to load units.");
+            setIsUnitLoading(false);
+        }
+    }, [getData]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const unitsResponse = await getData("api/units");
-                setUnits(unitsResponse);
-                setIsUnitLoading(false);
-            } catch (error) {
-                console.log(error);
-            }
-        };
         fetchData();
-    }, [getData]);
+    }, [fetchData]);
 
     const navigate = useNavigate();
 
-    const routeChange = (unitId) => {
-      console.log(unitId);
-      let path = `/learningPath/${unitId}`;
+    const routeChange = useCallback((unitId) => {
+        console.log(unitId);
+        let path = `/learningPath/${unitId}`;
         navigate(path);
-    };
+    }, [navigate]);
 
     return (
         <div>
-            <link
-                rel="stylesheet"
-                href="https://fonts.googleapis.com/icon?family=Material+Icons"
-            ></link>
             <MenuBar
                 title="Unit Overview"
                 subtitle="Get ready to learn more about AI today"
-            ></MenuBar>
+            />
             <Grid
                 container
                 rowSpacing={6}
@@ -49,11 +49,13 @@ const UnitsPage = () => {
                 padding={10}
                 backgroundColor="white"
             >
+                {error && <div className="error">{error}</div>}
                 {isUnitLoading ? (
                     <div className="spinner"></div>
                 ) : (
                     units.map((unit) => (
                         <Grid
+                            key={unit._id} // Add key here
                             item
                             xs={6}
                             sm={6}
@@ -66,7 +68,7 @@ const UnitsPage = () => {
                                 progress={70} // TODO: placeholder
                                 imageColour={unit.colour}
                                 icon={unit.icon}
-                            ></UnitCard>
+                            />
                         </Grid>
                     ))
                 )}
