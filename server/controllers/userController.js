@@ -5,6 +5,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const XP = require('../models/xpModel');
 const crypto = require('crypto');
+const {calculateLevel} = require("../utils/levelUtils");
 
 const encrypt = (text) => {
     try {
@@ -104,12 +105,24 @@ const updatePoints = asyncHandler(async (req, res) => {
             amount: newPoints
         });
         await xpEntry.save();
+
+        // Calculate total XP for the user
+        const totalXP = await XP.aggregate([
+            { $match: { userId: user._id } },
+            { $group: { _id: null, totalXP: { $sum: '$amount' } } }
+        ]);
+
+        // Calculate the user's level based on the total XP
+        const level = calculateLevel(totalXP[0]?.totalXP || 0);
+        user.level = level;
+        await user.save();
     }
 
     res.status(200).json({
         message: "Points updated successfully",
         username: user.username,
-        points: updatedPoints  // Optionally return decrypted updated points for immediate frontend update
+        points: updatedPoints,  // Optionally return decrypted updated points for immediate frontend update
+        level: user.level        // Return the updated level
     });
 });
 
