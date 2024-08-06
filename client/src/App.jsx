@@ -27,8 +27,8 @@ const App = () =>  {
         <Route exact path="/lesson/:lessonId" element={<ProtectedRoute/>}>
           <Route exact path="/lesson/:lessonId" element={<Lessons/>}/>
         </Route>
-        <Route exact path="/learningPath" element={<ProtectedRoute/>}>
-          <Route exact path="/learningPath" element={<LearningPathPage/>}/>
+        <Route exact path="/learningPath/:unitId" element={<ProtectedRoute/>}>
+          <Route exact path="/learningPath/:unitId" element={<LearningPathPage/>}/>
         </Route>
         <Route exact path="/profile" element={<ProtectedRoute/>}>
           <Route exact path="/profile" element={<ProfilePage />}/>
