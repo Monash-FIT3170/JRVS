@@ -16,6 +16,15 @@ import "../assets/styles/App.css";
 import { Box } from "@mui/material";
 import UnitPopup from "../components/UnitPopup.jsx";
 
+// Coloured background theme
+const theme = {
+    border: "transparent",
+    borderRadius: "8px",
+    treeBackgroundColor: "#transparent", // Tree background colour //Note it is set to a broken value which makes the popup black
+    nodeBackgroundColor: "#646464", // Locked node colour
+    nodeActiveBackgroundColor: "#FDC700", // Unlocked node colour
+    nodeHoverBorderColor: `#FFFFFF`, // Node border colour
+};
 
 const LearningPathPage = () => {
     const { getData } = useApi();
@@ -72,16 +81,6 @@ const LearningPathPage = () => {
         return item;
     }
 
-    // Coloured background theme
-    const theme = {
-        border: "transparent",
-        borderRadius: "8px",
-        treeBackgroundColor: "#transparent", // Tree background colour //Note it is set to a broken value which makes the popup black
-        nodeBackgroundColor: "#646464", // Locked node colour
-        nodeActiveBackgroundColor: "#FDC700", // Unlocked node colour
-        nodeHoverBorderColor: `#FFFFFF`, // Node border colour
-    };
-
     // Function for handling when a lesson is clicked. Retrieve the details of the node and display a popup.
     const handleNodeSelect = (node) => {
         // ID of lesson is stored in node.key
@@ -131,7 +130,12 @@ const LearningPathPage = () => {
     };
 
     const handlePopupEdit = () => {
-        // TODO: Handle an editing of a node. Navigate to the lesson edit page
+        // Handle an editing of a node. Navigate to the edit page
+        //window.location.href = `http://localhost:3000/${selectedNode.id}/edit`;
+
+        // Redirect based on the lesson type. Either /editLesson, /editVideo or /editQuiz
+        const nodeType = selectedNode.type.charAt(0).toUpperCase() + selectedNode.type.slice(1); // Make first letter uppercase
+        window.location.href = `http://localhost:3000/${selectedNode.id}/edit${nodeType}`;
     };
 
     const handlePopupDelete = () => {
@@ -163,7 +167,6 @@ const LearningPathPage = () => {
                 </SkillProvider>
             )}
         
-            {/* { isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete, isAdmin } */}
             <UnitPopup 
                 isOpen={isModalOpen} 
                 node={selectedNode} 
@@ -172,7 +175,7 @@ const LearningPathPage = () => {
                 onAppend={handlePopupAppend} 
                 onEdit={handlePopupEdit} 
                 onDelete={handlePopupDelete} 
-                isAdmin={true} // True for testing, change later
+                isAdmin={true} // Assume current user is admin. TODO: Check the current user's type
             />
 
         </div>
