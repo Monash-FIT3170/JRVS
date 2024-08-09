@@ -27,8 +27,25 @@ const getUnit = asyncHandler (async (req, res) => {
     }
 })
 
+// @desc    Append a node to a unit
+// @route   POST /api/units/:id/append
+// @access  Private
+const appendNode = asyncHandler(async (req, res) => {
+    const { input1, input2 } = req.body;
+    const units = await unitModel.find();
+    const unit = units.find(unit => unit._id == input1) // Why does findById not work here?
+    
+    if (!unit) {
+        return res.status(404).json({ message: "Unit not found" });
+    }
+
+    // TODO: other thangs
+    res.status(200).json(unit)
+    return unit
+});
 
 module.exports = {
     getUnits,
-    getUnit
+    getUnit,
+    appendNode
 }
