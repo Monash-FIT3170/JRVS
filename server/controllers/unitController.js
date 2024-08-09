@@ -47,7 +47,14 @@ const appendNode = asyncHandler(async (req, res) => {
 
     // TODO: Insert the new node into the lesson/video/quiz object in the database
 
-    // TODO: Update learning path with the new node in the database
+    // Update learning path with the new node in the database
+    if (isUpdated) {
+        unit.markModified('data'); // Explicitly mark the 'data' field as modified
+        await unit.save();
+        res.status(200).json({ message: 'Node added successfully', unit });
+    } else {
+        res.status(404).json({ message: 'Target node not found' });
+    }
 });
 
 // Recursive function to append a node to a target node in the learning path
