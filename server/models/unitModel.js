@@ -13,7 +13,7 @@ const LessonSchema = new Schema({
   });
 
 const UnitSchema = new Schema({
-    _id: String,
+    _id: { type: Schema.Types.ObjectId, auto: true }, // Automatically generate ObjectId
     data: [LessonSchema]
 })
 
