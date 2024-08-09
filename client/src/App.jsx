@@ -12,6 +12,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Videos from './pages/Video/videos';
+import LeaderboardPage from './pages/Leaderboard';
 
 const App = () =>  {
   return (
@@ -43,6 +44,7 @@ const App = () =>  {
         </Route>
         <Route path="/register" element={<RegistrationPage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/leaderboard" element ={<LeaderboardPage/>}/>
         <Route element={<NotFoundPage />} />
       </Routes>
     </Router>

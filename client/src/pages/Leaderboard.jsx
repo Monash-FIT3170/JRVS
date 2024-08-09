@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import MenuBar from '../components/MenuBar';
-import '../assets/styles/App.css';
+import '../assets/styles/App.css'; 
 
 const dummyData = {
   weekly: [
@@ -26,12 +26,13 @@ const dummyData = {
   yearly: [
     { rank: 1, username: 'User7', points: 900 },
     { rank: 2, username: 'User8', points: 800 },
-    { rank: 3, username: 'User9', points: 700 },
-  ]
+    { rank: 3, username: 'User9', points: 700 },
+  ]
 };
 
 const LeaderboardPage = () => {
   const [filter, setFilter] = useState('weekly');
+
 
   const getHeading = () => {
     switch (filter) {
