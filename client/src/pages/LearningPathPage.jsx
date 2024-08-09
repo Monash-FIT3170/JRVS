@@ -27,7 +27,7 @@ const theme = {
 };
 
 const LearningPathPage = () => {
-    const { getData } = useApi();
+    const { getData, postData } = useApi();
 
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
@@ -125,8 +125,17 @@ const LearningPathPage = () => {
         // TODO: Handle an insert of child. A new node should be inserted between this node and its children
     };
 
-    const handlePopupAppend = () => {
+    async function handlePopupAppend() {
         // TODO: Handle an append of a child. A new node should be added to this nodes's children
+        const input1 = '66a373b0dc35a50ef9c2e43c'
+        const input2 = 'blah2'
+        var response1;
+        try {
+            response1 = await postData(`api/units/${unitId}/append`, { input1, input2 });
+        } catch (error) {
+            console.log(error);
+        }
+        console.log(response1)
     };
 
     const handlePopupEdit = () => {
