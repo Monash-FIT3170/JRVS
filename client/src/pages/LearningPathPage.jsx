@@ -127,15 +127,25 @@ const LearningPathPage = () => {
 
     async function handlePopupAppend() {
         // TODO: Handle an append of a child. A new node should be added to this nodes's children
-        const input1 = '66a373b0dc35a50ef9c2e43c'
-        const input2 = 'blah2'
-        var response1;
+        const targetNodeId = selectedNode.id;
+        const newNode = {
+            id: 'test',
+            icon: 'lessonIcon', // Assign an appropriate icon. Could also be 'quizIcon' or 'videoIcon'
+            title: 'New Child Node', // Placeholder title, you may want to customize this
+            tooltip: { content: 'Description of the new child node' },
+            children: [],
+            type: 'lesson', // or 'quiz' or 'video', depending on the type you want to add
+        };
+
         try {
-            response1 = await postData(`api/units/${unitId}/append`, { input1, input2 });
+            const response = await postData(`api/units/${unitId}/append`, { unitId, targetNodeId, newNode });
+            console.log(response)
         } catch (error) {
             console.log(error);
         }
-        console.log(response1)
+
+        // Refresh the page
+        window.location.href = `http://localhost:3000/learningPath/${unitId}`;
     };
 
     const handlePopupEdit = () => {
