@@ -31,18 +31,49 @@ const getUnit = asyncHandler (async (req, res) => {
 // @route   POST /api/units/:id/append
 // @access  Private
 const appendNode = asyncHandler(async (req, res) => {
-    const { input1, input2 } = req.body;
-    const units = await unitModel.find();
-    const unit = units.find(unit => unit._id == input1) // Why does findById not work here?
+    // Get the inputs
+    const { unitId, targetNodeId, newNode } = req.body;
+
+    // Find the unit being changed
+    const unit = await unitModel.findById(unitId);
     
     if (!unit) {
         return res.status(404).json({ message: "Unit not found" });
     }
 
-    // TODO: other thangs
-    res.status(200).json(unit)
-    return unit
+    // Find the selected node, and append the new node to its children locally
+    const isUpdated = addChildNode(unit.data, targetNodeId, newNode);
+    console.log(unit.data)
+
+    // TODO: Insert the new node into the lesson/video/quiz object in the database
+
+    // TODO: Update learning path with the new node in the database
 });
+
+// Recursive function to append a node to a target node in the learning path
+function addChildNode(data, targetId, newNode) {
+    for (let item of data) {
+        // Log the IDs being compared to help debug
+        // console.log(`Comparing ${item.id} with ${targetId}`);
+
+        if (item.id === targetId) {
+            // Append the new node to the children of the matched node
+            item.children.push(newNode);
+            // console.log(`Node appended to ${item.id}`);
+            return true; // Return true to indicate success
+        }
+
+        // Recur if children exist
+        if (item.children && item.children.length > 0) {
+            const found = addChildNode(item.children, targetId, newNode);
+            if (found) {
+                return true; // Stop further recursion if the node was found
+            }
+        }
+    }
+
+    return false; // Return false if the target node wasn't found
+}
 
 module.exports = {
     getUnits,
