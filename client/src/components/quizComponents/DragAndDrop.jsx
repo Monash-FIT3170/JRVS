@@ -5,7 +5,7 @@ import {
     ListItemText,
     Grid,
     Typography
-} from '@mui/material';
+} from '@mui/material';  
 import StyledBox from "./StyledBox";
 import BotBox from "../../components/content/botBox";
 
@@ -69,6 +69,10 @@ export default function DragAndDrop({ question, index, setSelection, userValues 
     ))
     return (
         <Grid container>
+            <div className="widget" draggable onDragStart={(e) => handleOnDrag(e,"Widget A")}
+
+
+
             <Grid item xs={12} display="flex" justifyContent="center">
                 <StyledBox >
 
