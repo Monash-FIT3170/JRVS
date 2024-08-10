@@ -1,7 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const { getUserUnitProgress } = require('../controllers/userProgressController');
+const express = require('express')
+const router = express.Router()
+const { getUserUnitProgress, updateUserUnitProgress, createUserUnitProgress } = require('../controllers/lessonProgressController')
 
-router.route('/:userId/assignedUnits/:unitId').get(getUserUnitProgress);
+router.route('/:userId/:unitId').get(getUserUnitProgress)
+router.route('/:userId/:unitId').put(updateUserUnitProgress)
+router.route('/:userId/:unitId').post(createUserUnitProgress)
 
-module.exports = router;
+module.exports = router
