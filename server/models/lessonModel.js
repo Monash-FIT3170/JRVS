@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
 
 const contentSchema = new mongoose.Schema({
     type: String,
@@ -6,6 +7,7 @@ const contentSchema = new mongoose.Schema({
   });
 
 const lessonSchema = mongoose.Schema({
+    _id: { type: Schema.Types.ObjectId, auto: true }, // Automatically generate ObjectId
     title: String,
     content: [contentSchema]
 }
