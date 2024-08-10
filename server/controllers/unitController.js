@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler')
-
 const unitsModel = require('../models/unitsModel')
 const unitModel = require('../models/unitModel')
+const { createEmptyLesson, getLesson } = require('./lessonController'); // Import the function
+const lessonModel = require('../models/lessonModel');
 
 // @desc    Get Unit
 // @route   GET /api/units
@@ -40,23 +41,34 @@ const appendNode = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "unit_details not found" });
     }
 
-    // 2. Locate the selected node, and append the new node to its children locally
+    // 2. Insert a new empty node into the lesson/video/quiz object in the database
+    // Insert lesson:
+    const newLesson = await lessonModel.create({
+        title: newNode.title || 'New Lesson',
+        content: []
+    });
+    if (!newLesson) {
+        res.status(500).json({message: 'Error creating lesson'})
+    }
+    // TODO: Add option to insert a video/quiz depending on the node type
+
+    // 3. Add the generated node id to newNode
+    newNode._id = newLesson._id
+
+    // 4. Locate the selected node within the unit, and append the new node to its children locally
     const isUpdated = addChildNode(unit.data, targetNodeId, newNode);
     if (!isUpdated) {
         res.status(404).json({ message: 'Target node not found' });
     }
 
-    // 3. Update the node count in locally modified unit_details object
+    // 5. Update the node count in locally modified unit_details object
     unit.numberOfLessons += 1;
 
-    // 4. Insert the new node into the lesson/video/quiz object in the database
-    // TODO
-
-    // 5. Update unit_details in mongodb with new structure
+    // 6. Update unit_details object in mongodb with new structure
     unit.markModified('data'); // Explicitly mark the 'data' field as modified
     await unit.save();
 
-    // 6. Update units object in mongodb: numberOfLessons ++
+    // 7. Update units object in mongodb: numberOfLessons ++
     const unitsUpdated = await unitsModel.updateOne(
         { _id: unitId },
         { $inc: { numberOfLessons: 1 } }
@@ -65,8 +77,8 @@ const appendNode = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "Units object not found" })
     };
     
-    // Success
-    res.status(200).json({ message: 'Node appended successfully', unit });   
+    // If all previous steps completed, then it was a successful append!
+    res.status(200).json({ message: 'Node appended successfully', newNode });   
 });
 
 // Recursive function to append a node to a target node in the learning path
