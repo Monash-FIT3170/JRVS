@@ -33,8 +33,27 @@ const updateuserUnitProgress = asyncHandler(async (req, res) => {
 
 })
 
+const createUserUnitProgress = asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    const unitId = req.params.unitId;
+    const { completedLessons } = req.body;
+    let userUnitProgress = await userUnitProgressModel.findOne({ userId: userId, unitId: unitId });
+    if (userUnitProgress) {
+        res.status(404).json({message: "User's unit progress not found"});
+    } else {
+        userUnitProgress = new lessonProgressModel({
+            userId: userId,
+            unitId: unitId,
+            completedLessons: completedLessons
+        })
+        await userUnitProgress.save();
+        res.status(201).json(userUnitProgress);
+    }
+})
+
 
 module.exports = {
     getUserUnitProgress,
-    updateUserUnitProgress
+    updateUserUnitProgress,
+    createUserUnitProgress
 }
