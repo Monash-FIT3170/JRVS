@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getUserUnitProgress, updateUserUnitProgress, createUserUnitProgress } = require('../controllers/lessonProgressController')
+const { getUserUnitProgress, updateUserUnitProgress, createUserUnitProgress } = require('../controllers/userUnitProgressController')
 
 router.route('/:userId/:unitId').get(getUserUnitProgress)
 router.route('/:userId/:unitId').put(updateUserUnitProgress)
