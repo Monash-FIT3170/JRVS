@@ -12,6 +12,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Videos from './pages/Video/videos';
+import CreateShortAnswerQuestion from './pages/Quiz/EditShortAnswer';
 
 const App = () =>  {
   return (
@@ -34,6 +35,9 @@ const App = () =>  {
         </Route>
         <Route exact path="/quiz/:quizId" element={<ProtectedRoute/>}>
           <Route exact path="/quiz/:quizId" element={<Quizzes/>}/>
+        </Route>
+        <Route exact path="/quiz/short-answer/:quizId" element={<ProtectedRoute/>}>
+          <Route exact path="/quiz/short-answer/:quizId" element={<CreateShortAnswerQuestion />}/>
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute/>}>
           <Route exact path="/video/:videoId" element={<Videos/>}/>

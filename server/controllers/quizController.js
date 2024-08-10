@@ -18,9 +18,34 @@ const getQuiz = asyncHandler (async (req, res) => {
     }
 })
 
+const setShortAnswerQuiz = asyncHandler(async (req, res) => {
+    const quizId = req.params.id
+    const { questionText, answer } = req.body
+
+    let quiz = await quizModel.findById(quizId)
+
+    if (!quiz) {
+        res.status(404).json({ message: 'Quiz not found' })
+        return
+    }
+
+    const newQuestion = {
+        _id: new mongoose.Types.ObjectId(),
+        questionText,
+        answer,
+        type: "ShortAnswer",
+    }
+
+    quiz.questions.push(newQuestion)
+
+    await quiz.save()
+
+    res.status(201).json({ message: 'Question added successfully', quiz })
+})
 
 module.exports = {
-    getQuiz
+    getQuiz,
+    setShortAnswerQuiz
 }
 
 /*
