@@ -34,27 +34,39 @@ const appendNode = asyncHandler(async (req, res) => {
     // Get the inputs
     const { unitId, targetNodeId, newNode } = req.body;
 
-    // Find the unit being changed
+    // 1. Get the target unit to be modified
     const unit = await unitModel.findById(unitId);
-    
     if (!unit) {
-        return res.status(404).json({ message: "Unit not found" });
+        return res.status(404).json({ message: "unit_details not found" });
     }
 
-    // Find the selected node, and append the new node to its children locally
+    // 2. Locate the selected node, and append the new node to its children locally
     const isUpdated = addChildNode(unit.data, targetNodeId, newNode);
-    console.log(unit.data)
-
-    // TODO: Insert the new node into the lesson/video/quiz object in the database
-
-    // Update learning path with the new node in the database
-    if (isUpdated) {
-        unit.markModified('data'); // Explicitly mark the 'data' field as modified
-        await unit.save();
-        res.status(200).json({ message: 'Node added successfully', unit });
-    } else {
+    if (!isUpdated) {
         res.status(404).json({ message: 'Target node not found' });
     }
+
+    // 3. Update the node count in locally modified unit_details object
+    unit.numberOfLessons += 1;
+
+    // 4. Insert the new node into the lesson/video/quiz object in the database
+    // TODO
+
+    // 5. Update unit_details in mongodb with new structure
+    unit.markModified('data'); // Explicitly mark the 'data' field as modified
+    await unit.save();
+
+    // 6. Update units object in mongodb: numberOfLessons ++
+    const unitsUpdated = await unitsModel.updateOne(
+        { _id: unitId },
+        { $inc: { numberOfLessons: 1 } }
+    );
+    if (!unitsUpdated) {
+        return res.status(404).json({ message: "Units object not found" })
+    };
+    
+    // Success
+    res.status(200).json({ message: 'Node appended successfully', unit });   
 });
 
 // Recursive function to append a node to a target node in the learning path
