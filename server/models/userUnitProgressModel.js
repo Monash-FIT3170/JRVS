@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const userUnitProgressSchema = mongoose.Schema({
     userId: String,
     unitId: String,
-    completedLessons: Array
+    completedLessons: [String]
 })
 
-module.exports = mongoose.model('userUnitProgress', userUnitProgressSchema)
+module.exports = mongoose.model('user_progress', userUnitProgressSchema)

@@ -14,43 +14,27 @@ import {
 } from "beautiful-skill-tree";
 import { useApi } from '../context/ApiProvider';
 
-// Import hard-coded learning path data
-import { savedProgressData } from "./learningPathData.js";
 import "../assets/styles/App.css";
 import { Box } from "@mui/material";
 
 const LearningPathPage = () => {
-    const { getData } = useApi();
+    const { getData, postData, updateData } = useApi();
 
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
     
     const { unitId } = useParams();
-    const { userId } = useParams();
-
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const responseData = await getData("api/units/" + unitId);
-                const dataWithIcons = replaceIconData(responseData.data);
+                const unitResponseData = await getData("api/units/" + unitId);
+                const dataWithIcons = replaceIconData(unitResponseData.data);
                 setLearningPathData(dataWithIcons);
                 setIsUnitLoading(false);
 
-                setLearningPathTitle(responseData.title);
-
-                const  progressResponseData = await getData(`api/progress/${userId}/assignedUnits/${unitId}`);
-                
-                // Assuming this is a correct learning progress object
-                const progressData = progressResponseData.data.completedLessons.length;
-
-                const unitData = await getData(`api/units/${unitId}`);
-                const totalLessons = unitData.data.numberOfLessons;
-
-                const progressPercentage = (progressData / totalLessons) * 100;
-
-                
+                setLearningPathTitle(unitResponseData.title);
                 
             } catch (error) {
                 console.log(error);
@@ -155,6 +139,34 @@ const LearningPathPage = () => {
             "http://localhost:3000/" + output + "/" + node.key;
     };
 
+    const getCompletedLessonsArray = async() => {
+        try {
+            // get user's progress for this unit
+            const token = localStorage.getItem('token');
+            const res = await postData('api/auth/current', {token});
+
+            const userProgressResponseData = await getData(`api/userUnitProgress/${res.decoded.id}/${unitId}`);
+
+            return userProgressResponseData.completedLessons;
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function handleSave(storage, treeId, skills) {
+        var completedLessons = await getCompletedLessonsArray();
+
+        completedLessons.forEach((lessonId) => {
+            skills[lessonId] = {
+                optional: false,
+                nodeState: 'selected'
+            };
+        });
+
+        return storage.setItem(`skills-${treeId}`, JSON.stringify(skills));
+    }
+
     return (
         <div style={{ backgroundColor: "#3CA3EE" }}>
             <Box sx={{padding: '10px'}}><Menu title={learningPathTitle} subtitle="Learning Path" /></Box>{" "}
@@ -171,8 +183,9 @@ const LearningPathPage = () => {
                                 title=""
                                 data={learningPathData} // SkillType
                                 // Other useful fields (the rest we won't need):
-                                // savedData={savedProgressData} // To load user progress
+                                //savedData={} // To load user progress
                                 handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
+                                handleSave={handleSave}
                             />
                         )}
                     </SkillTreeGroup>

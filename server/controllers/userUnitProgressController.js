@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler')
 const userUnitProgressModel = require('../models/userUnitProgressModel')
 
 
-const getuserUnitProgress = asyncHandler (async (req, res) => {
+const getUserUnitProgress = asyncHandler (async (req, res) => {
     const userId = req.params.userId;
     const unitId = req.params.unitId;
     const userUnitProgress = await userUnitProgressModel.findOne({ userId: userId, unitId: unitId });
@@ -16,7 +16,7 @@ const getuserUnitProgress = asyncHandler (async (req, res) => {
     }
 })
 
-const updateuserUnitProgress = asyncHandler(async (req, res) => {
+const updateUserUnitProgress = asyncHandler(async (req, res) => {
     const userId = req.params.userId;
     const unitId = req.params.unitId;
     const { completedLessons } = req.body;
