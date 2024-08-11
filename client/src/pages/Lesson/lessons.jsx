@@ -12,7 +12,6 @@ import BotBox from "../../components/content/botBox";
 
 import { useApi } from '../../context/ApiProvider.jsx';
 import MenuBar from "../../components/MenuBar.jsx";
-import TrueFalse from "../../components/quizComponents/TrueFalse.jsx";
 
 const CustomLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 8,
