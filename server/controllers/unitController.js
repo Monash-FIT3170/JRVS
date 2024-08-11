@@ -45,7 +45,17 @@ const appendNode = asyncHandler(async (req, res) => {
     // Insert lesson:
     const newLesson = await lessonModel.create({
         title: newNode.title || 'New Lesson',
-        content: []
+        content: [
+            {
+                heading: 'In this section, you will:',
+                points: [
+                    "This is the first point.",
+                    "Here is the second point.",
+                    "Add more points as desired."
+                ],
+                type: "listBox"
+            }
+        ]
     });
     if (!newLesson) {
         res.status(500).json({message: 'Error creating lesson'})
@@ -53,7 +63,7 @@ const appendNode = asyncHandler(async (req, res) => {
     // TODO: Add option to insert a video/quiz depending on the node type
 
     // 3. Add the generated node id to newNode
-    newNode._id = newLesson._id
+    newNode.id = newLesson._id;
 
     // 4. Locate the selected node within the unit, and append the new node to its children locally
     const isUpdated = addChildNode(unit.data, targetNodeId, newNode);
@@ -78,7 +88,7 @@ const appendNode = asyncHandler(async (req, res) => {
     };
     
     // If all previous steps completed, then it was a successful append!
-    res.status(200).json({ message: 'Node appended successfully', newNode });   
+    return res.status(200).json({ message: 'Node appended successfully', newNode });   
 });
 
 // Recursive function to append a node to a target node in the learning path
