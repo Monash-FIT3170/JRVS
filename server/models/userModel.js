@@ -80,15 +80,23 @@ const userSchema = mongoose.Schema(
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
 
-    if (this.usertype == 'teacher' && !this.sharableCode) {
-        this.sharableCode = crypto.randomBytes(3).toString('hex');
-    }
-
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+
+    if (this.usertype === 'teacher' && !this.sharableCode) {
+        let uniqueCodeFound = false;
+        while (!uniqueCodeFound) {
+            const newCode = crypto.randomBytes(3).toString('hex');
+            const existingUser = await mongoose.model('User').findOne({ sharableCode: newCode });
+            if (!existingUser) {
+                this.sharableCode = newCode;
+                uniqueCodeFound = true;
+            }
+        }
+    }
+
     next();
 });
-
 userSchema.methods.comparePassword = function (password) {
     return bcrypt.compare(password, this.password);
 };
