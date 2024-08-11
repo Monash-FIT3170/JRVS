@@ -1,6 +1,7 @@
-const { Double } = require('mongodb')
-const mongoose = require('mongoose')
+const { Double } = require('mongodb');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const userSchema = mongoose.Schema(
     {
@@ -64,6 +65,11 @@ const userSchema = mongoose.Schema(
         assignedUnits: {
             type: Array,
             required: true
+        },
+        sharableCode: {
+            type: String,
+            required: function() { return this.usertype == 'teacher'; },
+            unique: true
         }
     },  
     {
@@ -71,9 +77,13 @@ const userSchema = mongoose.Schema(
     }
 )
 
-/* salt the users password */
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
+
+    if (this.usertype == 'teacher' && !this.sharableCode) {
+        this.sharableCode = crypto.randomBytes(3).toString('hex');
+    }
+
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
@@ -83,4 +93,4 @@ userSchema.methods.comparePassword = function (password) {
     return bcrypt.compare(password, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);
