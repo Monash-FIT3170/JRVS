@@ -21,6 +21,7 @@ const LearningPathPage = () => {
     const { getData, postData, updateData } = useApi();
 
     const [learningPathData, setLearningPathData] = useState([]);
+    const [savedData, setSavedData] = useState();
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
     const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
     
@@ -32,12 +33,24 @@ const LearningPathPage = () => {
                 const unitResponseData = await getData("api/units/" + unitId);
                 const dataWithIcons = replaceIconData(unitResponseData.data);
                 setLearningPathData(dataWithIcons);
+                setLearningPathTitle(unitResponseData.title);
+
+                var completedLessons = await getCompletedLessonsArray();
+                console.log(completedLessons);
+                var completedLessonsObject = {};
+                completedLessons.forEach((lessonId) => {
+                    completedLessonsObject[lessonId] = {
+                        optional: false,
+                        nodeState: 'selected'
+                    };
+                });
+                setSavedData(completedLessonsObject);
+
                 setIsUnitLoading(false);
 
-                setLearningPathTitle(unitResponseData.title);
-                
             } catch (error) {
                 console.log(error);
+                setIsUnitLoading(false);
             }
         };
         fetchData();
@@ -147,16 +160,19 @@ const LearningPathPage = () => {
 
             const userProgressResponseData = await getData(`api/userUnitProgress/${res.decoded.id}/${unitId}`);
 
-            return userProgressResponseData.completedLessons;
+            if (userProgressResponseData.completedLessons) {
+                return userProgressResponseData.completedLessons;
+            }
+            return [];
             
         } catch (error) {
             console.log(error);
+            return [];
         }
     }
 
     async function handleSave(storage, treeId, skills) {
         var completedLessons = await getCompletedLessonsArray();
-
         completedLessons.forEach((lessonId) => {
             skills[lessonId] = {
                 optional: false,
@@ -179,11 +195,11 @@ const LearningPathPage = () => {
                             { skillCount } //SkillGroupDataType
                         ) => (
                             <SkillTree
-                                treeId="first-tree"
+                                treeId="learning-pathway"
                                 title=""
                                 data={learningPathData} // SkillType
                                 // Other useful fields (the rest we won't need):
-                                //savedData={} // To load user progress
+                                savedData={savedData}
                                 handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
                                 handleSave={handleSave}
                             />
