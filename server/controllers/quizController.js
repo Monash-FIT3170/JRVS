@@ -1,7 +1,3 @@
-
-
-
-
 const asyncHandler = require('express-async-handler')
 
 const quizModel = require('../models/quizModel')
@@ -18,35 +14,36 @@ const getQuiz = asyncHandler (async (req, res) => {
     }
 })
 
-const setShortAnswerQuiz = asyncHandler(async (req, res) => {
-    const quizId = req.params.id
-    const { questionText, answer } = req.body
+const updateSAQuestion = asyncHandler(async (req, res) => {
+    const { quizId, questionId } = req.params;
+    const { questionText, answer } = req.body;
 
-    let quiz = await quizModel.findById(quizId)
+    const quiz = await quizModel.findById(quizId);
 
     if (!quiz) {
-        res.status(404).json({ message: 'Quiz not found' })
-        return
+        res.status(404).json({ message: 'Quiz not found' });
+        return;
     }
 
-    const newQuestion = {
-        _id: new mongoose.Types.ObjectId(),
-        questionText,
-        answer,
-        type: "ShortAnswer",
+    const question = quiz.questions.id(questionId);
+    if (!question) {
+        res.status(404).json({ message: 'Question not found' });
+        return;
     }
 
-    quiz.questions.push(newQuestion)
+    question.questionText = questionText || question.questionText;
+    question.answer = answer || question.answer;
 
-    await quiz.save()
+    await quiz.save();
 
-    res.status(201).json({ message: 'Question added successfully', quiz })
-})
+    res.status(200).json({ message: 'Question updated successfully', question });
+});
 
 module.exports = {
     getQuiz,
-    setShortAnswerQuiz
+    updateSAQuestion
 }
+
 
 /*
 
