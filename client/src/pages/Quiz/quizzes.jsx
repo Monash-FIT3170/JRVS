@@ -8,6 +8,7 @@ import Submitted from "../../components/quizComponents/Submitted.jsx";
 import MenuBar from "../../components/MenuBar.jsx";
 import ActionButton from "../../components/quizComponents/ActionButton.jsx";
 import Reorder from "../../components/quizComponents/Reorder.jsx";
+import DragAndDrop from "../../components/quizComponents/DragAndDrop.jsx";
 import ImageQuiz from "../../components/quizComponents/ImageQuiz.jsx";
 
 import { useApi } from '../../context/ApiProvider.jsx';
@@ -139,8 +140,6 @@ function Quizzes() {
             else if (questions[currentIndex].type === 'TrueFalse') {
                 return <TrueFalse question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
             }
-
-
             else if (questions[currentIndex].type === 'ShortAnswer') {
                 return <ShortAnswer question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
             }
@@ -151,6 +150,9 @@ function Quizzes() {
             else if (questions[currentIndex].type === 'ImageQuiz') {
 
                 return <ImageQuiz question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
+            }
+            else if (questions[currentIndex].type === 'DragAndDrop') {
+                return <DragAndDrop question={questions[currentIndex]} index={currentIndex} setSelection={setSelections} userValues={userValues} />
             }
             else {
                 return null;
