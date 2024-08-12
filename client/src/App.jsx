@@ -13,6 +13,7 @@ import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Videos from './pages/Video/videos';
 import EditLesson from './pages/Lesson/editLesson';
+import EditQuiz from './pages/Quiz/editQuiz';
 
 const App = () =>  {
   return (
