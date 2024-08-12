@@ -184,7 +184,7 @@ const addBadge = asyncHandler(async (req, res) => {
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }
-    const newBadge = {id: newBadgeId, dateAdded: new Date() };
+    const newBadge = {id: newBadgeId, timeAchieved: new Date() };
     const badges = new Set([newBadge, ...user.badges]);
     user.badges = [...badges];
     await user.save();

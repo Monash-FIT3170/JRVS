@@ -30,7 +30,7 @@ function BadgeContainer(badges) {
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: '#60a5fa',
+      backgroundColor: '#3CA3EE',
       color: 'rgba(0, 0, 0, 0.87)',
       fontSize: theme.typography.pxToRem(12),
       border: '2px solid black',
@@ -48,9 +48,9 @@ function BadgeContainer(badges) {
               key={index} 
               title={
                 <React.Fragment>
-                  <div className="text-2xl font-bold text-black text-center mb-2">{badge.name}</div>
-                  <div className="mb-2">{badge.description}{badge.description}{badge.description}{badge.description}{badge.description}</div>
-                  <div className="font-bold">Achieved: {new Date(badge.timeAchieved).toLocaleDateString('en-GB', {
+                  <div className="text-3xl font-bold text-white text-center mb-2">{badge.name}</div>
+                  <div className="text-base text-white mb-2">{badge.description}</div>
+                  <div className="text-base text-white font-bold">Achieved: {new Date(badge.timeAchieved).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
                     year: '2-digit'

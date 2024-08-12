@@ -53,6 +53,7 @@ const ProfilePage = () => {
   }, [getData, postData])
 
   //function to add a badge
+  //addBadge('662efef478319f751124351a')
   // eslint-disable-next-line
   async function addBadge(badge_id) {
     try {
