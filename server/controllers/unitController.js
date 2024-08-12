@@ -3,6 +3,8 @@ const unitsModel = require('../models/unitsModel')
 const unitModel = require('../models/unitModel')
 const { createEmptyLesson, getLesson } = require('./lessonController'); // Import the function
 const lessonModel = require('../models/lessonModel');
+const videoModel = require('../models/videoModel');
+const quizModel = require('../models/quizModel');
 
 // @desc    Get Unit
 // @route   GET /api/units
@@ -42,28 +44,21 @@ const appendNode = asyncHandler(async (req, res) => {
     }
 
     // 2. Insert a new empty node into the lesson/video/quiz object in the database
-    // Insert lesson:
-    const newLesson = await lessonModel.create({
-        title: newNode.title || 'New Lesson',
-        content: [
-            {
-                heading: 'In this section, you will:',
-                points: [
-                    "This is the first point.",
-                    "Here is the second point.",
-                    "Add more points as desired."
-                ],
-                type: "listBox"
-            }
-        ]
-    });
-    if (!newLesson) {
+    var generatedNode;
+    
+    if (newNode.type == 'lesson') {
+        generatedNode = await createLesson(newNode.title);
+    }
+    else return res.status(500).json({message: 'New node type invalid'})
+
+    if (!generatedNode) {
         res.status(500).json({message: 'Error creating lesson'})
     }
+       
     // TODO: Add option to insert a video/quiz depending on the node type
 
     // 3. Add the generated node id to newNode
-    newNode.id = newLesson._id;
+    newNode.id = generatedNode._id;
 
     // 4. Locate the selected node within the unit, and append the new node to its children locally
     const isUpdated = addChildNode(unit.data, targetNodeId, newNode);
@@ -114,6 +109,26 @@ function addChildNode(data, targetId, newNode) {
     }
 
     return false; // Return false if the target node wasn't found
+}
+
+// Create a new lesson in the lessons collection
+async function createLesson(nodeTitle) {
+    generatedNode = await lessonModel.create({
+        title: nodeTitle || 'New Lesson',
+        content: [
+            {
+                heading: 'In this section, you will:',
+                points: [
+                    "This is the first point.",
+                    "Here is the second point.",
+                    "Add more points as desired."
+                ],
+                type: "listBox"
+            }
+        ]
+    });
+
+    return generatedNode;
 }
 
 module.exports = {

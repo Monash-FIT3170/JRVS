@@ -128,12 +128,16 @@ const LearningPathPage = () => {
     async function handlePopupAppend() {
         // Handle an append of a child. A new node should be added to this nodes's children
         const targetNodeId = selectedNode.id;
+        
+        const inputType = 'lesson' // 'lesson', 'video' or 'quiz'
+        
+        // New node object with placeholder values
         const newNode = {
-            icon: 'lessonIcon', // Assign an appropriate icon. Could also be 'quizIcon' or 'videoIcon'
-            title: 'New Lesson', // Placeholder title, you may want to customize this
+            icon: `${inputType}Icon`,
+            title: 'New Lesson',
             tooltip: { content: 'Description of the new child node' },
             children: [],
-            type: 'lesson', // or 'quiz' or 'video', depending on the type you want to add
+            type: inputType,
         };
 
         try {
