@@ -129,12 +129,12 @@ const LearningPathPage = () => {
         // Handle an append of a child. A new node should be added to this nodes's children
         const targetNodeId = selectedNode.id;
         
-        const inputType = 'lesson' // 'lesson', 'video' or 'quiz'
+        const inputType = 'video' // 'lesson', 'video' or 'quiz'
         
         // New node object with placeholder values
         const newNode = {
             icon: `${inputType}Icon`,
-            title: 'New Lesson',
+            title: `New ${inputType}`,
             tooltip: { content: 'Description of the new child node' },
             children: [],
             type: inputType,

@@ -44,17 +44,20 @@ const appendNode = asyncHandler(async (req, res) => {
     }
 
     // 2. Insert a new empty node into the lesson/video/quiz object in the database
+    // NOTE: Simply insert a lesson/video/quiz. TODO: Consider setup of progress tracking of a new lesson/video/quiz
     var generatedNode;
-    
+
     if (newNode.type == 'lesson') {
         generatedNode = await createLesson(newNode.title);
+    }
+    else if (newNode.type == 'video') {
+        generatedNode = await createVideo(newNode.title);
     }
     else return res.status(500).json({message: 'New node type invalid'})
 
     if (!generatedNode) {
         res.status(500).json({message: 'Error creating lesson'})
     }
-       
     // TODO: Add option to insert a video/quiz depending on the node type
 
     // 3. Add the generated node id to newNode
@@ -126,6 +129,17 @@ async function createLesson(nodeTitle) {
                 type: "listBox"
             }
         ]
+    });
+
+    return generatedNode;
+}
+
+// Create a new video in the videos collection
+async function createVideo(nodeTitle) {
+    generatedNode = await videoModel.create({
+        title: nodeTitle || 'New Video',
+        url: "https://www.youtube.com/embed/oJC8VIDSx_Q",
+        heading: "Watch the video below to learn more about <description>"
     });
 
     return generatedNode;
