@@ -13,6 +13,7 @@ export default function CustomizePage () {
   const [avatar, setAvatar] = useState('_default.png');
   const [border, setBorder] = useState('_default.png');
   const [background, setBackground] = useState('_default.png');
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -29,7 +30,8 @@ export default function CustomizePage () {
       }
     };
     fetchUser();
-  }, [])
+  }, [getData, postData])
+
   async function saveAvatar() {
     try {
       if (username !== 'Loading') {

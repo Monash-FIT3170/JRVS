@@ -178,6 +178,18 @@ const updateUnlocked = asyncHandler(async (req, res) => {
     await user.save();
 });
 
+const addBadge = asyncHandler(async (req, res) => {
+    const { username, newBadgeId} = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+    const newBadge = {id: newBadgeId, dateAdded: new Date() };
+    const badges = new Set([newBadge, ...user.badges]);
+    user.badges = [...badges];
+    await user.save();
+});
+
 const getAllUsers = asyncHandler(async (req, res) => {
     try {
         const users = await User.find({}, 'username _id school'); // Select only username, _id, and school fields
@@ -200,5 +212,6 @@ module.exports = {
     getUserById,
     updateAvatar,
     updateUnlocked,
+    addBadge,
     getAllUsers
 };

@@ -63,6 +63,10 @@ const userSchema = mongoose.Schema(
         assignedUnits: {
             type: Array,
             required: true
+        },
+        badges: {
+            type: Array,
+            required: false
         }
     },  
     {

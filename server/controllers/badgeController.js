@@ -69,9 +69,23 @@ const deleteBadge = asyncHandler (async (req, res) => {
     res.status(200).json({id : req.params.id})
 })
 
+const getBadge = asyncHandler (async (req, res) => {
+    const badgeId = req.params.id;
+    console.log(badgeId);
+    const badge = await Badge.findById(badgeId);
+    console.log(badge);
+    if (!badge) {
+        res.status(400)
+        throw new Error('Badge not found')
+    }
+    console.log(badge);
+    res.status(200).json({...badge._doc})
+})
+
 module.exports = {
     getBadges,
     setBadge,
     updateBadge,
-    deleteBadge
+    deleteBadge,
+    getBadge
 }

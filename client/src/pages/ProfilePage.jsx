@@ -11,7 +11,7 @@ import { useApi } from '../context/ApiProvider';
 import Avatar from '../components/characterCustomization/Avatar';
 
 const ProfilePage = () => {
-  const { getData, postData } = useApi();
+  const {getData, postData } = useApi();
   const [badges, setBadges] = useState(undefined);
   const [isBadgeLoading, setIsBadgeLoading] = useState(true);
   const [user, setUser] = useState({ username: '', points: 0, level: 0 });
@@ -19,10 +19,16 @@ const ProfilePage = () => {
   const [avatar, setAvatar] = useState({avatar: '_default.png', border: '_default.png', background: '_default.png'})
 
   useEffect(() => {
-    const fetchBadges = async () => {
+    const fetchBadges = async (badgeArray) => {
       try {
-        const responseData = await getData('api/badges');
-        setBadges(responseData);
+        const fetchedBadges = await Promise.all(
+          badgeArray.map(async (badge) => {
+            const responseData = await getData(`api/badges/id/${badge.id}`);    
+            responseData['timeAchieved'] = badge.timeAchieved;
+            return responseData;
+          })
+        );
+        setBadges(fetchedBadges);
         setIsBadgeLoading(false);
       } catch (error) {
         console.log(error);
@@ -33,19 +39,30 @@ const ProfilePage = () => {
         const token = localStorage.getItem('token');
         const res = await postData('api/auth/current', {token});
         const userData = await getData(`api/users/id/${res.decoded.id}`);
-        console.log(userData);
         setUser({ username: userData.username, points: userData.points || 0, level: userData.level || 0 });
-        setAvatar({avatar: userData.avatar, border: userData.border, background: userData.background})
+        setAvatar({avatar: userData.avatar, border: userData.border, background: userData.background});
+        fetchBadges(userData.badges || []);
         setIsUserLoading(false);
       } catch (error) {
         console.log(error);
         setIsUserLoading(true);
       }
     };
-    fetchBadges();
     fetchUser();
 
   }, [getData, postData])
+
+  //function to add a badge
+  // eslint-disable-next-line
+  async function addBadge(badge_id) {
+    try {
+      if (user.username !== '') {
+        await postData('api/users/addBadge', { username: user.username, newBadgeId: badge_id });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className='App-page'>

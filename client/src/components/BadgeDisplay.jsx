@@ -22,19 +22,19 @@ function getBadgeImage(badgeImage){
 }
 
 
+
+
 function BadgeContainer(badges) {
 
   const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: '#f5f5f9',
+      backgroundColor: '#60a5fa',
       color: 'rgba(0, 0, 0, 0.87)',
       fontSize: theme.typography.pxToRem(12),
       border: '2px solid black',
-      maxWidth: 'none',
-      whiteSpace: 'pre-wrap',
-      wordBreak: 'break-word',
+      maxWidth: 'calc(100vw / 6)',
     },
   }));
 
@@ -45,15 +45,20 @@ function BadgeContainer(badges) {
           <div className="grid grid-cols-3 gap-4 p-4">
             {badges.badges.map((badge, index) => (
               <HtmlTooltip
+              key={index} 
               title={
                 <React.Fragment>
-                  <div class="text-2xl font-bold text-gray-800 text-center">{badge.name}</div>
-                  <div>This badge is given for this reason to signify this...</div>
-                  <div>Achieved: 24th May 2024</div>
+                  <div className="text-2xl font-bold text-black text-center mb-2">{badge.name}</div>
+                  <div className="mb-2">{badge.description}{badge.description}{badge.description}{badge.description}{badge.description}</div>
+                  <div className="font-bold">Achieved: {new Date(badge.timeAchieved).toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit'
+                  })}</div>
                 </React.Fragment>
               }
             >
-              <div key={index} className="flex flex-col items-center">
+              <div className="flex flex-col items-center">
                   <img
                     className="h-[200px] p-2 cursor-pointer hover:scale-105 ease-in-out duration-300"
                     src={getBadgeImage(badge.imagePath)}
