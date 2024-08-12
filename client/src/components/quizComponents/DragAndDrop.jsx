@@ -1,24 +1,30 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Draggable } from "react-smooth-dnd";
 import {
     ListItem,
     ListItemText,
     Grid,
     Typography
-} from '@mui/material';  
+} from '@mui/material';
 import StyledBox from "./StyledBox";
-import BotBox from "../../components/content/botBox";
+//import BotBox from "../../components/content/botBox";
+
+
+// NEW 
+import { FiPlus, FiTrash } from "react-icons/fi";
+import { motion } from "framer-motion";
+import { FaFire } from "react-icons/fa";
 
 
 //uses react-smooth-dnd
 export default function DragAndDrop({ question, index, setSelection, userValues }) {
-    
+
     let order = userValues[question.questionText] || question.options
     useEffect(() => {
         setSelection(question.questionText, order);
     }, [question]);
 
-    
+
     //We can set the selection first before we do anything just in case
     const onDrop = ({ removedIndex, addedIndex }) => {
         //We remove the item with splice, then add the item back to the new index
@@ -26,8 +32,6 @@ export default function DragAndDrop({ question, index, setSelection, userValues 
         order.splice(addedIndex, 0, removedOption);
         setSelection(question.questionText, order);
     }
-
-
 
     const mappedIndex = (order).map((item, idx) => (
         <Draggable key={idx}>
@@ -62,20 +66,13 @@ export default function DragAndDrop({ question, index, setSelection, userValues 
             }}  >
 
                 <ListItemText primary={item} sx={{ fontSize: 700 }} />
-
-
             </ListItem>
         </Draggable>
     ))
     return (
         <Grid container>
-            <div className="widget" draggable onDragStart={(e) => handleOnDrag(e,"Widget A")}
-
-
-
             <Grid item xs={12} display="flex" justifyContent="center">
                 <StyledBox >
-
                     <Grid xs={12}>
                         <Typography sx={{ display: "inline", color: '#3ca3ee', fontSize: '30px', lineHeight: '60px', fontWeight: 700, mr: '5px' }}>Question {index + 1}</Typography>
                         <Typography sx={{ display: "inline", color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', lineHeight: '32px', }}></Typography>{/*Needs fixing to display total question fix another time */}
