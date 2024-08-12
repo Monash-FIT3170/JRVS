@@ -25,7 +25,8 @@ const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete
         margin: '10px',
         padding: '10px 20px',
         fontSize: '16px',
-        borderRadius: '5px'
+        borderRadius: '10px',
+        whiteSpace: 'nowrap'
     };
 
     const buttonPrimary = {
@@ -66,8 +67,18 @@ const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete
         paddingLeft: '24px'
     };
 
+    const horizontalLineStyle = {
+        width: '93%',
+        margin: '10px auto',
+        borderTop: '2px solid #CCCCCC'
+    };
+    
+    const dialogStyle = {
+        borderRadius: '15px'
+    };
+
     return (
-        <Dialog open={isOpen} onClose={onClose}>
+        <Dialog open={isOpen} onClose={onClose} PaperProps={{ style: dialogStyle }}>
             <DialogTitle style={dialogTitleStyle}>
                 <span style={titleStyle}>{node && node.title}</span>
                 <IconButton edge="end" color="inherit" onClick={onClose} aria-label="close" style={{margin: '12px'}}>
@@ -80,17 +91,23 @@ const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete
                 </DialogContentText>
             </DialogContent>
             <DialogActions style={{ justifyContent: 'center' }}>
-                {/* <Button onClick={onClose} style={buttonSecondary}>Back</Button> */}
                 <Button onClick={handleEnterLesson} style={buttonPrimary}>Enter</Button>
             </DialogActions>
+            
             {
-                isAdmin &&
-                <DialogActions style={{ justifyContent: 'center' }}>
-                    <Button onClick={onInsert} style={buttonGreen}>Insert Child</Button>
-                    <Button onClick={onAppend} style={buttonGreen}>Append Child</Button>
-                    <Button onClick={onEdit} style={buttonEdit}>Edit</Button>
-                    <Button onClick={onDelete} style={buttonRed}>Delete</Button>
-                </DialogActions>
+                isAdmin && 
+                <div>
+                    {/* Horizontal line */}
+                    <div style={horizontalLineStyle}></div>
+
+                    {/* Admin buttons */}
+                    <DialogActions style={{ justifyContent: 'center' }}>
+                        <Button onClick={onInsert} style={buttonGreen}>Insert Module</Button>
+                        <Button onClick={onAppend} style={buttonGreen}>Append Module</Button>
+                        <Button onClick={onEdit} style={buttonEdit}>Edit</Button>
+                        <Button onClick={onDelete} style={buttonRed}>Delete</Button>
+                    </DialogActions>
+                </div>
             }
         </Dialog>
     );
