@@ -3,6 +3,9 @@ import Badge1 from "../assets/images/Badge1.png";
 import Badge2 from "../assets/images/Badge2.png";
 import Badge3 from "../assets/images/Badge3.png";
 import Badge4 from "../assets/images/Badge4.png";
+import Tooltip from '@mui/material/Tooltip'
+import { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 
 const badgeImages = {};
 badgeImages['Default'] = Badge4;
@@ -18,21 +21,49 @@ function getBadgeImage(badgeImage){
 }
 }
 
+
 function BadgeContainer(badges) {
+
+  const HtmlTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: '#f5f5f9',
+      color: 'rgba(0, 0, 0, 0.87)',
+      fontSize: theme.typography.pxToRem(12),
+      border: '2px solid black',
+      maxWidth: 'none',
+      whiteSpace: 'pre-wrap',
+      wordBreak: 'break-word',
+    },
+  }));
+
   return (
     <div className="relative">
       <div className="flex items-center">
         <div className="w-full h-full overflow-y-scroll scroll-smooth" id="slider">
           <div className="grid grid-cols-3 gap-4 p-4">
             {badges.badges.map((badge, index) => (
+              <HtmlTooltip
+              title={
+                <React.Fragment>
+                  <div class="text-2xl font-bold text-gray-800 text-center">{badge.name}</div>
+                  <div>This badge is given for this reason to signify this...</div>
+                  <div>Achieved: 24th May 2024</div>
+                </React.Fragment>
+              }
+            >
               <div key={index} className="flex flex-col items-center">
-                <img
-                  className="h-[200px] p-2 cursor-pointer hover:scale-105 ease-in-out duration-300"
-                  src={getBadgeImage(badge.imagePath)}
-                  alt="/"
-                />
-                <div className="text-lg font-bold">{badge.name}</div>
-              </div>
+                  <img
+                    className="h-[200px] p-2 cursor-pointer hover:scale-105 ease-in-out duration-300"
+                    src={getBadgeImage(badge.imagePath)}
+                    alt="/"
+                  />
+                  <div className="text-lg font-bold">{badge.name}</div>
+                </div>
+            </HtmlTooltip>
+              
+                
             ))}
           </div>
         </div>
