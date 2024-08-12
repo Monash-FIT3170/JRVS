@@ -35,7 +35,7 @@ const getUnit = asyncHandler (async (req, res) => {
 // @access  Private
 const appendNode = asyncHandler(async (req, res) => {
     // Get the inputs
-    const { unitId, targetNodeId, newNode } = req.body;
+    const { unitId, targetNodeId, newNode, inputSubType } = req.body;
 
     // 1. Get the target unit to be modified
     const unit = await unitModel.findById(unitId);
@@ -44,7 +44,9 @@ const appendNode = asyncHandler(async (req, res) => {
     }
 
     // 2. Insert a new empty node into the lesson/video/quiz object in the database
-    // NOTE: Simply insert a lesson/video/quiz. TODO: Consider setup of progress tracking of a new lesson/video/quiz
+    // TODO: Consider setup of progress tracking of a new lesson/video/quiz
+    // TODO: Handle sub-types of lesson/video/quizzes. Eg multiple choice quiz, drag and drop quiz, etc
+    
     var generatedNode;
 
     if (newNode.type == 'lesson') {
@@ -53,12 +55,16 @@ const appendNode = asyncHandler(async (req, res) => {
     else if (newNode.type == 'video') {
         generatedNode = await createVideo(newNode.title);
     }
-    else return res.status(500).json({message: 'New node type invalid'})
+    else if (newNode.type == 'quiz') {
+        generatedNode = await createQuiz(newNode.title, inputSubType);
+    }
+    else {
+        return res.status(500).json({message: 'New node type invalid'})
+    }
 
     if (!generatedNode) {
-        res.status(500).json({message: 'Error creating lesson'})
+        res.status(500).json({message: 'Error inserting the node into the lesson/video/quiz collection'})
     }
-    // TODO: Add option to insert a video/quiz depending on the node type
 
     // 3. Add the generated node id to newNode
     newNode.id = generatedNode._id;
@@ -140,6 +146,17 @@ async function createVideo(nodeTitle) {
         title: nodeTitle || 'New Video',
         url: "https://www.youtube.com/embed/oJC8VIDSx_Q",
         heading: "Watch the video below to learn more about <description>"
+    });
+
+    return generatedNode;
+}
+
+// Create a new quiz in the quiz collection
+async function createQuiz(nodeTitle, quizType) {
+    // TODO: Handle different quiz types. May need to update quizModel schema
+    generatedNode = await quizModel.create({
+        questions: [],
+        topic: nodeTitle || "New Quiz"
     });
 
     return generatedNode;

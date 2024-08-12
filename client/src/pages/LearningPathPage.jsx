@@ -129,7 +129,8 @@ const LearningPathPage = () => {
         // Handle an append of a child. A new node should be added to this nodes's children
         const targetNodeId = selectedNode.id;
         
-        const inputType = 'video' // 'lesson', 'video' or 'quiz'
+        const inputType = 'lesson' // 'lesson', 'video' or 'quiz'
+        const inputSubType = 'MCQ' // TODO: Sub-type. For example: multiple choice quiz, drag and drop quiz, etc
         
         // New node object with placeholder values
         const newNode = {
@@ -141,7 +142,7 @@ const LearningPathPage = () => {
         };
 
         try {
-            const response = await postData(`api/units/${unitId}/append`, { unitId, targetNodeId, newNode });
+            const response = await postData(`api/units/${unitId}/append`, { unitId, targetNodeId, newNode, inputSubType });
             console.log(response)
         } catch (error) {
             console.log(error);
