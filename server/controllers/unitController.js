@@ -40,6 +40,7 @@ const appendNode = asyncHandler(async (req, res) => {
     // 1. Get the target unit to be modified
     const unit = await unitModel.findById(unitId);
     if (!unit) {
+        console.log("unit_details not found");
         return res.status(404).json({ message: "unit_details not found" });
     }
 
@@ -59,20 +60,23 @@ const appendNode = asyncHandler(async (req, res) => {
         generatedNode = await createQuiz(newNode.title, inputSubType);
     }
     else {
+        console.log('New node type invalid');
         return res.status(500).json({message: 'New node type invalid'})
     }
 
     if (!generatedNode) {
-        res.status(500).json({message: 'Error inserting the node into the lesson/video/quiz collection'})
+        console.log('Error inserting the node into the lesson/video/quiz collection');
+        return res.status(500).json({message: 'Error inserting the node into the lesson/video/quiz collection'})
     }
 
     // 3. Add the generated node id to newNode
-    newNode.id = generatedNode._id;
+    newNode.id = generatedNode._id.toString(); // Convert from ObjectId to String
 
     // 4. Locate the selected node within the unit, and append the new node to its children locally
-    const isUpdated = addChildNode(unit.data, targetNodeId, newNode);
+    const isUpdated = appendChildNode(unit.data, targetNodeId, newNode);
     if (!isUpdated) {
-        res.status(404).json({ message: 'Target node not found' });
+        console.log('Target node not found');
+        return res.status(404).json({ message: 'Target node not found' });
     }
 
     // 5. Update the node count in locally modified unit_details object
@@ -88,6 +92,7 @@ const appendNode = asyncHandler(async (req, res) => {
         { $inc: { numberOfLessons: 1 } }
     );
     if (!unitsUpdated) {
+        console.log('Units object not found');
         return res.status(404).json({ message: "Units object not found" })
     };
     
@@ -105,6 +110,7 @@ const insertNode = asyncHandler(async (req, res) => {
     // 1. Get the target unit to be modified
     const unit = await unitModel.findById(unitId);
     if (!unit) {
+        console.log("unit_details not found");
         return res.status(404).json({ message: "unit_details not found" });
     }
 
@@ -125,16 +131,18 @@ const insertNode = asyncHandler(async (req, res) => {
         ]
     });
     if (!newLesson) {
+        console.log('Error creating lesson')
         res.status(500).json({message: 'Error creating lesson'})
     }
     // TODO: Add option to insert a video/quiz depending on the node type
 
     // 3. Add the generated node id to newNode
-    newNode.id = newLesson._id;
+    newNode.id = newLesson._id.toString(); // Convert from ObjectId to String
 
     // 4. Locate the selected node within the unit, and append the new node to its children locally
     const isUpdated = insertChildNode(unit.data, targetNodeId, newNode);
     if (!isUpdated) {
+        console.log('Target node not found')
         res.status(404).json({ message: 'Target node not found' });
     }
 
@@ -151,6 +159,7 @@ const insertNode = asyncHandler(async (req, res) => {
         { $inc: { numberOfLessons: 1 } }
     );
     if (!unitsUpdated) {
+        console.log("Units object not found")
         return res.status(404).json({ message: "Units object not found" })
     };
     
@@ -181,7 +190,7 @@ function insertChildNode(tree, nodeId, newNode) {
 }
 
 // Recursive function to append a node to a target node in the learning path
-function addChildNode(data, targetId, newNode) {
+function appendChildNode(data, targetId, newNode) {
     for (let item of data) {
         // Log the IDs being compared to help debug
         // console.log(`Comparing ${item.id} with ${targetId}`);
@@ -195,7 +204,7 @@ function addChildNode(data, targetId, newNode) {
 
         // Recur if children exist
         if (item.children && item.children.length > 0) {
-            const found = addChildNode(item.children, targetId, newNode);
+            const found = appendChildNode(item.children, targetId, newNode);
             if (found) {
                 return true; // Stop further recursion if the node was found
             }
