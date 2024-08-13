@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 import Menu from "../components/MenuBar.jsx";
 import quizIcon from '../assets/images/QuizIcon.png';
 import lessonIcon from '../assets/images/WrittenLessonIcon.png';
@@ -28,6 +28,7 @@ const theme = {
 
 const LearningPathPage = () => {
     const { getData, postData } = useApi();
+    const navigate = useNavigate();
 
     const [learningPathData, setLearningPathData] = useState([]);
     const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
@@ -121,8 +122,26 @@ const LearningPathPage = () => {
         setSelectedNode(null);
     };
 
-    const handlePopupInsert = () => {
-        // TODO: Handle an insert of child. A new node should be inserted between this node and its children
+    const handlePopupInsert = async () => {
+        // Handle an insert of child. A new node should be inserted between this node and its children
+        const targetNodeId = selectedNode.id;
+        const newNode = {
+            icon: 'lessonIcon', // Assign an appropriate icon. Could also be 'quizIcon' or 'videoIcon'
+            title: 'New Lesson', // Placeholder title, you may want to customize this
+            tooltip: { content: 'Description of the new child node' },
+            children: [],
+            type: 'lesson', // or 'quiz' or 'video', depending on the type you want to add
+        };
+
+        try {
+            const response = await postData(`api/units/${unitId}/insert`, { unitId, targetNodeId, newNode });
+            console.log(response)
+        } catch (error) {
+            console.log(error);
+        }
+
+        // Refresh the page
+        navigate(0); // TODO: once edit page is implements, navigate to edit page instead of reloading
     };
 
     async function handlePopupAppend() {
@@ -149,7 +168,7 @@ const LearningPathPage = () => {
         }
 
         // Refresh the page
-        window.location.href = `http://localhost:3000/learningPath/${unitId}`;
+        navigate(0); // TODO: once edit page is implements, navigate to edit page instead of reloading
     };
 
     const handlePopupEdit = () => {
