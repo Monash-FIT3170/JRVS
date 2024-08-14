@@ -16,11 +16,11 @@ export default function EditListBox(props) {
             <Box sx={{ padding: '20px'}}><h2 className="heading-font">{props.index + 1}. List</h2></Box>
             <Box sx={{padding: '20px'}}>
                 <h2 className="text-font">Heading</h2>
-                <TextField required variant="outlined" label="Heading" defaultValue={props.heading ? props.heading : ""} sx={{width: '100%', marginBottom: '20px', marginTop: '8px'}}>
+                <TextField fullWidth required variant="outlined" label="Heading" defaultValue={props.heading ? props.heading : ""} sx={{marginBottom: '20px', marginTop: '8px'}}>
 
                 </TextField>
                 <h2 className="text-font">List Items</h2>
-                {props.points && props.points.map((point, index) => (<TextField required  variant="outlined" label={"Point " + (index + 1)} minRows={1} defaultValue={point} sx={{width: '100%', marginTop: '10px'}} key={index}/>))}
+                {props.points && props.points.map((point, index) => (<TextField fullWidth required multiline variant="outlined" label={"Point " + (index + 1)} minRows={1} defaultValue={point} sx={{marginTop: '10px'}} key={index}/>))}
             </Box>
 
         </Box>

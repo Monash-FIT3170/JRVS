@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Drawer, IconButton, TextField, Toolbar } from "@mui/material"
+import { AppBar, Box, Button, TextField, Toolbar } from "@mui/material"
 import MenuBar from "../../components/MenuBar"
 import { useNavigate, useParams } from "react-router-dom";
 import "./lessons.css"
@@ -8,6 +8,7 @@ import EditTextBox from "../../components/editComponents/editTextBox";
 import EditListBox from "../../components/editComponents/editListBox";
 import EditImageTextBox from "../../components/editComponents/editImageTextBox";
 import EditMultipleImageTextBox from "../../components/editComponents/editMultipleImageTextBox";
+import EditOptionsBox from "../../components/editComponents/editOptionsBox";
 
 const EditLesson = () => {
     const navigate = useNavigate();
@@ -81,6 +82,41 @@ const EditLesson = () => {
         }
     }, [lesson]);
 
+    const deleteContent = useCallback((index) => {
+        if (lesson.content) {
+            const updatedContent = lesson.content.filter((_, i) => i !== index);
+            setLesson({...lesson, content: updatedContent});
+        }
+    }, [lesson]);
+
+    const moveUp = useCallback((index) => {
+        if (lesson.content && index > 0) {
+            const updatedContent = [...lesson.content];
+            const prevItem = updatedContent[index - 1];
+            updatedContent[index - 1] = updatedContent[index];
+            updatedContent[index] = prevItem;
+            setLesson({...lesson, content: updatedContent});
+        }
+    }, [lesson]);
+
+    const moveDown = useCallback((index) => {
+        if (lesson.content && index < lesson.content.length - 1) {
+            const updatedContent = [...lesson.content];
+            const nextItem = updatedContent[index + 1];
+            updatedContent[index + 1] = updatedContent[index];
+            updatedContent[index] = nextItem;
+            setLesson({...lesson, content: updatedContent});
+        }
+    }, [lesson]);
+
+    const updateContent = useCallback((index, newContent) => {
+        if (lesson.content && index >= 0 && index < lesson.content.length) {
+            const updatedContent = [...lesson.content];
+            updatedContent[index] = newContent;
+            setLesson({...lesson, content: updatedContent});
+        }
+    }, [lesson])
+
     return (
         <Box
             sx={{
@@ -122,19 +158,20 @@ const EditLesson = () => {
 
                 {!isLessonLoading &&
                 <Box sx={{width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'auto'}}>
-                    <Box sx={{borderRadius: '5px', borderWidth: '2px', borderColor: 'black', width: '50%', padding: '20px', marginBottom: '20px', marginTop: '20px'}}>
+                    <Box sx={{borderRadius: '5px', borderWidth: '2px', borderColor: 'black', width: '80%', padding: '20px', marginBottom: '20px', marginTop: '20px'}}>
                         <Box sx={{marginBottom: '40px'}}><h2 className="heading-font">Title</h2></Box>
                         <TextField required variant="outlined" label="Title" defaultValue={lesson.title ? lesson.title : ""} sx={{width: '100%'}}/>
                     </Box>
                     {lesson.content && lesson.content.map((section, index) => {
+                        const uniqueKey = `${section.type}${index}${new Date().getTime()}`;
                         if (section.type === "textBox") {
-                            return <EditTextBox heading={section.heading} text={section.text} index={index} key={index}/>
+                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditTextBox key={uniqueKey} heading={section.heading} text={section.text} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
                         } else if (section.type === "listBox") {
-                            return <EditListBox heading={section.heading} points={section.points} index={index} key={index}/>
+                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditListBox key={uniqueKey} heading={section.heading} points={section.points} index={index} /><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
                         } else if (section.type === "imageTextBox") {
-                            return <EditImageTextBox heading={section.heading} text={section.text} imageSrc={section.imageSrc} index={index} key={index}/>
+                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrc={section.imageSrc} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
                         } else if (section.type === "multipleImageTextBox") {
-                            return <EditMultipleImageTextBox heading={section.heading} text={section.text} imageSrcs={section.imageSrcs} index={index} key={index} />
+                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditMultipleImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrcs={section.imageSrcs} index={index} /><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
                         } else {
                             return <></>
                         }
@@ -146,7 +183,7 @@ const EditLesson = () => {
                 <div ref={bottomRef}></div>
             </Box>
 
-            <AppBar position="fixed" elevation={0} sx={{ top: 'auto', bottom: 0, bgcolor: 'transparent', height: '100px', justifyContent: 'center' }}>
+            <AppBar position="fixed" elevation={0} sx={{ top: 'auto', bottom: 0, bgcolor: 'transparent', height: '100px', justifyContent: 'center', pointerEvents: 'none'}}>
                 <Toolbar>
                     <Box
                         sx={{
@@ -155,8 +192,8 @@ const EditLesson = () => {
                             justifyContent: 'space-between'
                         }}
                     >
-                        <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
-                        <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Save</Button>
+                        <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', pointerEvents: 'auto'}}>Back</Button>
+                        <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', pointerEvents: 'auto'}}>Save All</Button>
                     </Box>
                 </Toolbar>
             </AppBar>
