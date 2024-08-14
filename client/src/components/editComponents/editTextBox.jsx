@@ -23,7 +23,6 @@ export default function EditTextBox({heading, text, index, updateContent}) {
     }
 
     const handleSave = () => {
-        console.log("test");
         updateContent(index, {
             type: "textBox",
             heading: currentHeading,

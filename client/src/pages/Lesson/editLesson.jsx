@@ -167,11 +167,11 @@ const EditLesson = () => {
                         if (section.type === "textBox") {
                             return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditTextBox key={uniqueKey} heading={section.heading} text={section.text} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
                         } else if (section.type === "listBox") {
-                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditListBox key={uniqueKey} heading={section.heading} points={section.points} index={index} /><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
+                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditListBox key={uniqueKey} heading={section.heading} points={section.points} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
                         } else if (section.type === "imageTextBox") {
                             return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrc={section.imageSrc} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
                         } else if (section.type === "multipleImageTextBox") {
-                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditMultipleImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrcs={section.imageSrcs} index={index} /><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
+                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey}><EditMultipleImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrcs={section.imageSrcs} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
                         } else {
                             return <></>
                         }
