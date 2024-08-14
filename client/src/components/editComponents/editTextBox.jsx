@@ -39,7 +39,8 @@ export default function EditTextBox({heading, text, index, updateContent}) {
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
                 width: '50%',
                 borderRadius: '5px',
-                marginBottom: '20px'
+                marginBottom: '20px',
+                marginLeft: '70px'
             }}
         >
             <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. Text Only</h2></Box>

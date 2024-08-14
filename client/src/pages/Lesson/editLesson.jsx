@@ -10,6 +10,17 @@ import EditImageTextBox from "../../components/editComponents/editImageTextBox";
 import EditMultipleImageTextBox from "../../components/editComponents/editMultipleImageTextBox";
 import EditOptionsBox from "../../components/editComponents/editOptionsBox";
 import AddIcon from '@mui/icons-material/Add';
+import NotesIcon from '@mui/icons-material/Notes';
+import ListIcon from '@mui/icons-material/List';
+import ImageIcon from '@mui/icons-material/Image';
+import BurstModeIcon from '@mui/icons-material/BurstMode';
+
+function shortenString(str, maxLength) {
+    if (str.length > maxLength) {
+        return str.substring(0, maxLength) + '...';
+    }
+    return str;
+}
 
 const EditLesson = () => {
     const navigate = useNavigate();
@@ -18,10 +29,13 @@ const EditLesson = () => {
     const [isLessonLoading, setIsLessonLoading] = useState(true);
     const { lessonId }  = useParams();
     const bottomRef = useRef(null);
+    const topRef = useRef(null);
     const [currentTitle, setCurrentTitle] = useState("");
     const [titleChanged, setTitleChanged] = useState(false);
     const [editMade, setEditMade] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [showList, setShowList] = useState(false);
+    const sectionRefs = useRef([]);
 
     const handleBackClick = () => {
         navigate(-1); // Go back to the previous page
@@ -34,6 +48,25 @@ const EditLesson = () => {
     
         setOpenSnackBar(false);
     };
+
+    const handleScroll = (index) => {
+        sectionRefs.current[index].scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const handleScrollPosition = () => {
+        if (window.scrollY > 0) {
+            setShowList(true);
+        } else {
+            setShowList(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScrollPosition);
+        return () => {
+            window.removeEventListener('scroll', handleScrollPosition);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -169,7 +202,8 @@ const EditLesson = () => {
                 backgroundColor: '#3CA3EE',
             }}
         >
-            <Box sx={{padding: '10px'}}><MenuBar/></Box>
+            <div ref={topRef}></div>
+            <Box sx={{padding: '10px'}}><MenuBar title="Edit Lesson" subtitle={lesson.title || "Loading..."} /></Box>
             
             <Box
                 sx={{
@@ -181,7 +215,7 @@ const EditLesson = () => {
                     justifyContent: 'center',
                 }}
             >
-                
+
                 <Box 
                     sx={{
                         display: 'flex',
@@ -206,17 +240,17 @@ const EditLesson = () => {
                     </Box>
                     {lesson.content && lesson.content.map((section, index) => {
                         const uniqueKey = `${section.type}${index}${new Date().getTime()}`;
-                        if (section.type === "textBox") {
-                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', marginLeft: '70px'}} key={uniqueKey}><EditTextBox key={uniqueKey} heading={section.heading} text={section.text} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
-                        } else if (section.type === "listBox") {
-                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', marginLeft: '70px'}} key={uniqueKey}><EditListBox key={uniqueKey} heading={section.heading} points={section.points} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
-                        } else if (section.type === "imageTextBox") {
-                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', marginLeft: '70px'}} key={uniqueKey}><EditImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrc={section.imageSrc} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
-                        } else if (section.type === "multipleImageTextBox") {
-                            return <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', marginLeft: '70px'}} key={uniqueKey}><EditMultipleImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrcs={section.imageSrcs} index={index} updateContent={updateContent}/><EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/></Box>
-                        } else {
-                            return <></>
-                        }
+                        return (<Box sx={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={uniqueKey} ref={(el) => (sectionRefs.current[index] = el)}>
+                            {section.type === "textBox" &&
+                                <EditTextBox key={uniqueKey} heading={section.heading} text={section.text} index={index} updateContent={updateContent}/>}
+                            {section.type === "listBox" &&
+                                <EditListBox key={uniqueKey} heading={section.heading} points={section.points} index={index} updateContent={updateContent}/>}
+                            {section.type === "imageTextBox" &&
+                                <EditImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrc={section.imageSrc} index={index} updateContent={updateContent}/>}
+                            {section.type === "multipleImageTextBox" &&
+                                <EditMultipleImageTextBox key={uniqueKey} heading={section.heading} text={section.text} imageSrcs={section.imageSrcs} index={index} updateContent={updateContent}/>}
+                            <EditOptionsBox deleteContent={deleteContent} moveUp={moveUp} moveDown={moveDown} index={index}/>
+                        </Box>)
                     })
                     }
                     
@@ -224,6 +258,40 @@ const EditLesson = () => {
                 }
                 <div ref={bottomRef}></div>
             </Box>
+
+
+            {showList && <AppBar position="fixed" elevation={0} sx={{':hover': {opacity: 1}, top: 'auto', left: 0, bgcolor: 'transparent', height: '100vh', justifyContent: 'center', pointerEvents: 'auto'}}>
+                <Toolbar>
+                    <Box
+                        sx={{
+                            ':hover': {opacity: 1, transition: 'opacity 0.3s ease-in-out'},
+                            width: '15%',
+                            maxHeight: '60vh',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            opacity: 0.8,
+                            bgcolor: '#343A40',
+                            padding: '10px',
+                            borderRadius: '5px',
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                            overflow: 'auto'
+                        }}
+                    >
+                        <Button variant="text"  onClick={() => topRef.current?.scrollIntoView({left: '70px', behavior: 'smooth'})} sx={{':hover': {backgroundColor: '#495057'}, marginBottom: '5px', bgcolor: '#343A40', pointerEvents: 'auto', color: 'white'}}>Start</Button>
+                        {lesson.content && lesson.content.map((section, index) => {
+                            return <Button startIcon={
+                            (section.type === "textBox" && <NotesIcon />) ||
+                            (section.type === "imageTextBox" && <ImageIcon />) ||
+                            (section.type === "listBox" && <ListIcon />) ||
+                            (section.type === "multipleImageTextBox" && <BurstModeIcon />)
+                            } variant="text" onClick={() => handleScroll(index)} sx={{':hover': {backgroundColor: '#495057'}, marginBottom: '5px', bgcolor: '#343A40', pointerEvents: 'auto', textTransform: 'Capitalize', color: 'white', justifyContent: 'flex-start'}}>{shortenString(section.heading, 12) || "New Content"}
+                            </Button>
+                        })
+                        }
+                        <Button variant="text" onClick={() => bottomRef.current?.scrollIntoView({behavior: 'smooth'})} sx={{':hover': {backgroundColor: '#495057'}, bgcolor: '#343A40', pointerEvents: 'auto', color: 'white'}}>End</Button>
+                    </Box>
+                </Toolbar>
+            </AppBar>}
 
             <AppBar position="fixed" elevation={0} sx={{ top: 'auto', bottom: 0, bgcolor: 'transparent', height: '100px', justifyContent: 'center', pointerEvents: 'none'}}>
                 <Toolbar>
