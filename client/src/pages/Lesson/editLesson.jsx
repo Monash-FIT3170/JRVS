@@ -192,10 +192,10 @@ const EditLesson = () => {
                         marginTop: '20px'
                     }}
                 >
-                    <Button startIcon={<AddIcon/>} onClick={() => addContent("textBox")} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '10px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT ONLY</Button>
-                    <Button startIcon={<AddIcon/>} onClick={() => addContent("listBox")} variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '10px', bgcolor: '#E0E0E0', color: 'black'}}>LIST</Button>
-                    <Button startIcon={<AddIcon/>} onClick={() => addContent("imageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '10px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT + IMAGE</Button>
-                    <Button startIcon={<AddIcon/>} onClick={() => addContent("multipleImageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '10px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT + MULTIPLE IMAGES</Button>
+                    <Button startIcon={<AddIcon/>} onClick={() => addContent("textBox")} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT ONLY</Button>
+                    <Button startIcon={<AddIcon/>} onClick={() => addContent("listBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>LIST</Button>
+                    <Button startIcon={<AddIcon/>} onClick={() => addContent("imageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT + IMAGE</Button>
+                    <Button startIcon={<AddIcon/>} onClick={() => addContent("multipleImageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT + MULTIPLE IMAGES</Button>
                 </Box>
 
                 {!isLessonLoading &&
