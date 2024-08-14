@@ -13,10 +13,12 @@ import EditOptionsBox from "../../components/editComponents/editOptionsBox";
 const EditLesson = () => {
     const navigate = useNavigate();
     const { getData, updateData } = useApi();
-    const [lesson, setLesson] = useState({ content: []});
+    const [lesson, setLesson] = useState({ title: "", content: []});
     const [isLessonLoading, setIsLessonLoading] = useState(true);
     const { lessonId }  = useParams();
     const bottomRef = useRef(null);
+    const [currentTitle, setCurrentTitle] = useState("");
+    const [titleChanged, setTitleChanged] = useState(false);
 
     const handleBackClick = () => {
         navigate(-1); // Go back to the previous page
@@ -27,6 +29,7 @@ const EditLesson = () => {
           try {
             const responseData = await getData('api/lessons/' + lessonId);
             setLesson(responseData);
+            setCurrentTitle(responseData.title);
             setIsLessonLoading(false);
           } catch (error) {
             console.log(error);
@@ -41,6 +44,27 @@ const EditLesson = () => {
     // edit components for each
     // customise lesson locally
     // save button updates entry in database
+
+    const saveEdit = async () => {
+        try {
+            await updateData(`api/lessons/${lessonId}`, lesson);
+        } catch (error) {
+            console.log('Error updating of lesson', error);
+        }
+    }
+
+    const handleTitleChange = (event) => {
+        setCurrentTitle(event.target.value);
+        if (event.target.value !== lesson.title) setTitleChanged(true);
+        else setTitleChanged(false);
+    }
+
+    const changeLessonTitle = useCallback((newTitle) => {
+        if (lesson.title && lesson.title !== newTitle) {
+            setLesson({...lesson, title: newTitle});
+            setTitleChanged(false);
+        }
+    }, [lesson])
 
     const addContent = useCallback((type) => {
         if (lesson.content) {
@@ -160,7 +184,7 @@ const EditLesson = () => {
                 <Box sx={{width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'auto'}}>
                     <Box sx={{borderRadius: '5px', borderWidth: '2px', borderColor: 'black', width: '80%', padding: '20px', marginBottom: '20px', marginTop: '20px'}}>
                         <Box sx={{marginBottom: '40px'}}><h2 className="heading-font">Title</h2></Box>
-                        <TextField required variant="outlined" label="Title" defaultValue={lesson.title ? lesson.title : ""} sx={{width: '100%'}}/>
+                        <TextField onChange={handleTitleChange} required variant="outlined" label="Title" defaultValue={lesson.title ? lesson.title : ""} sx={{width: '100%'}}/><Button variant="contained" onClick={() => changeLessonTitle(currentTitle)} disabled={!titleChanged} >SAVE</Button>
                     </Box>
                     {lesson.content && lesson.content.map((section, index) => {
                         const uniqueKey = `${section.type}${index}${new Date().getTime()}`;
@@ -193,7 +217,7 @@ const EditLesson = () => {
                         }}
                     >
                         <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', pointerEvents: 'auto'}}>Back</Button>
-                        <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', pointerEvents: 'auto'}}>Save All</Button>
+                        <Button onClick={saveEdit} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', pointerEvents: 'auto'}}>Save All</Button>
                     </Box>
                 </Toolbar>
             </AppBar>

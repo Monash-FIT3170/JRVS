@@ -66,7 +66,7 @@ const NewLessons = () => {
                 <Button 
                   fullWidth 
                   variant="outlined" 
-                  onClick={() => handleOptionClick('/edit/66b341a1b11523f5692a2702')} // hardcoded for testing
+                  onClick={() => handleOptionClick('/edit/66bc83e0ad5315842a757ea9')} // hardcoded for testing
                   sx={{
                     color: '#2196F3',
                     borderColor: '#2196F3',
