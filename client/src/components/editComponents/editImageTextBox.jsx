@@ -45,8 +45,8 @@ export default function EditImageTextBox({heading, text, imageSrc, index, update
     return (
         <Box 
             sx={{
-                borderColor: 'black',
-                borderWidth: '2px',
+                bgcolor: '#3CA3EE',
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
                 width: '50%',
                 borderRadius: '5px',
                 marginBottom: '20px'
