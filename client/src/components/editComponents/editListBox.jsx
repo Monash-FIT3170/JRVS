@@ -13,16 +13,14 @@ export default function EditListBox(props) {
                 marginBottom: '20px'
             }}
         >
-            <Box sx={{ padding: '20px'}}><h2 className="heading-font">2. List</h2></Box>
+            <Box sx={{ padding: '20px'}}><h2 className="heading-font">{props.index + 1}. List</h2></Box>
             <Box sx={{padding: '20px'}}>
                 <h2 className="text-font">Heading</h2>
                 <TextField required variant="outlined" label="Heading" defaultValue={props.heading ? props.heading : ""} sx={{width: '100%', marginBottom: '20px', marginTop: '8px'}}>
 
                 </TextField>
-                <h2 className="text-font">Text Content</h2>
-                <TextField required multiline variant="outlined" label="Text" minRows={5} defaultValue={props.text ? props.text : ""} sx={{width: '100%', marginTop: '8px'}}>
-
-                </TextField>
+                <h2 className="text-font">List Items</h2>
+                {props.points && props.points.map((point, index) => (<TextField required  variant="outlined" label={"Point " + (index + 1)} minRows={1} defaultValue={point} sx={{width: '100%', marginTop: '10px'}} key={index}/>))}
             </Box>
 
         </Box>

@@ -2,17 +2,20 @@ import { AppBar, Box, Button, Drawer, IconButton, TextField, Toolbar } from "@mu
 import MenuBar from "../../components/MenuBar"
 import { useNavigate, useParams } from "react-router-dom";
 import "./lessons.css"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useApi } from "../../context/ApiProvider";
 import EditTextBox from "../../components/editComponents/editTextBox";
 import EditListBox from "../../components/editComponents/editListBox";
+import EditImageTextBox from "../../components/editComponents/editImageTextBox";
+import EditMultipleImageTextBox from "../../components/editComponents/editMultipleImageTextBox";
 
 const EditLesson = () => {
     const navigate = useNavigate();
     const { getData, updateData } = useApi();
-    const [lesson, setLesson] = useState([]);
+    const [lesson, setLesson] = useState({ content: []});
     const [isLessonLoading, setIsLessonLoading] = useState(true);
     const { lessonId }  = useParams();
+    const bottomRef = useRef(null);
 
     const handleBackClick = () => {
         navigate(-1); // Go back to the previous page
@@ -31,11 +34,52 @@ const EditLesson = () => {
         fetchData();
     }, [getData, lessonId])
 
+    console.log(lesson)
     // display lesson contents
     // buttons for types (text only, text + image, text + multiple images, list)
     // edit components for each
     // customise lesson locally
     // save button updates entry in database
+
+    const addContent = useCallback((type) => {
+        if (lesson.content) {
+            let newContent;
+            if (type === "textBox") {
+                newContent = {
+                    type: "textBox",
+                    heading: "",
+                    text: ""
+                };
+            } else if (type === "listBox") {
+                newContent = {
+                    type: "listBox",
+                    heading: "",
+                    points: [],
+                };
+            } else if (type === "imageTextBox") {
+                newContent = {
+                    type: "imageTextBox",
+                    heading: "",
+                    text: "",
+                    imageSrc: ""
+                };
+            } else if (type === "multipleImageTextBox") {
+                newContent = {
+                    type: "multipleImageTextBox",
+                    heading: "",
+                    text: "",
+                    imageSrcs: []
+                };        
+            }
+
+            const updatedContent = [...lesson.content, newContent];
+            setLesson({...lesson, content: updatedContent});
+
+            setTimeout(() => {
+                bottomRef.current?.scrollIntoView({ behavior: 'smooth'});
+            }, 500) 
+        }
+    }, [lesson]);
 
     return (
         <Box
@@ -65,13 +109,15 @@ const EditLesson = () => {
                         flexDirection: 'row',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: '100%' 
+                        width: '100%',
+                        padding: '10px' 
                     }}
                 >
-                    <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, margin: '10px', marginTop: '20px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT ONLY</Button>
-                    <Button variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, margin: '10px', marginTop: '20px', bgcolor: '#E0E0E0', color: 'black'}}>LIST</Button>
-                    <Button variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, margin: '10px', marginTop: '20px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT + IMAGE</Button>
-                    <Button variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, margin: '10px', marginTop: '20px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT + MULTIPLE IMAGES</Button>
+                    <h2 className="heading-font">ADD</h2>
+                    <Button onClick={() => addContent("textBox")} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '10px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT ONLY</Button>
+                    <Button onClick={() => addContent("listBox")} variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '10px', bgcolor: '#E0E0E0', color: 'black'}}>LIST</Button>
+                    <Button onClick={() => addContent("imageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '10px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT + IMAGE</Button>
+                    <Button onClick={() => addContent("multipleImageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '10px', bgcolor: '#E0E0E0', color: 'black'}}>TEXT + MULTIPLE IMAGES</Button>
                 </Box>
 
                 {!isLessonLoading &&
@@ -80,11 +126,24 @@ const EditLesson = () => {
                         <Box sx={{marginBottom: '40px'}}><h2 className="heading-font">Title</h2></Box>
                         <TextField required variant="outlined" label="Title" defaultValue={lesson.title ? lesson.title : ""} sx={{width: '100%'}}/>
                     </Box>
-                    <EditTextBox/>
-                    <EditListBox/>
+                    {lesson.content && lesson.content.map((section, index) => {
+                        if (section.type === "textBox") {
+                            return <EditTextBox heading={section.heading} text={section.text} index={index} key={index}/>
+                        } else if (section.type === "listBox") {
+                            return <EditListBox heading={section.heading} points={section.points} index={index} key={index}/>
+                        } else if (section.type === "imageTextBox") {
+                            return <EditImageTextBox heading={section.heading} text={section.text} imageSrc={section.imageSrc} index={index} key={index}/>
+                        } else if (section.type === "multipleImageTextBox") {
+                            return <EditMultipleImageTextBox heading={section.heading} text={section.text} imageSrcs={section.imageSrcs} index={index} key={index} />
+                        } else {
+                            return <></>
+                        }
+                    })
+                    }
+                    
                 </Box>
                 }
-
+                <div ref={bottomRef}></div>
             </Box>
 
             <AppBar position="fixed" elevation={0} sx={{ top: 'auto', bottom: 0, bgcolor: 'transparent', height: '100px', justifyContent: 'center' }}>
@@ -101,7 +160,6 @@ const EditLesson = () => {
                     </Box>
                 </Toolbar>
             </AppBar>
-
         </Box>
     )
 }
