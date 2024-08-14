@@ -260,7 +260,7 @@ const EditLesson = () => {
             </Box>
 
 
-            {showList && <AppBar position="fixed" elevation={0} sx={{':hover': {opacity: 1}, top: 'auto', left: 0, bgcolor: 'transparent', height: '100vh', justifyContent: 'center', pointerEvents: 'auto'}}>
+            {showList && <AppBar position="fixed" elevation={0} sx={{':hover': {opacity: 1}, top: 'auto', left: 0, bgcolor: 'transparent', height: '100vh', justifyContent: 'center', pointerEvents: 'none'}}>
                 <Toolbar>
                     <Box
                         sx={{
@@ -274,7 +274,8 @@ const EditLesson = () => {
                             padding: '10px',
                             borderRadius: '5px',
                             boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-                            overflow: 'auto'
+                            overflow: 'auto',
+                            pointerEvents: 'auto'
                         }}
                     >
                         <Button variant="text"  onClick={() => topRef.current?.scrollIntoView({left: '70px', behavior: 'smooth'})} sx={{':hover': {backgroundColor: '#495057'}, marginBottom: '5px', bgcolor: '#343A40', pointerEvents: 'auto', color: 'white'}}>Start</Button>
