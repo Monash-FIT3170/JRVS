@@ -163,6 +163,21 @@ const updateAvatar = asyncHandler(async (req, res) => {
     await user.save();
 });
 
+const updateDetails = asyncHandler(async (req, res) => {
+    const { firstname, lastname, username, newUsername, email, school, password } = req.body;
+    const user = await User.findOne({ username });
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    user.username = newUsername;
+    user.firstname = firstname;
+    user.lastname = lastname;
+    user.email = email; 
+    await user.save();
+});
+
 const updateUnlocked = asyncHandler(async (req, res) => {
     const { username, unlockedAvatars, unlockedBorders, unlockedBackgrounds } = req.body;
     const user = await User.findOne({ username });
@@ -199,6 +214,7 @@ module.exports = {
     getUserByUsername,
     getUserById,
     updateAvatar,
+    updateDetails,
     updateUnlocked,
     getAllUsers
 };
