@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Fade, Snackbar, TextField, Toolbar } from "@mui/material"
+import { AppBar, Box, Button, CircularProgress, Fade, Snackbar, TextField, Toolbar } from "@mui/material"
 import MenuBar from "../../components/MenuBar"
 import { useNavigate, useParams } from "react-router-dom";
 import "./lessons.css"
@@ -242,7 +242,7 @@ const EditLesson = () => {
                     <Button startIcon={<AddIcon/>} onClick={() => addContent("multipleImageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT & GALLERY</Button>
                     <Button startIcon={<HistoryIcon/>} disabled={!editMade} onClick={() => revertChanges()} variant="contained" sx={{':hover': {backgroundColor: '#6c757d'}, marginLeft: '10px', bgcolor: '#F88379', color: 'black'}}>REVERT</Button>
                 </Box>
-
+                {isLessonLoading && <CircularProgress size={80} disableShrink sx={{color: '#3CA3EE', marginTop: '20px'}}/>}
                 {!isLessonLoading &&
                 <Box sx={{width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'hidden'}}>
                     <Box sx={{borderRadius: '5px', bgcolor: '#3CA3EE', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', width: '50%', padding: '20px', marginBottom: '20px'}}>
