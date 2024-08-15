@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import './editComponents.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 
 
@@ -12,6 +12,7 @@ export default function EditImageTextBox({heading, text, imageSrc, index, update
     const [currentHeading, setCurrentHeading] = useState(heading);
     const [currentText, setCurrentText] = useState(text);
     const [currentImageSrc, setCurrentImageSrc] = useState(imageSrc);
+    const [isValid, setIsValid] = useState(false);
 
     const handleHeadingChange = (event) => {
         setCurrentHeading(event.target.value);
@@ -42,6 +43,21 @@ export default function EditImageTextBox({heading, text, imageSrc, index, update
         setTextChanged(false);
     }
 
+    // validate image url
+    useEffect(() => {
+        if (currentImageSrc === "") setIsValid(true);
+        else {
+            const img = new Image();
+            img.src = currentImageSrc;
+            img.onload = () => {
+                setIsValid(true);
+            };
+        
+            img.onerror = () => {
+                setIsValid(false);
+            };
+        }
+    }, [currentImageSrc]);
 
     return (
         <Box 
@@ -54,7 +70,7 @@ export default function EditImageTextBox({heading, text, imageSrc, index, update
                 marginLeft: '70px'
             }}
         >
-            <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. Text + Image</h2></Box>
+            <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. Text & Image</h2></Box>
             <Box sx={{padding: '20px'}}>
                 <h2 className="text-font">Heading</h2>
                 <TextField onChange={handleHeadingChange} fullWidth multiline minRows={1} maxRows={3} required variant="outlined" defaultValue={heading || ""} sx={{marginBottom: '20px', marginTop: '4px'}} />
@@ -66,7 +82,9 @@ export default function EditImageTextBox({heading, text, imageSrc, index, update
                 <TextField onChange={handleImageSrcChange} fullWidth required multiline variant="outlined" minRows={1} maxRows={2} defaultValue={imageSrc || ""} sx={{marginTop: '4px'}} />
 
             </Box>
-            <Box sx={{padding: '20px'}}><Button variant="contained" startIcon={<EditIcon/>} onClick={handleSave} disabled={!headingChanged && !textChanged && !imageSrcChanged} >EDIT</Button></Box>
+            <Box sx={{padding: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center'}}><Button variant="contained" startIcon={<EditIcon/>} onClick={handleSave} disabled={(!headingChanged && !textChanged && !imageSrcChanged) || !isValid} >EDIT</Button>
+            {(!isValid) && <h2 className="error-font" style={{marginLeft: '5px'}}>Invalid Image Link</h2>}
+            </Box>
         </Box>
     )
 }

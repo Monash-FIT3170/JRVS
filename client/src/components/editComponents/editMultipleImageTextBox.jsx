@@ -2,7 +2,7 @@ import { Box, Button, IconButton, TextField } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import './editComponents.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 
 
@@ -14,6 +14,7 @@ export default function EditMultipleImageTextBox({heading, text, imageSrcs, inde
     const [currentHeading, setCurrentHeading] = useState(heading);
     const [currentText, setCurrentText] = useState(text);
     const [currentImageSrcs, setCurrentImageSrcs] = useState(imageSrcs);
+    const [isValid, setIsValid] = useState(false);
 
     const handleHeadingChange = (event) => {
         setCurrentHeading(event.target.value);
@@ -57,6 +58,28 @@ export default function EditMultipleImageTextBox({heading, text, imageSrcs, inde
         setTextChanged(false);
     }
 
+    // validate image urls
+    useEffect(() => {
+        let componentMounted = true;
+        const validateImages = async () => {
+            const results = await Promise.all(
+                currentImageSrcs.map((src) => {
+                    return new Promise((resolve) => {
+                        const image = new Image();
+                        image.src = src;
+                        image.onload = () => resolve(true);
+                        image.onerror = () => resolve(false);
+                    });
+                })
+            );
+            if (componentMounted) {
+                setIsValid(results.every((result) => result));
+            }
+        };
+        validateImages();
+        return () => {componentMounted = false};
+    }, [currentImageSrcs]);
+
     return (
         <Box 
             sx={{
@@ -68,7 +91,7 @@ export default function EditMultipleImageTextBox({heading, text, imageSrcs, inde
                 marginLeft: '70px'
             }}
         >
-            <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. Text + Multiple Images</h2></Box>
+            <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. Text & Gallery</h2></Box>
             <Box sx={{padding: '20px'}}>
                 <h2 className="text-font">Heading</h2>
                 <TextField onChange={handleHeadingChange} fullWidth minRows={1} maxRows={3} required variant="outlined" defaultValue={heading || ""} sx={{marginBottom: '20px', marginTop: '4px'}} />
@@ -85,7 +108,9 @@ export default function EditMultipleImageTextBox({heading, text, imageSrcs, inde
                     <IconButton onClick={handleImageSrcAdd}><AddCircleIcon sx={{color: 'black'}}/></IconButton>
                 </Box>
             </Box>
-            <Box sx={{padding: '20px'}}><Button variant="contained" startIcon={<EditIcon/>} onClick={handleSave} disabled={!headingChanged && !textChanged && !imageSrcsChanged} >EDIT</Button></Box>
+            <Box sx={{display: 'flex', flexDirection: 'row', padding: '20px', alignItems: 'center'}}><Button variant="contained" startIcon={<EditIcon/>} onClick={handleSave} disabled={(!headingChanged && !textChanged && !imageSrcsChanged) || !isValid} >EDIT</Button>
+            {(!isValid && imageSrcsChanged) && <h2 className="error-font" style={{marginLeft: '5px'}}>Invalid Image Links</h2>}
+            </Box>
         </Box>
     )
 }

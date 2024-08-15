@@ -3,7 +3,7 @@
 
 .text-font {
     font-family: "Roboto", sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     font-style: normal;
     color: black;
     font-size: medium;
@@ -15,4 +15,12 @@
     font-style: normal;
     font-size: large;
     color: black;
+}
+
+.error-font {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    color: #CC5500;
+    font-size: small;
 }

@@ -319,7 +319,7 @@ const EditLesson = () => {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Snackbar sx={{'& .MuiSnackbarContent-root': {justifyContent: 'center'},}} open={openSnackBar} onClose={handleClose} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} message="Lesson Edited." autoHideDuration={4000}/>
+            <Snackbar sx={{'& .MuiSnackbarContent-root': {justifyContent: 'center'},}} open={openSnackBar} onClose={handleClose} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} message="Lesson Saved." autoHideDuration={4000}/>
         </Box>
     )
 }
