@@ -12,7 +12,7 @@ export default function EditImageTextBox({heading, text, imageSrc, index, update
     const [currentHeading, setCurrentHeading] = useState(heading);
     const [currentText, setCurrentText] = useState(text);
     const [currentImageSrc, setCurrentImageSrc] = useState(imageSrc);
-    const [isValid, setIsValid] = useState(false);
+    const [isValid, setIsValid] = useState(true);
 
     const handleHeadingChange = (event) => {
         setCurrentHeading(event.target.value);
