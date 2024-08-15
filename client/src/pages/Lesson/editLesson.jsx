@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Snackbar, TextField, Toolbar } from "@mui/material"
+import { AppBar, Box, Button, Fade, Snackbar, TextField, Toolbar } from "@mui/material"
 import MenuBar from "../../components/MenuBar"
 import { useNavigate, useParams } from "react-router-dom";
 import "./lessons.css"
@@ -14,6 +14,9 @@ import NotesIcon from '@mui/icons-material/Notes';
 import ListIcon from '@mui/icons-material/List';
 import ImageIcon from '@mui/icons-material/Image';
 import BurstModeIcon from '@mui/icons-material/BurstMode';
+import EditIcon from '@mui/icons-material/Edit';
+import HistoryIcon from '@mui/icons-material/History';
+
 
 function shortenString(str, maxLength) {
     if (str.length > maxLength) {
@@ -26,6 +29,7 @@ const EditLesson = () => {
     const navigate = useNavigate();
     const { getData, updateData } = useApi();
     const [lesson, setLesson] = useState({ title: "", content: []});
+    const [initialLesson, setInitialLesson] = useState({ title: "", content: []});
     const [isLessonLoading, setIsLessonLoading] = useState(true);
     const { lessonId }  = useParams();
     const bottomRef = useRef(null);
@@ -73,6 +77,7 @@ const EditLesson = () => {
           try {
             const responseData = await getData('api/lessons/' + lessonId);
             setLesson(responseData);
+            setInitialLesson(responseData);
             setCurrentTitle(responseData.title);
             setIsLessonLoading(false);
           } catch (error) {
@@ -82,18 +87,12 @@ const EditLesson = () => {
         fetchData();
     }, [getData, lessonId])
 
-    console.log(lesson)
-    // display lesson contents
-    // buttons for types (text only, text + image, text + multiple images, list)
-    // edit components for each
-    // customise lesson locally
-    // save button updates entry in database
-
     const saveEdit = async () => {
         try {
             await updateData(`api/lessons/${lessonId}`, lesson);
             setEditMade(false);
             setOpenSnackBar(true);
+            setInitialLesson(lesson);
         } catch (error) {
             console.log('Error updating of lesson', error);
         }
@@ -193,6 +192,13 @@ const EditLesson = () => {
         }
     }, [lesson])
 
+    const revertChanges = useCallback(() => {
+        setLesson(initialLesson);
+        setCurrentTitle(initialLesson.title);
+        setEditMade(false);
+        setTitleChanged(false);
+    }, [initialLesson]);
+
     return (
         <Box
             sx={{
@@ -223,20 +229,25 @@ const EditLesson = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         width: '100%',
-                        marginTop: '20px'
+                        position: 'sticky',
+                        top: 0,
+                        bgcolor: 'rgba(255,255,255, 0.8)',
+                        zIndex: 100,
+                        padding: '20px',
                     }}
                 >
                     <Button startIcon={<AddIcon/>} onClick={() => addContent("textBox")} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT ONLY</Button>
                     <Button startIcon={<AddIcon/>} onClick={() => addContent("listBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>LIST</Button>
-                    <Button startIcon={<AddIcon/>} onClick={() => addContent("imageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT + IMAGE</Button>
-                    <Button startIcon={<AddIcon/>} onClick={() => addContent("multipleImageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT + MULTIPLE IMAGES</Button>
+                    <Button startIcon={<AddIcon/>} onClick={() => addContent("imageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT & IMAGE</Button>
+                    <Button startIcon={<AddIcon/>} onClick={() => addContent("multipleImageTextBox")} variant="contained" sx={{':hover': {backgroundColor: '#3CA3EE'}, marginLeft: '10px', bgcolor: '#C0C0C0', color: 'black'}}>TEXT & GALLERY</Button>
+                    <Button startIcon={<HistoryIcon/>} disabled={!editMade} onClick={() => revertChanges()} variant="contained" sx={{':hover': {backgroundColor: '#6c757d'}, marginLeft: '10px', bgcolor: '#F88379', color: 'black'}}>REVERT</Button>
                 </Box>
 
                 {!isLessonLoading &&
                 <Box sx={{width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'hidden'}}>
-                    <Box sx={{borderRadius: '5px', bgcolor: '#3CA3EE', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', width: '50%', padding: '20px', marginBottom: '20px', marginTop: '20px'}}>
+                    <Box sx={{borderRadius: '5px', bgcolor: '#3CA3EE', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', width: '50%', padding: '20px', marginBottom: '20px'}}>
                         <Box sx={{marginBottom: '40px'}}><h2 className="heading-font">Title</h2></Box>
-                        <TextField onChange={handleTitleChange} required variant="outlined" label="Title" defaultValue={lesson.title ? lesson.title : ""} sx={{width: '100%', marginBottom: '20px'}}/><Button variant="contained" onClick={() => changeLessonTitle(currentTitle)} disabled={!titleChanged} >SAVE</Button>
+                        <TextField onChange={handleTitleChange} required multiline minRows={1} maxRows={2} variant="outlined" label="Title" value={currentTitle || ""} sx={{width: '100%', marginBottom: '20px'}}/><Button startIcon={<EditIcon/>} variant="contained" onClick={() => changeLessonTitle(currentTitle)} disabled={!titleChanged} >EDIT</Button>
                     </Box>
                     {lesson.content && lesson.content.map((section, index) => {
                         const uniqueKey = `${section.type}${index}${new Date().getTime()}`;
@@ -260,7 +271,7 @@ const EditLesson = () => {
             </Box>
 
 
-            {showList && <AppBar position="fixed" elevation={0} sx={{':hover': {opacity: 1}, top: 'auto', left: 0, bgcolor: 'transparent', height: '100vh', justifyContent: 'center', pointerEvents: 'none'}}>
+            <Fade in={showList} timeout={1000}><AppBar position="fixed" elevation={0} sx={{':hover': {opacity: 1}, top: 'auto', left: 0, bgcolor: 'transparent', height: '100vh', justifyContent: 'center', pointerEvents: 'none'}}>
                 <Toolbar>
                     <Box
                         sx={{
@@ -292,7 +303,7 @@ const EditLesson = () => {
                         <Button variant="text" onClick={() => bottomRef.current?.scrollIntoView({behavior: 'smooth'})} sx={{':hover': {backgroundColor: '#495057'}, bgcolor: '#343A40', pointerEvents: 'auto', color: 'white'}}>End</Button>
                     </Box>
                 </Toolbar>
-            </AppBar>}
+            </AppBar></Fade>
 
             <AppBar position="fixed" elevation={0} sx={{ top: 'auto', bottom: 0, bgcolor: 'transparent', height: '100px', justifyContent: 'center', pointerEvents: 'none'}}>
                 <Toolbar>

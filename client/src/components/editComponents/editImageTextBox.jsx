@@ -1,6 +1,7 @@
 import { Box, Button, TextField } from "@mui/material";
 import './editComponents.css'
 import { useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
 
 
 export default function EditImageTextBox({heading, text, imageSrc, index, updateContent}) {
@@ -56,16 +57,16 @@ export default function EditImageTextBox({heading, text, imageSrc, index, update
             <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. Text + Image</h2></Box>
             <Box sx={{padding: '20px'}}>
                 <h2 className="text-font">Heading</h2>
-                <TextField onChange={handleHeadingChange} fullWidth required variant="outlined" label="Heading" defaultValue={heading || ""} sx={{marginBottom: '20px', marginTop: '8px'}} />
+                <TextField onChange={handleHeadingChange} fullWidth multiline minRows={1} maxRows={3} required variant="outlined" defaultValue={heading || ""} sx={{marginBottom: '20px', marginTop: '4px'}} />
 
                 <h2 className="text-font">Text Content</h2>
-                <TextField onChange={handleTextChange} fullWidth required multiline variant="outlined" label="Text" minRows={1} defaultValue={text || ""} sx={{marginTop: '8px', marginBottom: '20px'}} />
+                <TextField onChange={handleTextChange} fullWidth rows={6} maxRows={6} required multiline variant="outlined" defaultValue={text || ""} sx={{marginTop: '4px', marginBottom: '20px'}} />
 
                 <h2 className="text-font">Image Link</h2>
-                <TextField onChange={handleImageSrcChange} fullWidth required multiline variant="outlined" label="Image Link" minRows={1} defaultValue={imageSrc || ""} sx={{marginTop: '8px'}} />
+                <TextField onChange={handleImageSrcChange} fullWidth required multiline variant="outlined" minRows={1} maxRows={2} defaultValue={imageSrc || ""} sx={{marginTop: '4px'}} />
 
             </Box>
-            <Box sx={{padding: '20px'}}><Button variant="contained" onClick={handleSave} disabled={!headingChanged && !textChanged && !imageSrcChanged} >SAVE</Button></Box>
+            <Box sx={{padding: '20px'}}><Button variant="contained" startIcon={<EditIcon/>} onClick={handleSave} disabled={!headingChanged && !textChanged && !imageSrcChanged} >EDIT</Button></Box>
         </Box>
     )
 }

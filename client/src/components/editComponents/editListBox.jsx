@@ -3,6 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import './editComponents.css'
 import { useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
 
 
 export default function EditListBox({heading, points, index, updateContent}) {
@@ -61,16 +62,16 @@ export default function EditListBox({heading, points, index, updateContent}) {
             <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. List</h2></Box>
             <Box sx={{padding: '20px'}}>
                 <h2 className="text-font">Heading</h2>
-                <TextField fullWidth onChange={handleHeadingChange} required variant="outlined" label="Heading" defaultValue={heading || ""} sx={{marginBottom: '20px', marginTop: '8px'}} />
+                <TextField fullWidth onChange={handleHeadingChange} required multiline minRows={1} maxRows={3} variant="outlined" defaultValue={heading || ""} sx={{marginBottom: '20px', marginTop: '4px'}} />
 
                 <h2 className="text-font">List Items</h2>
-                {currentPoints && currentPoints.map((point, index) => (<TextField onChange={(event) => handlePointChange(event, index)} fullWidth required multiline variant="outlined" label={"Point " + (index + 1)} minRows={1} defaultValue={point} sx={{marginTop: '10px'}} key={index}/>))}
+                {currentPoints && currentPoints.map((point, index) => (<TextField onChange={(event) => handlePointChange(event, index)} fullWidth multiline variant="outlined" label={"Point " + (index + 1)} minRows={1} maxRows={3} defaultValue={point} sx={{marginTop: '10px'}} key={index}/>))}
                 <Box sx={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: '8px'}}>
                     {currentPoints && currentPoints.length > 0 && <IconButton onClick={handlePointsRemove}><RemoveCircleIcon sx={{color: 'black'}}/></IconButton>}
                     <IconButton onClick={handlePointsAdd}><AddCircleIcon sx={{color: 'black'}}/></IconButton>
                 </Box>
             </Box>
-            <Box sx={{padding: '20px'}}><Button variant="contained" onClick={handleSave} disabled={!headingChanged && !pointsChanged} >SAVE</Button></Box>
+            <Box sx={{padding: '20px'}}><Button variant="contained" startIcon={<EditIcon/>} onClick={handleSave} disabled={!headingChanged && !pointsChanged} >EDIT</Button></Box>
         </Box>
     )
 }
