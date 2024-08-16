@@ -205,11 +205,35 @@ const getProfile = (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   };
+  const joinTeacher = asyncHandler(async (req, res) => {
+    const { sharableCode } = req.body;
+    const studentId = req.user._id;
   
-  module.exports = {
-    getProfile,
-  };
-
+    // Find teacher by sharableCode
+    const teacher = await User.findOne({ sharableCode, usertype: 'teacher' });
+    if (!teacher) {
+      return res.status(404).json({ error: 'Invalid teacher code' });
+    }
+  
+    if (teacher.students.includes(studentId)) {
+      return res.status(400).json({ error: 'Already part of this teacher' });
+    }
+  
+    // Update student's teacherId
+    const student = await User.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+    student.teacherId = teacher._id;
+  
+    // Add student to teacher's students array
+    teacher.students.push(student._id);
+  
+    await student.save();
+    await teacher.save();
+  
+    res.status(200).json({ message: 'Successfully joined the teacher' });
+  });
 
 module.exports = {
     createUser,
@@ -219,5 +243,6 @@ module.exports = {
     updateAvatar,
     updateUnlocked,
     getAllUsers,
-    getProfile
+    getProfile,
+    joinTeacher
 };
