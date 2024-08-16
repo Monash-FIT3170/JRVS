@@ -38,13 +38,13 @@ export const ApiProvider = ({ children }) => {
 
   // Function to get data from MongoDB
   const getData = async (endpoint) => {
-    const url = `${baseURL}/${endpoint}`;
+    const url = `${baseURL}/${endpoint}`.replace(/([^:]\/)\/+/g, "$1");
     return fetchData(url);
   };
 
   // Function to post data to MongoDB
   const postData = async (endpoint, data) => {
-    const url = `${baseURL}/${endpoint}`;
+    const url = `${baseURL}/${endpoint}`.replace(/([^:]\/)\/+/g, "$1");
     const options = {
       method: 'POST',
       body: JSON.stringify(data),
