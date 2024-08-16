@@ -73,13 +73,14 @@ router.post('/register', async (req, res) => {
 // Login route
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
+
   try {
     const user = await User.findOne({ username });
     if (!user) return res.status(400).send('Invalid username or password');
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(400).send('Invalid username or password');
     
-    const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
     res.status(500).send('Server error');
@@ -87,8 +88,8 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/current', async (req, res) => {
-  const { token } = req.body;
-  const decoded = jwt.verify(token, 'your_jwt_secret');
+  const {token} = req.body;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   res.json({ decoded });
 });
 

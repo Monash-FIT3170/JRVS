@@ -1,5 +1,5 @@
-const { Double } = require('mongodb');
-const mongoose = require('mongoose');
+const { Double } = require('mongodb')
+const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
@@ -61,6 +61,10 @@ const userSchema = mongoose.Schema(
         unlockedBackgrounds: {
             type: Array,
             required: false,
+        },
+        level: {
+            type: Number,
+            default: 0
         },
         assignedUnits: {
             type: Array,
