@@ -74,7 +74,16 @@ const userSchema = mongoose.Schema(
             type: String,
             required: function() { return this.usertype == 'teacher'; },
             unique: true
-        }
+        },
+        teacherId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',  
+            required: false  
+        },
+        students: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User' 
+        }]
     },  
     {
         timestamps: true
