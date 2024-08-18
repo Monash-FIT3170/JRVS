@@ -7,9 +7,11 @@ import {
 import { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import BotBox from "../../components/content/botBox";
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function Submitted({ score, totalScore, points}) {
     const [showConfetti, setShowConfetti] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const timer = setTimeout(() => setShowConfetti(false), 8000);
@@ -50,7 +52,8 @@ export default function Submitted({ score, totalScore, points}) {
 
             </Grid>
             <Grid item xs={12} display="flex" justifyContent="center">
-                <Button href='/learningPath' variant="contained" className="button-font"
+                
+                <Button onClick={navigate(-1)} variant="contained" className="button-font"
                     sx={{ ':hover': { backgroundColor: '#E6B635' }, padding: '14px', mt: '20px',mb:'20px', borderRadius: '15px', backgroundColor: '#FFC93C', fontSize: '20px', fontWeight: 700, fontFamily: '"Roboto-Bold", Helvetica' }}>
                     Return to learning path
                 </Button>
