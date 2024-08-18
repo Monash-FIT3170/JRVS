@@ -256,9 +256,98 @@ async function createQuiz(nodeTitle, quizType) {
     return generatedNode;
 }
 
+
+const deleteNode = asyncHandler(async (req, res) => {
+    const { unitId, nodeId } = req.body;
+
+    try {
+        // get the target unit
+        const unit = await unitModel.findById(unitId);
+        if (!unit) {
+            return res.status(404).json({ message: "Unit not found" });
+        }
+
+        // remove the node and reappend its children
+        let deletedNode = null;
+        const isRemoved = removeNodeAndReappendChildren(unit.data, nodeId, null, (node) => {
+            deletedNode = node;
+        });
+
+        if (!isRemoved) {
+            return res.status(404).json({ message: "Node not found" });
+        }
+
+        if (!deletedNode) {
+            return res.status(400).json({ message: "Cannot delete root node" });
+        }
+
+        // update the node count
+        unit.numberOfLessons -= 1;
+
+        // save the updated unit
+        unit.markModified('data');
+        await unit.save();
+
+        // update the units collection
+        await unitsModel.updateOne(
+            { _id: unitId },
+            { $inc: { numberOfLessons: -1 } }
+        );
+
+        // delete the corresponding lesson/video/quiz document
+        await deleteNodeDocument(deletedNode);
+
+        res.status(200).json({ message: 'Node deleted and children reappended successfully' });
+    } catch (error) {
+        console.error('Error in deleteNode:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+function removeNodeAndReappendChildren(tree, nodeId, parent, onNodeFound) {
+    for (let i = 0; i < tree.length; i++) {
+        if (tree[i].id === nodeId) {
+            if (!parent) {
+                return false; // to prevent deletion of root node
+            }
+            
+            const removedNode = tree.splice(i, 1)[0];
+            onNodeFound(removedNode);
+            
+            // reappend children to the parent
+            tree.splice(i, 0, ...removedNode.children);
+            
+            return true;
+        }
+        if (tree[i].children && tree[i].children.length > 0) {
+            if (removeNodeAndReappendChildren(tree[i].children, nodeId, tree[i], onNodeFound)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+async function deleteNodeDocument(node) {
+    switch (node.type) {
+        case 'lesson':
+            await lessonModel.findByIdAndDelete(node.id);
+            break;
+        case 'video':
+            await videoModel.findByIdAndDelete(node.id);
+            break;
+        case 'quiz':
+            await quizModel.findByIdAndDelete(node.id);
+            break;
+        default:
+            console.log(`Unknown node type: ${node.type}`);
+    }
+}
+
 module.exports = {
     getUnits,
     getUnit,
     appendNode,
-    insertNode
+    insertNode,
+    deleteNode
 }
