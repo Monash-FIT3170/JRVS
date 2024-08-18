@@ -12,7 +12,6 @@ import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Videos from './pages/Video/videos';
-import EditProfile from './pages/EditProfile';
 import LeaderboardPage from "./pages/LeaderboardPage";
 
 const App = () =>  {
@@ -49,9 +48,6 @@ const App = () =>  {
         <Route path="/register" element={<RegistrationPage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route element={<NotFoundPage />} />
-        <Route exact path='/editprofile' element={<ProtectedRoute/>}>
-          <Route path='/editprofile' element={<EditProfile/>}/>
-        </Route>
       </Routes>
     </Router>
   );
