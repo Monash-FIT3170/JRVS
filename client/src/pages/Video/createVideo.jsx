@@ -69,8 +69,9 @@ const CreateVideo = () => {
    
         }}
       >
+
         <Typography variant="h4" sx={{ paddingBottom: '25px', color: '#333' }}>
-          Create Video
+          Edit Video Lesson
         </Typography>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           <TextField
@@ -122,7 +123,7 @@ const CreateVideo = () => {
               ':hover': { backgroundColor: '#2196F3' },
             }}
           >
-            Create Video
+            Update Video
           </Button>
         </form>
       </Box>

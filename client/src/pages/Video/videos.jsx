@@ -77,13 +77,13 @@ function Videos() {
             
             <Box
                 sx={{
-                    position: 'fixed',
-                    bottom: 0,
-                    right: 0,
-                    width: 'auto', 
+   
+                    bottom: 1000,
+                    left:1200,
+                    width: '100%',
                     display: 'flex',
-                    justifyContent: 'flex-end', 
-                    padding: '20px', 
+                    justifyContent: 'space-between',
+                    paddingBottom: '60px'
                 }}
             >
                 
