@@ -24,6 +24,7 @@ function Quizzes() {
     const [userScore, setUserScore] = useState(0)
     const [totalScore, setTotalScore] = useState(0)
     const [isQuizLoading, setIsQuizLoading] = useState(true);
+    const [finalPoints, setFinalPoints] = useState(0)
 
 
 
@@ -64,6 +65,8 @@ function Quizzes() {
         }
     };
 
+    let points = 0;
+
     const submitForm = async () => {
         console.log(userValues)
         console.log("Current user data:", user);
@@ -76,11 +79,16 @@ function Quizzes() {
             if (question.type === 'Reorder') {
                 if (userValues[question.questionText].toString() === question.answer.toString()) {
                     correctCount += 1;
+                    points += question.points;
+                    console.log(points)
                 }
 
             }
             else if (userValues[question.questionText] === question.answer) {
                 correctCount += 1;
+                points += question.points;
+                console.log(points)
+
             }
 
         });
@@ -88,9 +96,10 @@ function Quizzes() {
         setUserScore(correctCount)
         setTotalScore(questions.length)
         setIsSubmitted(true);
+        setFinalPoints(points)
         // update user points
         try {
-            const response = await postData('api/users/updatePoints', { username: user.username, newPoints: parseInt(user.points) + 100 });
+            const response = await postData('api/users/updatePoints', { newPoints: points });
             console.log('Points updated:', response.points);
         } catch (error) {
             console.error('Failed to update points', error);
@@ -129,7 +138,7 @@ function Quizzes() {
 
     const renderQuestion = () => {
         if (isSubmitted) {
-            return <Submitted score={userScore} totalScore={totalScore} />; // Render the Submitted component after submission
+            return <Submitted score={userScore} totalScore={totalScore} points = {finalPoints} />; // Render the Submitted component after submission
         }
 
         else if (questions) {

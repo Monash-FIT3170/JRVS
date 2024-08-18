@@ -5,6 +5,8 @@ import { Box, Button } from '@mui/material';
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import './videos.css'
+import Submitted from "../../components/quizComponents/Submitted.jsx";
+import { useNavigate } from 'react-router-dom';
 
 function Videos() {
 
@@ -13,6 +15,8 @@ function Videos() {
     const [video, setVideo] = useState([]);
     const [isVideoLoading, setIsVideoLoading] = useState(true);
     const { videoId }  = useParams();
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const navigate = useNavigate();
   
     useEffect(() => {
       const fetchData = async () => {
@@ -27,6 +31,12 @@ function Videos() {
       fetchData();
     }, [getData, videoId])
     
+    const submitForm = () => {
+        navigate(-1);
+
+    };
+
+
     return (
         <Box
             sx={{
@@ -69,13 +79,15 @@ function Videos() {
                 sx={{
                     position: 'fixed',
                     bottom: 0,
-                    width: '100%',
+                    right: 0,
+                    width: 'auto', 
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    paddingBottom: '60px'
+                    justifyContent: 'flex-end', 
+                    padding: '20px', 
                 }}
             >
-                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>RETURN TO LEARNING PATH</Button>
+                
+            <Button onClick={submitForm} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>RETURN TO LEARNING PATH</Button>
             </Box>
         </Box>
     );

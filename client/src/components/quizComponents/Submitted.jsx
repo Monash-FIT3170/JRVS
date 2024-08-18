@@ -7,9 +7,11 @@ import {
 import { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import BotBox from "../../components/content/botBox";
+import { useParams, useNavigate } from 'react-router-dom';
 
-export default function Submitted({ score, totalScore }) {
+export default function Submitted({ score, totalScore, points}) {
     const [showConfetti, setShowConfetti] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const timer = setTimeout(() => setShowConfetti(false), 8000);
@@ -44,13 +46,14 @@ export default function Submitted({ score, totalScore }) {
                     <Typography sx={{ display: "block", color: '#000000', fontSize: '40px', fontWeight: 700, fontFamily: '"Roboto-Bold", Helvetica', lineHeight: '32px', pb: 3 }}>{score}/{totalScore}</Typography>
 
                     <div style={{ padding: '10px', backgroundColor: '#FFC700', borderRadius: '20px', color: 'white' }}>
-                        <p className='russo-one-regular text-4xl'>&nbsp; +{100} ⭐️&nbsp;</p>
+                        <p className='russo-one-regular text-4xl'>&nbsp; +{points} ⭐️&nbsp;</p>
                     </div>
                 </Box>
 
             </Grid>
             <Grid item xs={12} display="flex" justifyContent="center">
-                <Button href='/learningPath' variant="contained" className="button-font"
+                
+                <Button onClick={navigate(-1)} variant="contained" className="button-font"
                     sx={{ ':hover': { backgroundColor: '#E6B635' }, padding: '14px', mt: '20px',mb:'20px', borderRadius: '15px', backgroundColor: '#FFC93C', fontSize: '20px', fontWeight: 700, fontFamily: '"Roboto-Bold", Helvetica' }}>
                     Return to learning path
                 </Button>
