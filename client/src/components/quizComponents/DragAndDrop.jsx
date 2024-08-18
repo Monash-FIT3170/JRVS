@@ -11,9 +11,7 @@ import StyledBox from "./StyledBox";
 
 
 // NEW 
-import { FiPlus, FiTrash } from "react-icons/fi";
-import { motion } from "framer-motion";
-import { FaFire } from "react-icons/fa";
+
 
 
 //uses react-smooth-dnd
