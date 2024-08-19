@@ -6,6 +6,9 @@ import DefaultButton from '../components/DefaultButton';
 import '../assets/styles/App.css';
 import { useApi } from '../context/ApiProvider';
 import Avatar from '../components/characterCustomization/Avatar';
+import { Button } from '@mui/material';
+import CustomButton from '../components/CustomButton'; // Import CustomButton
+
 
 const ProfilePage = () => {
   const { getData, postData } = useApi();
@@ -54,8 +57,11 @@ const ProfilePage = () => {
   }, [getData, postData]);
 
   const handleJoin = async () => {
+    console.log('Join teacher button clicked')
     try {
+      console.log('Joining teacher with code:', sharableCode);
       const response = await postData('/api/users/student/join-teacher', { sharableCode });
+      console.log('Response received:', response);
       if (response && response.message === 'Successfully joined the teacher') {
         setStatusMessage({ text: 'Successfully joined the teacher!', isError: false });
       } else if (response.error === 'Already part of this teacher') {
@@ -160,7 +166,7 @@ const ProfilePage = () => {
                   marginBottom: '10px'
                 }}
               />
-              <DefaultButton 
+              <CustomButton 
                 onClick={handleJoin} 
                 text='Join Teacher'
                 style={{ width: '80%' }}
