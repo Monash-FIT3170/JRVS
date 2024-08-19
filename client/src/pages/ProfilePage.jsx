@@ -54,9 +54,7 @@ const ProfilePage = () => {
         <Grid xs={10} style={{ padding: '0 0 10px 40px' }}>
           <h2 style={{ color: 'white', font: 'Roboto', fontWeight: '700', fontSize: '60px' }}>MY PROFILE</h2>
         </Grid>
-        <Grid xs={2}>
-            <DefaultButton text = 'Edit Profile' href='/editprofile'></DefaultButton>
-        </Grid>
+        <Grid xs={2}></Grid>
         <Grid xs={4} style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{
             border: '1px solid black',
