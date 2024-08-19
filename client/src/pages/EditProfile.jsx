@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
 import MenuBar from '../components/MenuBar'
+import PasswordChangePopup from '../components/PasswordChangePopup';
 import Select from 'react-select';
 import "../index.css"
 
@@ -17,27 +18,32 @@ const EditProfile = () => {
   const [user, setUser] = useState({ username: '', points: 0, level: 0 });
   const [isUserLoading, setIsUserLoading] = useState(true);
 
-  const [firstname, setFirstname] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [username, setUsername] = useState('')
-  const [newUsername, setNewUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [school, setSchool] = useState('')
-  const [schools, setSchools] = useState('')
-  const [password, setPassword] = useState('')
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [username, setUsername] = useState('');
+  const [newUsername, setNewUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [school, setSchool] = useState('');
+  const [schools, setSchools] = useState('');
+  const [password, setPassword] = useState('');
 
   // const location = useLocation();
   const {getData, postData} = useApi();
 
 
-  // State to control the popup
-  const [open, setOpen] = useState(false);
+  // State to control the popups
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [passwordOpen, setPasswordOpen] = useState(false);
+  const [confirmPasswordOpen, setConfirmPasswordOpen] = useState(false);
 
   // Handle popup close
-  const handleClose = () => {
-    setOpen(false);
+  const handleConfirmClose = () => {
+    setConfirmOpen(false);
   };
 
+  const handleConfirmPasswordClose = () => {
+    setConfirmPasswordOpen(false);
+  };  
 
   // POST request to update user details
   const handleSubmit = async (e) => {
@@ -47,12 +53,24 @@ const EditProfile = () => {
         firstname, lastname, username, newUsername, email, school, password
       });
       console.log(res);
-      setOpen(true); // Open the popup on success
+      setConfirmOpen(true); // Open the popup on success
     } catch (error) {
       console.error('Updating user details failed', error);
     }
   };
 
+  const handlePasswordChange = async (oldPassword, newPassword) => {
+    try {
+        const res = await postData('api/users/updatePassword', { username, oldPassword, newPassword });
+        console.log(res);
+        setPasswordOpen(false);
+        setConfirmPasswordOpen(true);
+
+    } catch (error) {
+        console.error('Password change failed', error);
+        alert("Invalid Old Password");
+    }
+};
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -120,7 +138,6 @@ const EditProfile = () => {
             
             {/* Form */}
             <form  id="detailsform" className="p-5 flex flex-col items-center justify-center " onSubmit={handleSubmit}>
-                {/* Create the grid layout */}
                 <div className="grid grid-cols-1 gap-6">
                     <div className="flex gap-2">
                         <label>
@@ -172,8 +189,9 @@ const EditProfile = () => {
                         <span className="text-gray-700">Password</span>
                         <input type='password' 
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        onChange={(e)=> setPassword(e.target.value)}
-                        value={password}
+                        value={"● ● ● ● ● ●"}
+                        onClick={() => setPasswordOpen(true)}
+                        readOnly
                         ></input>
                     </label>
                 </div>
@@ -201,18 +219,33 @@ const EditProfile = () => {
         <Grid xs={2} ></Grid>
       </Grid>
 
-
+ 
       {/* Popup */}
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={confirmOpen} onClose={handleConfirmClose} PaperProps={{ sx: { borderRadius: "15px" } }}>
         <DialogTitle>Update Successful</DialogTitle>
         <DialogContent>
           <p>Your details have been successfully updated.</p>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} class="text-button">Close</Button>
+          <Button onClick={handleConfirmClose} class="text-button">Close</Button>
           <Button href="/profile" variant="contained" color="primary" class="default-button">
             Go to My Profile
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Password Change Popup */}
+      <PasswordChangePopup
+          open={passwordOpen}
+          onClose={() => setPasswordOpen(false)}
+          onSubmit={handlePasswordChange}
+      />
+
+      {/* Confirm Password Popup */}
+      <Dialog open={confirmPasswordOpen} onClose={handleConfirmPasswordClose} PaperProps={{ sx: { borderRadius: "15px" } }}>
+        <DialogTitle>Password Changed Successfully</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleConfirmPasswordClose} class="text-button">Close</Button>
         </DialogActions>
       </Dialog>
 

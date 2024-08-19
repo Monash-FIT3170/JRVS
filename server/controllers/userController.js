@@ -210,6 +210,24 @@ const getAllUsers = asyncHandler(async (req, res) => {
     }
 });
 
+const updatePassword = asyncHandler(async (req, res) => {
+    const { username, oldPassword, newPassword } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verify old password
+    const isMatch = await user.comparePassword(oldPassword);
+    if (!isMatch) {
+        return res.status(400).send('Invalid password');
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).json({ message: "Password changed successfully" });
+});
 
 module.exports = {
     createUser,
@@ -219,5 +237,6 @@ module.exports = {
     updateAvatar,
     updateDetails,
     updateUnlocked,
-    getAllUsers
+    getAllUsers,
+    updatePassword,
 };
