@@ -14,4 +14,5 @@ const quizSchema = new Schema({
     topic: { type: String, required: true },
     questions: { type: [questionSchema], required: true }
   });
+//module.exports = mongoose.model('Quiz', quizSchema);
 module.exports = mongoose.model('Quiz', quizSchema);

@@ -12,37 +12,42 @@ import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Videos from './pages/Video/videos';
+import NewQuiz from './pages/newQuiz';
 
-const App = () =>  {
+const App = () => {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<ProtectedRoute/>}>
-          <Route exact path="/" element={<UnitsPage />}/>
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/" element={<UnitsPage />} />
         </Route>
-        <Route exact path="/lesson/:lessonId" element={<ProtectedRoute/>}>
-          <Route exact path="/lesson/:lessonId" element={<Lessons/>}/>
+        <Route exact path="/lesson/:lessonId" element={<ProtectedRoute />}>
+          <Route exact path="/lesson/:lessonId" element={<Lessons />} />
         </Route>
-        <Route exact path="/learningPath/:unitId" element={<ProtectedRoute/>}>
-          <Route exact path="/learningPath/:unitId" element={<LearningPathPage/>}/>
+        <Route exact path="/newquiz" element={<ProtectedRoute/>}>
+          <Route exact path="/newquiz" element={<NewQuiz />}/>
         </Route>
-        <Route exact path="/profile" element={<ProtectedRoute/>}>
-          <Route exact path="/profile" element={<ProfilePage />}/>
+
+        <Route exact path="/learningPath/:unitId" element={<ProtectedRoute />}>
+          <Route exact path="/learningPath/:unitId" element={<LearningPathPage />} />
         </Route>
-        <Route exact path="/customize" element={<ProtectedRoute/>}>
-          <Route exact path="/customize" element={<CustomizePage />}/>
+        <Route exact path="/profile" element={<ProtectedRoute />}>
+          <Route exact path="/profile" element={<ProfilePage />} />
         </Route>
-        <Route exact path="/quiz/:quizId" element={<ProtectedRoute/>}>
-          <Route exact path="/quiz/:quizId" element={<Quizzes/>}/>
+        <Route exact path="/customize" element={<ProtectedRoute />}>
+          <Route exact path="/customize" element={<CustomizePage />} />
         </Route>
-        <Route exact path="/video/:videoId" element={<ProtectedRoute/>}>
-          <Route exact path="/video/:videoId" element={<Videos/>}/>
+        <Route exact path="/quiz/:quizId" element={<ProtectedRoute />}>
+          <Route exact path="/quiz/:quizId" element={<Quizzes />} />
         </Route>
-        <Route exact path="/units" element={<ProtectedRoute/>}>
-          <Route path="/units" element={<UnitsPage/>} />
+        <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
+          <Route exact path="/video/:videoId" element={<Videos />} />
         </Route>
-        <Route path="/register" element={<RegistrationPage/>}/>
-        <Route path="/login" element={<LoginPage/>}/>
+        <Route exact path="/units" element={<ProtectedRoute />}>
+          <Route path="/units" element={<UnitsPage />} />
+        </Route>
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route element={<NotFoundPage />} />
       </Routes>
     </Router>
