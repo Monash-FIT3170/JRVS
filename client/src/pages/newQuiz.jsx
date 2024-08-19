@@ -9,7 +9,6 @@ const NewQuiz = () => {
     const [questions, setQuestions] = useState([]);
 
 
-
     const handleAddQuestion = () => {
         setQuestions([...questions, { questionType: '', questionText: '', choices: [''], selectedRadio: '' }]);
     };
@@ -67,7 +66,7 @@ const NewQuiz = () => {
         }));
 
         const quizData = {
-            topic: "Your Topic", // Replace with the actual topic
+            topic: "Multiple Choice topic",
             questions: questionData,
         };
 
@@ -127,7 +126,7 @@ const NewQuiz = () => {
                                     </Typography>
                                      {/*Map out all the choices for that particular question    */}
                                     {q.choices.map((choice, cIndex) => (
-                                        <Box key={cIndex} sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                                        <Box key={cIndex} sx={{ display: 'flex',  mt: 1 }}>
                                             <TextField
                                          
                                                 variant="outlined"
