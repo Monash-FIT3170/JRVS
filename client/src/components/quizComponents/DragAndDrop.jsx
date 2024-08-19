@@ -21,27 +21,23 @@ export default function DragAndDrop({ question, index, setSelection, userValues 
         event.preventDefault();
         const term = event.dataTransfer.getData('option');
 
-        // check if a definition is already matched
-        const currentDefinition = Object.values(answers).includes(newDefinition);
-        if (currentDefinition) { 
-            return;
-        }
+        // get current term in new def box if applicable
+        const currentTermInNewDefinition = Object.entries(answers).find(([key,value]) => value === newDefinition);
 
-        // Find the previous definition for this term and remove it
+        // find the prev definition for dragged term (so we can swap)
         const previousDefinition = answers[term];
-        const updatedAnswers = { ...answers };
+        const updatedAnswers = {...answers}; // arr to contain updated answers
 
-        // Remove the term from its previous definition
-        if (previousDefinition) {
-            delete updatedAnswers[term];
+        // if term already in new def box, swap
+        if (currentTermInNewDefinition) {
+            const [currentTerm] = currentTermInNewDefinition; // retrieve current term in definition box
+            updatedAnswers[currentTerm] = previousDefinition; // place the current term into the new term's old definition
         }
 
-        // Assign the term to the new definition
+        // update new term to new definition
         updatedAnswers[term] = newDefinition;
 
-        setAnswers(updatedAnswers);
-
-        // setAnswers({ ...answers, [term]: definition });
+        setAnswers(updatedAnswers); // update
     };
 
     const handleSubmit = () => {
