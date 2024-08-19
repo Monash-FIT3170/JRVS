@@ -49,7 +49,8 @@ function Lessons() {
     const [hasFinishedCarousel, setHasFinishedCarousel] = useState(false);
     const [onIntroduction, setOnIntroduction] = useState(true);
     const [seenNum, setSeenNum] = useState(1);
-    const [lastSectionIndex, setLastSectionIndex] = useState(0)
+    const [lastSectionIndex, setLastSectionIndex] = useState(0);
+    const [isCompleted, setIsCompleted] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -62,6 +63,7 @@ function Lessons() {
                 console.log(responseData.lastSectionIndex)
                 setLastSectionIndex(responseData.lastSectionIndex);
                 setSeenNum(responseData.progressNum)
+                setIsCompleted(responseData.isCompleted)
             }
             setIsLessonLoading(false);
           } catch (error) {
@@ -96,7 +98,8 @@ function Lessons() {
                 userId: userId,
                 lessonId: lessonId,
                 lastSectionIndex: newLastSectionIndex,
-                progressNum: newSeenNum
+                progressNum: newSeenNum,
+                isCompleted: contentBoxes ? (newSeenNum >= contentBoxes.length) : false
             }
 
             await updateData(`api/lessonProgress/${userId}/${lessonId}`, lessonProgress);
@@ -112,7 +115,8 @@ function Lessons() {
                 userId: userId,
                 lessonId: lessonId,
                 lastSectionIndex: newLastSectionIndex,
-                progressNum: newSeenNum
+                progressNum: newSeenNum,
+                isCompleted: contentBoxes ? (newSeenNum >= contentBoxes.length) : false
             }
 
             await new Promise(resolve => setTimeout(resolve, 2000));
@@ -196,8 +200,8 @@ function Lessons() {
             >
                 <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
                 <Box sx={{display: 'flex', width: '25%', alignItems: 'center'}}>
-                    <CustomLinearProgress sx={{width: '100%'}}  variant="determinate" value={normalise(seenNum, 1, contentBoxes.length)}/>
-                    <h1 style={{paddingLeft: '10px'}} className="progress-font">{Math.round(normalise(seenNum, 1, contentBoxes.length))}%</h1>
+                    <CustomLinearProgress sx={{width: '100%'}}  variant="determinate" value={isCompleted ? 100 : normalise(seenNum, 1, contentBoxes.length)}/>
+                    <h1 style={{paddingLeft: '10px'}} className="progress-font">{isCompleted ? 100 : Math.round(normalise(seenNum, 1, contentBoxes.length))}%</h1>
                 </Box>
                 <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C', visibility: hasFinishedCarousel || (seenNum === contentBoxes.length) ? 'visible' : 'hidden'}}>Next</Button>
             </Box>

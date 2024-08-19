@@ -6,6 +6,7 @@ import { useApi } from "../context/ApiProvider";
 import UnitCard from "../components/UnitCard";
 import MenuBar from "../components/MenuBar";
 
+
 const UnitsPage = () => {
     const { getData } = useApi();
     const [units, setUnits] = useState(undefined);
@@ -33,11 +34,13 @@ const UnitsPage = () => {
     };
 
     return (
+
         <div>
             <link
                 rel="stylesheet"
                 href="https://fonts.googleapis.com/icon?family=Material+Icons"
             ></link>
+
             <MenuBar
                 title="Unit Overview"
                 subtitle="Get ready to learn more about AI today"
