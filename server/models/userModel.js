@@ -59,6 +59,10 @@ const userSchema = mongoose.Schema(
         level: {
             type: Number,
             default: 0
+        },
+        assignedUnits: {
+            type: Array,
+            required: false,
         }
     },  
     {

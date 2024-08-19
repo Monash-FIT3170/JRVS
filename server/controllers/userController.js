@@ -111,6 +111,48 @@ const updatePoints = asyncHandler(async (req, res) => {
     });
 });
 
+// @desc    Update Unit Progress
+// @route   POST /api/users/updateUnitProgress
+// @access  Private
+const updateUnitProgress = asyncHandler(async (req, res) => {
+    try {
+        const { unitId } = req.params;
+        const user = req.user; // Get the logged-in user from the middleware
+
+        // Find the unit object in the assignedUnits array
+        const userAssignedUnits = user['assignedUnits']
+        // const unitToUpdate = userAssignedUnits.find(unit => unit.unitId == unitId);
+        const unitIndex = user.assignedUnits.findIndex(unit => unit.unitId == unitId);
+
+        if (unitIndex !== -1) {
+            // Increment the lessonsCompleted
+            user.assignedUnits[unitIndex].lessonsCompleted += 1;
+
+
+        // if (unitToUpdate) {
+        //     // Increment the lessonsCompleted
+        //     unitToUpdate.lessonsCompleted += 1;
+            
+
+            // Save the updated user object to the database
+            user.markModified('assignedUnits');
+            await user.save();
+            console.log(user)
+
+            // Send a success response
+            res.status(200).json({ message: 'Unit progress updated successfully.' });
+        } else {
+            // If the unitId does not exist in assignedUnits
+            res.status(404).json({ message: 'Unit not found in assignedUnits.' });
+        }
+    } catch (error) {
+        // Handle errors
+        res.status(500).json({ message: 'Server error.', error });
+        console.log(error)
+    }
+});
+
+
 // Fetch specific user data by username
 const getUserByUsername = asyncHandler(async (req, res) => {
     const { username } = req.params;
@@ -185,5 +227,6 @@ module.exports = {
     getUserById,
     updateAvatar,
     updateUnlocked,
-    getAllUsers
+    getAllUsers,
+    updateUnitProgress
 };

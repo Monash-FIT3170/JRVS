@@ -1,10 +1,14 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
 
 const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete, isAdmin }) => {
+
+    const navigate = useNavigate();
+
     const handleEnterLesson = () => {
-        window.location.href = `http://localhost:3000/${node.type}/${node.id}`;
+        navigate(`${node.id}`)
     };
 
     const titleStyle = {

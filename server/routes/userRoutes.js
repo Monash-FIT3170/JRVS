@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authenticate = require('../middleware/authMiddleware');  // Import the authenticate middleware
-const { createUser, updatePoints, getUserByUsername, getUserById, updateAvatar, updateUnlocked, getAllUsers } = require('../controllers/userController');
+const { createUser, updatePoints, getUserByUsername, getUserById, updateAvatar, updateUnlocked, getAllUsers, updateUnitProgress } = require('../controllers/userController');
 
 // Route to update user points
 router.post('/', createUser)
@@ -11,6 +11,7 @@ router.post('/updateUnlocked', updateUnlocked);
 router.get('/:username', getUserByUsername)
 router.get('/id/:id', getUserById)
 router.get('/', getAllUsers);
+router.post('/updateUnitProgress/:unitId', authenticate, updateUnitProgress)
 
 
 module.exports = router;

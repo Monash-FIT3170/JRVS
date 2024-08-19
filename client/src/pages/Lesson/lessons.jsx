@@ -13,12 +13,13 @@ import { useApi } from '../../context/ApiProvider.jsx';
 import MenuBar from "../../components/MenuBar.jsx";
 
 function Lessons() {
+    const { unitId, lessonId } = useParams();
     const navigate = useNavigate();
+   
 
-    const { getData } = useApi();
+    const { getData, postData } = useApi();
     const [lesson, setLesson] = useState([]);
     const [isLessonLoading, setIsLessonLoading] = useState(true);
-    const { lessonId }  = useParams();
   
     useEffect(() => {
       const fetchData = async () => {
@@ -62,6 +63,12 @@ function Lessons() {
         })
     }
 
+
+    const handleLessonFinished = () =>{
+        postData(`api/users/updateUnitProgress/${unitId}`)
+        navigate(`/learningPath/${unitId}`)
+    }
+    
     const handleBackClick = () => {
         navigate(-1); // Go back to the previous page
     };
@@ -116,7 +123,7 @@ function Lessons() {
             >
                 <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Back</Button>
                 {hasFinishedCarousel && (
-                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>Next</Button>)}
+                <Button variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginRight: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}} onClick={handleLessonFinished}>Next</Button>)}
             </Box>
         </Box>
     );
