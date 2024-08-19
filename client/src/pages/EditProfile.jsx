@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useApi } from '../context/ApiProvider';
 import Grid from '@mui/material/Unstable_Grid2';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+
 import MenuBar from '../components/MenuBar'
-import DefaultButton from '../components/DefaultButton';
 import Select from 'react-select';
 import "../index.css"
 
@@ -22,17 +27,30 @@ const EditProfile = () => {
   const [password, setPassword] = useState('')
 
   // const location = useLocation();
-  // const [avatarState, setAvatarState] = useState(location.state?.avatarState || 'blue')
   const {getData, postData} = useApi();
 
-  // POST request to register user
-  const handleSubmit = async () => {
-      try {
-        const res = await postData('api/users/updateDetails', {firstname, lastname, username, newUsername, email, school, password});
-        console.log(res);
-      } catch (error) {
-        console.error('Updating use details failed', error);
-      }
+
+  // State to control the popup
+  const [open, setOpen] = useState(false);
+
+  // Handle popup close
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+  // POST request to update user details
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await postData('api/users/updateDetails', {
+        firstname, lastname, username, newUsername, email, school, password
+      });
+      console.log(res);
+      setOpen(true); // Open the popup on success
+    } catch (error) {
+      console.error('Updating user details failed', error);
+    }
   };
 
 
@@ -42,26 +60,24 @@ const EditProfile = () => {
         const token = localStorage.getItem('token');
         const res = await postData('api/auth/current', {token});
         const userData = await getData(`api/users/id/${res.decoded.id}`);
-        console.log(userData);
-        setUser({ username: userData.username, 
+        setUser({ 
+          username: userData.username, 
           points: userData.points || 0, 
-          level: userData.level || 0 });
+          level: userData.level || 0 
+        });
         setFirstname(userData.firstname);
         setLastname(userData.lastname);
         setEmail(userData.email);
         setSchool(userData.school);
         setUsername(userData.username);
         setNewUsername(userData.username);
-        // setAvatar({avatar: userData.avatar, border: userData.border, background: userData.background})
         setIsUserLoading(false);
       } catch (error) {
         console.log(error);
         setIsUserLoading(true);
       }
     };
-
     fetchUser();
-
   }, [getData, postData])
 
   // Fetch the school data from mongodb, only run on the initial render
@@ -87,7 +103,7 @@ const EditProfile = () => {
       <MenuBar /> 
 
       <Grid container spacing={2}>
-          {/* Row 1 */}
+        {/* Row 1 */}
         <Grid xs={2} ></Grid>
         <Grid xs={8}>
             <p className="text-5xl font-bold mb-12 text-center" style={{ color: 'white' }}>MY DETAILS</p>
@@ -170,8 +186,10 @@ const EditProfile = () => {
         <Grid xs={2} ></Grid>
         <Grid xs={8} >
           <Grid container justifyContent="space-between">
-            <Grid item xs={6} style={{ padding : '20px'}}>
-              <DefaultButton href='/profile' text='Back to My Profile'/>
+            <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-end', padding : '20px'}}>
+              <Button href="/profile" class="default-button">
+                Go to My Profile
+              </Button>
             </Grid>
             <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-end', padding : '20px'}}>
               <button form="detailsform" class="default-button" type="submit">
@@ -182,6 +200,22 @@ const EditProfile = () => {
         </Grid>
         <Grid xs={2} ></Grid>
       </Grid>
+
+
+      {/* Popup */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Update Successful</DialogTitle>
+        <DialogContent>
+          <p>Your details have been successfully updated.</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} class="text-button">Close</Button>
+          <Button href="/profile" variant="contained" color="primary" class="default-button">
+            Go to My Profile
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
       
   )

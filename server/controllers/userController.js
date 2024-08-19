@@ -177,6 +177,8 @@ const updateDetails = asyncHandler(async (req, res) => {
     user.email = email; 
     user.school = school;
     await user.save();
+
+    return res.status(200).json({ message: "User details updated successfully" });
 });
 
 const updateUnlocked = asyncHandler(async (req, res) => {
