@@ -4,6 +4,7 @@ import Menu from "../components/MenuBar.jsx";
 import quizIcon from "../assets/images/QuizIcon.png";
 import lessonIcon from "../assets/images/WrittenLessonIcon.png";
 import videoIcon from "../assets/images/VideoIcon.png";
+import lessonTypesPopup from "../components/LessonTypesPopup.jsx";
 
 import { SkillTreeGroup, SkillTree, SkillProvider } from "beautiful-skill-tree";
 import { useApi } from "../context/ApiProvider";
@@ -11,6 +12,7 @@ import { useApi } from "../context/ApiProvider";
 import "../assets/styles/App.css";
 import { Box } from "@mui/material";
 import UnitPopup from "../components/UnitPopup.jsx";
+import LessonTypesPopup from "../components/LessonTypesPopup.jsx";
 
 // Coloured background theme
 const theme = {
@@ -24,6 +26,7 @@ const theme = {
 
 const LearningPathPage = () => {
   const { getData, postData, updateData } = useApi();
+  const navigate = useNavigate();
 
   const [learningPathData, setLearningPathData] = useState([]);
   const [savedData, setSavedData] = useState();
@@ -32,6 +35,10 @@ const LearningPathPage = () => {
 
   const [selectedNode, setSelectedNode] = useState(null); // State for the selected node
   const [isModalOpen, setIsPopupOpen] = useState(false); // State for popup open/close
+  const [isInsertLessonTypeModalOpen, setIsInsertLessonTypeModalOpen] =
+    useState(false);
+  const [isAppendLessonTypeModalOpen, setIsAppendLessonTypeModalOpen] =
+    useState(false);
 
   const { unitId } = useParams();
 
@@ -120,21 +127,34 @@ const LearningPathPage = () => {
     return null; // Return null if the id is not found
   };
 
+  const handleLessonTypePopupClose = (onCreate) => {
+    setIsInsertLessonTypeModalOpen(false);
+    setIsAppendLessonTypeModalOpen(false);
+  };
+
   const handlePopupClose = () => {
     // Close the popup
     setIsPopupOpen(false);
     setSelectedNode(null);
   };
 
-  const handlePopupInsert = async () => {
+  const handleInsertNewLessonType = () => {
+    setIsInsertLessonTypeModalOpen(true);
+  };
+
+  const handleAppendNewLessonType = () => {
+    setIsAppendLessonTypeModalOpen(true);
+  };
+
+  const handlePopupInsert = async (type, subType) => {
     // Handle an insert of child. A new node should be inserted between this node and its children
     const targetNodeId = selectedNode.id;
     const newNode = {
-      icon: "lessonIcon", // Assign an appropriate icon. Could also be 'quizIcon' or 'videoIcon'
-      title: "New Lesson", // Placeholder title, you may want to customize this
+      icon: `${type}Icon`,
+      title: `New ${type}`,
       tooltip: { content: "Description of the new child node" },
       children: [],
-      type: "lesson", // or 'quiz' or 'video', depending on the type you want to add
+      type: type,
     };
 
     try {
@@ -152,20 +172,17 @@ const LearningPathPage = () => {
     navigate(0); // TODO: once edit page is implements, navigate to edit page instead of reloading
   };
 
-  async function handlePopupAppend() {
+  async function handlePopupAppend(type, subType) {
     // Handle an append of a child. A new node should be added to this nodes's children
     const targetNodeId = selectedNode.id;
 
-    const inputType = "lesson"; // 'lesson', 'video' or 'quiz'
-    const inputSubType = "MCQ"; // TODO: Sub-type. For example: multiple choice quiz, drag and drop quiz, etc
-
     // New node object with placeholder values
     const newNode = {
-      icon: `${inputType}Icon`,
-      title: `New ${inputType}`,
+      icon: `${type}Icon`,
+      title: `New ${type}`,
       tooltip: { content: "Description of the new child node" },
       children: [],
-      type: inputType,
+      type: type,
     };
 
     try {
@@ -173,7 +190,7 @@ const LearningPathPage = () => {
         unitId,
         targetNodeId,
         newNode,
-        inputSubType,
+        subType,
       });
       console.log(response);
     } catch (error) {
@@ -260,11 +277,21 @@ const LearningPathPage = () => {
         isOpen={isModalOpen}
         node={selectedNode}
         onClose={handlePopupClose}
-        onInsert={handlePopupInsert}
-        onAppend={handlePopupAppend}
+        onInsert={handleInsertNewLessonType}
+        onAppend={handleAppendNewLessonType}
         onEdit={handlePopupEdit}
         onDelete={handlePopupDelete}
         isAdmin={true} // Assume current user is admin. TODO: Check the current user's type
+      />
+      <LessonTypesPopup
+        isOpen={isInsertLessonTypeModalOpen}
+        onClose={handleLessonTypePopupClose}
+        onClick={handlePopupInsert}
+      />
+      <LessonTypesPopup
+        isOpen={isAppendLessonTypeModalOpen}
+        onClose={handleLessonTypePopupClose}
+        onClick={handlePopupAppend}
       />
     </div>
   );
