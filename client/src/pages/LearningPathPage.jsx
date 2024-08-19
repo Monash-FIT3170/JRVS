@@ -180,8 +180,34 @@ const LearningPathPage = () => {
         window.location.href = `http://localhost:3000/${selectedNode.id}/edit${nodeType}`;
     };
 
-    const handlePopupDelete = () => {
-        // TODO: Handle a delete of a node. 
+    
+    const handlePopupDelete = async () => {
+        if (!selectedNode) return;
+    
+        // confirming deletion of node using window
+        const isConfirmed = window.confirm('Are you sure you want to delete this node? Its children will be reappended to the parent node. This action cannot be undone.');
+        
+        if (isConfirmed) {
+            try {
+                const response = await postData(`api/units/${unitId}/delete`, { 
+                    unitId, 
+                    nodeId: selectedNode.id 
+                });
+                
+                console.log(response);
+                
+                // close the popup
+                setIsPopupOpen(false);
+                setSelectedNode(null);
+    
+                // refresh the page to show updated structure
+                navigate(0);
+                
+            } catch (error) {
+                console.error('Error deleting node:', error);
+                alert("An error occurred while deleting the node. Please try again.");
+            }
+        }
     };
     
 
