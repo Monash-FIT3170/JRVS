@@ -136,12 +136,12 @@ const LearningPathPage = () => {
         try {
             const response = await postData(`api/units/${unitId}/insert`, { unitId, targetNodeId, newNode });
             console.log(response)
+
+            // Navigate to the edit the page
+            window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
         } catch (error) {
             console.log(error);
         }
-
-        // Refresh the page
-        navigate(0); // TODO: once edit page is implements, navigate to edit page instead of reloading
     };
 
     async function handlePopupAppend() {
@@ -163,21 +163,17 @@ const LearningPathPage = () => {
         try {
             const response = await postData(`api/units/${unitId}/append`, { unitId, targetNodeId, newNode, inputSubType });
             console.log(response)
+
+            // Navigate to the edit the page
+            window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
         } catch (error) {
             console.log(error);
         }
-
-        // Refresh the page
-        navigate(0); // TODO: once edit page is implements, navigate to edit page instead of reloading
     };
 
     const handlePopupEdit = () => {
         // Handle an editing of a node. Navigate to the edit page
-        //window.location.href = `http://localhost:3000/${selectedNode.id}/edit`;
-
-        // Redirect based on the lesson type. Either /editLesson, /editVideo or /editQuiz
-        const nodeType = selectedNode.type.charAt(0).toUpperCase() + selectedNode.type.slice(1); // Make first letter uppercase
-        window.location.href = `http://localhost:3000/${selectedNode.id}/edit${nodeType}`;
+        window.location.href = `http://localhost:3000/edit/${selectedNode.id}`; // .../edit/lessonId
     };
 
     
