@@ -3,6 +3,7 @@ import { useApi } from '../context/ApiProvider';
 import Grid from '@mui/material/Unstable_Grid2';
 import MenuBar from '../components/MenuBar'
 import DefaultButton from '../components/DefaultButton';
+import Select from 'react-select';
 import "../index.css"
 
 
@@ -17,7 +18,7 @@ const EditProfile = () => {
   const [newUsername, setNewUsername] = useState('')
   const [email, setEmail] = useState('')
   const [school, setSchool] = useState('')
-  // const [schools, setSchools] = useState('')
+  const [schools, setSchools] = useState('')
   const [password, setPassword] = useState('')
 
   // const location = useLocation();
@@ -26,7 +27,6 @@ const EditProfile = () => {
 
   // POST request to register user
   const handleSubmit = async () => {
-      console.log("HELLLOOO");
       try {
         const res = await postData('api/users/updateDetails', {firstname, lastname, username, newUsername, email, school, password});
         console.log(res);
@@ -59,10 +59,27 @@ const EditProfile = () => {
         setIsUserLoading(true);
       }
     };
+
     fetchUser();
 
   }, [getData, postData])
 
+  // Fetch the school data from mongodb, only run on the initial render
+  useEffect(() =>{
+      const getSchools = async () => {
+          try{
+              const schoolData = await getData('api/schools/');
+              const schoolNames = schoolData.map((school) => {
+                  return {value: school.SchoolName, label: school.SchoolName };
+              })
+              setSchools(schoolNames);
+          }
+          catch(error){
+              console.log(error);
+          }
+      }
+      getSchools();
+  }, [getData]);
 
 
   return (
@@ -129,12 +146,10 @@ const EditProfile = () => {
 
                     <label className="block">
                         <span className="text-gray-700">School</span>
-                        <input type="text" 
-                        className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        onChange={(e) => setSchool(e.target.value)}
-                        value={school}
-                        ></input>                    
-                        {/* <Select options={schools} onChange={(e) => setSchool(e.value)}/> */}
+                        <Select options={schools} 
+                          value={{ label: school, value: school}}
+                          onChange={(e) => setSchool(e.value)}/>
+                          
                     </label>
 
                     <label className="block">
@@ -171,7 +186,6 @@ const EditProfile = () => {
       
   )
 }
-
 
 
 export default EditProfile

@@ -175,6 +175,7 @@ const updateDetails = asyncHandler(async (req, res) => {
     user.firstname = firstname;
     user.lastname = lastname;
     user.email = email; 
+    user.school = school;
     await user.save();
 });
 
