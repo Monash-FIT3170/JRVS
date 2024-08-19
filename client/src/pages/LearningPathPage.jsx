@@ -125,16 +125,21 @@ const LearningPathPage = () => {
     const handlePopupInsert = async () => {
         // Handle an insert of child. A new node should be inserted between this node and its children
         const targetNodeId = selectedNode.id;
+        
+        const inputType = 'lesson' // Possible learning modules: 'lesson', 'video' or 'quiz'
+        const inputSubType = 'MultipleChoice' // Possible quiz types: MultipleChoice, ImageQuiz, ShortAnswer, Reorder, DragAndDrop
+        
+        // New node object with placeholder values
         const newNode = {
-            icon: 'lessonIcon', // Assign an appropriate icon. Could also be 'quizIcon' or 'videoIcon'
-            title: 'New Lesson', // Placeholder title, you may want to customize this
+            icon: `${inputType}Icon`,
+            title: `New ${inputType}`,
             tooltip: { content: 'Description of the new child node' },
             children: [],
-            type: 'lesson', // or 'quiz' or 'video', depending on the type you want to add
+            type: inputType,
         };
 
         try {
-            const response = await postData(`api/units/${unitId}/insert`, { unitId, targetNodeId, newNode });
+            const response = await postData(`api/units/${unitId}/insert`, { unitId, targetNodeId, newNode, inputSubType });
             console.log(response)
 
             // Navigate to the edit the page
@@ -148,8 +153,8 @@ const LearningPathPage = () => {
         // Handle an append of a child. A new node should be added to this nodes's children
         const targetNodeId = selectedNode.id;
         
-        const inputType = 'lesson' // 'lesson', 'video' or 'quiz'
-        const inputSubType = 'MCQ' // TODO: Sub-type. For example: multiple choice quiz, drag and drop quiz, etc
+        const inputType = 'lesson' // Possible learning modules: 'lesson', 'video' or 'quiz'
+        const inputSubType = 'TrueFalse' // Possible quiz types: MultipleChoice, ImageQuiz, ShortAnswer, Reorder, DragAndDrop, TrueFalse
         
         // New node object with placeholder values
         const newNode = {

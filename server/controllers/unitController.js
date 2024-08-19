@@ -44,10 +44,7 @@ const appendNode = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "unit_details not found" });
     }
 
-    // 2. Insert a new empty node into the lesson/video/quiz object in the database
-    // TODO: Consider setup of progress tracking of a new lesson/video/quiz
-    // TODO: Handle sub-types of lesson/video/quizzes. Eg multiple choice quiz, drag and drop quiz, etc
-    
+    // 2. Insert a new empty node into the lesson/video/quiz object in the database    
     var generatedNode;
 
     if (newNode.type == 'lesson') {
@@ -57,7 +54,7 @@ const appendNode = asyncHandler(async (req, res) => {
         generatedNode = await createVideo(newNode.title);
     }
     else if (newNode.type == 'quiz') {
-        generatedNode = await createQuiz(newNode.title, inputSubType);
+        generatedNode = await createQuiz(newNode.title, inputSubType); // Pass in quiz sub-type
     }
     else {
         console.log('New node type invalid');
@@ -105,7 +102,7 @@ const appendNode = asyncHandler(async (req, res) => {
 // @access  Private
 const insertNode = asyncHandler(async (req, res) => {
     // Get the inputs
-    const { unitId, targetNodeId, newNode } = req.body;
+    const { unitId, targetNodeId, newNode, inputSubType } = req.body;
 
     // 1. Get the target unit to be modified
     const unit = await unitModel.findById(unitId);
@@ -114,30 +111,30 @@ const insertNode = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "unit_details not found" });
     }
 
-    // 2. Insert a new empty node into the lesson/video/quiz object in the database
-    // Insert lesson:
-    const newLesson = await lessonModel.create({
-        title: newNode.title || 'New Lesson',
-        content: [
-            {
-                heading: 'In this section, you will:',
-                points: [
-                    "This is the first point.",
-                    "Here is the second point.",
-                    "Add more points as desired."
-                ],
-                type: "listBox"
-            }
-        ]
-    });
-    if (!newLesson) {
-        console.log('Error creating lesson')
-        res.status(500).json({message: 'Error creating lesson'})
+    // 2. Insert a new empty node into the lesson/video/quiz object in the database    
+    var generatedNode;
+
+    if (newNode.type == 'lesson') {
+        generatedNode = await createLesson(newNode.title);
     }
-    // TODO: Add option to insert a video/quiz depending on the node type
+    else if (newNode.type == 'video') {
+        generatedNode = await createVideo(newNode.title);
+    }
+    else if (newNode.type == 'quiz') {
+        generatedNode = await createQuiz(newNode.title, inputSubType); // Pass in quiz sub-type
+    }
+    else {
+        console.log('New node type invalid');
+        return res.status(500).json({message: 'New node type invalid'})
+    }
+
+    if (!generatedNode) {
+        console.log('Error inserting the node into the lesson/video/quiz collection');
+        return res.status(500).json({message: 'Error inserting the node into the lesson/video/quiz collection'})
+    }
 
     // 3. Add the generated node id to newNode
-    newNode.id = newLesson._id.toString(); // Convert from ObjectId to String
+    newNode.id = generatedNode._id.toString(); // Convert from ObjectId to String
 
     // 4. Locate the selected node within the unit, and append the new node to its children locally
     const isUpdated = insertChildNode(unit.data, targetNodeId, newNode);
@@ -216,20 +213,32 @@ function appendChildNode(data, targetId, newNode) {
 
 // Create a new lesson in the lessons collection
 async function createLesson(nodeTitle) {
+    // Empty node
     generatedNode = await lessonModel.create({
-        title: nodeTitle || 'New Lesson',
+        title: nodeTitle || 'New lesson',
         content: [
             {
+                type: "listBox",
                 heading: 'In this section, you will:',
-                points: [
-                    "This is the first point.",
-                    "Here is the second point.",
-                    "Add more points as desired."
-                ],
-                type: "listBox"
+                points: [],
             }
         ]
     });
+    
+    // generatedNode = await lessonModel.create({
+    //     title: nodeTitle || 'New Lesson',
+    //     content: [
+    //         {
+    //             heading: 'In this section, you will:',
+    //             points: [
+    //                 "This is the first point.",
+    //                 "Here is the second point.",
+    //                 "Add more points as desired."
+    //             ],
+    //             type: "listBox"
+    //         }
+    //     ]
+    // });
 
     return generatedNode;
 }
@@ -238,19 +247,29 @@ async function createLesson(nodeTitle) {
 async function createVideo(nodeTitle) {
     generatedNode = await videoModel.create({
         title: nodeTitle || 'New Video',
-        url: "https://www.youtube.com/embed/oJC8VIDSx_Q",
-        heading: "Watch the video below to learn more about <description>"
+        url: "",
+        heading: ""
     });
+
+    // generatedNode = await videoModel.create({
+    //     title: nodeTitle || 'New Video',
+    //     url: "https://www.youtube.com/embed/oJC8VIDSx_Q",
+    //     heading: "Watch the video below to learn more about <description>"
+    // });
 
     return generatedNode;
 }
 
 // Create a new quiz in the quiz collection
 async function createQuiz(nodeTitle, quizType) {
-    // TODO: Handle different quiz types. May need to update quizModel schema
     generatedNode = await quizModel.create({
-        questions: [],
-        topic: nodeTitle || "New Quiz"
+        topic: nodeTitle || "New Quiz",
+        questions: [
+            { 
+                type: quizType, 
+                // Remaining data is different depending on quizType. Leave blank for now.
+            }
+        ]
     });
 
     return generatedNode;
