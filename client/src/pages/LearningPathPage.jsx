@@ -35,8 +35,10 @@ const LearningPathPage = () => {
 
   const [selectedNode, setSelectedNode] = useState(null); // State for the selected node
   const [isModalOpen, setIsPopupOpen] = useState(false); // State for popup open/close
-  const [isInsertLessonTypeModalOpen, setIsInsertLessonTypeModalOpen] = useState(false);
-  const [isAppendLessonTypeModalOpen, setIsAppendLessonTypeModalOpen] = useState(false);
+  const [isInsertLessonTypeModalOpen, setIsInsertLessonTypeModalOpen] =
+    useState(false);
+  const [isAppendLessonTypeModalOpen, setIsAppendLessonTypeModalOpen] =
+    useState(false);
 
   const { unitId } = useParams();
 
@@ -125,118 +127,143 @@ const LearningPathPage = () => {
     return null; // Return null if the id is not found
   };
 
-  const handleLessonTypePopupClose = (onCreate) => {
+  const handlePopupClose = () => {
+    // Close the popup
+    setIsPopupOpen(false);
+    setSelectedNode(null);
+  };
+
+  const handleLessonTypePopupClose = () => {
     setIsInsertLessonTypeModalOpen(false);
     setIsAppendLessonTypeModalOpen(false);
   };
 
-    const handlePopupInsert = async (inputType, inputSubType) => {
-        // Handle an insert of child. A new node should be inserted between this node and its children
-        const targetNodeId = selectedNode.id;
-        
-        // New node object with placeholder values
-        const newNode = {
-            icon: `${inputType}Icon`,
-            title: `New ${inputType}`,
-            tooltip: { content: 'Description of the new child node' },
-            children: [],
-            type: inputType,
-        };
+  const handleInsertNewLessonType = () => {
+    setIsInsertLessonTypeModalOpen(true);
+  };
 
-        try {
-            const response = await postData(`api/units/${unitId}/insert`, { unitId, targetNodeId, newNode, inputSubType });
-            console.log(response)
+  const handleAppendNewLessonType = () => {
+    setIsAppendLessonTypeModalOpen(true);
+  };
 
-            // Navigate to the edit the page
-            window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
-        } catch (error) {
-            console.log(error);
-        }
+  const handlePopupInsert = async (inputType, inputSubType) => {
+    // Handle an insert of child. A new node should be inserted between this node and its children
+    const targetNodeId = selectedNode.id;
+
+    // New node object with placeholder values
+    const newNode = {
+      icon: `${inputType}Icon`,
+      title: `New ${inputType}`,
+      tooltip: { content: "Description of the new child node" },
+      children: [],
+      type: inputType,
     };
 
-    async function handlePopupAppend(inputType, inputSubType) {
-        // Handle an append of a child. A new node should be added to this nodes's children
-        const targetNodeId = selectedNode.id;
-        
-        // New node object with placeholder values
-        const newNode = {
-            icon: `${inputType}Icon`,
-            title: `New ${inputType}`,
-            tooltip: { content: 'Description of the new child node' },
-            children: [],
-            type: inputType,
-        };
+    try {
+      const response = await postData(`api/units/${unitId}/insert`, {
+        unitId,
+        targetNodeId,
+        newNode,
+        inputSubType,
+      });
+      console.log(response);
 
-        try {
-            const response = await postData(`api/units/${unitId}/append`, { unitId, targetNodeId, newNode, inputSubType });
-            console.log(response)
+      // Navigate to the edit the page
+      window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-            // Navigate to the edit the page
-            window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
-        } catch (error) {
-            console.log(error);
-        }
+  async function handlePopupAppend(inputType, inputSubType) {
+    // Handle an append of a child. A new node should be added to this nodes's children
+    const targetNodeId = selectedNode.id;
+
+    // New node object with placeholder values
+    const newNode = {
+      icon: `${inputType}Icon`,
+      title: `New ${inputType}`,
+      tooltip: { content: "Description of the new child node" },
+      children: [],
+      type: inputType,
     };
 
-    const handlePopupEdit = () => {
-        // Handle an editing of a node. Navigate to the edit page
-        window.location.href = `http://localhost:3000/edit/${selectedNode.id}`; // .../edit/lessonId
-    };
+    try {
+      const response = await postData(`api/units/${unitId}/append`, {
+        unitId,
+        targetNodeId,
+        newNode,
+        inputSubType,
+      });
+      console.log(response);
 
-    
-    const handlePopupDelete = async () => {
-        if (!selectedNode) return;
-    
-        // confirming deletion of node using window
-        const isConfirmed = window.confirm('Are you sure you want to delete this node? Its children will be reappended to the parent node. This action cannot be undone.');
-        
-        if (isConfirmed) {
-            try {
-                const response = await postData(`api/units/${unitId}/delete`, { 
-                    unitId, 
-                    nodeId: selectedNode.id 
-                });
-                
-                console.log(response);
-                
-                // close the popup
-                setIsPopupOpen(false);
-                setSelectedNode(null);
-    
-                // refresh the page to show updated structure
-                navigate(0);
-                
-            } catch (error) {
-                console.error('Error deleting node:', error);
-                alert("An error occurred while deleting the node. Please try again.");
-            }
-        }
-    };
-    
+      // Navigate to the edit the page
+      window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-    return (
-        <div style={{ backgroundColor: "#3CA3EE" }}>
-            <Box sx={{padding: '10px'}}><Menu title={learningPathTitle} subtitle="Learning Path" /></Box>{" "}
-            {isUnitLoading ? (
-                <div className="spinner"></div>
-            ) : (
-                <SkillProvider>
-                    <SkillTreeGroup theme={theme}>
-                        {(
-                            { skillCount } //SkillGroupDataType
-                        ) => (
-                            <SkillTree
-                                treeId="first-tree"
-                                title=""
-                                data={learningPathData} // SkillType
-                                // Other useful fields (the rest we won't need):
-                                // savedData={savedProgressData} // To load user progress
-                                handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
-                            />
-                        )}
-                    </SkillTreeGroup>
-                </SkillProvider>
+  const handlePopupEdit = () => {
+    // Handle an editing of a node. Navigate to the edit page
+    window.location.href = `http://localhost:3000/edit/${selectedNode.id}`; // .../edit/lessonId
+  };
+
+  const handlePopupDelete = async () => {
+    if (!selectedNode) return;
+
+    // confirming deletion of node using window
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this node? Its children will be reappended to the parent node. This action cannot be undone.",
+    );
+
+    if (isConfirmed) {
+      try {
+        const response = await postData(`api/units/${unitId}/delete`, {
+          unitId,
+          nodeId: selectedNode.id,
+        });
+
+        console.log(response);
+
+        // close the popup
+        setIsPopupOpen(false);
+        setSelectedNode(null);
+
+        // refresh the page to show updated structure
+        navigate(0);
+      } catch (error) {
+        console.error("Error deleting node:", error);
+        alert("An error occurred while deleting the node. Please try again.");
+      }
+    }
+  };
+
+  return (
+    <div style={{ backgroundColor: "#3CA3EE" }}>
+      <Box sx={{ padding: "10px" }}>
+        <Menu title={learningPathTitle} subtitle="Learning Path" />
+      </Box>{" "}
+      {isUnitLoading ? (
+        <div className="spinner"></div>
+      ) : (
+        <SkillProvider>
+          <SkillTreeGroup theme={theme}>
+            {(
+              { skillCount }, //SkillGroupDataType
+            ) => (
+              <SkillTree
+                treeId="first-tree"
+                title=""
+                data={learningPathData} // SkillType
+                // Other useful fields (the rest we won't need):
+                // savedData={savedProgressData} // To load user progress
+                handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
+              />
             )}
+          </SkillTreeGroup>
+        </SkillProvider>
+      )}
       )}
       <UnitPopup
         isOpen={isModalOpen}
