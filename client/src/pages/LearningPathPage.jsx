@@ -35,10 +35,8 @@ const LearningPathPage = () => {
 
   const [selectedNode, setSelectedNode] = useState(null); // State for the selected node
   const [isModalOpen, setIsPopupOpen] = useState(false); // State for popup open/close
-  const [isInsertLessonTypeModalOpen, setIsInsertLessonTypeModalOpen] =
-    useState(false);
-  const [isAppendLessonTypeModalOpen, setIsAppendLessonTypeModalOpen] =
-    useState(false);
+  const [isInsertLessonTypeModalOpen, setIsInsertLessonTypeModalOpen] = useState(false);
+  const [isAppendLessonTypeModalOpen, setIsAppendLessonTypeModalOpen] = useState(false);
 
   const { unitId } = useParams();
 
@@ -132,146 +130,113 @@ const LearningPathPage = () => {
     setIsAppendLessonTypeModalOpen(false);
   };
 
-  const handlePopupClose = () => {
-    // Close the popup
-    setIsPopupOpen(false);
-    setSelectedNode(null);
-  };
+    const handlePopupInsert = async (inputType, inputSubType) => {
+        // Handle an insert of child. A new node should be inserted between this node and its children
+        const targetNodeId = selectedNode.id;
+        
+        // New node object with placeholder values
+        const newNode = {
+            icon: `${inputType}Icon`,
+            title: `New ${inputType}`,
+            tooltip: { content: 'Description of the new child node' },
+            children: [],
+            type: inputType,
+        };
 
-  const handleInsertNewLessonType = () => {
-    setIsInsertLessonTypeModalOpen(true);
-  };
+        try {
+            const response = await postData(`api/units/${unitId}/insert`, { unitId, targetNodeId, newNode, inputSubType });
+            console.log(response)
 
-  const handleAppendNewLessonType = () => {
-    setIsAppendLessonTypeModalOpen(true);
-  };
-
-  const handlePopupInsert = async (type, subType) => {
-    // Handle an insert of child. A new node should be inserted between this node and its children
-    const targetNodeId = selectedNode.id;
-    const newNode = {
-      icon: `${type}Icon`,
-      title: `New ${type}`,
-      tooltip: { content: "Description of the new child node" },
-      children: [],
-      type: type,
+            // Navigate to the edit the page
+            window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    try {
-      const response = await postData(`api/units/${unitId}/insert`, {
-        unitId,
-        targetNodeId,
-        newNode,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    async function handlePopupAppend(inputType, inputSubType) {
+        // Handle an append of a child. A new node should be added to this nodes's children
+        const targetNodeId = selectedNode.id;
+        
+        // New node object with placeholder values
+        const newNode = {
+            icon: `${inputType}Icon`,
+            title: `New ${inputType}`,
+            tooltip: { content: 'Description of the new child node' },
+            children: [],
+            type: inputType,
+        };
 
-    // Refresh the page
-    navigate(0); // TODO: once edit page is implements, navigate to edit page instead of reloading
-  };
+        try {
+            const response = await postData(`api/units/${unitId}/append`, { unitId, targetNodeId, newNode, inputSubType });
+            console.log(response)
 
-  async function handlePopupAppend(type, subType) {
-    // Handle an append of a child. A new node should be added to this nodes's children
-    const targetNodeId = selectedNode.id;
-
-    // New node object with placeholder values
-    const newNode = {
-      icon: `${type}Icon`,
-      title: `New ${type}`,
-      tooltip: { content: "Description of the new child node" },
-      children: [],
-      type: type,
+            // Navigate to the edit the page
+            window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    try {
-      const response = await postData(`api/units/${unitId}/append`, {
-        unitId,
-        targetNodeId,
-        newNode,
-        subType,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    const handlePopupEdit = () => {
+        // Handle an editing of a node. Navigate to the edit page
+        window.location.href = `http://localhost:3000/edit/${selectedNode.id}`; // .../edit/lessonId
+    };
 
-    // Refresh the page
-    navigate(0); // TODO: once edit page is implements, navigate to edit page instead of reloading
-  }
+    
+    const handlePopupDelete = async () => {
+        if (!selectedNode) return;
+    
+        // confirming deletion of node using window
+        const isConfirmed = window.confirm('Are you sure you want to delete this node? Its children will be reappended to the parent node. This action cannot be undone.');
+        
+        if (isConfirmed) {
+            try {
+                const response = await postData(`api/units/${unitId}/delete`, { 
+                    unitId, 
+                    nodeId: selectedNode.id 
+                });
+                
+                console.log(response);
+                
+                // close the popup
+                setIsPopupOpen(false);
+                setSelectedNode(null);
+    
+                // refresh the page to show updated structure
+                navigate(0);
+                
+            } catch (error) {
+                console.error('Error deleting node:', error);
+                alert("An error occurred while deleting the node. Please try again.");
+            }
+        }
+    };
+    
 
-  const handlePopupEdit = () => {
-    // Handle an editing of a node. Navigate to the edit page
-    //window.location.href = `http://localhost:3000/${selectedNode.id}/edit`;
-
-    // Redirect based on the lesson type. Either /editLesson, /editVideo or /editQuiz
-    const nodeType =
-      selectedNode.type.charAt(0).toUpperCase() + selectedNode.type.slice(1); // Make first letter uppercase
-    window.location.href = `http://localhost:3000/${selectedNode.id}/edit${nodeType}`;
-  };
-
-  const handlePopupDelete = () => {
-    // TODO: Handle a delete of a node.
-  };
-
-  const getCompletedLessonsArray = async () => {
-    try {
-      // get user's progress for this unit
-      const token = localStorage.getItem("token");
-      const res = await postData("api/auth/current", { token });
-
-      const userProgressResponseData = await getData(
-        `api/userUnitProgress/${res.decoded.id}/${unitId}`,
-      );
-
-      if (userProgressResponseData.completedLessons) {
-        return userProgressResponseData.completedLessons;
-      }
-      return [];
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
-  };
-
-  async function handleSave(storage, treeId, skills) {
-    var completedLessons = await getCompletedLessonsArray();
-    completedLessons.forEach((lessonId) => {
-      skills[lessonId] = {
-        optional: false,
-        nodeState: "selected",
-      };
-    });
-
-    return storage.setItem(`skills-${treeId}`, JSON.stringify(skills));
-  }
-
-  return (
-    <div style={{ backgroundColor: "#3CA3EE" }}>
-      <Box sx={{ padding: "10px" }}>
-        <Menu title={learningPathTitle} subtitle="Learning Path" />
-      </Box>{" "}
-      {isUnitLoading ? (
-        <div className="spinner"></div>
-      ) : (
-        <SkillProvider>
-          <SkillTreeGroup theme={theme}>
-            {(
-              { skillCount }, //SkillGroupDataType
-            ) => (
-              <SkillTree
-                treeId="learning-pathway"
-                title=""
-                data={learningPathData} // SkillType
-                // Other useful fields (the rest we won't need):
-                savedData={savedData}
-                handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
-                handleSave={handleSave}
-              />
+    return (
+        <div style={{ backgroundColor: "#3CA3EE" }}>
+            <Box sx={{padding: '10px'}}><Menu title={learningPathTitle} subtitle="Learning Path" /></Box>{" "}
+            {isUnitLoading ? (
+                <div className="spinner"></div>
+            ) : (
+                <SkillProvider>
+                    <SkillTreeGroup theme={theme}>
+                        {(
+                            { skillCount } //SkillGroupDataType
+                        ) => (
+                            <SkillTree
+                                treeId="first-tree"
+                                title=""
+                                data={learningPathData} // SkillType
+                                // Other useful fields (the rest we won't need):
+                                // savedData={savedProgressData} // To load user progress
+                                handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
+                            />
+                        )}
+                    </SkillTreeGroup>
+                </SkillProvider>
             )}
-          </SkillTreeGroup>
-        </SkillProvider>
       )}
       <UnitPopup
         isOpen={isModalOpen}
