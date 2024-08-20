@@ -10,7 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 const EditShortAnswerQuestion = () => {
   const navigate = useNavigate();
-  const { getData, updateData} = useApi();
+  const { getData, updateData } = useApi();
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -52,12 +52,14 @@ const EditShortAnswerQuestion = () => {
       setError('Failed to update questions. Please try again.');
     }
   };
+
   const addNewQuestion = () => {
     const newQuestion = {
-      _id: `new-${Date.now()}`,
       questionText: "",
       answer: "",
+      type: "shortAnswer", // Set the default type
     };
+    console.log('Adding new question:', newQuestion); // Debugging statement
     setQuestions([...questions, newQuestion]);
   };
 
@@ -147,15 +149,6 @@ const EditShortAnswerQuestion = () => {
             </Box>
           </Box>
         ))}
-        
-        <Button 
-          onClick={addNewQuestion} 
-          variant="contained" 
-          startIcon={<AddIcon />} 
-          sx={{ marginBottom: '20px', backgroundColor: '#FFC93C', ':hover': { backgroundColor: '#2196F3' } }}
-        >
-          Add Question
-        </Button>
       </Box>
 
       <AppBar position="fixed" elevation={0} sx={{ top: 'auto', bottom: 0, bgcolor: 'transparent', height: '100px', justifyContent: 'center' }}>
@@ -168,6 +161,7 @@ const EditShortAnswerQuestion = () => {
             }}
           >
             <Button onClick={handleBackClick} variant="contained" className="button-font" sx={{ ':hover': { backgroundColor: '#2196F3' }, marginLeft: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C' }}>Back</Button>
+            <Button onClick={addNewQuestion}variant="contained"startIcon={<AddIcon />}sx={{ marginBottom: '20px', backgroundColor: '#FFC93C', ':hover': { backgroundColor: '#2196F3' } }}>Add Question</Button>
             <Button onClick={handleSubmit} variant="contained" className="button-font" sx={{ ':hover': { backgroundColor: '#2196F3' }, marginRight: '20px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C' }}>Save</Button>
           </Box>
         </Toolbar>

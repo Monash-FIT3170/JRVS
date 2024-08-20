@@ -125,7 +125,7 @@ const NewLessons = () => {
               {['Multiple Choice', 'Reorder', 'Image', 'True or False', 'Fill in the blank', 'Drag & Drop', 'Short Answer'].map((quizType, index) => (
                 <MenuItem
                   key={index}
-                  onClick={() => handleOptionClick(`/quiz/${quizType.toLowerCase().replace(/ /g, '-')}/664190d9f092fecc84770cb8/questions/`)} //hardcoded
+                  onClick={() => handleOptionClick(`/quiz/${quizType.toLowerCase().replace(/ /g, '-')}/66c486234f26141048e554b8/questions/`)} //hardcoded
                   sx={{
                     ':hover': {
                       backgroundColor: '#3CA3EE',
