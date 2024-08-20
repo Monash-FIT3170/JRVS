@@ -112,17 +112,22 @@ const EditTrueFalse = () => {
   };
 
   const revertQuestion = (index) => {
-    const questionToUndo = questions[index];
-
-    if (questionToUndo._id === undefined) {
+    const updatedQuestions = [...questions];
+    if (index >= 0 && index < originalQuestions.length) {
+      updatedQuestions[index] = { ...originalQuestions[index] };
+      setQuestions(updatedQuestions);
+    } else {
       const updatedQuestions = [...questions];
       updatedQuestions[index] = {
         questionText: "",
         answer: "",
         type: "TrueFalse",
+        options: [
+          { option: "True", value: "true" },
+          { option: "False", value: "false" },
+        ],
       };
       setQuestions(updatedQuestions);
-      return;
     }
   };
 
