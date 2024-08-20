@@ -13,7 +13,7 @@ import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Videos from './pages/Video/videos';
 import EditLesson from './pages/Lesson/editLesson';
-import EditProfile from './pages/EditProfile';
+//import EditProfile from './pages/EditProfile';
 import LeaderboardPage from "./pages/LeaderboardPage";
 import EditVideo from './pages/Video/editVideo';
 
