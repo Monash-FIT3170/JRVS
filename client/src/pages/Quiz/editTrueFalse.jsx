@@ -9,6 +9,7 @@ import {
   MenuItem,
   FormControl,
   Select,
+  Typography,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -94,103 +95,130 @@ const EditTrueFalse = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
+        width: "100vw",
+        height: "100vh",
         backgroundColor: "#3CA3EE",
+        overflow: "auto",
       }}
     >
-      <Box sx={{ padding: "10px" }}>
-        <MenuBar />
-      </Box>
-
+      <MenuBar />
       <Box
         sx={{
-          flexGrow: 1,
-          paddingBottom: "100px",
-          bgcolor: "white",
-          overflowY: "auto",
-          paddingTop: "20px",
+          position: "relative",
+          width: "100vw",
+          backgroundColor: "#3CA3EE",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "20px",
         }}
       >
-        {!isLoading &&
-          questions.map((question, index) => (
-            <Box
-              key={question._id}
-              sx={{
-                width: "100%",
-                alignItems: "center",
-                display: "flex",
-                flexDirection: "column",
-                marginBottom: "20px",
-              }}
-            >
+        <Box
+          sx={{
+            backgroundColor: "white",
+            padding: "60px",
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+            maxWidth: "900px",
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{ paddingBottom: "25px", color: "#333" }}
+          >
+            Edit True/False Questions
+          </Typography>
+
+          {!isLoading &&
+            questions.map((question, index) => (
               <Box
+                key={question._id}
                 sx={{
-                  borderRadius: "5px",
-                  borderWidth: "2px",
-                  borderColor: "black",
-                  width: "50%",
-                  padding: "20px",
-                  position: "relative",
+                  width: "100%",
+                  alignItems: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginBottom: "20px",
                 }}
               >
                 <Box
                   sx={{
-                    marginBottom: "20px",
-                    display: "flex",
-                    justifyContent: "space-between",
+                    borderRadius: "5px",
+                    borderWidth: "2px",
+                    borderColor: "black",
+                    width: "90%",
+                    padding: "20px",
+                    position: "relative",
                   }}
                 >
-                  <h3 className="heading-font">{index + 1} | True or False </h3>
-                  <Box>
-                    <IconButton
-                      onClick={() => moveQuestion(index, -1)}
-                      disabled={index === 0}
-                    >
-                      <ArrowUpwardIcon />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => moveQuestion(index, 1)}
-                      disabled={index === questions.length - 1}
-                    >
-                      <ArrowDownwardIcon />
-                    </IconButton>
-                    <IconButton onClick={() => deleteQuestion(index)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
-                </Box>
-                <TextField
-                  required
-                  variant="outlined"
-                  label="Question Text"
-                  name="questionText"
-                  value={question.questionText}
-                  onChange={(e) => handleInputChange(e, index)}
-                  multiline
-                  minRows={4}
-                  sx={{ width: "100%", marginBottom: "20px" }}
-                />
-                <FormControl required variant="outlined" sx={{ width: "100%" }}>
-                  <InputLabel>Answer</InputLabel>
-                  <Select
-                    label="Answer"
-                    name="answer"
-                    value={question.answer}
-                    onChange={(e) => handleInputChange(e, index)}
+                  <Box
+                    sx={{
+                      marginBottom: "20px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    <MenuItem value="true">True</MenuItem>
-                    <MenuItem value="false">False</MenuItem>
-                  </Select>
-                </FormControl>
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                {successMessage && (
-                  <p style={{ color: "green" }}>{successMessage}</p>
-                )}
+                    <h3 className="heading-font">
+                      {index + 1} | True or False{" "}
+                    </h3>
+                    <Box>
+                      <IconButton
+                        onClick={() => moveQuestion(index, -1)}
+                        disabled={index === 0}
+                      >
+                        <ArrowUpwardIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => moveQuestion(index, 1)}
+                        disabled={index === questions.length - 1}
+                      >
+                        <ArrowDownwardIcon />
+                      </IconButton>
+                      <IconButton onClick={() => deleteQuestion(index)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  <TextField
+                    required
+                    variant="outlined"
+                    label="Question Text"
+                    name="questionText"
+                    value={question.questionText}
+                    onChange={(e) => handleInputChange(e, index)}
+                    multiline
+                    minRows={4}
+                    sx={{ width: "100%", marginBottom: "20px" }}
+                  />
+                  <FormControl
+                    required
+                    variant="outlined"
+                    sx={{ width: "100%" }}
+                  >
+                    <InputLabel>Answer</InputLabel>
+                    <Select
+                      label="Answer"
+                      name="answer"
+                      value={question.answer}
+                      onChange={(e) => handleInputChange(e, index)}
+                    >
+                      <MenuItem value="true">True</MenuItem>
+                      <MenuItem value="false">False</MenuItem>
+                    </Select>
+                  </FormControl>
+                  {error && <p style={{ color: "red" }}>{error}</p>}
+                  {successMessage && (
+                    <p style={{ color: "green" }}>{successMessage}</p>
+                  )}
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))}
+        </Box>
       </Box>
 
       <AppBar
@@ -210,6 +238,7 @@ const EditTrueFalse = () => {
               width: "100%",
               display: "flex",
               justifyContent: "space-between",
+              marginTop: "60px",
             }}
           >
             <Button
@@ -219,6 +248,7 @@ const EditTrueFalse = () => {
               sx={{
                 ":hover": { backgroundColor: "#2196F3" },
                 marginLeft: "20px",
+                marginBottom: "60px",
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
@@ -231,7 +261,7 @@ const EditTrueFalse = () => {
               variant="contained"
               startIcon={<AddIcon />}
               sx={{
-                marginBottom: "20px",
+                marginBottom: "60px",
                 backgroundColor: "#FFC93C",
                 ":hover": { backgroundColor: "#2196F3" },
               }}
@@ -245,6 +275,7 @@ const EditTrueFalse = () => {
               sx={{
                 ":hover": { backgroundColor: "#2196F3" },
                 marginRight: "20px",
+                marginBottom: "60px",
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
