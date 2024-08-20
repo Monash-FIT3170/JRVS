@@ -15,6 +15,7 @@ const EditShortAnswerQuestion = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const { quizId } = useParams();
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleBackClick = () => {
     navigate(-1);
@@ -47,9 +48,12 @@ const EditShortAnswerQuestion = () => {
     try {
       await updateData(`api/quizzes/${quizId}`, questions);
       console.log("All questions updated successfully");
+      setSuccessMessage("Questions updated successfully!");
+      setError("");
     } catch (error) {
       console.error('Failed to update the questions:', error);
       setError('Failed to update questions. Please try again.');
+      setSuccessMessage("");
     }
   };
 
@@ -146,6 +150,7 @@ const EditShortAnswerQuestion = () => {
                 sx={{ width: '100%' }}
               />
               {error && <p style={{ color: 'red' }}>{error}</p>}
+              {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             </Box>
           </Box>
         ))}
