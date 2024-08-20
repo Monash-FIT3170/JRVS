@@ -96,7 +96,7 @@ const EditTrueFalse = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        minHeight: "100vh", // Make sure the main container takes full height of the viewport
+        minHeight: "100vh",
         backgroundColor: "#3CA3EE",
       }}
     >
@@ -106,10 +106,11 @@ const EditTrueFalse = () => {
 
       <Box
         sx={{
-          flexGrow: 1, // Ensure the content takes all available space
-          paddingBottom: "100px", // Add padding to the bottom to create space for the buttons
+          flexGrow: 1,
+          paddingBottom: "100px",
           bgcolor: "white",
           overflowY: "auto",
+          paddingTop: "20px",
         }}
       >
         {!isLoading &&
