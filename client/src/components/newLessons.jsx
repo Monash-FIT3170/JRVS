@@ -84,7 +84,7 @@ const NewLessons = () => {
                 <Button 
                   fullWidth 
                   variant="outlined" 
-                  onClick={() => handleOptionClick('/video/createVideo')} 
+                  onClick={() => handleOptionClick('/video/edit/:videoId')} 
                   sx={{
                     color: '#2196F3',
                     borderColor: '#2196F3',

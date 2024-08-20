@@ -43,8 +43,8 @@ const App = () =>  {
         <Route exact path="/video/:videoId" element={<ProtectedRoute/>}>
           <Route exact path="/video/:videoId" element={<Videos/>}/>
         </Route>
-        <Route exact path="/video/createVideo" element={<ProtectedRoute/>}>
-          <Route exact path="/video/createVideo" element={<CreateVideo/>}/>
+        <Route exact path="/video/edit/:videoId" element={<ProtectedRoute/>}>
+          <Route exact path="/video/edit/:videoId" element={<CreateVideo/>}/>
         </Route>
         <Route exact path="/units" element={<ProtectedRoute/>}>
           <Route path="/units" element={<UnitsPage/>} />
