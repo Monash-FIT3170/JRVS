@@ -1,27 +1,56 @@
+const asyncHandler = require("express-async-handler");
 
+const quizModel = require("../models/quizModel");
 
+const getQuiz = asyncHandler(async (req, res) => {
+  const quizId = req.params.id;
+  const quiz = await quizModel.findById(quizId);
 
+  if (!quiz) {
+    res.status(404).json({ message: "Quiz not found" });
+  } else {
+    res.status(200).json(quiz);
+  }
+});
 
-const asyncHandler = require('express-async-handler')
+const updateQuiz = asyncHandler(async (req, res) => {
+  const quizId = req.params.id;
+  const updatedQuizData = req.body;
 
-const quizModel = require('../models/quizModel')
+  // Validate input (you might want to add more specific validations based on your schema)
+  if (!updatedQuizData || typeof updatedQuizData !== "object") {
+    return res.status(400).json({ message: "Invalid data provided" });
+  }
 
-
-const getQuiz = asyncHandler (async (req, res) => {
-    const quizId = req.params.id
-    const quiz = await quizModel.findById(quizId)
+  try {
+    // Find the quiz by ID
+    const quiz = await quizModel.findById(quizId);
 
     if (!quiz) {
-        res.status(404).json({message: 'Quiz not found'})
+      return res.status(404).json({ message: "Quiz not found" });
     } else {
-        res.status(200).json(quiz);
-    }
-})
+      // Update the quiz with the new data
+      console.log(quiz);
+      quiz.questions = updatedQuizData;
+      console.log(quiz);
 
+      // Save the updated quiz
+      await quiz.save();
+
+      // Return the updated quiz
+      res.status(200).json({ message: "Quiz updated successfully", quiz });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to update quiz", error: error.message });
+  }
+});
 
 module.exports = {
-    getQuiz
-}
+  getQuiz,
+  updateQuiz,
+};
 
 /*
 
