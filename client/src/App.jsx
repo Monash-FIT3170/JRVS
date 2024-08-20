@@ -16,6 +16,8 @@ import EditLesson from "./pages/Lesson/editLesson";
 import EditProfile from "./pages/EditProfile";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import EditTrueFalse from "./pages/Quiz/editTrueFalse";
+import EditImageQuiz from "./pages/Quiz/editImageQuiz";
+
 const App = () => {
   return (
     <Router>
@@ -50,6 +52,17 @@ const App = () => {
         </Route>
         <Route exact path="/quiz/edit/:quizId" element={<ProtectedRoute />}>
           <Route exact path="/quiz/edit/:quizId" element={<EditTrueFalse />} />
+        </Route>
+        <Route
+          exact
+          path="/imagequiz/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/imagequiz/edit/:quizId"
+            element={<EditImageQuiz />}
+          />
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
           <Route exact path="/video/:videoId" element={<Videos />} />
