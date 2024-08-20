@@ -90,6 +90,10 @@ const EditTrueFalse = () => {
       questionText: "",
       answer: "",
       type: "TrueFalse", // Set the default type
+      options: [
+        { option: "True", value: "true" },
+        { option: "False", value: "false" },
+      ],
     };
     console.log("Adding new question:", newQuestion); // Debugging statement
     setQuestions([...questions, newQuestion]);
