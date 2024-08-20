@@ -56,18 +56,6 @@ export const ApiProvider = ({ children }) => {
     };
     return fetchData(url, options);
   };
-
-  const updateDataPATCH = async (endpoint, data) => {
-    const url = `${baseURL}/${endpoint}`;
-    const options = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-    return fetchData(url, options);
-  };
   
   // Function to delete data from MongoDB
   const deleteData = async (endpoint) => {
@@ -84,8 +72,7 @@ export const ApiProvider = ({ children }) => {
         getData,
         postData,
         updateData,
-        deleteData,
-        updateDataPATCH
+        deleteData
       }}
     >
       {children}
