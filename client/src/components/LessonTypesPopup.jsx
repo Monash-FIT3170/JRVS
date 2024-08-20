@@ -46,7 +46,7 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
             variant="h6"
             sx={{ marginBottom: "15px", fontWeight: "bold", color: "#3CA3EE" }}
           >
-            Create New Lesson
+            Create New Module
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             <Grid item xs={12} sm={4}>
@@ -57,11 +57,13 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
                   onClick("lesson");
                 }} // hardcoded for testing
                 sx={{
-                  color: "#2196F3",
-                  borderColor: "#2196F3",
+                  color: "#fff",
+                  backgroundColor: '#3ca3ee',
+                  borderColor: "#3ca3ee",
                   marginBottom: "10px",
+                  borderRadius: '7px',
                   ":hover": {
-                    backgroundColor: "#f0f0f0",
+                    backgroundColor: "#2196F3",
                     borderColor: "#2196F3",
                   },
                 }}
@@ -75,11 +77,13 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
                 variant="outlined"
                 onClick={() => onClick("video")}
                 sx={{
-                  color: "#2196F3",
-                  borderColor: "#2196F3",
+                  color: "#fff",
+                  backgroundColor: '#3ca3ee',
+                  borderColor: "#3ca3ee",
                   marginBottom: "10px",
+                  borderRadius: '7px',
                   ":hover": {
-                    backgroundColor: "#f0f0f0",
+                    backgroundColor: "#2196F3",
                     borderColor: "#2196F3",
                   },
                 }}
@@ -93,10 +97,13 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
                 variant="outlined"
                 onClick={handleQuizClick}
                 sx={{
-                  color: "#2196F3",
-                  borderColor: "#2196F3",
+                  color: "#fff",
+                  backgroundColor: '#3ca3ee',
+                  borderColor: "#3ca3ee",
+                  marginBottom: "10px",
+                  borderRadius: '7px',
                   ":hover": {
-                    backgroundColor: "#f0f0f0",
+                    backgroundColor: "#2196F3",
                     borderColor: "#2196F3",
                   },
                 }}
