@@ -19,11 +19,13 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import UndoIcon from "@mui/icons-material/Undo";
 
 const EditTrueFalse = () => {
   const navigate = useNavigate();
   const { getData, updateData } = useApi();
   const [questions, setQuestions] = useState([]);
+  const [originalQuestions, setOriginalQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const { quizId } = useParams();
@@ -39,6 +41,7 @@ const EditTrueFalse = () => {
         const quiz = await getData(`api/quizzes/${quizId}`);
         if (quiz.questions) {
           setQuestions(quiz.questions);
+          setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
         }
         setIsLoading(false);
       } catch (error) {
@@ -55,17 +58,29 @@ const EditTrueFalse = () => {
     setQuestions(updatedQuestions);
   };
 
+  const isFormComplete = () => {
+    return questions.every(
+      (question) =>
+        question.questionText.trim() !== "" && question.answer !== "",
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await updateData(`api/quizzes/${quizId}`, questions);
-      console.log(questions);
-      console.log("All questions updated successfully");
-      setSuccessMessage("Questions updated successfully!");
-      setError("");
-    } catch (error) {
-      console.error("Failed to update the questions:", error);
-      setError("Failed to update questions. Please try again.");
+    if (isFormComplete()) {
+      try {
+        await updateData(`api/quizzes/${quizId}`, questions);
+        console.log(questions);
+        console.log("All questions updated successfully");
+        setSuccessMessage("Questions updated successfully!");
+        setError("");
+      } catch (error) {
+        console.error("Failed to update the questions:", error);
+        setError("Failed to update questions. Please try again.");
+        setSuccessMessage("");
+      }
+    } else {
+      setError("Please fill out all fields before saving.");
       setSuccessMessage("");
     }
   };
@@ -90,6 +105,21 @@ const EditTrueFalse = () => {
   const deleteQuestion = (index) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
     setQuestions(updatedQuestions);
+  };
+
+  const revertQuestion = (index) => {
+    const questionToUndo = questions[index];
+
+    if (questionToUndo._id === undefined) {
+      const updatedQuestions = [...questions];
+      updatedQuestions[index] = {
+        questionText: "",
+        answer: "",
+        type: "TrueFalse",
+      };
+      setQuestions(updatedQuestions);
+      return;
+    }
   };
 
   return (
@@ -137,7 +167,7 @@ const EditTrueFalse = () => {
           {!isLoading &&
             questions.map((question, index) => (
               <Box
-                key={question._id}
+                key={index}
                 sx={{
                   width: "100%",
                   alignItems: "center",
@@ -181,6 +211,9 @@ const EditTrueFalse = () => {
                       </IconButton>
                       <IconButton onClick={() => deleteQuestion(index)}>
                         <DeleteIcon />
+                      </IconButton>
+                      <IconButton onClick={() => revertQuestion(index)}>
+                        <UndoIcon />
                       </IconButton>
                     </Box>
                   </Box>
@@ -271,7 +304,6 @@ const EditTrueFalse = () => {
             <Button
               onClick={handleSubmit}
               variant="contained"
-              className="button-font"
               sx={{
                 ":hover": { backgroundColor: "#2196F3" },
                 marginRight: "20px",
@@ -280,6 +312,7 @@ const EditTrueFalse = () => {
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
               }}
+              disabled={!isFormComplete()}
             >
               Save
             </Button>
