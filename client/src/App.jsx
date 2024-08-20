@@ -13,7 +13,7 @@ import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Videos from './pages/Video/videos';
 import LeaderboardPage from "./pages/LeaderboardPage";
-import CreateVideo from './pages/Video/createVideo';
+import EditVideo from './pages/Video/editVideo';
 
 const App = () =>  {
   return (
@@ -44,7 +44,7 @@ const App = () =>  {
           <Route exact path="/video/:videoId" element={<Videos/>}/>
         </Route>
         <Route exact path="/video/edit/:videoId" element={<ProtectedRoute/>}>
-          <Route exact path="/video/edit/:videoId" element={<CreateVideo/>}/>
+          <Route exact path="/video/edit/:videoId" element={<EditVideo/>}/>
         </Route>
         <Route exact path="/units" element={<ProtectedRoute/>}>
           <Route path="/units" element={<UnitsPage/>} />

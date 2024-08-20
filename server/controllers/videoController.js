@@ -35,7 +35,26 @@ const createVideo = asyncHandler(async (req, res) => {
     }
 });
 
+const updateVideo = asyncHandler (async (req, res) => {
+    const videoId = req.params.id;
+    const { title, url, heading } = req.body;
+
+    const video = await videoModel.findById(videoId);
+
+    if (!video) {
+        res.status(404).json({message: 'Video not found'});
+    } else {
+        video.title = title;
+        video.heading = heading;
+        video.url = url;
+        await video.save();
+        res.status(200).json(video);
+    }
+
+})
+
 module.exports = {
     getVideo,
-    createVideo
+    createVideo,
+    updateVideo
 }
