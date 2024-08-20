@@ -15,6 +15,7 @@ import { useApi } from '../context/ApiProvider';
 import "../assets/styles/App.css";
 import { Box } from "@mui/material";
 import UnitPopup from "../components/UnitPopup.jsx";
+import LessonTypesPopup from "../components/LessonTypesPopup.jsx";
 
 // Coloured background theme
 const theme = {
@@ -36,6 +37,8 @@ const LearningPathPage = () => {
 
     const [selectedNode, setSelectedNode] = useState(null); // State for the selected node
     const [isModalOpen, setIsPopupOpen] = useState(false); // State for popup open/close
+    const [isInsertLessonTypeModalOpen, setIsInsertLessonTypeModalOpen] = useState(false);
+    const [isAppendLessonTypeModalOpen, setIsAppendLessonTypeModalOpen] = useState(false);
     
     const { unitId } = useParams();
 
@@ -122,13 +125,23 @@ const LearningPathPage = () => {
         setSelectedNode(null);
     };
 
-    const handlePopupInsert = async () => {
+    const handleLessonTypePopupClose = () => {
+        setIsInsertLessonTypeModalOpen(false);
+        setIsAppendLessonTypeModalOpen(false);
+    };
+
+    const handleInsertNewLessonType = () => {
+        setIsInsertLessonTypeModalOpen(true);
+    };
+
+    const handleAppendNewLessonType = () => {
+        setIsAppendLessonTypeModalOpen(true);
+    };
+
+    const handlePopupInsert = async (inputType, inputSubType) => {
         // Handle an insert of child. A new node should be inserted between this node and its children
         const targetNodeId = selectedNode.id;
-        
-        const inputType = 'lesson' // Possible learning modules: 'lesson', 'video' or 'quiz'
-        const inputSubType = 'MultipleChoice' // Possible quiz types: MultipleChoice, ImageQuiz, ShortAnswer, Reorder, DragAndDrop
-        
+                
         // New node object with placeholder values
         const newNode = {
             icon: `${inputType}Icon`,
@@ -149,13 +162,10 @@ const LearningPathPage = () => {
         }
     };
 
-    async function handlePopupAppend() {
+    async function handlePopupAppend(inputType, inputSubType) {
         // Handle an append of a child. A new node should be added to this nodes's children
         const targetNodeId = selectedNode.id;
-        
-        const inputType = 'lesson' // Possible learning modules: 'lesson', 'video' or 'quiz'
-        const inputSubType = 'TrueFalse' // Possible quiz types: MultipleChoice, ImageQuiz, ShortAnswer, Reorder, DragAndDrop, TrueFalse
-        
+                
         // New node object with placeholder values
         const newNode = {
             icon: `${inputType}Icon`,
@@ -240,13 +250,22 @@ const LearningPathPage = () => {
                 isOpen={isModalOpen} 
                 node={selectedNode} 
                 onClose={handlePopupClose} 
-                onInsert={handlePopupInsert} 
-                onAppend={handlePopupAppend} 
+                onInsert={handleInsertNewLessonType} 
+                onAppend={handleAppendNewLessonType}
                 onEdit={handlePopupEdit} 
                 onDelete={handlePopupDelete} 
                 isAdmin={true} // Assume current user is admin. TODO: Check the current user's type
             />
-
+            <LessonTypesPopup
+                isOpen={isInsertLessonTypeModalOpen}
+                onClose={handleLessonTypePopupClose}
+                onClick={handlePopupInsert}
+            />
+            <LessonTypesPopup
+                isOpen={isAppendLessonTypeModalOpen}
+                onClose={handleLessonTypePopupClose}
+                onClick={handlePopupAppend}
+            />
         </div>
     );
 };
