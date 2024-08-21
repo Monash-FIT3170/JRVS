@@ -3,11 +3,16 @@ import { useApi } from '../context/ApiProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
 import BotBox from "../components/content/botBox";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import SchoolIcon from '@mui/icons-material/School';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import Select from 'react-select';
 
 
 const RegistrationPage = () => {
     // Create the hooks for the different inputs
+    const [usertype, setUsertype] = useState('')
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
     const [username, setUsername] = useState('')
@@ -20,6 +25,12 @@ const RegistrationPage = () => {
     const [avatarState, setAvatarState] = useState(location.state?.avatarState || 'blue')
 
 
+    const handleUserType = (event, newUsertype) => {
+        if (newUsertype !== null) {
+            setUsertype(newUsertype);
+        }
+      };
+  
     const navigate = useNavigate();
     const {getData, postData} = useApi();
 
@@ -27,7 +38,7 @@ const RegistrationPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const res = await postData('api/auth/register', {username, firstname, lastname, email, school, password});
+          const res = await postData('api/auth/register', {usertype, username, firstname, lastname, email, school, password});
           console.log(res);
           navigate('/login', { state: { avatarState } });
         } catch (error) {
@@ -99,7 +110,33 @@ const RegistrationPage = () => {
                 <form  className="p-5 flex flex-col items-center justify-center space-y-4" onSubmit={handleSubmit}>
                     <p className="text-6xl font-bold text-ai-blue mb-12 text-center">SIGN UP</p>
                     {/* Create the grid layout */}
+                    
                     <div className="grid grid-cols-1 gap-6">
+                        <div className="flex gap-2">
+                            <label>
+                                <span className="text-gray-700 mr">I am a</span>
+                                <div>
+                                <ToggleButtonGroup
+                                    color="primary"
+                                    value={usertype}
+                                    exclusive
+                                    onChange={handleUserType}
+                                    aria-label="user type"
+                                    size='large'
+                                >
+                                    <ToggleButton value="student" aria-label="student">
+                                    <SchoolIcon />
+                                    &nbsp;&nbsp;Student
+                                    </ToggleButton>
+                                    <ToggleButton value="teacher" aria-label="teacher">
+                                    <HistoryEduIcon />
+                                    &nbsp;&nbsp;Teacher
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                                </div>
+                            </label>
+
+                        </div> 
                         <div className="flex gap-2">
                             <label>
                                 <span className="text-gray-700 mr">First name</span>
