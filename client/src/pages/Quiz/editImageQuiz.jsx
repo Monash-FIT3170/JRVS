@@ -10,6 +10,8 @@ import {
   FormControl,
   Select,
   Typography,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,15 +45,14 @@ const EditImageQuiz = () => {
           setQuestions(quiz.questions);
           setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
         }
-        setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        setError("Failed to fetch quiz data. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
   }, [getData, quizId]);
-
-  console.log(questions);
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -60,10 +61,22 @@ const EditImageQuiz = () => {
     setQuestions(updatedQuestions);
   };
 
+  const handleOptionChange = (e, questionIndex, optionIndex) => {
+    const { value } = e.target;
+    const updatedQuestions = [...questions];
+
+    updatedQuestions[questionIndex].options[optionIndex] = {
+      option: value,
+      value: value,
+    };
+
+    setQuestions(updatedQuestions);
+  };
+
   const isFormComplete = () => {
     return questions.every(
       (question) =>
-        question.questionText.trim() !== "" && question.answer !== "",
+        question.questionText.trim() !== "" && question.answer.trim() !== "",
     );
   };
 
@@ -72,8 +85,6 @@ const EditImageQuiz = () => {
     if (isFormComplete()) {
       try {
         await updateData(`api/quizzes/${quizId}`, questions);
-        console.log(questions);
-        console.log("All questions updated successfully");
         setSuccessMessage("Questions updated successfully!");
         setError("");
       } catch (error) {
@@ -91,14 +102,13 @@ const EditImageQuiz = () => {
     const newQuestion = {
       questionText: "",
       answer: "",
-      type: "ImageQuiz", // Set the default type
+      type: "ImageQuiz",
       options: [
-        { option: "AI-generated", value: "AI-generated" },
-        { option: "Real", value: "Real" },
+        { option: "", value: "" },
+        { option: "", value: "" },
       ],
       image: "",
     };
-    console.log("Adding new question:", newQuestion); // Debugging statement
     setQuestions([...questions, newQuestion]);
   };
 
@@ -118,21 +128,33 @@ const EditImageQuiz = () => {
     const updatedQuestions = [...questions];
     if (index >= 0 && index < originalQuestions.length) {
       updatedQuestions[index] = { ...originalQuestions[index] };
-      setQuestions(updatedQuestions);
     } else {
-      const updatedQuestions = [...questions];
       updatedQuestions[index] = {
         questionText: "",
         answer: "",
         type: "ImageQuiz",
         options: [
-          { option: "AI-generated", value: "AI-generated" },
-          { option: "Real", value: "Real" },
+          { option: "", value: "" },
+          { option: "", value: "" },
         ],
         image: "",
       };
-      setQuestions(updatedQuestions);
     }
+    setQuestions(updatedQuestions);
+  };
+
+  const addOption = (index) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[index].options.push({ option: "", value: "" });
+    setQuestions(updatedQuestions);
+  };
+
+  const removeOption = (questionIndex, optionIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex].options = updatedQuestions[
+      questionIndex
+    ].options.filter((_, i) => i !== optionIndex);
+    setQuestions(updatedQuestions);
   };
 
   return (
@@ -207,25 +229,33 @@ const EditImageQuiz = () => {
                     }}
                   >
                     <h3 className="heading-font">
-                      {index + 1} | Image Question{" "}
+                      {index + 1} | Image Question
                     </h3>
                     <Box>
                       <IconButton
                         onClick={() => moveQuestion(index, -1)}
                         disabled={index === 0}
+                        aria-label="Move question up"
                       >
                         <ArrowUpwardIcon />
                       </IconButton>
                       <IconButton
                         onClick={() => moveQuestion(index, 1)}
                         disabled={index === questions.length - 1}
+                        aria-label="Move question down"
                       >
                         <ArrowDownwardIcon />
                       </IconButton>
-                      <IconButton onClick={() => deleteQuestion(index)}>
+                      <IconButton
+                        onClick={() => deleteQuestion(index)}
+                        aria-label="Delete question"
+                      >
                         <DeleteIcon />
                       </IconButton>
-                      <IconButton onClick={() => revertQuestion(index)}>
+                      <IconButton
+                        onClick={() => revertQuestion(index)}
+                        aria-label="Revert question"
+                      >
                         <UndoIcon />
                       </IconButton>
                     </Box>
@@ -237,109 +267,141 @@ const EditImageQuiz = () => {
                     name="questionText"
                     value={question.questionText}
                     onChange={(e) => handleInputChange(e, index)}
-                    multiline
-                    minRows={4}
-                    sx={{ width: "100%", marginBottom: "20px" }}
+                    fullWidth
+                    sx={{ marginBottom: "20px" }}
                   />
-                  <TextField
-                    variant="outlined"
-                    label="Image URL"
-                    name="image"
-                    value={question.image}
-                    onChange={(e) => handleInputChange(e, index)}
-                    sx={{ width: "100%", marginBottom: "20px" }}
-                  />
-                  <FormControl
-                    required
-                    variant="outlined"
-                    sx={{ width: "100%" }}
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                    }}
                   >
-                    <InputLabel>Answer</InputLabel>
-                    <Select
-                      label="Answer"
-                      name="answer"
-                      value={question.answer}
-                      onChange={(e) => handleInputChange(e, index)}
-                    >
-                      <MenuItem value="AI-generated">AI-generated</MenuItem>
-                      <MenuItem value="Real">Real</MenuItem>
-                    </Select>
-                  </FormControl>
-                  {error && <p style={{ color: "red" }}>{error}</p>}
-                  {successMessage && (
-                    <p style={{ color: "green" }}>{successMessage}</p>
-                  )}
+                    {question.options.map((option, optionIndex) => (
+                      <Box
+                        key={optionIndex}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <TextField
+                          variant="outlined"
+                          label="Option Value"
+                          name="value"
+                          value={option.value}
+                          onChange={(e) =>
+                            handleOptionChange(e, index, optionIndex)
+                          }
+                          sx={{ marginRight: "10px", width: "60%" }}
+                        />
+
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <Typography variant="subtitle1">Answer?</Typography>
+                          <Checkbox
+                            checked={
+                              question.answer &&
+                              question.answer === option.value
+                            }
+                            onChange={() => {
+                              const updatedAnswer =
+                                question.answer === option.value
+                                  ? ""
+                                  : option.value;
+                              handleInputChange(
+                                {
+                                  target: {
+                                    name: "answer",
+                                    value: updatedAnswer,
+                                  },
+                                },
+                                index,
+                              );
+                            }}
+                          />
+                        </Box>
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
               </Box>
             ))}
-        </Box>
-      </Box>
 
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          top: "auto",
-          bottom: 0,
-          bgcolor: "transparent",
-          height: "100px",
-          justifyContent: "center",
-        }}
-      >
-        <Toolbar>
-          <Box
+          <AppBar
+            position="fixed"
+            elevation={0}
             sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "60px",
+              top: "auto",
+              bottom: 0,
+              bgcolor: "transparent",
+              height: "100px",
+              justifyContent: "center",
             }}
           >
-            <Button
-              onClick={handleBackClick}
-              variant="contained"
-              className="button-font"
-              sx={{
-                ":hover": { backgroundColor: "#2196F3" },
-                marginLeft: "20px",
-                marginBottom: "60px",
-                padding: "15px",
-                borderRadius: "15px",
-                backgroundColor: "#FFC93C",
-              }}
-            >
-              Back
-            </Button>
-            <Button
-              onClick={addNewQuestion}
-              variant="contained"
-              startIcon={<AddIcon />}
-              sx={{
-                marginBottom: "60px",
-                backgroundColor: "#FFC93C",
-                ":hover": { backgroundColor: "#2196F3" },
-              }}
-            >
-              Add Question
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              sx={{
-                ":hover": { backgroundColor: "#2196F3" },
-                marginRight: "20px",
-                marginBottom: "60px",
-                padding: "15px",
-                borderRadius: "15px",
-                backgroundColor: "#FFC93C",
-              }}
-              disabled={!isFormComplete()}
-            >
-              Save
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
+            <Toolbar>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: "60px",
+                }}
+              >
+                <Button
+                  onClick={handleBackClick}
+                  variant="contained"
+                  className="button-font"
+                  sx={{
+                    ":hover": { backgroundColor: "#2196F3" },
+                    marginLeft: "20px",
+                    marginBottom: "60px",
+                    padding: "15px",
+                    borderRadius: "15px",
+                    backgroundColor: "#FFC93C",
+                  }}
+                >
+                  Back
+                </Button>
+                <Button
+                  onClick={addNewQuestion}
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  sx={{
+                    marginBottom: "60px",
+                    backgroundColor: "#FFC93C",
+                    ":hover": { backgroundColor: "#2196F3" },
+                  }}
+                >
+                  Add Question
+                </Button>
+                <Button
+                  onClick={handleSubmit}
+                  variant="contained"
+                  sx={{
+                    ":hover": { backgroundColor: "#2196F3" },
+                    marginRight: "20px",
+                    marginBottom: "60px",
+                    padding: "15px",
+                    borderRadius: "15px",
+                    backgroundColor: "#FFC93C",
+                  }}
+                  disabled={!isFormComplete()}
+                >
+                  Save
+                </Button>
+              </Box>
+            </Toolbar>
+          </AppBar>
+        </Box>
+      </Box>
     </Box>
   );
 };
