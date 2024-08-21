@@ -32,25 +32,27 @@ export default function CustomizePage () {
   }, [])
   async function saveAvatar() {
     try {
-      if (username != 'Loading') {
+      if (username !== 'Loading') {
         await postData('api/users/updateAvatar', {username, avatar, border, background});
       }
     } catch (error) {
       console.log(error);
     }
-  };
-  async function saveCoins(newPoints){
+  }
+
+  async function updateCoins(newPoints){
     try {
-      if (username != 'Loading') {
-        await postData('api/users/updatePoints', {username, newPoints});
+      if (username !== 'Loading') {
+        await postData('api/users/updatePoints', {newPoints: newPoints});
       }
     } catch (error) {
       console.log(error);
     }
-  };
+  }
+
   function spendCoins(amount){
-    saveCoins(coins - amount);
-    setCoins(prev => prev-amount);
+    updateCoins(-amount); // amount is negative since it is being spent
+    setCoins(prev => prev-amount); // update ui display
   }
   return (
       <div style ={{ backgroundColor: '#3CA3EE', overflowY: 'hidden', overflowX: 'hidden', height: '100vh', display: 'flex', flexDirection: 'column'}} >
@@ -69,7 +71,7 @@ export default function CustomizePage () {
               <p className='russo-one-regular text-4xl'>@{username}</p>
             </div>
             <div style={{ border: '2px solid #2196f3', padding: '20px', marginBottom: '20px', flexGrow: '1', width: '75%', textAlign:'center', borderRadius: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
-              <p className='russo-one-regular text-4xl'>{coins}🪙</p>
+              <p className='russo-one-regular text-4xl'>{coins} 💰</p>
             </div>
           </Grid>
           <Grid xs={16} style={{paddingRight: '80px', paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
