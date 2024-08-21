@@ -15,7 +15,27 @@ const getVideo = asyncHandler (async (req, res) => {
     }
 })
 
+const createVideo = asyncHandler(async (req, res) => {
+    const { title, url, heading } = req.body;
+
+    // Validate input
+    if (!title || !url || !heading) {
+        res.status(400).json({ message: 'All fields are required' });
+        return;
+    }
+
+    try {
+        // Create a new video document
+        const newVideo = new videoModel({ title, url, heading });
+        // Save it to the database
+        await newVideo.save();
+        res.status(201).json(newVideo);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to create video', error: error.message });
+    }
+});
 
 module.exports = {
-    getVideo
+    getVideo,
+    createVideo
 }
