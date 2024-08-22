@@ -245,7 +245,6 @@ const ProfilePage = () => {
             flexGrow: '1', 
             width: '100%', 
             maxHeight: '700px', 
-            overflowY: 'auto', 
             borderRadius: '10px', 
             boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', 
             backgroundColor: 'white'}}>
