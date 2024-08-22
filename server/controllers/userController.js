@@ -192,6 +192,22 @@ const getAllUsers = asyncHandler(async (req, res) => {
     }
 });
 
+const getStudents = asyncHandler(async (req, res) => {
+    const { studentIds } = req.body; // Assuming studentIds are sent in the request body
+    console.log(studentIds);
+
+    if (!studentIds || !Array.isArray(studentIds)) {
+        return res.status(404).json({ message: "Invalid or missing student IDs" });
+    }
+
+    try {
+        const students = await User.find({ _id: { $in: studentIds } });
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 const getProfile = (req, res) => {
     try {
       const user = req.user; 
@@ -244,5 +260,6 @@ module.exports = {
     updateUnlocked,
     getAllUsers,
     getProfile,
-    joinTeacher
+    joinTeacher, 
+    getStudents,
 };
