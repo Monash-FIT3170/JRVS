@@ -1,0 +1,53 @@
+.student-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    border-color:#FFC700;
+    border-width: 3px;
+    background-color:#fffcf0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+.student-card:hover {
+    background-color: #FFC700;
+
+}
+.student-card:hover .student-name {
+    color: white; 
+  }
+
+.student-avatar {
+    width: 15%;
+    height: auto;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.student-name {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.student-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 100%;
+    overflow-y: scroll;
+    padding: 20px;
+}
+
+.student-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.student-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+.student-list::-webkit-scrollbar-track {
+    background-color: transparent;
+}
