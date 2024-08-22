@@ -202,18 +202,18 @@ const ProfilePage = () => {
               borderRadius: '20px',
               boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'
             }}>
-              <h2 className='russo-one-regular text-4xl'>Sharable Code</h2>
-              <p style={{ 
-                  padding: '10px',
-                  width: '80%',
+              <h2 className='russo-one-regular text-3xl'>Sharable Code</h2>
+              <p className='russo-one-regular'
+                style={{ 
+                  padding: '5px',
+                  width: '90%',
                   borderRadius: '5px',
                   border: '1px solid #ccc',
-                  marginBottom: '10px',
+                  margin: '10px',
                   textAlign: 'center',
-                  backgroundColor: '#f0f0f0',
-                  fontSize: '18px',
-                  fontFamily: 'Roboto',
-                  fontWeight: '500'
+                  backgroundColor: '#FFC700',
+                  fontSize: '40px',
+                  color: 'white',
               }}>
                 {user.sharableCode}
               </p>
@@ -238,8 +238,18 @@ const ProfilePage = () => {
           padding: '20px',
           display: 'flex',
           flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
-          <div style={{ border: '1px solid black', padding: '20px', marginBottom: '40px', flexGrow: '1', width: '100%', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'}}>
-          <h2 style={{ font: 'Roboto', fontWeight: '700', fontSize: '40px' }}>My Students</h2>
+          <div style={{ 
+            border: '1px solid black', 
+            padding: '20px',
+            marginBottom: '40px', 
+            flexGrow: '1', 
+            width: '100%', 
+            maxHeight: '700px', 
+            overflowY: 'auto', 
+            borderRadius: '10px', 
+            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', 
+            backgroundColor: 'white'}}>
+            <h2 style={{ font: 'Roboto', fontWeight: '700', fontSize: '40px' }}>My Students</h2>
             <StudentDisplay students={students} />
           </div>
         </Grid>
