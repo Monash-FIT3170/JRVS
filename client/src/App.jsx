@@ -16,6 +16,7 @@ import EditLesson from "./pages/Lesson/editLesson";
 import EditProfile from "./pages/EditProfile";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import EditVideo from "./pages/Video/editVideo";
+import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
 
 const App = () => {
   return (
@@ -48,6 +49,17 @@ const App = () => {
         </Route>
         <Route exact path="/quiz/:quizId" element={<ProtectedRoute />}>
           <Route exact path="/quiz/:quizId" element={<Quizzes />} />
+        </Route>
+        <Route
+          exact
+          path="/quiz/short-answer/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/quiz/short-answer/edit/:quizId"
+            element={<EditShortAnswerQuestion />}
+          />
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
           <Route exact path="/video/:videoId" element={<Videos />} />
