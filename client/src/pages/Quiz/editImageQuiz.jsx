@@ -5,12 +5,7 @@ import {
   TextField,
   Toolbar,
   IconButton,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
   Typography,
-  FormControlLabel,
   Checkbox,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
@@ -96,6 +91,8 @@ const EditImageQuiz = () => {
       setError("Please fill out all fields before saving.");
       setSuccessMessage("");
     }
+
+    handleBackClick();
   };
 
   const addNewQuestion = () => {
@@ -266,6 +263,17 @@ const EditImageQuiz = () => {
                     label="Question Text"
                     name="questionText"
                     value={question.questionText}
+                    onChange={(e) => handleInputChange(e, index)}
+                    fullWidth
+                    sx={{ marginBottom: "20px" }}
+                  />
+
+                  <TextField
+                    required
+                    variant="outlined"
+                    label="Image URL"
+                    name="image"
+                    value={question.image}
                     onChange={(e) => handleInputChange(e, index)}
                     fullWidth
                     sx={{ marginBottom: "20px" }}
