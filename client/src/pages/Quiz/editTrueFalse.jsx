@@ -47,6 +47,7 @@ const EditTrueFalse = () => {
       } catch (error) {
         console.log(error);
       }
+      console.log(originalQuestions);
     };
     fetchData();
   }, [getData, quizId]);
@@ -129,23 +130,24 @@ const EditTrueFalse = () => {
   return (
     <Box
       sx={{
-        width: "100vw",
-        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "100vw",
         backgroundColor: "#3CA3EE",
-        overflow: "auto",
       }}
     >
-      <MenuBar />
+      <Box sx={{ padding: "10px" }}>
+        <MenuBar />
+      </Box>
+
       <Box
         sx={{
-          position: "relative",
-          width: "100vw",
-          backgroundColor: "#3CA3EE",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          bgcolor: "white",
+          height: "100%",
           justifyContent: "center",
-          padding: "20px",
         }}
       >
         <Box
@@ -153,12 +155,11 @@ const EditTrueFalse = () => {
             backgroundColor: "white",
             padding: "60px",
             borderRadius: "8px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "900px",
+            maxWidth: "1000px",
           }}
         >
           <Typography
@@ -183,8 +184,9 @@ const EditTrueFalse = () => {
                 <Box
                   sx={{
                     borderRadius: "5px",
+                    backgroundColor: "#3CA3EE",
                     borderWidth: "2px",
-                    borderColor: "black",
+                    borderColor: "#3CA3EE",
                     width: "90%",
                     padding: "20px",
                     position: "relative",
@@ -230,24 +232,64 @@ const EditTrueFalse = () => {
                     onChange={(e) => handleInputChange(e, index)}
                     multiline
                     minRows={4}
-                    sx={{ width: "100%", marginBottom: "20px" }}
+                    sx={{
+                      width: "100%",
+                      marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
+                      },
+                    }}
                   />
                   <FormControl
                     required
                     variant="outlined"
-                    sx={{ width: "100%" }}
+                    sx={{ width: "100%", marginBottom: "20px" }}
                   >
-                    <InputLabel>Answer</InputLabel>
+                    <InputLabel
+                      sx={{
+                        backgroundColor: "#3CA3EE",
+                        color: "black",
+                        padding: "0 5px",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Answer
+                    </InputLabel>
                     <Select
                       label="Answer"
                       name="answer"
                       value={question.answer}
                       onChange={(e) => handleInputChange(e, index)}
+                      sx={{
+                        backgroundColor: "#F9F6EE",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "black",
+                        },
+                        "&:hover": {
+                          backgroundColor: "#C0C0C0",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "black",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "black",
+                        },
+                      }}
                     >
                       <MenuItem value="true">True</MenuItem>
                       <MenuItem value="false">False</MenuItem>
                     </Select>
                   </FormControl>
+
                   {error && <p style={{ color: "red" }}>{error}</p>}
                   {successMessage && (
                     <p style={{ color: "green" }}>{successMessage}</p>

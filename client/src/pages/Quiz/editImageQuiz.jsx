@@ -157,10 +157,10 @@ const EditImageQuiz = () => {
   return (
     <Box
       sx={{
-        width: "100vw",
-        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "100vw",
         backgroundColor: "#3CA3EE",
-        overflow: "auto",
       }}
     >
       <MenuBar />
@@ -168,7 +168,7 @@ const EditImageQuiz = () => {
         sx={{
           position: "relative",
           width: "100vw",
-          backgroundColor: "#3CA3EE",
+          backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -181,12 +181,11 @@ const EditImageQuiz = () => {
             backgroundColor: "white",
             padding: "60px",
             borderRadius: "8px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "900px",
+            maxWidth: "1100px",
           }}
         >
           <Typography
@@ -211,8 +210,9 @@ const EditImageQuiz = () => {
                 <Box
                   sx={{
                     borderRadius: "5px",
+                    backgroundColor: "#3CA3EE",
                     borderWidth: "2px",
-                    borderColor: "black",
+                    borderColor: "#3CA3EE",
                     width: "90%",
                     padding: "20px",
                     position: "relative",
@@ -265,7 +265,22 @@ const EditImageQuiz = () => {
                     value={question.questionText}
                     onChange={(e) => handleInputChange(e, index)}
                     fullWidth
-                    sx={{ marginBottom: "20px" }}
+                    sx={{
+                      width: "100%",
+                      marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
+                      },
+                    }}
                   />
 
                   <TextField
@@ -276,7 +291,22 @@ const EditImageQuiz = () => {
                     value={question.image}
                     onChange={(e) => handleInputChange(e, index)}
                     fullWidth
-                    sx={{ marginBottom: "20px" }}
+                    sx={{
+                      width: "100%",
+                      marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
+                      },
+                    }}
                   />
 
                   <Box
@@ -303,7 +333,24 @@ const EditImageQuiz = () => {
                           onChange={(e) =>
                             handleOptionChange(e, index, optionIndex)
                           }
-                          sx={{ marginRight: "10px", width: "60%" }}
+                          sx={{
+                            width: "100%",
+                            marginBottom: "20px",
+                            "& .MuiOutlinedInput-root": {
+                              backgroundColor: "#F9F6EE",
+                              "& fieldset": { borderColor: "black" },
+                              "&:hover": { backgroundColor: "#C0C0C0" },
+                              "&:hover fieldset:": { borderColor: "black" },
+                              "&.Mui-focused fieldset": {
+                                borderColor: "black",
+                              },
+                            },
+                            "& .MuiInputLabel-root": {
+                              color: "black",
+                              backgroundColor: "#3CA3EE",
+                              borderRadius: "5px",
+                            },
+                          }}
                         />
 
                         <Box
@@ -333,6 +380,11 @@ const EditImageQuiz = () => {
                                 },
                                 index,
                               );
+                            }}
+                            sx={{
+                              "& .MuiSvgIcon-root": {
+                                backgroundColor: "white",
+                              },
                             }}
                           />
                         </Box>
