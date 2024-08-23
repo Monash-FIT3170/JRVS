@@ -15,8 +15,8 @@ import Videos from "./pages/Video/videos";
 import EditLesson from "./pages/Lesson/editLesson";
 import EditProfile from "./pages/EditProfile";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import EditTrueFalse from "./pages/Quiz/editTrueFalse";
 import EditImageQuiz from "./pages/Quiz/editImageQuiz";
-
 const App = () => {
   return (
     <Router>
@@ -43,22 +43,33 @@ const App = () => {
         <Route exact path="/profile" element={<ProtectedRoute />}>
           <Route exact path="/profile" element={<ProfilePage />} />
         </Route>
+
         <Route exact path="/customize" element={<ProtectedRoute />}>
           <Route exact path="/customize" element={<CustomizePage />} />
         </Route>
         <Route exact path="/quiz/:quizId" element={<ProtectedRoute />}>
           <Route exact path="/quiz/:quizId" element={<Quizzes />} />
         </Route>
-
         <Route
           exact
-          path="quiz/imagequiz/edit/:quizId"
+          path="/quiz/imagequiz/edit/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
             path="/quiz/imagequiz/edit/:quizId"
             element={<EditImageQuiz />}
+          />
+        </Route>
+        <Route
+          exact
+          path="/quiz/truefalse/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/quiz/truefalse/edit/:quizId"
+            element={<EditTrueFalse />}
           />
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
