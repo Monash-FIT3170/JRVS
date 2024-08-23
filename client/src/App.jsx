@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import HomePage from './pages/HomePage';
 import Lessons from "./pages/Lesson/lessons";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -14,8 +15,6 @@ import Videos from "./pages/Video/videos";
 import EditLesson from "./pages/Lesson/editLesson";
 import EditProfile from "./pages/EditProfile";
 import LeaderboardPage from "./pages/LeaderboardPage";
-import EditTrueFalse from "./pages/Quiz/editTrueFalse";
-import EditImageQuiz from "./pages/Quiz/editImageQuiz";
 import EditVideo from "./pages/Video/editVideo";
 import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
 
@@ -51,38 +50,8 @@ const App = () => {
         <Route exact path="/quiz/:quizId" element={<ProtectedRoute />}>
           <Route exact path="/quiz/:quizId" element={<Quizzes />} />
         </Route>
-        <Route
-          exact
-          path="/quiz/short-answer/edit/:quizId"
-          element={<ProtectedRoute />}
-        >
-          <Route
-            exact
-            path="/quiz/short-answer/edit/:quizId"
-            element={<EditShortAnswerQuestion />}
-          />
-        </Route>
-        <Route
-          exact
-          path="/quiz/imagequiz/edit/:quizId"
-          element={<ProtectedRoute />}
-        >
-          <Route
-            exact
-            path="/quiz/imagequiz/edit/:quizId"
-            element={<EditImageQuiz />}
-          />
-        </Route>
-        <Route
-          exact
-          path="/quiz/truefalse/edit/:quizId"
-          element={<ProtectedRoute />}
-        >
-          <Route
-            exact
-            path="/quiz/truefalse/edit/:quizId"
-            element={<EditTrueFalse />}
-          />
+        <Route exact path="/quiz/short-answer/edit/:quizId" element={<ProtectedRoute />}>
+          <Route exact path="/quiz/short-answer/edit/:quizId" element={<EditShortAnswerQuestion />}/>
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
           <Route exact path="/video/:videoId" element={<Videos />} />
@@ -91,14 +60,14 @@ const App = () => {
           <Route exact path="/video/edit/:videoId" element={<EditVideo />} />
         </Route>
         <Route exact path="/units" element={<ProtectedRoute />}>
-          <Route exact path="/units" element={<UnitsPage />} />
-        </Route>
-        <Route exact path="/editprofile" element={<ProtectedRoute />}>
-          <Route exact path="/editprofile" element={<EditProfile />} />
+          <Route path="/units" element={<UnitsPage />} />
         </Route>
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route element={<NotFoundPage />} />
+        <Route exact path="/editprofile" element={<ProtectedRoute />}>
+          <Route path="/editprofile" element={<EditProfile />} />
+        </Route>
       </Routes>
     </Router>
   );

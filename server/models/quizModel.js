@@ -6,7 +6,6 @@ const questionSchema = mongoose.Schema(
     type: String,
     questionText: String, // Ensure this matches the field name in your data
     options: [{ option: String, value: String }], // If options are present
-    image: String, // if for image quiz
     answer: String,
   },
   { _id: false },
