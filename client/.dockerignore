@@ -1,0 +1,19 @@
+# Exclude node_modules and logs
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Exclude build output
+build
+dist
+
+# Exclude IDE/editor files
+.vscode
+.idea
+*.suo
+*.user
+*.swp
+
+# Exclude environment files
+.env

@@ -1,0 +1,37 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  backend:
+    build: ./server
+    container_name: backend
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./client
+    container_name: frontend
+    ports:
+      - "3000:80"
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  mongo_data:
