@@ -121,16 +121,17 @@ const EditShortAnswerQuestion = () => {
                 flexGrow: 1,
                 overflow: "auto",
                 marginBottom: "20px",
+                marginTop: '20px'
               }}
             >
               <Box
                 sx={{
                   borderRadius: "5px",
-                  borderWidth: "2px",
-                  borderColor: "black",
+                  backgroundColor: '#3CA3EE',
                   width: "50%",
                   padding: "20px",
                   position: "relative",
+                  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
                 }}
               >
                 <Box
@@ -172,7 +173,8 @@ const EditShortAnswerQuestion = () => {
                   onChange={(e) => handleInputChange(e, index)}
                   multiline
                   minRows={4}
-                  sx={{ width: "100%", marginBottom: "20px" }}
+                  sx={{ width: "100%", marginBottom: "20px", '& .MuiOutlinedInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {borderColor: 'black'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {borderColor: 'black'}, '&.Mui-focused fieldset': {borderColor: 'black'}}, '& .MuiInputLabel-root': {color: 'black', backgroundColor: '#3CA3EE', borderRadius: '5px'},
+                }}
                 />
                 <TextField
                   required
@@ -181,7 +183,7 @@ const EditShortAnswerQuestion = () => {
                   name="answer"
                   value={question.answer}
                   onChange={(e) => handleInputChange(e, index)}
-                  sx={{ width: "100%" }}
+                  sx={{ width: "100%", '& .MuiOutlinedInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {borderColor: 'black'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {borderColor: 'black'}, '&.Mui-focused fieldset': {borderColor: 'black'}}, '& .MuiInputLabel-root': {color: 'black', backgroundColor: '#3CA3EE', borderRadius: '5px'}}}
                 />
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 {successMessage && (
@@ -201,6 +203,7 @@ const EditShortAnswerQuestion = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
+          pointerEvents: 'none'
         }}
       >
         <Toolbar>
@@ -221,6 +224,7 @@ const EditShortAnswerQuestion = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: 'auto'
               }}
             >
               Back
@@ -233,6 +237,7 @@ const EditShortAnswerQuestion = () => {
                 marginBottom: "20px",
                 backgroundColor: "#FFC93C",
                 ":hover": { backgroundColor: "#2196F3" },
+                pointerEvents: 'auto'
               }}
             >
               Add Question
@@ -247,6 +252,7 @@ const EditShortAnswerQuestion = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: 'auto'
               }}
             >
               Save
