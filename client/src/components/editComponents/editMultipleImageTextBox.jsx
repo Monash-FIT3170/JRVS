@@ -94,14 +94,14 @@ export default function EditMultipleImageTextBox({heading, text, imageSrcs, inde
             <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. Text & Gallery</h2></Box>
             <Box sx={{padding: '20px'}}>
                 <h2 className="text-font">Heading</h2>
-                <TextField onChange={handleHeadingChange} fullWidth minRows={1} maxRows={3} required variant="outlined" defaultValue={heading || ""} sx={{marginBottom: '20px', marginTop: '4px'}} />
+                <TextField onChange={handleHeadingChange} fullWidth minRows={1} maxRows={3} required variant="outlined" defaultValue={heading || ""} sx={{'& .MuiOutlinedInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {border: '0'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {border: '0'}, '&.Mui-focused fieldset': {border: '0'}}, marginBottom: '20px', marginTop: '4px'}} />
 
                 <h2 className="text-font">Text Content</h2>
-                <TextField onChange={handleTextChange} fullWidth required multiline variant="outlined" rows={6} maxRows={6} defaultValue={text || ""} sx={{marginTop: '4px', marginBottom: '20px'}} />
+                <TextField onChange={handleTextChange} fullWidth required multiline variant="outlined" rows={6} maxRows={6} defaultValue={text || ""} sx={{'& .MuiOutlinedInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {border: '0'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {border: '0'}, '&.Mui-focused fieldset': {border: '0'}}, marginTop: '4px', marginBottom: '20px'}} />
 
                 <h2 className="text-font">Image Links</h2>
                 {currentImageSrcs && currentImageSrcs.map((imageSrc, index) => (
-                    <TextField onChange={(event) => handleImageSrcChange(event, index)} fullWidth  multiline variant="outlined" label={"Image Link " + (index + 1)} minRows={1} maxRows={2} defaultValue={imageSrc ? imageSrc : ""} sx={{ marginTop: '10px'}} key={index}/>
+                    <TextField onChange={(event) => handleImageSrcChange(event, index)} fullWidth  multiline variant="filled" label={"Image Link " + (index + 1)} minRows={1} maxRows={2} defaultValue={imageSrc ? imageSrc : ""} sx={{'& .MuiFilledInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {border: '0'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {border: '0'}, '&.Mui-focused fieldset': {border: '0'}}, marginTop: '10px'}} key={index}/>
                 ))}
                 <Box sx={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: '8px'}}>
                     {currentImageSrcs && currentImageSrcs.length > 0 && <IconButton onClick={handleImageSrcRemove}><RemoveCircleIcon sx={{color: 'black'}}/></IconButton>}

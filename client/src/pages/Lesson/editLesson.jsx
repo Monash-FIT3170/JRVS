@@ -247,7 +247,7 @@ const EditLesson = () => {
                 <Box sx={{width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'hidden'}}>
                     <Box sx={{borderRadius: '5px', bgcolor: '#3CA3EE', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', width: '50%', padding: '20px', marginBottom: '20px'}}>
                         <Box sx={{marginBottom: '40px'}}><h2 className="heading-font">Title</h2></Box>
-                        <TextField onChange={handleTitleChange} required multiline minRows={1} maxRows={2} variant="outlined" label="Title" value={currentTitle || ""} sx={{width: '100%', marginBottom: '20px'}}/><Button startIcon={<EditIcon/>} variant="contained" onClick={() => changeLessonTitle(currentTitle)} disabled={!titleChanged} >EDIT</Button>
+                        <TextField onChange={handleTitleChange} required multiline minRows={1} maxRows={2} variant="filled" label="Title" value={currentTitle || ""} sx={{'& .MuiFilledInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {border: '0'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {border: '0'}, '&.Mui-focused fieldset': {border: '0'}},  width: '100%', marginBottom: '20px'}}/><Button startIcon={<EditIcon/>} variant="contained" onClick={() => changeLessonTitle(currentTitle)} disabled={!titleChanged} >EDIT</Button>
                     </Box>
                     {lesson.content && lesson.content.map((section, index) => {
                         const uniqueKey = `${section.type}${index}${new Date().getTime()}`;
