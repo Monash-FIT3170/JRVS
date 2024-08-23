@@ -70,19 +70,14 @@ const EditTrueFalse = () => {
     if (isFormComplete()) {
       try {
         await updateData(`api/quizzes/${quizId}`, questions);
-        console.log(questions);
-        console.log("All questions updated successfully");
-        setSuccessMessage("Questions updated successfully!");
-        setError("");
       } catch (error) {
-        console.error("Failed to update the questions:", error);
         setError("Failed to update questions. Please try again.");
-        setSuccessMessage("");
       }
     } else {
       setError("Please fill out all fields before saving.");
       setSuccessMessage("");
     }
+    navigate(-1);
   };
 
   const addNewQuestion = () => {
