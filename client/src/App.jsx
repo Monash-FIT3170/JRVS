@@ -50,16 +50,8 @@ const App = () => {
         <Route exact path="/quiz/:quizId" element={<ProtectedRoute />}>
           <Route exact path="/quiz/:quizId" element={<Quizzes />} />
         </Route>
-        <Route
-          exact
-          path="/quiz/short-answer/edit/:quizId"
-          element={<ProtectedRoute />}
-        >
-          <Route
-            exact
-            path="/quiz/short-answer/edit/:quizId"
-            element={<EditShortAnswerQuestion />}
-          />
+        <Route exact path="/quiz/short-answer/edit/:quizId" element={<ProtectedRoute />}>
+          <Route exact path="/quiz/short-answer/edit/:quizId" element={<EditShortAnswerQuestion />}/>
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
           <Route exact path="/video/:videoId" element={<Videos />} />
