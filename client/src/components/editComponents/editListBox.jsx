@@ -62,10 +62,10 @@ export default function EditListBox({heading, points, index, updateContent}) {
             <Box sx={{ padding: '20px'}}><h2 className="heading-font">{index + 1}. List</h2></Box>
             <Box sx={{padding: '20px'}}>
                 <h2 className="text-font">Heading</h2>
-                <TextField fullWidth onChange={handleHeadingChange} required multiline minRows={1} maxRows={3} variant="outlined" defaultValue={heading || ""} sx={{marginBottom: '20px', marginTop: '4px'}} />
+                <TextField fullWidth onChange={handleHeadingChange} required multiline minRows={1} maxRows={3} variant="outlined" defaultValue={heading || ""} sx={{'& .MuiOutlinedInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {border: '0'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {border: '0'}, '&.Mui-focused fieldset': {border: '0'}}, marginBottom: '20px', marginTop: '4px'}} />
 
                 <h2 className="text-font">List Items</h2>
-                {currentPoints && currentPoints.map((point, index) => (<TextField onChange={(event) => handlePointChange(event, index)} fullWidth multiline variant="outlined" label={"Point " + (index + 1)} minRows={1} maxRows={3} defaultValue={point} sx={{marginTop: '10px'}} key={index}/>))}
+                {currentPoints && currentPoints.map((point, index) => (<TextField onChange={(event) => handlePointChange(event, index)} fullWidth multiline variant="filled" label={"Point " + (index + 1)} minRows={1} maxRows={3} defaultValue={point} sx={{'& .MuiFilledInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {border: '0'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {border: '0'}, '&.Mui-focused fieldset': {border: '0'}}, marginTop: '10px'}} key={index}/>))}
                 <Box sx={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: '8px'}}>
                     {currentPoints && currentPoints.length > 0 && <IconButton onClick={handlePointsRemove}><RemoveCircleIcon sx={{color: 'black'}}/></IconButton>}
                     <IconButton onClick={handlePointsAdd}><AddCircleIcon sx={{color: 'black'}}/></IconButton>
