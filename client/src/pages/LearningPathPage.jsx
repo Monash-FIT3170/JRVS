@@ -149,6 +149,20 @@ const LearningPathPage = () => {
         setIsAppendLessonTypeModalOpen(true);
     };
 
+    const navigateToEditPage = (inputType, inputSubType, id) => {
+        if (inputType === 'lesson') {
+            window.location.href = `http://localhost:3000/edit/${id}`; // .../edit/lessonId
+        }
+        else if (inputType === 'video') {
+            window.location.href = `http://localhost:3000/video/edit/${id}`; // .../video/edit/:videoId
+        }
+        else if (inputType === 'quiz') {
+            if (inputSubType === 'Image') window.location.href = `http://localhost:3000/quiz/imagequiz/edit/:${id}`; // .../quiz/imagequiz/edit/:quizId
+            if (inputSubType === 'ShortAnswer') window.location.href = `http://localhost:3000/quiz/short-answer/edit/:${id}`; // .../quiz/imagequiz/edit/:quizId
+            if (inputSubType === 'TrueFalse') window.location.href = `http://localhost:3000/quiz/truefalse/edit/:${id}`; // .../quiz/truefalse/edit/:quizId
+        }
+    }
+
     const handlePopupInsert = async (inputType, inputSubType) => {
         // Handle an insert of child. A new node should be inserted between this node and its children
         const targetNodeId = selectedNode.id;
@@ -167,7 +181,7 @@ const LearningPathPage = () => {
             console.log(response)
 
             // Navigate to the edit the page
-            window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
+            navigateToEditPage(inputType, inputSubType, response.newNode.id)
         } catch (error) {
             console.log(error);
         }
@@ -191,7 +205,7 @@ const LearningPathPage = () => {
             console.log(response)
 
             // Navigate to the edit the page
-            window.location.href = `http://localhost:3000/edit/${response.newNode.id}`; // .../edit/lessonId
+            navigateToEditPage(inputType, inputSubType, response.newNode.id)
         } catch (error) {
             console.log(error);
         }
