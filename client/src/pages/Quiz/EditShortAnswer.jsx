@@ -51,6 +51,13 @@ const EditShortAnswerQuestion = () => {
     setQuestions(updatedQuestions);
   };
 
+  const handlePointChange = (e, index) => {
+    const { name, value } = e.target;
+    const updatedQuestions = [...questions];
+    updatedQuestions[index][name] = parseFloat(value);
+    setQuestions(updatedQuestions);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -70,6 +77,7 @@ const EditShortAnswerQuestion = () => {
       questionText: "",
       answer: "",
       type: "shortAnswer", // Set the default type
+      points: 0,
     };
     console.log("Adding new question:", newQuestion); // Debugging statement
     setQuestions([...questions, newQuestion]);
@@ -216,6 +224,42 @@ const EditShortAnswerQuestion = () => {
                   onChange={(e) => handleInputChange(e, index)}
                   sx={{
                     width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      backgroundColor: "#F9F6EE",
+                      "& fieldset": { borderColor: "black" },
+                      "&:hover": { backgroundColor: "#C0C0C0" },
+                      "&:hover fieldset:": { borderColor: "black" },
+                      "&.Mui-focused fieldset": { borderColor: "black" },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "black",
+                      backgroundColor: "#3CA3EE",
+                      borderRadius: "5px",
+                    },
+                  }}
+                />
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "20px",
+                  }}
+                ></Box>
+                <TextField
+                  required
+                  variant="outlined"
+                  label="Points"
+                  name="points"
+                  value={question.points}
+                  onChange={(e) => handlePointChange(e, index)}
+                  inputProps={{
+                    min: "0",
+                    type: "number",
+                  }}
+                  sx={{
+                    width: "100%",
+                    marginBottom: "20px",
                     "& .MuiOutlinedInput-root": {
                       backgroundColor: "#F9F6EE",
                       "& fieldset": { borderColor: "black" },
