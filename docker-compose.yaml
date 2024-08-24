@@ -1,37 +1,22 @@
-version: '3'
 services:
-  mongo:
-    image: mongo
-    container_name: mongo
-    volumes:
-      - mongo_data:/data/db
-    ports:
-      - "27017:27017"
-
   backend:
-    build: ./server
-    container_name: backend
-    environment:
-      - MONGO_URI=${MONGO_URI}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend-stage
+    working_dir: /app/server
+    command: node server.js
+    env_file:
+      - ./server/.env
     ports:
       - "5000:5000"
-    depends_on:
-      - mongo
-
-  frontend:
-    build: ./client
-    container_name: frontend
-    ports:
-      - "3000:80"
 
   nginx:
-    build: ./nginx
-    container_name: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
     ports:
       - "80:80"
     depends_on:
-      - frontend
       - backend
-
-volumes:
-  mongo_data:
