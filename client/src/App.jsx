@@ -17,6 +17,7 @@ import EditProfile from "./pages/EditProfile";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import EditVideo from "./pages/Video/editVideo";
 import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
+import EditDragDrop from "./pages/Quiz/EditDragDrop";
 
 const App = () => {
   return (
@@ -50,8 +51,27 @@ const App = () => {
         <Route exact path="/quiz/:quizId" element={<ProtectedRoute />}>
           <Route exact path="/quiz/:quizId" element={<Quizzes />} />
         </Route>
-        <Route exact path="/quiz/short-answer/edit/:quizId" element={<ProtectedRoute />}>
-          <Route exact path="/quiz/short-answer/edit/:quizId" element={<EditShortAnswerQuestion />}/>
+        <Route
+          exact
+          path="/quiz/short-answer/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/quiz/short-answer/edit/:quizId"
+            element={<EditShortAnswerQuestion />}
+          />
+        </Route>
+        <Route
+          exact
+          path="/quiz/drag-drop/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/quiz/drag-drop/edit/:quizId"
+            element={<EditDragDrop />}
+          />
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
           <Route exact path="/video/:videoId" element={<Videos />} />
