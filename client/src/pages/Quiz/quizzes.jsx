@@ -81,13 +81,15 @@ function Quizzes() {
     setIsSubmitted(true);
     setFinalPoints(points);
 
-    try {
-      const response = await postData("api/users/updatePoints", {
-        newPoints: points,
-      });
-      console.log("Points updated:", response.points);
-    } catch (error) {
-      console.error("Failed to update points", error);
+    if (correctCount == questions.length) {
+      try {
+        const response = await postData("api/users/updatePoints", {
+          newPoints: points,
+        });
+        console.log("Points updated:", response.points);
+      } catch (error) {
+        console.error("Failed to update points", error);
+      }
     }
   };
 
@@ -112,12 +114,17 @@ function Quizzes() {
   };
 
   const renderQuestion = () => {
+    let setPoint = 0;
+    if (userScore == totalScore) {
+      setPoint = finalPoints;
+    }
+
     if (isSubmitted) {
       return (
         <Submitted
           score={userScore}
           totalScore={totalScore}
-          points={finalPoints}
+          points={setPoint}
         />
       ); // Render the Submitted component after submission
     } else if (questions) {

@@ -48,8 +48,9 @@ export default function Submitted({ score, totalScore, points }) {
               mt: "12px",
             }}
           >
-            Congratulations!
+            {points > 0 ? "Congratulations!" : "Try Again!"}
           </Typography>
+
           <Typography
             sx={{
               display: "block",
