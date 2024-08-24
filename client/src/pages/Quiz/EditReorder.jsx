@@ -99,7 +99,7 @@ const EditReorderQuestion = () => {
       questionText: "",
       correctOptions: [],
       type: "Reorder",
-      wrongoptions: [],
+      wrongOptions: [],
       points: 0,
     };
     console.log("Adding new question:", newQuestion);
@@ -265,7 +265,9 @@ const EditReorderQuestion = () => {
                         onClick={() =>
                           moveOption(questionIndex, optionIndex, 1)
                         }
-                        disabled={optionIndex === question.options.length - 1}
+                        disabled={
+                          optionIndex === question.wrongOptions.length - 1
+                        }
                       >
                         <ArrowDownwardIcon />
                       </IconButton>
@@ -322,7 +324,9 @@ const EditReorderQuestion = () => {
                         onClick={() =>
                           moveCorrectOption(questionIndex, optionIndex, 1)
                         }
-                        disabled={optionIndex === question.options.length - 1}
+                        disabled={
+                          optionIndex === question.correctOptions.length - 1
+                        }
                       >
                         <ArrowDownwardIcon />
                       </IconButton>
