@@ -72,6 +72,16 @@ const EditReorderQuestion = () => {
     options.splice(optionIndex + direction, 0, movedOption);
     setQuestions(updatedQuestions);
   };
+
+  const deleteOption = (questionIndex, optionIndex) => {
+    const updatedQuestions = [...questions];
+    const wrongOptions = updatedQuestions[questionIndex].wrongOptions;
+    wrongOptions.splice(optionIndex, 1);
+    const correctOptions = updatedQuestions[questionIndex].correctOptions;
+    correctOptions.splice(optionIndex, 1);
+    setQuestions(updatedQuestions);
+  };
+
   const moveCorrectOption = (questionIndex, optionIndex, direction) => {
     const updatedQuestions = [...questions];
     const options = updatedQuestions[questionIndex].correctOptions;
@@ -271,6 +281,13 @@ const EditReorderQuestion = () => {
                       >
                         <ArrowDownwardIcon />
                       </IconButton>
+                      <IconButton
+                        onClick={() =>
+                          deleteOption(questionIndex, optionIndex, 1)
+                        }
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </Box>
                   ))}
                 <br></br>
@@ -329,6 +346,13 @@ const EditReorderQuestion = () => {
                         }
                       >
                         <ArrowDownwardIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={() =>
+                          deleteOption(questionIndex, optionIndex, 1)
+                        }
+                      >
+                        <DeleteIcon />
                       </IconButton>
                     </Box>
                   ))}
