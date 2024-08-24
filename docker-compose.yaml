@@ -1,0 +1,22 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend-stage
+    working_dir: /app/server
+    command: node server.js
+    env_file:
+      - ./server/.env
+    ports:
+      - "5000:5000"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
