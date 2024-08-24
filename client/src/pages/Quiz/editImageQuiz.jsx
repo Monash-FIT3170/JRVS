@@ -7,6 +7,8 @@ import {
   IconButton,
   Typography,
   Checkbox,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -192,7 +194,7 @@ const EditImageQuiz = () => {
             variant="h4"
             sx={{ paddingBottom: "25px", color: "#333" }}
           >
-            Edit Image Quiz Questions
+            Edit Image Quiz
           </Typography>
 
           {!isLoading &&
@@ -326,8 +328,9 @@ const EditImageQuiz = () => {
                         }}
                       >
                         <TextField
+                          required
                           variant="outlined"
-                          label="Option Value"
+                          label={`Option ${optionIndex + 1}`}
                           name="value"
                           value={option.value}
                           onChange={(e) =>
@@ -361,31 +364,36 @@ const EditImageQuiz = () => {
                           }}
                         >
                           <Typography variant="subtitle1">Answer?</Typography>
-                          <Checkbox
-                            checked={
-                              question.answer &&
-                              question.answer === option.value
-                            }
-                            onChange={() => {
-                              const updatedAnswer =
-                                question.answer === option.value
-                                  ? ""
-                                  : option.value;
-                              handleInputChange(
-                                {
-                                  target: {
-                                    name: "answer",
-                                    value: updatedAnswer,
+                          <FormControlLabel
+                            control={
+                              <Radio
+                                checked={
+                                  question.answer === option.value &&
+                                  option.value.trim() !== ""
+                                }
+                                onChange={() => {
+                                  handleInputChange(
+                                    {
+                                      target: {
+                                        name: "answer",
+                                        value: option.value,
+                                      },
+                                    },
+                                    index,
+                                  );
+                                }}
+                                sx={{
+                                  color: "#000",
+                                  "&.Mui-checked": { color: "#000" },
+                                  "& .MuiSvgIcon-root": {
+                                    borderRadius: "50%",
+                                    width: "24px",
+                                    height: "24px",
+                                    padding: "4px",
                                   },
-                                },
-                                index,
-                              );
-                            }}
-                            sx={{
-                              "& .MuiSvgIcon-root": {
-                                backgroundColor: "white",
-                              },
-                            }}
+                                }}
+                              />
+                            }
                           />
                         </Box>
                       </Box>
