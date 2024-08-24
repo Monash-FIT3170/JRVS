@@ -5,11 +5,13 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "test": "jest"
   },
   "author": "Max Verhoef",
   "license": "Apache-2.0",
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
@@ -20,5 +22,15 @@
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.5",
     "nodemon": "^3.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }
