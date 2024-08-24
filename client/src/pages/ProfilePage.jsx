@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BadgeContainer from '../components/BadgeDisplay';
+import StudentDisplay from '../components/StudentDisplay';
 import Grid from '@mui/material/Unstable_Grid2';
 import MenuBar from '../components/MenuBar';
 import DefaultButton from '../components/DefaultButton';
@@ -17,6 +18,7 @@ const ProfilePage = () => {
   const [user, setUser] = useState({ username: '', points: 0, level: 0, usertype: '', sharableCode: '' });
   const [isUserLoading, setIsUserLoading] = useState(true);
   const [avatar, setAvatar] = useState({ avatar: '_default.png', border: '_default.png', background: '_default.png' });
+  const [students, setStudents] = useState([]);
   const [sharableCode, setSharableCode] = useState('');
   const [statusMessage, setStatusMessage] = useState({ text: '', isError: false });
 
@@ -42,9 +44,13 @@ const ProfilePage = () => {
           points: userData.points || 0,
           level: userData.level || 0,
           usertype: userData.usertype || '',
-          sharableCode: userData.sharableCode || ''
+          sharableCode: userData.sharableCode || '',
         });
         setAvatar({ avatar: userData.avatar, border: userData.border, background: userData.background });
+        if(userData.students.length!==0) {
+          const studentData = await postData('api/users/getStudents', { studentIds: userData.students });
+          setStudents(studentData);
+        }
         setIsUserLoading(false);
       } catch (error) {
         console.log(error);
@@ -113,66 +119,71 @@ const ProfilePage = () => {
             borderRadius: '20px',
             boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'
           }}>
+            {user.usertype === 'student' && (
             <h2 className='russo-one-regular text-4xl'>{isUserLoading ? 'Loading...' : user.level} ⭐️</h2>
+            )}
             <DefaultButton href='/leaderboard' text='View Leaderboard'/>
           </div>
-          <div style={{
-            border: '1px solid black',
-            padding: '20px',
-            marginBottom: '40px',
-            flexGrow: '1',
-            width: '90%',
-            textAlign: 'center',
-            display: 'flex',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            borderRadius: '20px',
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'
-          }}>
-            <h2 className='russo-one-regular text-4xl'>{isUserLoading ? 'Loading...' : user.points} 💰</h2>
-            <DefaultButton href='/customize' text='Customise Avatar'/>
-          </div>
+
           {/* Student Section */}
           {user.usertype === 'student' && (
-            <div style={{
-              border: '1px solid black',
-              padding: '20px',
-              marginBottom: '40px',
-              flexGrow: '1',
-              width: '90%',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              borderRadius: '20px',
-              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'
-            }}>
-              {/* Status message */}
-              {statusMessage.text && (
-                <div style={{ color: statusMessage.isError ? 'red' : 'green', marginBottom: '10px' }}>
-                  {statusMessage.text}
-                </div>
-              )}
-              <input 
-                type="text" 
-                value={sharableCode} 
-                onChange={(e) => setSharableCode(e.target.value)} 
-                placeholder="Enter Teacher's Code" 
-                style={{ 
-                  marginRight: '10px', 
-                  padding: '10px',
-                  width: '80%',
-                  borderRadius: '5px',
-                  border: '1px solid #ccc',
-                  marginBottom: '10px'
-                }}
-              />
-              <CustomButton 
-                onClick={handleJoin} 
-                text='Join Teacher'
-                style={{ width: '80%' }}
-              />
-            </div>
+            <>
+              <div style={{
+                border: '1px solid black',
+                padding: '20px',
+                marginBottom: '40px',
+                flexGrow: '1',
+                width: '90%',
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'space-evenly',
+                alignItems: 'center',
+                borderRadius: '20px',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'
+              }}>
+                <h2 className='russo-one-regular text-4xl'>{isUserLoading ? 'Loading...' : user.points} 💰</h2>
+                <DefaultButton href='/customize' text='Customise Avatar'/>
+              </div>
+              <div style={{
+                border: '1px solid black',
+                padding: '20px',
+                marginBottom: '40px',
+                flexGrow: '1',
+                width: '90%',
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                borderRadius: '20px',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'
+              }}>
+                {/* Status message */}
+                {statusMessage.text && (
+                  <div style={{ color: statusMessage.isError ? 'red' : 'green', marginBottom: '10px' }}>
+                    {statusMessage.text}
+                  </div>
+                )}
+                <input 
+                  type="text" 
+                  value={sharableCode} 
+                  onChange={(e) => setSharableCode(e.target.value)} 
+                  placeholder="Enter Teacher's Code" 
+                  style={{ 
+                    marginRight: '10px', 
+                    padding: '10px',
+                    width: '80%',
+                    borderRadius: '5px',
+                    border: '1px solid #ccc',
+                    marginBottom: '10px'
+                  }}
+                />
+                <CustomButton 
+                  onClick={handleJoin} 
+                  text='Join Teacher'
+                  style={{ width: '80%' }}
+                />
+              </div>
+            </>
           )}
           {/* Teacher Section */}
           {user.usertype === 'teacher' && (
@@ -189,24 +200,26 @@ const ProfilePage = () => {
               borderRadius: '20px',
               boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: 'white'
             }}>
-              <h2 className='russo-one-regular text-4xl'>Sharable Code</h2>
-              <p style={{ 
-                  padding: '10px',
-                  width: '80%',
+              <h2 className='russo-one-regular text-3xl'>Sharable Code</h2>
+              <p className='russo-one-regular'
+                style={{ 
+                  padding: '5px',
+                  width: '90%',
                   borderRadius: '5px',
                   border: '1px solid #ccc',
-                  marginBottom: '10px',
+                  margin: '10px',
                   textAlign: 'center',
-                  backgroundColor: '#f0f0f0',
-                  fontSize: '18px',
-                  fontFamily: 'Roboto',
-                  fontWeight: '500'
+                  backgroundColor: '#FFC700',
+                  fontSize: '40px',
+                  color: 'white',
               }}>
                 {user.sharableCode}
               </p>
             </div>
           )}
         </Grid>
+
+        {user.usertype === 'student' && (
         <Grid xs={8} style={{
           padding: '20px',
           display: 'flex',
@@ -216,6 +229,29 @@ const ProfilePage = () => {
             {isBadgeLoading ? <p>Loading...</p> : <BadgeContainer badges={badges}/>}
           </div>
         </Grid>
+        )}
+
+        {user.usertype === 'teacher' && (
+        <Grid xs={8} style={{
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
+          <div style={{ 
+            border: '1px solid black', 
+            padding: '20px',
+            marginBottom: '40px', 
+            flexGrow: '1', 
+            width: '100%', 
+            maxHeight: '700px', 
+            borderRadius: '10px', 
+            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', 
+            backgroundColor: 'white'}}>
+            <h2 style={{ font: 'Roboto', fontWeight: '700', fontSize: '40px' }}>My Students</h2>
+            <StudentDisplay students={students} />
+          </div>
+        </Grid>
+        )}
+
       </Grid>
     </div>
   );
