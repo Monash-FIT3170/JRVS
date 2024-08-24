@@ -57,6 +57,13 @@ const EditMultipleChoice = () => {
     setQuestions(updatedQuestions);
   };
 
+  const handlePointChange = (e, index) => {
+    const { name, value } = e.target;
+    const updatedQuestions = [...questions];
+    updatedQuestions[index][name] = parseFloat(value);
+    setQuestions(updatedQuestions);
+  };
+
   const handleOptionChange = (e, questionIndex, optionIndex) => {
     const { value } = e.target;
     const updatedQuestions = [...questions];
@@ -110,6 +117,7 @@ const EditMultipleChoice = () => {
       answer: "",
       type: "MultipleChoice", // Set the default type
       options: [{ option: "", value: "" }],
+      points: 0,
     };
     console.log("Adding new question:", newQuestion); // Debugging statement
     setQuestions([...questions, newQuestion]);
@@ -139,6 +147,7 @@ const EditMultipleChoice = () => {
         answer: "",
         type: "MultipleChoice",
         options: [{ option: "", value: "" }],
+        points: 0,
       };
       setQuestions(updatedQuestions);
     }
@@ -360,6 +369,35 @@ const EditMultipleChoice = () => {
                     Add Option
                   </Button>
 
+                  <TextField
+                    required
+                    variant="outlined"
+                    label="Points"
+                    name="points"
+                    value={question.points}
+                    onChange={(e) => handlePointChange(e, index)}
+                    inputProps={{
+                      min: "0",
+                      type: "number",
+                    }}
+                    sx={{
+                      width: "100%",
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
+                      },
+                    }}
+                  />
                   <Box
                     sx={{
                       display: "flex",
