@@ -18,6 +18,7 @@ import EditTrueFalse from "./pages/Quiz/editTrueFalse";
 import EditImageQuiz from "./pages/Quiz/editImageQuiz";
 import EditVideo from "./pages/Video/editVideo";
 import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
+import EditMultipleChoice from "./pages/Quiz/editMultipleChoice";
 
 const App = () => {
   return (
@@ -82,6 +83,17 @@ const App = () => {
             exact
             path="/quiz/truefalse/edit/:quizId"
             element={<EditTrueFalse />}
+          />
+        </Route>
+        <Route
+          exact
+          path="/quiz/multiplechoice/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/quiz/multiplechoice/edit/:quizId"
+            element={<EditMultipleChoice />}
           />
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
