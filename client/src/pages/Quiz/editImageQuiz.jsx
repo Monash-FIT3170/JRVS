@@ -194,7 +194,7 @@ const EditImageQuiz = () => {
             variant="h4"
             sx={{ paddingBottom: "25px", color: "#333" }}
           >
-            Edit Image Quiz Questions
+            Edit Image Quiz
           </Typography>
 
           {!isLoading &&
@@ -330,7 +330,7 @@ const EditImageQuiz = () => {
                         <TextField
                           required
                           variant="outlined"
-                          label="Option Value"
+                          label={`Option ${optionIndex + 1}`}
                           name="value"
                           value={option.value}
                           onChange={(e) =>
