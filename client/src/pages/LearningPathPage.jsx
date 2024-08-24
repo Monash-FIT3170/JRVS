@@ -43,6 +43,8 @@ const LearningPathPage = () => {
     
     const { unitId } = useParams();
 
+    const [usertype, setUserType] = useState({}); // User type
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -69,7 +71,19 @@ const LearningPathPage = () => {
                 setIsUnitLoading(false);
             }
         };
+        // Get user type to determine whether to offer add/edit/delete buttons 
+        const fetchUser = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const res = await postData('api/auth/current', { token });
+                const userData = await getData(`api/users/id/${res.decoded.id}`);
+                setUserType(userData.usertype);
+            } catch (error) {
+                console.log(error);
+            }
+        };
         fetchData();
+        fetchUser();
     }, [getData]);
 
     // Functions to assign icon images in the directory to learningPathData
@@ -327,7 +341,7 @@ const LearningPathPage = () => {
                 onAppend={handleAppendNewLessonType}
                 onEdit={handlePopupEdit} 
                 onDelete={handlePopupDelete} 
-                isAdmin={true} // Assume current user is admin. TODO: Check the current user's type
+                isAdmin={usertype === 'teacher'} // Check the current user's type
             />
             <LessonTypesPopup
                 isOpen={isInsertLessonTypeModalOpen}
