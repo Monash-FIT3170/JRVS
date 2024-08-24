@@ -119,12 +119,12 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
             sx={{ mt: 1 }}
           >
             {[
-              "Multiple Choice",
-              "Reorder",
+              // "Multiple Choice",
+              // "Reorder",
               "Image",
               "True False",
               "Short Answer",
-              "Drag And Drop",
+              // "Drag And Drop",
             ].map((quizType, index) => (
               <MenuItem
                 key={index}
