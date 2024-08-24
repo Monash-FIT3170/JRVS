@@ -163,6 +163,24 @@ const updateAvatar = asyncHandler(async (req, res) => {
     await user.save();
 });
 
+const updateDetails = asyncHandler(async (req, res) => {
+    const { firstname, lastname, username, newUsername, email, school, password } = req.body;
+    const user = await User.findOne({ username });
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    user.username = newUsername;
+    user.firstname = firstname;
+    user.lastname = lastname;
+    user.email = email; 
+    user.school = school;
+    await user.save();
+
+    return res.status(200).json({ message: "User details updated successfully" });
+});
+
 const updateUnlocked = asyncHandler(async (req, res) => {
     const { username, unlockedAvatars, unlockedBorders, unlockedBackgrounds } = req.body;
     const user = await User.findOne({ username });
@@ -192,6 +210,67 @@ const getAllUsers = asyncHandler(async (req, res) => {
     }
 });
 
+const getProfile = (req, res) => {
+    try {
+      const user = req.user; 
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ error: 'Server error' });
+    }
+  };
+  const joinTeacher = asyncHandler(async (req, res) => {
+    const { sharableCode } = req.body;
+    const studentId = req.user._id;
+  
+    // Find teacher by sharableCode
+    const teacher = await User.findOne({ sharableCode, usertype: 'teacher' });
+    if (!teacher) {
+      return res.status(404).json({ error: 'Invalid teacher code' });
+    }
+  
+    if (teacher.students.includes(studentId)) {
+      return res.status(400).json({ error: 'Already part of this teacher' });
+    }
+  
+    // Update student's teacherId
+    const student = await User.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+    student.teacherId = teacher._id;
+  
+    // Add student to teacher's students array
+    teacher.students.push(student._id);
+  
+    await student.save();
+    await teacher.save();
+  
+    res.status(200).json({ message: 'Successfully joined the teacher' });
+  });
+  
+const updatePassword = asyncHandler(async (req, res) => {
+    const { username, oldPassword, newPassword } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verify old password
+    const isMatch = await user.comparePassword(oldPassword);
+    if (!isMatch) {
+        return res.status(400).send('Invalid password');
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).json({ message: "Password changed successfully" });
+});
 
 module.exports = {
     createUser,
@@ -199,6 +278,10 @@ module.exports = {
     getUserByUsername,
     getUserById,
     updateAvatar,
+    updateDetails,
     updateUnlocked,
-    getAllUsers
+    getAllUsers,
+    getProfile,
+    joinTeacher,
+    updatePassword,
 };
