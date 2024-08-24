@@ -8,6 +8,7 @@ const questionSchema = mongoose.Schema(
     options: [{ option: String, value: String }], // If options are present
     image: String, // if for image quiz
     answer: String,
+    points: Number,
   },
   { _id: false },
 );
@@ -17,6 +18,7 @@ const quizSchema = mongoose.Schema({
   questions: [questionSchema],
   options: [{ option: String, value: String }],
   answer: String,
+  points: Number,
 });
 
 module.exports = mongoose.model("quizzes", quizSchema);

@@ -4,7 +4,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const UnitPopup = ({ isOpen, node, onClose, onInsert, onAppend, onEdit, onDelete, isAdmin }) => {
     const handleEnterLesson = () => {
-        window.location.href = `http://localhost:3000/${node.type}/${node.id}`;
+        const port = window.location.port;
+        window.location.href = `http://localhost:${port}/${node.type}/${node.id}`;
     };
 
     const titleStyle = {

@@ -47,7 +47,6 @@ const EditTrueFalse = () => {
       } catch (error) {
         console.log(error);
       }
-      console.log(originalQuestions);
     };
     fetchData();
   }, [getData, quizId]);
@@ -56,6 +55,13 @@ const EditTrueFalse = () => {
     const { name, value } = e.target;
     const updatedQuestions = [...questions];
     updatedQuestions[index][name] = value;
+    setQuestions(updatedQuestions);
+  };
+
+  const handlePointChange = (e, index) => {
+    const { name, value } = e.target;
+    const updatedQuestions = [...questions];
+    updatedQuestions[index][name] = parseFloat(value);
     setQuestions(updatedQuestions);
   };
 
@@ -90,6 +96,7 @@ const EditTrueFalse = () => {
         { option: "True", value: "true" },
         { option: "False", value: "false" },
       ],
+      points: 0,
     };
     console.log("Adding new question:", newQuestion); // Debugging statement
     setQuestions([...questions, newQuestion]);
@@ -122,6 +129,7 @@ const EditTrueFalse = () => {
           { option: "True", value: "true" },
           { option: "False", value: "false" },
         ],
+        points: 0,
       };
       setQuestions(updatedQuestions);
     }
@@ -223,6 +231,7 @@ const EditTrueFalse = () => {
                       </IconButton>
                     </Box>
                   </Box>
+
                   <TextField
                     required
                     variant="outlined"
@@ -289,6 +298,35 @@ const EditTrueFalse = () => {
                       <MenuItem value="false">False</MenuItem>
                     </Select>
                   </FormControl>
+
+                  <TextField
+                    required
+                    variant="outlined"
+                    label="Points"
+                    name="points"
+                    value={question.points}
+                    onChange={(e) => handlePointChange(e, index)}
+                    inputProps={{
+                      min: "0",
+                      type: "number",
+                    }}
+                    sx={{
+                      width: "100%",
+                      marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
+                      },
+                    }}
+                  />
 
                   {error && <p style={{ color: "red" }}>{error}</p>}
                   {successMessage && (

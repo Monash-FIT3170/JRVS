@@ -70,6 +70,13 @@ const EditImageQuiz = () => {
     setQuestions(updatedQuestions);
   };
 
+  const handlePointChange = (e, index) => {
+    const { name, value } = e.target;
+    const updatedQuestions = [...questions];
+    updatedQuestions[index][name] = parseFloat(value);
+    setQuestions(updatedQuestions);
+  };
+
   const isFormComplete = () => {
     return questions.every(
       (question) =>
@@ -107,6 +114,7 @@ const EditImageQuiz = () => {
         { option: "", value: "" },
       ],
       image: "",
+      points: 0,
     };
     setQuestions([...questions, newQuestion]);
   };
@@ -137,22 +145,9 @@ const EditImageQuiz = () => {
           { option: "", value: "" },
         ],
         image: "",
+        points: 0,
       };
     }
-    setQuestions(updatedQuestions);
-  };
-
-  const addOption = (index) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index].options.push({ option: "", value: "" });
-    setQuestions(updatedQuestions);
-  };
-
-  const removeOption = (questionIndex, optionIndex) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].options = updatedQuestions[
-      questionIndex
-    ].options.filter((_, i) => i !== optionIndex);
     setQuestions(updatedQuestions);
   };
 
@@ -398,6 +393,35 @@ const EditImageQuiz = () => {
                         </Box>
                       </Box>
                     ))}
+
+                    <TextField
+                      required
+                      variant="outlined"
+                      label="Points"
+                      name="points"
+                      value={question.points}
+                      onChange={(e) => handlePointChange(e, index)}
+                      inputProps={{
+                        min: "0",
+                        type: "number",
+                      }}
+                      sx={{
+                        width: "100%",
+                        marginBottom: "20px",
+                        "& .MuiOutlinedInput-root": {
+                          backgroundColor: "#F9F6EE",
+                          "& fieldset": { borderColor: "black" },
+                          "&:hover": { backgroundColor: "#C0C0C0" },
+                          "&:hover fieldset:": { borderColor: "black" },
+                          "&.Mui-focused fieldset": { borderColor: "black" },
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "black",
+                          backgroundColor: "#3CA3EE",
+                          borderRadius: "5px",
+                        },
+                      }}
+                    />
                   </Box>
                 </Box>
               </Box>

@@ -268,6 +268,10 @@ async function createQuiz(nodeTitle, quizType) {
             { 
                 type: quizType, 
                 // Remaining data is different depending on quizType. Leave blank for now.
+                ...(quizType == "TrueFalse" && {options: [
+                    { option: "True", value: "true" },
+                    { option: "False", value: "false" },
+                  ]})
             }
         ]
     });
