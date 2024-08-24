@@ -81,7 +81,7 @@ function Quizzes() {
     setIsSubmitted(true);
     setFinalPoints(points);
 
-    if (correctCount == questions.length) {
+    if (correctCount === questions.length) {
       try {
         const response = await postData("api/users/updatePoints", {
           newPoints: points,
@@ -115,7 +115,7 @@ function Quizzes() {
 
   const renderQuestion = () => {
     let setPoint = 0;
-    if (userScore == totalScore) {
+    if (userScore === totalScore) {
       setPoint = finalPoints;
     }
 
