@@ -50,6 +50,11 @@ const MenuBar = ({title, subtitle}) => {
         setAnchorEl(null);
         window.location.href = "/profile";
     }
+    const handleDetails = () => {
+        setAnchorEl(null);
+        window.location.href = "/editprofile";
+    }
+
 
     const handleLogout = () => {
         setAnchorEl(null);
@@ -87,6 +92,9 @@ const MenuBar = ({title, subtitle}) => {
                     >
                         <MenuItem onClick={handleProfile}>
                             My Profile
+                        </MenuItem>
+                        <MenuItem onClick={handleDetails}>
+                            My Details
                         </MenuItem>
                         <Divider />
                         <MenuItem onClick={handleLogout}>
