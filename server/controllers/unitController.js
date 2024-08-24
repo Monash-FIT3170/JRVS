@@ -277,7 +277,7 @@ async function createQuiz(nodeTitle, quizType) {
 
 
 const deleteNode = asyncHandler(async (req, res) => {
-    const { unitId, nodeId } = req.body;
+    const { unitId } = req.body;
 
     try {
         // get the target unit
@@ -363,10 +363,60 @@ async function deleteNodeDocument(node) {
     }
 }
 
+// Function to return object for full tree access. This contains the list of tail nodes id in format for the 'beautiful skill tree' package.
+const getUnlockedTreeData = asyncHandler(async (req, res) => {
+    const unitId = req.params.id;
+    
+    try {
+        // Get the target unit
+        const unit = await unitModel.findById(unitId);
+        if (!unit) {
+            return res.status(404).json({ message: "Unit not found" });
+        }
+
+        // Get the list of tail node ids (this is the minimum list to provide user with access to all previous nodes)
+        const tailNodeIds = findTailNodeIds(unit.data);
+
+        // Contruct the data input as expected by the 'beautiful skill tree' package
+        const savedData = {};
+
+        tailNodeIds.forEach(id => {
+            savedData[id] = {
+                nodeState: 'selected',
+            };
+        });
+
+        res.status(200).json(savedData);
+    } catch (error) {
+        console.error('Error in getUnlockedTreeData:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+
+// Recursive function to retrieve the list of child node ids
+function findTailNodeIds(data, tailNodeIds = []) {
+    for (let item of data) {
+        // Check if the current node has no children or an empty children array
+        if (!item.children || item.children.length === 0) {
+            // Record the ID of the tail node
+            tailNodeIds.push(item.id);
+        }
+
+        // Recur if children exist
+        if (item.children && item.children.length > 0) {
+            findTailNodeIds(item.children, tailNodeIds);
+        }
+    }
+
+    return tailNodeIds; // Return the array of tail node IDs
+}
+
 module.exports = {
     getUnits,
     getUnit,
     appendNode,
     insertNode,
-    deleteNode
+    deleteNode,
+    getUnlockedTreeData,
 }
