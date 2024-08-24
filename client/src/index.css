@@ -8,13 +8,63 @@ body {
 }
 
 
-:root {
+/* :root { */
   /*background-color: #3CA3EE*/
 
-  
+
   /*background-color:#1CB0F5;*/
 
   
   /*background-color:#00a8e8;*/
   
+/* } */
+
+
+/* button */
+.default-button {
+  box-shadow: none;
+  text-transform: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 6px 12px;
+  margin: 10px;
+  border: 1px solid #0063cc;
+  border-radius: 20px;
+  line-height: 1.5;
+  background-color: #155A88;
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+
+.default-button:hover {
+  background-color: #3CA3EE;
+  border-color: #3CA3EE;
+  box-shadow: none;
+}
+
+.default-button:active {
+  background-color: #0062cc;
+  border-color: #005cbf;
+  box-shadow: none;
+}
+
+.default-button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+}
+
+.text-button {
+  box-shadow: none;
+  text-transform: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 6px 12px;
+  margin: 10px;
+  line-height: 1.5;
+  background-color: white;
+  color: #155A88;
+  cursor: pointer;
+  outline: none;
 }
