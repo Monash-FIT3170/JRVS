@@ -29,3 +29,10 @@ Pre-requisites:
 2. update .env file with mongo_uri password, encryption_key and encrpytion_iv
 3. npm run install-all-mac or install-all-win (if on mac or windows)
 4. npm run dev
+
+## Hosting the app through docker ###
+1. make sure you have docker desktop installed from https://www.docker.com/
+2. make sure you have the .env correctly setup in the root of the server/ directory
+3. navigate to the root directory of the project in the terminal and run `docker-compose up --build`
+4. you should now be able to access the application from http://localhost domain!
+
