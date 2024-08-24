@@ -83,9 +83,12 @@ const EditMultipleChoice = () => {
   const isFormComplete = () => {
     return questions.every(
       (question) =>
+        question &&
+        question.questionText &&
         question.questionText.trim() !== "" &&
+        question.answer &&
         question.answer.trim() !== "" &&
-        question.options.every((option) => option.option.trim() !== ""),
+        question.options.every((option) => option && option.option && option.option.trim() !== ""),
     );
   };
 
