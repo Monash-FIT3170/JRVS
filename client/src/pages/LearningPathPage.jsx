@@ -158,8 +158,9 @@ const LearningPathPage = () => {
         }
         else if (inputType === 'quiz') {
             if (inputSubType === 'Image') window.location.href = `http://localhost:3000/quiz/imagequiz/edit/:${id}`; // .../quiz/imagequiz/edit/:quizId
-            if (inputSubType === 'ShortAnswer') window.location.href = `http://localhost:3000/quiz/short-answer/edit/:${id}`; // .../quiz/imagequiz/edit/:quizId
-            if (inputSubType === 'TrueFalse') window.location.href = `http://localhost:3000/quiz/truefalse/edit/:${id}`; // .../quiz/truefalse/edit/:quizId
+            else if (inputSubType === 'ShortAnswer') window.location.href = `http://localhost:3000/quiz/short-answer/edit/:${id}`; // .../quiz/imagequiz/edit/:quizId
+            else if (inputSubType === 'TrueFalse') window.location.href = `http://localhost:3000/quiz/truefalse/edit/:${id}`; // .../quiz/truefalse/edit/:quizId
+            else alert(`Quiz sub-type '${inputSubType}' cannot be edited.`);
         }
     }
 
@@ -211,9 +212,24 @@ const LearningPathPage = () => {
         }
     };
 
-    const handlePopupEdit = () => {
+    const handlePopupEdit = async () => {
         // Handle an editing of a node. Navigate to the edit page
-        window.location.href = `http://localhost:3000/edit/${selectedNode.id}`; // .../edit/lessonId
+        if (selectedNode.type !== 'quiz') {
+            // Navigate to the lesson/video edit page
+            navigateToEditPage(selectedNode.type, null, selectedNode.id)
+        }
+        
+        // Retrieve the quiz sub-type
+        try {
+            // const response = await getData('api/quizzes/subtype/' + selectedNode.id);
+            const response = await getData('api/quizzes/' + selectedNode.id);
+            console.log(response);
+
+            // Navigate to the edit the page
+            navigateToEditPage(selectedNode.type, response.questions[0].type, selectedNode.id)
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     
