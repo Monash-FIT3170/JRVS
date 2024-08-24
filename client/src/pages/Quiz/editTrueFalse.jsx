@@ -62,7 +62,7 @@ const EditTrueFalse = () => {
   const isFormComplete = () => {
     return questions.every(
       (question) =>
-        question.questionText.trim() !== "" && question.answer !== "",
+        question && question.questionText && question.questionText.trim() !== "" && question.answer && question.answer !== "",
     );
   };
 

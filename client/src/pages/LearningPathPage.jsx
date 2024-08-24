@@ -171,10 +171,10 @@ const LearningPathPage = () => {
             window.location.href = `http://localhost:3000/video/edit/${id}`; // .../video/edit/:videoId
         }
         else if (inputType === 'quiz') {
-            if (inputSubType === 'Image') window.location.href = `http://localhost:3000/quiz/imagequiz/edit/:${id}`; // .../quiz/imagequiz/edit/:quizId
-            else if (inputSubType === 'ShortAnswer') window.location.href = `http://localhost:3000/quiz/short-answer/edit/:${id}`; // .../quiz/imagequiz/edit/:quizId
-            else if (inputSubType === 'TrueFalse') window.location.href = `http://localhost:3000/quiz/truefalse/edit/:${id}`; // .../quiz/truefalse/edit/:quizId
-            else if (inputSubType === 'MultipleChoice') window.location.href = `http://localhost:3000/quiz/multiplechoice/edit/:${id}`; // .../quiz/multiplechoice/edit/:quizId 
+            if (inputSubType === 'Image') window.location.href = `http://localhost:3000/quiz/imagequiz/edit/${id}`; // .../quiz/imagequiz/edit/:quizId
+            else if (inputSubType === 'ShortAnswer') window.location.href = `http://localhost:3000/quiz/short-answer/edit/${id}`; // .../quiz/imagequiz/edit/:quizId
+            else if (inputSubType === 'TrueFalse') window.location.href = `http://localhost:3000/quiz/truefalse/edit/${id}`; // .../quiz/truefalse/edit/:quizId
+            else if (inputSubType === 'MultipleChoice') window.location.href = `http://localhost:3000/quiz/multiplechoice/edit/${id}`; // .../quiz/multiplechoice/edit/:quizId 
             else alert(`Quiz sub-type '${inputSubType}' cannot be edited.`);
         }
     }
