@@ -5,6 +5,7 @@ import {
   TextField,
   Toolbar,
   IconButton,
+  Typography,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -109,6 +110,23 @@ const EditShortAnswerQuestion = () => {
           justifyContent: "center",
         }}
       >
+        <Box
+          sx={{
+            backgroundColor: "white",
+            borderRadius: "8px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+            maxWidth: "1000px",
+            marginBottom: "40px",
+            marginTop: "50px",
+          }}
+        >
+          <Typography variant="h4" sx={{ color: "#333" }}>
+            Edit Short Answer Quiz
+          </Typography>
+        </Box>
         {!isLoading &&
           questions.map((question, index) => (
             <Box
@@ -121,17 +139,16 @@ const EditShortAnswerQuestion = () => {
                 flexGrow: 1,
                 overflow: "auto",
                 marginBottom: "20px",
-                marginTop: '20px'
               }}
             >
               <Box
                 sx={{
                   borderRadius: "5px",
-                  backgroundColor: '#3CA3EE',
+                  backgroundColor: "#3CA3EE",
                   width: "50%",
                   padding: "20px",
                   position: "relative",
-                  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                 }}
               >
                 <Box
@@ -173,8 +190,22 @@ const EditShortAnswerQuestion = () => {
                   onChange={(e) => handleInputChange(e, index)}
                   multiline
                   minRows={4}
-                  sx={{ width: "100%", marginBottom: "20px", '& .MuiOutlinedInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {borderColor: 'black'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {borderColor: 'black'}, '&.Mui-focused fieldset': {borderColor: 'black'}}, '& .MuiInputLabel-root': {color: 'black', backgroundColor: '#3CA3EE', borderRadius: '5px'},
-                }}
+                  sx={{
+                    width: "100%",
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      backgroundColor: "#F9F6EE",
+                      "& fieldset": { borderColor: "black" },
+                      "&:hover": { backgroundColor: "#C0C0C0" },
+                      "&:hover fieldset:": { borderColor: "black" },
+                      "&.Mui-focused fieldset": { borderColor: "black" },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "black",
+                      backgroundColor: "#3CA3EE",
+                      borderRadius: "5px",
+                    },
+                  }}
                 />
                 <TextField
                   required
@@ -183,7 +214,21 @@ const EditShortAnswerQuestion = () => {
                   name="answer"
                   value={question.answer}
                   onChange={(e) => handleInputChange(e, index)}
-                  sx={{ width: "100%", '& .MuiOutlinedInput-root': {backgroundColor: '#F9F6EE', '& fieldset': {borderColor: 'black'}, '&:hover': {backgroundColor: '#C0C0C0'}, '&:hover fieldset:': {borderColor: 'black'}, '&.Mui-focused fieldset': {borderColor: 'black'}}, '& .MuiInputLabel-root': {color: 'black', backgroundColor: '#3CA3EE', borderRadius: '5px'}}}
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      backgroundColor: "#F9F6EE",
+                      "& fieldset": { borderColor: "black" },
+                      "&:hover": { backgroundColor: "#C0C0C0" },
+                      "&:hover fieldset:": { borderColor: "black" },
+                      "&.Mui-focused fieldset": { borderColor: "black" },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "black",
+                      backgroundColor: "#3CA3EE",
+                      borderRadius: "5px",
+                    },
+                  }}
                 />
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 {successMessage && (
@@ -203,7 +248,7 @@ const EditShortAnswerQuestion = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
-          pointerEvents: 'none'
+          pointerEvents: "none",
         }}
       >
         <Toolbar>
@@ -224,7 +269,7 @@ const EditShortAnswerQuestion = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: 'auto'
+                pointerEvents: "auto",
               }}
             >
               Back
@@ -237,7 +282,7 @@ const EditShortAnswerQuestion = () => {
                 marginBottom: "20px",
                 backgroundColor: "#FFC93C",
                 ":hover": { backgroundColor: "#2196F3" },
-                pointerEvents: 'auto'
+                pointerEvents: "auto",
               }}
             >
               Add Question
@@ -252,7 +297,7 @@ const EditShortAnswerQuestion = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: 'auto'
+                pointerEvents: "auto",
               }}
             >
               Save
