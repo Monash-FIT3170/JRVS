@@ -119,7 +119,7 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
             sx={{ mt: 1 }}
           >
             {[
-              // "Multiple Choice",
+              "Multiple Choice",
               // "Reorder",
               "Image",
               "True False",
