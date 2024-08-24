@@ -5,6 +5,9 @@ import {
   TextField,
   Toolbar,
   IconButton,
+  Typography,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,84 +17,116 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import UndoIcon from "@mui/icons-material/Undo";
 
 const EditDragDrop = () => {
   const navigate = useNavigate();
   const { getData, updateData } = useApi();
-  const [questions, setQuestions] = useState([]); // Modified: Updated to handle DragAndDrop questions
+  const [questions, setQuestions] = useState([]);
+  const [originalQuestions, setOriginalQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const { quizId } = useParams(); // Modified: To get quizId from the URL
+  const { quizId } = useParams();
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleBackClick = () => {
     navigate(-1);
   };
 
-  // Modified: Fetch quiz data and pre-fill form with existing questions
   useEffect(() => {
     const fetchData = async () => {
       try {
         const quiz = await getData(`api/quizzes/${quizId}`);
         if (quiz.questions) {
-          const dragAndDropQuestions = quiz.questions.filter(
-            (q) => q.type === "DragAndDrop",
-          );
-          setQuestions(dragAndDropQuestions);
+          setQuestions(quiz.questions);
+          setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
+          console.log(quiz.questions);
         }
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        setError("Failed to fetch quiz data.");
       }
+      console.log(originalQuestions);
     };
     fetchData();
   }, [getData, quizId]);
 
-  // Modified: Handle input changes for both question text and term-definition pairs
-  const handleInputChange = (e, qIndex) => {
+  const handleInputChange = (e, index) => {
     const { name, value } = e.target;
     const updatedQuestions = [...questions];
-    updatedQuestions[qIndex][name] = value;
+    updatedQuestions[index][name] = value;
     setQuestions(updatedQuestions);
   };
 
-  const handleTermChange = (e, qIndex, tIndex) => {
+  const handlePointChange = (e, index) => {
     const { name, value } = e.target;
     const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].terms[tIndex][name] = value;
+    updatedQuestions[index][name] = parseFloat(value);
     setQuestions(updatedQuestions);
+  };
+  const handleOptionChange = (e, questionIndex, optionIndex, field) => {
+    const { value } = e.target;
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex].options[optionIndex] = {
+      ...updatedQuestions[questionIndex].options[optionIndex],
+      [field]: value,
+    };
+    setQuestions(updatedQuestions);
+  };
+
+  const addOption = (questionIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex].options.push({ term: "", definition: "" });
+    setQuestions(updatedQuestions);
+    console.log(questions);
+  };
+
+  const deleteOption = (questionIndex, optionIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex].options.splice(optionIndex, 1);
+    setQuestions(updatedQuestions);
+  };
+
+  const isFormComplete = () => {
+    return questions.every((question) => {
+      return (
+        question.questionText &&
+        question.questionText.trim() !== "" &&
+        question.options.every(
+          (option) => option.term && option.term.trim() !== "",
+        ) &&
+        question.options.every(
+          (option) => option.definition && option.term.trim() !== "",
+        )
+      );
+    });
   };
 
   const handleSubmit = async (e) => {
+    console.log(questions);
     e.preventDefault();
-    try {
-      const updatedQuiz = { questions }; // Modified: Ensure the entire quiz object is updated
-      await updateData(`api/quizzes/${quizId}`, updatedQuiz);
-      console.log("All questions updated successfully");
-      setSuccessMessage("Questions updated successfully!");
-      setError("");
-    } catch (error) {
-      console.error("Failed to update the questions:", error);
-      setError("Failed to update questions. Please try again.");
+    if (isFormComplete()) {
+      try {
+        await updateData(`api/quizzes/${quizId}`, questions);
+      } catch (error) {
+        setError("Failed to update questions. Please try again.");
+      }
+    } else {
+      setError("Please fill out all fields before saving.");
       setSuccessMessage("");
     }
+    navigate(-1);
   };
 
   const addNewQuestion = () => {
     const newQuestion = {
       questionText: "",
-      terms: [{ term: "", definition: "", _id: new Date().getTime() }],
-      type: "DragAndDrop", // Modified: Set type to DragAndDrop
+      type: "DragAndDrop", // Set the default type
+      options: [{ term: "", definition: "" }],
+      points: 0,
     };
+    console.log("Adding new question:", newQuestion); // Debugging statement
     setQuestions([...questions, newQuestion]);
-  };
-
-  const addTermDefinitionPair = (qIndex) => {
-    const newPair = { term: "", definition: "", _id: new Date().getTime() };
-    const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].terms.push(newPair);
-    setQuestions(updatedQuestions);
   };
 
   const moveQuestion = (index, direction) => {
@@ -106,12 +141,21 @@ const EditDragDrop = () => {
     setQuestions(updatedQuestions);
   };
 
-  const deleteTermDefinitionPair = (qIndex, tIndex) => {
+  const revertQuestion = (index) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].terms = updatedQuestions[qIndex].terms.filter(
-      (_, i) => i !== tIndex,
-    );
-    setQuestions(updatedQuestions);
+    if (index >= 0 && index < originalQuestions.length) {
+      updatedQuestions[index] = { ...originalQuestions[index] };
+      setQuestions(updatedQuestions);
+    } else {
+      const updatedQuestions = [...questions];
+      updatedQuestions[index] = {
+        questionText: "",
+        type: "DragAndDrop",
+        options: [{ term: "", definition: "" }],
+        points: 0,
+      };
+      setQuestions(updatedQuestions);
+    }
   };
 
   return (
@@ -137,190 +181,300 @@ const EditDragDrop = () => {
           justifyContent: "center",
         }}
       >
-        {!isLoading &&
-          questions.map((question, qIndex) => (
-            <Box
-              key={question._id}
-              sx={{
-                width: "100%",
-                alignItems: "center",
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-                overflow: "auto",
-                marginBottom: "20px",
-                marginTop: "20px",
-              }}
-            >
+        <Box
+          sx={{
+            backgroundColor: "white",
+            padding: "60px",
+            borderRadius: "8px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+            maxWidth: "1000px",
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{ paddingBottom: "25px", color: "#333" }}
+          >
+            Edit Drag and Drop Quiz
+          </Typography>
+
+          {!isLoading &&
+            questions.map((question, index) => (
               <Box
+                key={index}
                 sx={{
-                  borderRadius: "5px",
-                  backgroundColor: "#3CA3EE",
-                  width: "50%",
-                  padding: "20px",
-                  position: "relative",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                  width: "100%",
+                  alignItems: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginBottom: "20px",
                 }}
               >
                 <Box
                   sx={{
-                    marginBottom: "20px",
-                    display: "flex",
-                    justifyContent: "space-between",
+                    borderRadius: "5px",
+                    backgroundColor: "#3CA3EE",
+                    borderWidth: "2px",
+                    borderColor: "#3CA3EE",
+                    width: "90%",
+                    padding: "20px",
+                    position: "relative",
                   }}
                 >
-                  <Box>
-                    <h3 className="heading-font">
-                      {qIndex + 1} | Drag and Drop
-                    </h3>
-                  </Box>
-                  <Box>
-                    <IconButton
-                      onClick={() => moveQuestion(qIndex, -1)}
-                      disabled={qIndex === 0}
-                    >
-                      <ArrowUpwardIcon />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => moveQuestion(qIndex, 1)}
-                      disabled={qIndex === questions.length - 1}
-                    >
-                      <ArrowDownwardIcon />
-                    </IconButton>
-                    <IconButton onClick={() => deleteQuestion(qIndex)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
-                </Box>
-                <TextField
-                  required
-                  variant="outlined"
-                  label="Question Text"
-                  name="questionText"
-                  value={question.questionText}
-                  onChange={(e) => handleInputChange(e, qIndex)} // Modified: Handle question text change
-                  multiline
-                  minRows={4}
-                  sx={{
-                    width: "100%",
-                    marginBottom: "20px",
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#F9F6EE",
-                      "& fieldset": { borderColor: "black" },
-                      "&:hover": { backgroundColor: "#C0C0C0" },
-                      "&:hover fieldset": { borderColor: "black" },
-                      "&.Mui-focused fieldset": { borderColor: "black" },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "black",
-                      backgroundColor: "#3CA3EE",
-                      borderRadius: "5px",
-                    },
-                  }}
-                />
-                {question.terms.map((termObj, tIndex) => (
                   <Box
-                    key={termObj._id}
-                    sx={{ display: "flex", marginBottom: "10px" }}
+                    sx={{
+                      marginBottom: "20px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    <TextField
-                      required
-                      variant="outlined"
-                      label="Term"
-                      name="term"
-                      value={termObj.term}
-                      onChange={(e) => handleTermChange(e, qIndex, tIndex)} // Modified: Handle term change
-                      sx={{
-                        width: "45%",
-                        marginRight: "10%",
-                        "& .MuiOutlinedInput-root": {
-                          backgroundColor: "#F9F6EE",
-                          "& fieldset": { borderColor: "black" },
-                          "&:hover": { backgroundColor: "#C0C0C0" },
-                          "&:hover fieldset": { borderColor: "black" },
-                          "&.Mui-focused fieldset": { borderColor: "black" },
-                        },
-                        "& .MuiInputLabel-root": {
-                          color: "black",
-                          backgroundColor: "#3CA3EE",
-                          borderRadius: "5px",
-                        },
-                      }}
-                    />
-                    <TextField
-                      required
-                      variant="outlined"
-                      label="Definition"
-                      name="definition"
-                      value={termObj.definition}
-                      onChange={(e) => handleTermChange(e, qIndex, tIndex)} // Modified: Handle definition change
-                      sx={{
-                        width: "45%",
-                        "& .MuiOutlinedInput-root": {
-                          backgroundColor: "#F9F6EE",
-                          "& fieldset": { borderColor: "black" },
-                          "&:hover": { backgroundColor: "#C0C0C0" },
-                          "&:hover fieldset": { borderColor: "black" },
-                          "&.Mui-focused fieldset": { borderColor: "black" },
-                        },
-                        "& .MuiInputLabel-root": {
-                          color: "black",
-                          backgroundColor: "#3CA3EE",
-                          borderRadius: "5px",
-                        },
-                      }}
-                    />
-                    <IconButton
-                      onClick={() => deleteTermDefinitionPair(qIndex, tIndex)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+                    <h3 className="heading-font">
+                      {index + 1} | Drag and Drop{" "}
+                    </h3>
+                    <Box>
+                      <IconButton
+                        onClick={() => moveQuestion(index, -1)}
+                        disabled={index === 0}
+                      >
+                        <ArrowUpwardIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => moveQuestion(index, 1)}
+                        disabled={index === questions.length - 1}
+                      >
+                        <ArrowDownwardIcon />
+                      </IconButton>
+                      <IconButton onClick={() => deleteQuestion(index)}>
+                        <DeleteIcon />
+                      </IconButton>
+                      <IconButton onClick={() => revertQuestion(index)}>
+                        <UndoIcon />
+                      </IconButton>
+                    </Box>
                   </Box>
-                ))}
-                <Button
-                  onClick={() => addTermDefinitionPair(qIndex)} // Modified: Add new term-definition pair
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  sx={{
-                    backgroundColor: "#FFC93C",
-                    ":hover": { backgroundColor: "#2196F3" },
-                    marginTop: "10px",
-                  }}
-                >
-                  Add Term-Definition Pair
-                </Button>
+
+                  <TextField
+                    required
+                    variant="outlined"
+                    label="Question Text"
+                    name="questionText"
+                    value={question.questionText}
+                    onChange={(e) => handleInputChange(e, index)}
+                    multiline
+                    minRows={4}
+                    sx={{
+                      width: "100%",
+                      marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
+                      },
+                    }}
+                  />
+                  {question.options.map((option, optionIndex) => (
+                    <Box
+                      key={optionIndex}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <TextField
+                        required
+                        variant="outlined"
+                        label={`Term ${optionIndex + 1}`}
+                        value={question.options[optionIndex].term}
+                        onChange={(e) =>
+                          handleOptionChange(e, index, optionIndex, "term")
+                        }
+                        multiline
+                        minRows={1}
+                        sx={{
+                          width: "30%",
+                          marginBottom: "20px",
+                          "& .MuiOutlinedInput-root": {
+                            backgroundColor: "#F9F6EE",
+                            "& fieldset": { borderColor: "black" },
+                            "&:hover": { backgroundColor: "#C0C0C0" },
+                            "&:hover fieldset:": { borderColor: "black" },
+                            "&.Mui-focused fieldset": { borderColor: "black" },
+                          },
+                          "& .MuiInputLabel-root": {
+                            color: "black",
+                            backgroundColor: "#3CA3EE",
+                            borderRadius: "5px",
+                          },
+                        }}
+                      />
+                      <TextField
+                        required
+                        variant="outlined"
+                        label={`Definition ${optionIndex + 1}`}
+                        value={question.options[optionIndex].definition}
+                        onChange={(e) =>
+                          handleOptionChange(
+                            e,
+                            index,
+                            optionIndex,
+                            "definition",
+                          )
+                        }
+                        multiline
+                        minRows={1}
+                        sx={{
+                          width: "70%",
+                          marginBottom: "20px",
+                          marginLeft: "10px",
+                          "& .MuiOutlinedInput-root": {
+                            backgroundColor: "#F9F6EE",
+                            "& fieldset": { borderColor: "black" },
+                            "&:hover": { backgroundColor: "#C0C0C0" },
+                            "&:hover fieldset:": { borderColor: "black" },
+                            "&.Mui-focused fieldset": { borderColor: "black" },
+                          },
+                          "& .MuiInputLabel-root": {
+                            color: "black",
+                            backgroundColor: "#3CA3EE",
+                            borderRadius: "5px",
+                          },
+                        }}
+                      />
+                      <IconButton
+                        onClick={() => deleteOption(index, optionIndex)}
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  ))}
+                  <Button
+                    onClick={() => addOption(index)}
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    sx={{ marginTop: "10px" }}
+                  >
+                    Add Term & Definition
+                  </Button>
+
+                  <TextField
+                    required
+                    variant="outlined"
+                    label="Points"
+                    name="points"
+                    value={question.points}
+                    onChange={(e) => handlePointChange(e, index)}
+                    inputProps={{
+                      min: "0",
+                      type: "number",
+                    }}
+                    sx={{
+                      width: "100%",
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
+                      },
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                      marginTop: "30px",
+                    }}
+                  ></Box>
+                </Box>
               </Box>
-            </Box>
-          ))}
-
-        <Button
-          onClick={addNewQuestion}
-          variant="contained"
-          sx={{
-            marginTop: "20px",
-            backgroundColor: "#FFC93C",
-            ":hover": { backgroundColor: "#2196F3" },
-          }}
-        >
-          Add New Question
-        </Button>
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          sx={{
-            marginTop: "20px",
-            marginBottom: "20px",
-            backgroundColor: "#FFC93C",
-            ":hover": { backgroundColor: "#2196F3" },
-          }}
-        >
-          Save Quiz
-        </Button>
+            ))}
+        </Box>
       </Box>
+
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{
+          top: "auto",
+          bottom: 0,
+          bgcolor: "transparent",
+          height: "100px",
+          justifyContent: "center",
+        }}
+      >
+        <Toolbar>
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "60px",
+            }}
+          >
+            <Button
+              onClick={handleBackClick}
+              variant="contained"
+              className="button-font"
+              sx={{
+                ":hover": { backgroundColor: "#2196F3" },
+                marginLeft: "20px",
+                marginBottom: "60px",
+                padding: "15px",
+                borderRadius: "15px",
+                backgroundColor: "#FFC93C",
+              }}
+            >
+              Back
+            </Button>
+            <Button
+              onClick={addNewQuestion}
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{
+                marginBottom: "60px",
+                backgroundColor: "#FFC93C",
+                ":hover": { backgroundColor: "#2196F3" },
+              }}
+            >
+              Add Question
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              sx={{
+                ":hover": { backgroundColor: "#2196F3" },
+                marginRight: "20px",
+                marginBottom: "60px",
+                padding: "15px",
+                borderRadius: "15px",
+                backgroundColor: "#FFC93C",
+              }}
+              disabled={!isFormComplete()}
+            >
+              Save
+            </Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
     </Box>
   );
 };
