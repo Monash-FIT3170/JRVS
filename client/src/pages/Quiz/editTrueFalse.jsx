@@ -84,7 +84,7 @@ const EditTrueFalse = () => {
       setError("Please fill out all fields before saving.");
       setSuccessMessage("");
     }
-    //navigate(-1);
+    navigate(-1);
   };
 
   const addNewQuestion = () => {
