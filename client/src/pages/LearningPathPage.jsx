@@ -164,17 +164,18 @@ const LearningPathPage = () => {
     };
 
     const navigateToEditPage = (inputType, inputSubType, id) => {
+        const port = window.location.port;
         if (inputType === 'lesson') {
-            window.location.href = `http://localhost:3000/edit/${id}`; // .../edit/lessonId
+            window.location.href = `http://localhost:${port}/edit/${id}`; // .../edit/lessonId
         }
         else if (inputType === 'video') {
-            window.location.href = `http://localhost:3000/video/edit/${id}`; // .../video/edit/:videoId
+            window.location.href = `http://localhost:${port}/video/edit/${id}`; // .../video/edit/:videoId
         }
         else if (inputType === 'quiz') {
-            if (inputSubType === 'Image' || inputSubType === "ImageQuiz") window.location.href = `http://localhost:3000/quiz/imagequiz/edit/${id}`; // .../quiz/imagequiz/edit/:quizId
-            else if (inputSubType === 'ShortAnswer') window.location.href = `http://localhost:3000/quiz/short-answer/edit/${id}`; // .../quiz/imagequiz/edit/:quizId
-            else if (inputSubType === 'TrueFalse') window.location.href = `http://localhost:3000/quiz/truefalse/edit/${id}`; // .../quiz/truefalse/edit/:quizId
-            else if (inputSubType === 'MultipleChoice') window.location.href = `http://localhost:3000/quiz/multiplechoice/edit/${id}`; // .../quiz/multiplechoice/edit/:quizId 
+            if (inputSubType === 'Image' || inputSubType === "ImageQuiz") window.location.href = `http://localhost:${port}/quiz/imagequiz/edit/${id}`; // .../quiz/imagequiz/edit/:quizId
+            else if (inputSubType === 'ShortAnswer') window.location.href = `http://localhost:${port}/quiz/short-answer/edit/${id}`; // .../quiz/imagequiz/edit/:quizId
+            else if (inputSubType === 'TrueFalse') window.location.href = `http://localhost:${port}/quiz/truefalse/edit/${id}`; // .../quiz/truefalse/edit/:quizId
+            else if (inputSubType === 'MultipleChoice') window.location.href = `http://localhost:${port}/quiz/multiplechoice/edit/${id}`; // .../quiz/multiplechoice/edit/:quizId 
             else alert(`Quiz sub-type '${inputSubType}' cannot be edited.`);
         }
     }
