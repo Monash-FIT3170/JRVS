@@ -30,3 +30,5 @@ app.use('/api/videos', require('./routes/videoRoutes'))
 app.use(errorHandler)
 
 app.listen(port, () => console.log(`Server started on port ${port}`))
+
+module.exports = app
