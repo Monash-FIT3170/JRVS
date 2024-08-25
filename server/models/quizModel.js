@@ -5,7 +5,9 @@ const questionSchema = mongoose.Schema(
     _id: mongoose.Schema.Types.ObjectId,
     type: String,
     questionText: String, // Ensure this matches the field name in your data
-    options: [{ option: String, value: String }], // If options are present
+    options: [{ option: String, value: String }],
+    wrongOptions: [String],
+    correctOptions: [String], // If options are present
     image: String, // if for image quiz
     answer: String,
     points: Number,

@@ -58,10 +58,10 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
                 }} // hardcoded for testing
                 sx={{
                   color: "#fff",
-                  backgroundColor: '#3ca3ee',
+                  backgroundColor: "#3ca3ee",
                   borderColor: "#3ca3ee",
                   marginBottom: "10px",
-                  borderRadius: '7px',
+                  borderRadius: "7px",
                   ":hover": {
                     backgroundColor: "#2196F3",
                     borderColor: "#2196F3",
@@ -78,10 +78,10 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
                 onClick={() => onClick("video")}
                 sx={{
                   color: "#fff",
-                  backgroundColor: '#3ca3ee',
+                  backgroundColor: "#3ca3ee",
                   borderColor: "#3ca3ee",
                   marginBottom: "10px",
-                  borderRadius: '7px',
+                  borderRadius: "7px",
                   ":hover": {
                     backgroundColor: "#2196F3",
                     borderColor: "#2196F3",
@@ -98,10 +98,10 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
                 onClick={handleQuizClick}
                 sx={{
                   color: "#fff",
-                  backgroundColor: '#3ca3ee',
+                  backgroundColor: "#3ca3ee",
                   borderColor: "#3ca3ee",
                   marginBottom: "10px",
-                  borderRadius: '7px',
+                  borderRadius: "7px",
                   ":hover": {
                     backgroundColor: "#2196F3",
                     borderColor: "#2196F3",
@@ -120,7 +120,7 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
           >
             {[
               "Multiple Choice",
-              // "Reorder",
+              "Reorder",
               "Image",
               "True False",
               "Short Answer",
@@ -149,4 +149,3 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
 };
 
 export default LessonTypesPopup;
-

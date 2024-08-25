@@ -198,6 +198,8 @@ const LearningPathPage = () => {
         window.location.href = `http://localhost:${port}/quiz/truefalse/edit/${id}`; // .../quiz/truefalse/edit/:quizId
       else if (inputSubType === "MultipleChoice")
         window.location.href = `http://localhost:${port}/quiz/multiplechoice/edit/${id}`; // .../quiz/multiplechoice/edit/:quizId
+      else if (inputSubType === "Reorder")
+        window.location.href = `http://localhost:${port}/quiz/reorder/edit/${id}`; // .../quiz/reorder/edit/:quizId
       else alert(`Quiz sub-type '${inputSubType}' cannot be edited.`);
     }
   };
