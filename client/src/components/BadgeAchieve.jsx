@@ -1,6 +1,17 @@
 import Swal from 'sweetalert2';
 
-export async function addBadge(badge_id, badge_name, userData, postData) {
+
+// create new badge: 
+//      can use set badge api call or clone in mongodb to make a new badge
+// using badge trigger:
+//     the badge id is the auto generated odcument id within mongodb
+//     need to copy and paste into the badge trigger where used so it grabs the right badge doc
+// badge images:
+//      can use badge1-4, otherwise add a png image to the images folder
+//      use the image name without .png in the monogodb document for the badge
+//      in BadgeDisplay.jsx, import the image and add it to the badgeImages array
+// (see CustomizePage for an example usage)
+export async function triggerBadge(badge_id, badge_name, userData, postData) {
     try {
       const username = userData.username;
       const badges = userData.badges;

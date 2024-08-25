@@ -26,7 +26,7 @@ export default function CustomizePage () {
         setAvatar(userData.avatar);
         setBorder(userData.border);
         setBackground(userData.background);
-        addBadge('66cb63ade597c16e7961d4b8', 'Lets Go Shopping!', userData, postData);
+        triggerBadge('66cb63ade597c16e7961d4b8', 'Lets Go Shopping!', userData, postData);
       } catch (error) {
         console.log(error);
       }
