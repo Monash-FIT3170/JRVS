@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Install frontend dependencies and build it
 COPY client/package*.json ./client/
-RUN cd client && npm install --legacy-peer-deps
+RUN cd client && npm install -g husky && npm install --legacy-peer-deps
 COPY client ./client
 RUN cd client && npm run build
 
