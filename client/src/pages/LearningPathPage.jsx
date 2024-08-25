@@ -29,7 +29,7 @@ const LearningPathPage = () => {
 
   const [learningPathData, setLearningPathData] = useState([]);
   const [savedData, setSavedData] = useState();
-  const [completedLessonsArray, setCompletedLessonsArray] = useState([]);
+  const [completedLessonsArray, setCompletedLessonsArray] = useState();
   const [learningPathTitle, setLearningPathTitle] = useState([]); // get the title of the learning path unit
   const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
 
@@ -52,8 +52,6 @@ const LearningPathPage = () => {
         const dataWithIcons = replaceIconData(unitResponseData.data);
         setLearningPathData(dataWithIcons);
         setLearningPathTitle(unitResponseData.title);
-
-        setIsUnitLoading(false);
       } catch (error) {
         console.log(error);
         setIsUnitLoading(false);
@@ -91,8 +89,6 @@ const LearningPathPage = () => {
           };
         });
         setSavedData(completedLessonsObject);
-
-        setIsUnitLoading(false);
       } catch (error) {
         console.log(error);
         setIsUnitLoading(false);
@@ -100,6 +96,16 @@ const LearningPathPage = () => {
     };
     loadSavedData();
   }, [usertype]);
+
+  useEffect(() => {
+    const dataDoneLoading = async () => {
+      if (savedData && completedLessonsArray) {
+        // handleSave(localStorage, "learning-pathway", savedData);
+        setIsUnitLoading(false);
+      }
+    };
+    dataDoneLoading();
+  }, [savedData, completedLessonsArray]);
 
   // Functions to assign icon images in the directory to learningPathData
   const replaceIconData = (data) => {
@@ -332,14 +338,26 @@ const LearningPathPage = () => {
   };
 
   async function handleSave(storage, treeId, skills) {
-    // var completedLessons = await getCompletedLessonsArray();
-    var completedLessons = completedLessonsArray;
+    var completedLessons = [];
+    if (completedLessonsArray) {
+      completedLessons = completedLessonsArray;
+    } else {
+      completedLessons = await getCompletedLessonsArray();
+    }
     completedLessons.forEach((lessonId) => {
       skills[lessonId] = {
         optional: false,
         nodeState: "selected",
       };
     });
+    for (const lesson in skills) {
+      if (
+        !completedLessons.includes(lesson) &&
+        skills[lesson].nodeState === "selected"
+      ) {
+        skills[lesson].nodeState = "unlocked";
+      }
+    }
 
     return storage.setItem(`skills-${treeId}`, JSON.stringify(skills));
   }

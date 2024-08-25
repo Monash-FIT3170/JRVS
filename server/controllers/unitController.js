@@ -62,12 +62,9 @@ const appendNode = asyncHandler(async (req, res) => {
     console.log(
       "Error inserting the node into the lesson/video/quiz collection",
     );
-    return res
-      .status(500)
-      .json({
-        message:
-          "Error inserting the node into the lesson/video/quiz collection",
-      });
+    return res.status(500).json({
+      message: "Error inserting the node into the lesson/video/quiz collection",
+    });
   }
 
   // 3. Add the generated node id to newNode
@@ -135,12 +132,9 @@ const insertNode = asyncHandler(async (req, res) => {
     console.log(
       "Error inserting the node into the lesson/video/quiz collection",
     );
-    return res
-      .status(500)
-      .json({
-        message:
-          "Error inserting the node into the lesson/video/quiz collection",
-      });
+    return res.status(500).json({
+      message: "Error inserting the node into the lesson/video/quiz collection",
+    });
   }
 
   // 3. Add the generated node id to newNode
@@ -294,7 +288,7 @@ async function createQuiz(nodeTitle, quizType) {
 }
 
 const deleteNode = asyncHandler(async (req, res) => {
-  const { unitId } = req.body;
+  const { unitId, nodeId } = req.body;
 
   try {
     // get the target unit
