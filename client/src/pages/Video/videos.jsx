@@ -3,12 +3,12 @@ import MenuBar from "../../components/MenuBar.jsx";
 import VideoBox from '../../components/videoComponents/videoBox.jsx';
 import { Box, Button } from '@mui/material';
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './videos.css'
 
 function Videos() {
 
-
+    const navigate = useNavigate();
     const { getData } = useApi();
     const [video, setVideo] = useState([]);
     const [isVideoLoading, setIsVideoLoading] = useState(true);
@@ -75,7 +75,7 @@ function Videos() {
                     paddingBottom: '60px'
                 }}
             >
-                <Button href="/learningPath" variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>RETURN TO LEARNING PATH</Button>
+                <Button onClick={() => navigate(-1)} variant="contained" className="button-font" sx={{':hover': {backgroundColor: '#2196F3'}, marginLeft: '60px', padding: '15px', borderRadius: '15px', backgroundColor: '#FFC93C'}}>RETURN TO LEARNING PATH</Button>
             </Box>
         </Box>
     );
