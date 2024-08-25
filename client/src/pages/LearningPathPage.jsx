@@ -340,24 +340,26 @@ const LearningPathPage = () => {
   };
 
   async function handleSave(storage, treeId, skills) {
-    var completedLessons = [];
-    if (completedLessonsArray) {
-      completedLessons = completedLessonsArray;
-    } else {
-      completedLessons = await getCompletedLessonsArray();
-    }
-    completedLessons.forEach((lessonId) => {
-      skills[lessonId] = {
-        optional: false,
-        nodeState: "selected",
-      };
-    });
-    for (const lesson in skills) {
-      if (
-        !completedLessons.includes(lesson) &&
-        skills[lesson].nodeState === "selected"
-      ) {
-        skills[lesson].nodeState = "unlocked";
+    if (usertype === "teacher") {
+      var completedLessons = [];
+      if (completedLessonsArray) {
+        completedLessons = completedLessonsArray;
+      } else {
+        completedLessons = await getCompletedLessonsArray();
+      }
+      completedLessons.forEach((lessonId) => {
+        skills[lessonId] = {
+          optional: false,
+          nodeState: "selected",
+        };
+      });
+      for (const lesson in skills) {
+        if (
+          !completedLessons.includes(lesson) &&
+          skills[lesson].nodeState === "selected"
+        ) {
+          skills[lesson].nodeState = "unlocked";
+        }
       }
     }
 
@@ -382,7 +384,7 @@ const LearningPathPage = () => {
                 title=""
                 data={learningPathData} // SkillType
                 // Other useful fields (the rest we won't need):
-                savedData={savedData}
+                savedData={usertype === "student" ? null : savedData}
                 handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
                 handleSave={handleSave}
               />
