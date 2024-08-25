@@ -90,6 +90,20 @@ const EditReorderQuestion = () => {
     setQuestions(updatedQuestions);
   };
 
+  const moveQuestion = (questionIndex, direction) => {
+    const updatedQuestions = [...questions];
+    const [movedQuestion] = updatedQuestions.splice(questionIndex, 1);
+    updatedQuestions.splice(questionIndex + direction, 0, movedQuestion);
+    setQuestions(updatedQuestions);
+  };
+
+  const handlePointChange = (e, questionIndex) => {
+    const { name, value } = e.target;
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex][name] = parseFloat(value);
+    setQuestions(updatedQuestions);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -198,6 +212,18 @@ const EditReorderQuestion = () => {
                     </h3>
                   </Box>
                   <Box>
+                    <IconButton
+                      onClick={() => moveQuestion(questionIndex, -1)}
+                      disabled={questionIndex === 0}
+                    >
+                      <ArrowUpwardIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => moveQuestion(questionIndex, 1)}
+                      disabled={questionIndex === questions.length - 1}
+                    >
+                      <ArrowDownwardIcon />
+                    </IconButton>
                     <IconButton onClick={() => deleteQuestion(questionIndex)}>
                       <DeleteIcon />
                     </IconButton>
@@ -356,6 +382,35 @@ const EditReorderQuestion = () => {
                       </IconButton>
                     </Box>
                   ))}
+                <br></br>
+                <TextField
+                  required
+                  variant="outlined"
+                  label="Points"
+                  name="points"
+                  value={question.points}
+                  onChange={(e) => handlePointChange(e, questionIndex)}
+                  inputProps={{
+                    min: "0",
+                    type: "number",
+                  }}
+                  sx={{
+                    width: "100%",
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      backgroundColor: "#F9F6EE",
+                      "& fieldset": { borderColor: "black" },
+                      "&:hover": { backgroundColor: "#C0C0C0" },
+                      "&:hover fieldset:": { borderColor: "black" },
+                      "&.Mui-focused fieldset": { borderColor: "black" },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "black",
+                      backgroundColor: "#3CA3EE",
+                      borderRadius: "5px",
+                    },
+                  }}
+                />
 
                 <Button
                   variant="contained"
