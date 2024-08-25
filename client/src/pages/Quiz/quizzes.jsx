@@ -67,12 +67,28 @@ function Quizzes() {
     let correctCount = 0;
 
     questions.forEach((question) => {
-      if (
-        userValues[question.questionText]?.toString() ===
-        question.answer?.toString()
-      ) {
-        correctCount += 1;
-        points += question.points;
+      if (question.type === "Reorder") {
+        let correct = true;
+        for (let i = 0; i < question.correctOptions.length; i++) {
+          if (
+            userValues[question.questionText][i] !== question.correctOptions[i]
+          ) {
+            correct = false;
+            break;
+          }
+        }
+        if (correct) {
+          correctCount += 1;
+          points += question.points;
+        }
+      } else {
+        if (
+          userValues[question.questionText]?.toString() ===
+          question.answer?.toString()
+        ) {
+          correctCount += 1;
+          points += question.points;
+        }
       }
     });
 
