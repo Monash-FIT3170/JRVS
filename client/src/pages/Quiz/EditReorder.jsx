@@ -15,11 +15,13 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import UndoIcon from "@mui/icons-material/Undo";
 
 const EditReorderQuestion = () => {
   const navigate = useNavigate();
   const { getData, updateData } = useApi();
   const [questions, setQuestions] = useState([]);
+  const [originalQuestions, setOriginalQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const { quizId } = useParams();
@@ -35,6 +37,7 @@ const EditReorderQuestion = () => {
         const quiz = await getData(`api/quizzes/${quizId}`);
         if (quiz.questions) {
           setQuestions(quiz.questions);
+          setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
         }
         setIsLoading(false);
       } catch (error) {
@@ -109,8 +112,7 @@ const EditReorderQuestion = () => {
     try {
       await updateData(`api/quizzes/${quizId}`, questions);
       console.log("All questions updated successfully");
-      setSuccessMessage("Questions updated successfully!");
-      setError("");
+      handleBackClick();
     } catch (error) {
       console.error("Failed to update the questions:", error);
       setError("Failed to update questions. Please try again.");
@@ -132,6 +134,25 @@ const EditReorderQuestion = () => {
 
   const deleteQuestion = (index) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
+    setQuestions(updatedQuestions);
+  };
+
+  const revertQuestion = (index) => {
+    const updatedQuestions = [...questions];
+    if (index >= 0 && index < originalQuestions.length) {
+      updatedQuestions[index] = JSON.parse(
+        JSON.stringify(originalQuestions[index]),
+      );
+    } else {
+      updatedQuestions[index] = {
+        questionText: "",
+        type: "Reorder",
+        correctOptions: [""],
+        wrongOptions: [""],
+        points: 0,
+      };
+    }
+
     setQuestions(updatedQuestions);
   };
 
@@ -226,6 +247,12 @@ const EditReorderQuestion = () => {
                     </IconButton>
                     <IconButton onClick={() => deleteQuestion(questionIndex)}>
                       <DeleteIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => revertQuestion(questionIndex)}
+                      aria-label="Revert question"
+                    >
+                      <UndoIcon />
                     </IconButton>
                   </Box>
                 </Box>
