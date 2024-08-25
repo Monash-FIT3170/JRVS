@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import * as React from 'react';
+import { useState } from 'react';
 import { useApi } from '../context/ApiProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import BotBox from "../components/content/botBox";
 
 
@@ -13,6 +15,9 @@ const RegistrationPage = () => {
     const [email, setEmail] = useState('')
     const [school, setSchool] = useState('')
     const [password, setPassword] = useState('')
+    const [role, setRole] = useState('')
+    // alignment for the role, toggle button group
+    const [alignment, setAlignment] = React.useState('web');
 
     const location = useLocation();
     const [avatarState, setAvatarState] = useState(location.state?.avatarState || 'blue')
@@ -21,11 +26,18 @@ const RegistrationPage = () => {
 
     const {postData} = useApi();
 
+    const handleChange = (
+        event,
+        newAlignment,
+      ) => {
+        setRole(event.target.value);
+        setAlignment(newAlignment);
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const res = await postData('api/auth/register', {username, firstname, lastname, email, school, password});
+          const res = await postData('api/auth/register', {username, firstname, lastname, email, school, password, role});
           console.log(res);
           navigate('/login', { state: { avatarState } });
         } catch (error) {
@@ -81,6 +93,22 @@ const RegistrationPage = () => {
                     <p className="text-6xl font-bold text-ai-blue mb-12 text-center">SIGN UP</p>
                     {/* Create the grid layout */}
                     <div className="grid grid-cols-1 gap-6">
+                        <label className="block">
+                            <span className="text-gray-700">Role</span>
+                            <ToggleButtonGroup
+                                color="primary"
+                                value={alignment}
+                                exclusive
+                                onChange={handleChange}
+                                aria-label="Platform"
+                                className='block w-full'
+                                >
+                                <ToggleButton value="student">Student</ToggleButton>
+                                <ToggleButton value="teacher">Teacher</ToggleButton>
+                            </ToggleButtonGroup>
+
+                        </label>
+
                         <div className="flex gap-2">
                             <label>
                                 <span className="text-gray-700 mr">First name</span>
