@@ -52,19 +52,6 @@ const ProfilePage = () => {
 
   }, [getData, postData])
 
-  //function to add a badge
-  //addBadge('662efef478319f751124351a')
-  // eslint-disable-next-line
-  async function addBadge(badge_id) {
-    try {
-      if (user.username !== '') {
-        await postData('api/users/addBadge', { username: user.username, newBadgeId: badge_id });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return (
     <div className='App-page'>
       <MenuBar />

@@ -5,6 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Avatar from '../components/characterCustomization/Avatar';
 import MenuBar from '../components/MenuBar';
 import { useApi } from '../context/ApiProvider';
+import { addBadge } from '../components/BadgeAchieve';
 
 export default function CustomizePage () {
   const { getData, postData } = useApi();
@@ -25,6 +26,7 @@ export default function CustomizePage () {
         setAvatar(userData.avatar);
         setBorder(userData.border);
         setBackground(userData.background);
+        addBadge('66cb63ade597c16e7961d4b8', 'Lets Go Shopping!', userData, postData);
       } catch (error) {
         console.log(error);
       }

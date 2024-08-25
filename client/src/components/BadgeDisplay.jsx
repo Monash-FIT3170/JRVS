@@ -3,6 +3,7 @@ import Badge1 from "../assets/images/Badge1.png";
 import Badge2 from "../assets/images/Badge2.png";
 import Badge3 from "../assets/images/Badge3.png";
 import Badge4 from "../assets/images/Badge4.png";
+import BadgeShop from "../assets/images/Badge_Shop.png";
 import Tooltip from '@mui/material/Tooltip'
 import { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
@@ -12,6 +13,7 @@ badgeImages['Default'] = Badge4;
 badgeImages['Badge1'] = Badge1;
 badgeImages['Badge2'] = Badge2;
 badgeImages['Badge3'] = Badge3;
+badgeImages['Badge_Shop'] = BadgeShop;
 
 function getBadgeImage(badgeImage){
   if (badgeImages.hasOwnProperty(badgeImage)) {
