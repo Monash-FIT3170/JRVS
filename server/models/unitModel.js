@@ -3,19 +3,19 @@ const Schema = mongoose.Schema;
 
 // Define schema for the children object
 const LessonSchema = new Schema({
-  id: String,
-  icon: String,
-  title: String,
-  tooltip: {
-    content: String
-  },
-  children: [this]
-});
+    id: String,
+    icon: String,
+    title: String,
+    tooltip: {
+      content: String
+    },
+    children: [this]
+  });
 
-// Define the main schema
 const UnitSchema = new Schema({
-  _id: String,
-  data: [LessonSchema]
-});
+    _id: { type: Schema.Types.ObjectId, auto: true }, // Automatically generate ObjectId
+    data: [LessonSchema],
+    numberOfLessons: Number
+})
 
-module.exports = mongoose.model('units', UnitSchema);
+module.exports = mongoose.model('unit_details', UnitSchema);

@@ -1,9 +1,14 @@
 const { Double } = require('mongodb')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const userSchema = mongoose.Schema(
     {
+        usertype: {
+            type: String, 
+            required: true, 
+        },
         username: {
             type: String,
             required: true,
@@ -56,23 +61,57 @@ const userSchema = mongoose.Schema(
         unlockedBackgrounds: {
             type: Array,
             required: false,
-        }
+        },
+        level: {
+            type: Number,
+            default: 0
+        },
+        assignedUnits: {
+            type: Array,
+            required: true
+        },
+        sharableCode: {
+            type: String,
+            required: function() { return this.usertype == 'teacher'; },
+            unique: true
+        },
+        teacherId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',  
+            required: false  
+        },
+        students: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User' 
+        }]
     },  
     {
         timestamps: true
     }
 )
 
-/* salt the users password */
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
+
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+
+    if (this.usertype === 'teacher' && !this.sharableCode) {
+        let uniqueCodeFound = false;
+        while (!uniqueCodeFound) {
+            const newCode = crypto.randomBytes(3).toString('hex');
+            const existingUser = await mongoose.model('User').findOne({ sharableCode: newCode });
+            if (!existingUser) {
+                this.sharableCode = newCode;
+                uniqueCodeFound = true;
+            }
+        }
+    }
+
     next();
 });
-
 userSchema.methods.comparePassword = function (password) {
     return bcrypt.compare(password, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);
