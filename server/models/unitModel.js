@@ -13,8 +13,9 @@ const LessonSchema = new Schema({
   });
 
 const UnitSchema = new Schema({
-    _id: String,
-    data: [LessonSchema]
+    _id: { type: Schema.Types.ObjectId, auto: true }, // Automatically generate ObjectId
+    data: [LessonSchema],
+    numberOfLessons: Number
 })
 
 module.exports = mongoose.model('unit_details', UnitSchema);

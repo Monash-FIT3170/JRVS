@@ -16,7 +16,7 @@ const MenuBar = ({title, subtitle}) => {
     subtitle = subtitle ? subtitle : "";
 
     const { getData, postData } = useApi();
-    const [user, setUser] = useState({ username: '', points: 0 });
+    const [user, setUser] = useState({ username: '', points: 0, usertype: '' });
     const [isUserLoading, setIsUserLoading] = useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -28,7 +28,7 @@ const MenuBar = ({title, subtitle}) => {
           const res = await postData('api/auth/current', {token});
           const userData = await getData(`api/users/id/${res.decoded.id}`);
           console.log(userData);
-          setUser({ username: userData.username, points: userData.points || 0 });
+          setUser({ username: userData.username, points: userData.points || 0, usertype: userData.usertype });
           setIsUserLoading(false);
         } catch (error) {
           console.log(error);
@@ -69,10 +69,16 @@ const MenuBar = ({title, subtitle}) => {
             </Grid>
             <Grid xs={15}></Grid>
             <Grid xs={5} style={{ color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {user.usertype === 'student' && (
                 <div style={{ padding:'10px', backgroundColor: '#FFC700', borderRadius: '20px' }}>
                     <p className='russo-one-regular text-4xl'>&nbsp;{user.points} 💰&nbsp;</p>
                 </div>
-    
+            )}
+
+            {user.usertype === 'teacher' && (
+                <div></div>
+            )}
+
                 <IconButton href="/units" aria-label="school" style={{ color: "white", fontSize: "40px" }}>
                     <SchoolIcon fontSize="inherit" />
                 </IconButton>

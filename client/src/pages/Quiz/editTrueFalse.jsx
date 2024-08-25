@@ -68,7 +68,7 @@ const EditTrueFalse = () => {
   const isFormComplete = () => {
     return questions.every(
       (question) =>
-        question.questionText.trim() !== "" && question.answer !== "",
+        question && question.questionText && question.questionText.trim() !== "" && question.answer && question.answer !== "",
     );
   };
 
@@ -347,6 +347,7 @@ const EditTrueFalse = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
+          pointerEvents: 'none'
         }}
       >
         <Toolbar>
@@ -369,6 +370,7 @@ const EditTrueFalse = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: 'auto'
               }}
             >
               Back
@@ -380,6 +382,7 @@ const EditTrueFalse = () => {
               sx={{
                 marginBottom: "60px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: 'auto',
                 ":hover": { backgroundColor: "#2196F3" },
               }}
             >
@@ -395,6 +398,7 @@ const EditTrueFalse = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: 'auto'
               }}
               disabled={!isFormComplete()}
             >
