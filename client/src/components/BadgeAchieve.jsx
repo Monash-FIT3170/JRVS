@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 // using badge trigger:
 //     the badge id is the auto generated odcument id within mongodb
 //     need to copy and paste into the badge trigger where used so it grabs the right badge doc
+//     badge_name doesnt matter, its just what is displayed as the title in the popup
 // badge images:
 //      can use badge1-4, otherwise add a png image to the images folder
 //      use the image name without .png in the monogodb document for the badge
