@@ -4,6 +4,7 @@ import Confetti from "react-confetti";
 import BotBox from "../../components/content/botBox";
 import { useParams, useNavigate } from "react-router-dom";
 
+
 export default function Submitted({ score, totalScore, points }) {
   const [showConfetti, setShowConfetti] = useState(true);
   const navigate = useNavigate();

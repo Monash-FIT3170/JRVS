@@ -80,7 +80,7 @@ const EditImageQuiz = () => {
   const isFormComplete = () => {
     return questions.every(
       (question) =>
-        question.questionText.trim() !== "" && question.answer.trim() !== "",
+        question && question.questionText && question.questionText.trim() !== "" && question.answer && question.answer.trim() !== "",
     );
   };
 
@@ -436,6 +436,7 @@ const EditImageQuiz = () => {
               bgcolor: "transparent",
               height: "100px",
               justifyContent: "center",
+              pointerEvents: 'none'
             }}
           >
             <Toolbar>
@@ -458,6 +459,7 @@ const EditImageQuiz = () => {
                     padding: "15px",
                     borderRadius: "15px",
                     backgroundColor: "#FFC93C",
+                    pointerEvents: 'auto'
                   }}
                 >
                   Back
@@ -469,6 +471,7 @@ const EditImageQuiz = () => {
                   sx={{
                     marginBottom: "60px",
                     backgroundColor: "#FFC93C",
+                    pointerEvents: 'auto',
                     ":hover": { backgroundColor: "#2196F3" },
                   }}
                 >
@@ -484,6 +487,7 @@ const EditImageQuiz = () => {
                     padding: "15px",
                     borderRadius: "15px",
                     backgroundColor: "#FFC93C",
+                    pointerEvents: 'auto'
                   }}
                   disabled={!isFormComplete()}
                 >
