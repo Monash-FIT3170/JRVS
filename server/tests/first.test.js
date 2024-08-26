@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
 const { MongoClient } = require("mongodb");
+const { faker } = require("@faker-js/faker");
 const dotenv = require("dotenv").config();
 const request = require("supertest");
 // const app = require("../server")
