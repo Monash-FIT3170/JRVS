@@ -1,6 +1,6 @@
-import { render, screen, waitFor } from "@testing-library/react";
 import LearningPathPage from "../pages/LearningPathPage";
 import { ApiProvider } from "../context/ApiProvider";
+import { render, screen } from '@testing-library/react';
 
 test("renders admin options if user is a teacher", async () => {
   render(
@@ -9,17 +9,10 @@ test("renders admin options if user is a teacher", async () => {
     </ApiProvider>
   );
 
-  // Wait for the data to load
-  await waitFor(() => {
-    // Check for conditional elements
-    const insertButton = screen.getByText(/Insert/i);
+  // Load data and check for conditional elements
+  const insertButton = await screen.findByText(/Insert/i);
+  expect(insertButton).toBeInTheDocument();
 
-    expect(insertButton).toBeInTheDocument();
-  });
-
-  await waitFor(() => {
-    // Check for conditional elements pt 2
-    const appendButton = screen.getByText(/Append/i);
-    expect(appendButton).toBeInTheDocument();
-    });
-}
+  const appendButton = await screen.findByText(/Append/i);
+  expect(appendButton).toBeInTheDocument();
+});
