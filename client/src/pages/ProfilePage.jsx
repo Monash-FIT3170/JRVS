@@ -12,7 +12,7 @@ import CustomButton from '../components/CustomButton'; // Import CustomButton
 
 
 const ProfilePage = () => {
-  const { getData, postData } = useApi();
+  const {getData, postData } = useApi();
   const [badges, setBadges] = useState(undefined);
   const [isBadgeLoading, setIsBadgeLoading] = useState(true);
   const [user, setUser] = useState({ username: '', points: 0, level: 0, usertype: '', sharableCode: '' });
@@ -23,10 +23,16 @@ const ProfilePage = () => {
   const [statusMessage, setStatusMessage] = useState({ text: '', isError: false });
 
   useEffect(() => {
-    const fetchBadges = async () => {
+    const fetchBadges = async (badgeArray) => {
       try {
-        const responseData = await getData('api/badges');
-        setBadges(responseData);
+        const fetchedBadges = await Promise.all(
+          badgeArray.map(async (badge) => {
+            const responseData = await getData(`api/badges/id/${badge.id}`);    
+            responseData['timeAchieved'] = badge.timeAchieved;
+            return responseData;
+          })
+        );
+        setBadges(fetchedBadges);
         setIsBadgeLoading(false);
       } catch (error) {
         console.log(error);
@@ -47,6 +53,7 @@ const ProfilePage = () => {
           sharableCode: userData.sharableCode || '',
         });
         setAvatar({ avatar: userData.avatar, border: userData.border, background: userData.background });
+        fetchBadges(userData.badges || []);
         if(userData.students.length!==0) {
           const studentData = await postData('api/users/getStudents', { studentIds: userData.students });
           setStudents(studentData);
@@ -57,8 +64,6 @@ const ProfilePage = () => {
         setIsUserLoading(true);
       }
     };
-
-    fetchBadges();
     fetchUser();
   }, [getData, postData]);
 

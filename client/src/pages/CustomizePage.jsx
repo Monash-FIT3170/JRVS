@@ -5,6 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Avatar from '../components/characterCustomization/Avatar';
 import MenuBar from '../components/MenuBar';
 import { useApi } from '../context/ApiProvider';
+import { addBadge } from '../components/BadgeAchieve';
 
 export default function CustomizePage () {
   const { getData, postData } = useApi();
@@ -13,6 +14,7 @@ export default function CustomizePage () {
   const [avatar, setAvatar] = useState('_default.png');
   const [border, setBorder] = useState('_default.png');
   const [background, setBackground] = useState('_default.png');
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -24,12 +26,14 @@ export default function CustomizePage () {
         setAvatar(userData.avatar);
         setBorder(userData.border);
         setBackground(userData.background);
+        triggerBadge('66cb63ade597c16e7961d4b8', 'Lets Go Shopping!', userData, postData);
       } catch (error) {
         console.log(error);
       }
     };
     fetchUser();
-  }, [])
+  }, [getData, postData])
+
   async function saveAvatar() {
     try {
       if (username !== 'Loading') {

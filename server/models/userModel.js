@@ -83,7 +83,11 @@ const userSchema = mongoose.Schema(
         students: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User' 
-        }]
+        }],
+        badges: {
+            type: Array,
+            required: false
+        }
     },  
     {
         timestamps: true
