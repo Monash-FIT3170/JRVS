@@ -11,11 +11,15 @@ test("renders admin options if user is a teacher", async () => {
 
   // Wait for the data to load
   await waitFor(() => {
-    // Check for elements specific to the teacher/admin interface
+    // Check for conditional elements
     const insertButton = screen.getByText(/Insert/i);
-    const appendButton = screen.getByText(/Append/i);
 
     expect(insertButton).toBeInTheDocument();
-    expect(appendButton).toBeInTheDocument();
   });
-});
+
+  await waitFor(() => {
+    // Check for conditional elements pt 2
+    const appendButton = screen.getByText(/Append/i);
+    expect(appendButton).toBeInTheDocument();
+    });
+}
