@@ -16,6 +16,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import UndoIcon from "@mui/icons-material/Undo";
+import ActionButton from "../../components/quizComponents/ActionButton";
 
 const EditReorderQuestion = () => {
   const navigate = useNavigate();
@@ -179,23 +180,21 @@ const EditReorderQuestion = () => {
           justifyContent: "center",
         }}
       >
-        <Box
+        <Typography
+          variant="h4"
           sx={{
-            backgroundColor: "white",
-            borderRadius: "8px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "100%",
-            maxWidth: "1000px",
-            marginBottom: "40px",
-            marginTop: "50px",
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "36px",
+            fontWeight: "700",
+            color: "#333",
+            marginBottom: "20px",
+            letterSpacing: "0.5px",
+            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+            marginTop: "20px",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#333" }}>
-            Edit Reorder Quiz
-          </Typography>
-        </Box>
+          Edit Reorder Quiz
+        </Typography>
         {!isLoading &&
           questions.map((question, questionIndex) => (
             <Box
@@ -207,15 +206,15 @@ const EditReorderQuestion = () => {
                 flexDirection: "column",
                 flexGrow: 1,
                 overflow: "auto",
-                marginBottom: "20px",
+                marginBottom: "40px",
               }}
             >
               <Box
                 sx={{
-                  borderRadius: "5px",
-                  backgroundColor: "#3CA3EE",
-                  width: "50%",
-                  padding: "20px",
+                  borderRadius: "15px",
+                  backgroundColor: "#6AB6F3",
+                  width: "75%",
+                  padding: "30px",
                   position: "relative",
                   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                 }}
@@ -228,37 +227,46 @@ const EditReorderQuestion = () => {
                   }}
                 >
                   <Box>
-                    <h3 className="heading-font">
-                      {questionIndex + 1} | Reorder the steps
-                    </h3>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: "48px",
+                        fontWeight: "600",
+                        color: "#FFFFFF",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      {questionIndex + 1} | Reorder
+                    </Typography>
                   </Box>
                   <Box>
                     <IconButton
                       onClick={() => moveQuestion(questionIndex, -1)}
                       disabled={questionIndex === 0}
                     >
-                      <ArrowUpwardIcon />
+                      <ArrowUpwardIcon fontSize="large" />
                     </IconButton>
                     <IconButton
                       onClick={() => moveQuestion(questionIndex, 1)}
                       disabled={questionIndex === questions.length - 1}
                     >
-                      <ArrowDownwardIcon />
+                      <ArrowDownwardIcon fontSize="large" />
                     </IconButton>
                     <IconButton onClick={() => deleteQuestion(questionIndex)}>
-                      <DeleteIcon />
+                      <DeleteIcon fontSize="large" />
                     </IconButton>
                     <IconButton
                       onClick={() => revertQuestion(questionIndex)}
                       aria-label="Revert question"
                     >
-                      <UndoIcon />
+                      <UndoIcon fontSize="large" />
                     </IconButton>
                   </Box>
                 </Box>
                 <TextField
                   required
-                  variant="outlined"
+                  variant="filled"
                   label="Question Text"
                   name="questionText"
                   value={question.questionText}
@@ -268,21 +276,25 @@ const EditReorderQuestion = () => {
                   sx={{
                     width: "100%",
                     marginBottom: "20px",
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#F9F6EE",
-                      "& fieldset": { borderColor: "black" },
-                      "&:hover": { backgroundColor: "#C0C0C0" },
-                      "&:hover fieldset:": { borderColor: "black" },
-                      "&.Mui-focused fieldset": { borderColor: "black" },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "black",
-                      backgroundColor: "#3CA3EE",
-                      borderRadius: "5px",
+                    backgroundColor: "white",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#EFEFEF",
                     },
                   }}
                 />
-                <h3 className="heading-font">Question Order</h3>
+
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: "20px",
+                    fontWeight: "600",
+                    color: "#FFFFFF",
+                  }}
+                >
+                  Question order
+                </Typography>
                 {question.wrongOptions &&
                   question.wrongOptions.map((option, optionIndex) => (
                     <Box
@@ -290,29 +302,23 @@ const EditReorderQuestion = () => {
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        marginBottom: "10px",
+                        marginY: "10px",
                       }}
                     >
                       <TextField
-                        variant="outlined"
+                        variant="filled"
                         label={`Option ${optionIndex + 1}`}
                         value={option}
                         onChange={(e) =>
                           handleOptionsChange(e, questionIndex, optionIndex)
                         }
                         sx={{
-                          flexGrow: 1,
-                          "& .MuiOutlinedInput-root": {
-                            backgroundColor: "#F9F6EE",
-                            "& fieldset": { borderColor: "black" },
-                            "&:hover": { backgroundColor: "#C0C0C0" },
-                            "&:hover fieldset:": { borderColor: "black" },
-                            "&.Mui-focused fieldset": { borderColor: "black" },
-                          },
-                          "& .MuiInputLabel-root": {
-                            color: "black",
-                            backgroundColor: "#3CA3EE",
-                            borderRadius: "5px",
+                          width: "100%",
+
+                          backgroundColor: "white",
+                          borderRadius: "10px",
+                          "&:hover": {
+                            backgroundColor: "#EFEFEF",
                           },
                         }}
                       />
@@ -322,7 +328,7 @@ const EditReorderQuestion = () => {
                         }
                         disabled={optionIndex === 0}
                       >
-                        <ArrowUpwardIcon />
+                        <ArrowUpwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() =>
@@ -332,19 +338,29 @@ const EditReorderQuestion = () => {
                           optionIndex === question.wrongOptions.length - 1
                         }
                       >
-                        <ArrowDownwardIcon />
+                        <ArrowDownwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() =>
                           deleteOption(questionIndex, optionIndex, 1)
                         }
                       >
-                        <DeleteIcon />
+                        <DeleteIcon fontSize="large" />
                       </IconButton>
                     </Box>
                   ))}
                 <br></br>
-                <h3 className="heading-font">Answer Order</h3>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: "20px",
+                    fontWeight: "600",
+                    color: "#FFFFFF",
+                  }}
+                >
+                  Answer order
+                </Typography>
                 {question.correctOptions &&
                   question.correctOptions.map((option, optionIndex) => (
                     <Box
@@ -352,11 +368,11 @@ const EditReorderQuestion = () => {
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        marginBottom: "10px",
+                        marginY: "10px",
                       }}
                     >
                       <TextField
-                        variant="outlined"
+                        variant="filled"
                         label={`Option ${optionIndex + 1}`}
                         value={option}
                         onChange={(e) =>
@@ -367,18 +383,12 @@ const EditReorderQuestion = () => {
                           )
                         }
                         sx={{
-                          flexGrow: 1,
-                          "& .MuiOutlinedInput-root": {
-                            backgroundColor: "#F9F6EE",
-                            "& fieldset": { borderColor: "black" },
-                            "&:hover": { backgroundColor: "#C0C0C0" },
-                            "&:hover fieldset:": { borderColor: "black" },
-                            "&.Mui-focused fieldset": { borderColor: "black" },
-                          },
-                          "& .MuiInputLabel-root": {
-                            color: "black",
-                            backgroundColor: "#3CA3EE",
-                            borderRadius: "5px",
+                          width: "100%",
+
+                          backgroundColor: "white",
+                          borderRadius: "10px",
+                          "&:hover": {
+                            backgroundColor: "#EFEFEF",
                           },
                         }}
                       />
@@ -388,7 +398,7 @@ const EditReorderQuestion = () => {
                         }
                         disabled={optionIndex === 0}
                       >
-                        <ArrowUpwardIcon />
+                        <ArrowUpwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() =>
@@ -398,21 +408,21 @@ const EditReorderQuestion = () => {
                           optionIndex === question.correctOptions.length - 1
                         }
                       >
-                        <ArrowDownwardIcon />
+                        <ArrowDownwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() =>
                           deleteOption(questionIndex, optionIndex, 1)
                         }
                       >
-                        <DeleteIcon />
+                        <DeleteIcon fontSize="large" />
                       </IconButton>
                     </Box>
                   ))}
                 <br></br>
                 <TextField
                   required
-                  variant="outlined"
+                  variant="filled"
                   label="Points"
                   name="points"
                   value={question.points}
@@ -423,18 +433,11 @@ const EditReorderQuestion = () => {
                   }}
                   sx={{
                     width: "100%",
-                    marginBottom: "20px",
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#F9F6EE",
-                      "& fieldset": { borderColor: "black" },
-                      "&:hover": { backgroundColor: "#C0C0C0" },
-                      "&:hover fieldset:": { borderColor: "black" },
-                      "&.Mui-focused fieldset": { borderColor: "black" },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "black",
-                      backgroundColor: "#3CA3EE",
-                      borderRadius: "5px",
+
+                    backgroundColor: "white",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#EFEFEF",
                     },
                   }}
                 />
@@ -451,7 +454,9 @@ const EditReorderQuestion = () => {
                   sx={{
                     marginTop: "20px",
                     backgroundColor: "#FFC93C",
-                    ":hover": { backgroundColor: "#2196F3" },
+                    ":hover": { backgroundColor: "#F7B92C" },
+                    padding: "14px",
+                    border: "20px",
                   }}
                 >
                   Add Option
@@ -486,21 +491,7 @@ const EditReorderQuestion = () => {
               justifyContent: "space-between",
             }}
           >
-            <Button
-              onClick={handleBackClick}
-              variant="contained"
-              className="button-font"
-              sx={{
-                ":hover": { backgroundColor: "#2196F3" },
-                marginLeft: "20px",
-                padding: "15px",
-                borderRadius: "15px",
-                backgroundColor: "#FFC93C",
-                pointerEvents: "auto",
-              }}
-            >
-              Back
-            </Button>
+            <ActionButton onClick={handleBackClick}>Back</ActionButton>
             <Button
               onClick={addNewQuestion}
               variant="contained"
@@ -508,27 +499,14 @@ const EditReorderQuestion = () => {
               sx={{
                 marginBottom: "20px",
                 backgroundColor: "#FFC93C",
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 pointerEvents: "auto",
+                padding: "14px",
               }}
             >
               Add Question
             </Button>
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              className="button-font"
-              sx={{
-                ":hover": { backgroundColor: "#2196F3" },
-                marginRight: "20px",
-                padding: "15px",
-                borderRadius: "15px",
-                backgroundColor: "#FFC93C",
-                pointerEvents: "auto",
-              }}
-            >
-              Save
-            </Button>
+            <ActionButton onClick={handleSubmit}>Save</ActionButton>
           </Box>
         </Toolbar>
       </AppBar>

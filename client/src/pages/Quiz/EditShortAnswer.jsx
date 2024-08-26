@@ -127,11 +127,22 @@ const EditShortAnswerQuestion = () => {
             alignItems: "center",
             width: "100%",
             maxWidth: "1000px",
-            marginBottom: "40px",
-            marginTop: "50px",
+
+            marginTop: "20px",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#333" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              fontSize: "36px",
+              fontWeight: "700",
+              color: "#333",
+              marginBottom: "20px",
+              letterSpacing: "0.5px",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             Edit Short Answer Quiz
           </Typography>
         </Box>
@@ -146,15 +157,15 @@ const EditShortAnswerQuestion = () => {
                 flexDirection: "column",
                 flexGrow: 1,
                 overflow: "auto",
-                marginBottom: "20px",
+                marginBottom: "40px",
               }}
             >
               <Box
                 sx={{
-                  borderRadius: "5px",
-                  backgroundColor: "#3CA3EE",
-                  width: "50%",
-                  padding: "20px",
+                  borderRadius: "15px",
+                  backgroundColor: "#6AB6F3",
+                  width: "60%",
+                  padding: "30px",
                   position: "relative",
                   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                 }}
@@ -167,31 +178,40 @@ const EditShortAnswerQuestion = () => {
                   }}
                 >
                   <Box>
-                    <h3 className="heading-font">
-                      {index + 1} | Fill in the blank
-                    </h3>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: "36px",
+                        fontWeight: "600",
+                        color: "#FFFFFF",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      {index + 1} | Fill in the blanks
+                    </Typography>
                   </Box>
                   <Box>
                     <IconButton
                       onClick={() => moveQuestion(index, -1)}
                       disabled={index === 0}
                     >
-                      <ArrowUpwardIcon />
+                      <ArrowUpwardIcon fontSize="large" />
                     </IconButton>
                     <IconButton
                       onClick={() => moveQuestion(index, 1)}
                       disabled={index === questions.length - 1}
                     >
-                      <ArrowDownwardIcon />
+                      <ArrowDownwardIcon fontSize="large" />
                     </IconButton>
                     <IconButton onClick={() => deleteQuestion(index)}>
-                      <DeleteIcon />
+                      <DeleteIcon fontSize="large" />
                     </IconButton>
                   </Box>
                 </Box>
                 <TextField
                   required
-                  variant="outlined"
+                  variant="filled"
                   label="Question Text"
                   name="questionText"
                   value={question.questionText}
@@ -201,40 +221,27 @@ const EditShortAnswerQuestion = () => {
                   sx={{
                     width: "100%",
                     marginBottom: "20px",
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#F9F6EE",
-                      "& fieldset": { borderColor: "black" },
-                      "&:hover": { backgroundColor: "#C0C0C0" },
-                      "&:hover fieldset:": { borderColor: "black" },
-                      "&.Mui-focused fieldset": { borderColor: "black" },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "black",
-                      backgroundColor: "#3CA3EE",
-                      borderRadius: "5px",
+                    backgroundColor: "white",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#EFEFEF",
                     },
                   }}
                 />
                 <TextField
                   required
-                  variant="outlined"
+                  variant="filled"
                   label="Answer"
                   name="answer"
                   value={question.answer}
                   onChange={(e) => handleInputChange(e, index)}
                   sx={{
                     width: "100%",
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#F9F6EE",
-                      "& fieldset": { borderColor: "black" },
-                      "&:hover": { backgroundColor: "#C0C0C0" },
-                      "&:hover fieldset:": { borderColor: "black" },
-                      "&.Mui-focused fieldset": { borderColor: "black" },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "black",
-                      backgroundColor: "#3CA3EE",
-                      borderRadius: "5px",
+                    marginBottom: "20px",
+                    backgroundColor: "white",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#EFEFEF",
                     },
                   }}
                 />
@@ -248,7 +255,7 @@ const EditShortAnswerQuestion = () => {
                 ></Box>
                 <TextField
                   required
-                  variant="outlined"
+                  variant="filled"
                   label="Points"
                   name="points"
                   value={question.points}
@@ -260,17 +267,10 @@ const EditShortAnswerQuestion = () => {
                   sx={{
                     width: "100%",
                     marginBottom: "20px",
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#F9F6EE",
-                      "& fieldset": { borderColor: "black" },
-                      "&:hover": { backgroundColor: "#C0C0C0" },
-                      "&:hover fieldset:": { borderColor: "black" },
-                      "&.Mui-focused fieldset": { borderColor: "black" },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "black",
-                      backgroundColor: "#3CA3EE",
-                      borderRadius: "5px",
+                    backgroundColor: "white",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#EFEFEF",
                     },
                   }}
                 />
@@ -325,7 +325,7 @@ const EditShortAnswerQuestion = () => {
               sx={{
                 marginBottom: "20px",
                 backgroundColor: "#FFC93C",
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 pointerEvents: "auto",
               }}
             >
