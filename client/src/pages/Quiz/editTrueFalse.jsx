@@ -157,7 +157,7 @@ const EditTrueFalse = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          bgcolor: "white",
+          backgroundColor: "#3CA3EE",
           height: "100%",
           justifyContent: "center",
         }}
@@ -166,12 +166,12 @@ const EditTrueFalse = () => {
           sx={{
             backgroundColor: "white",
             padding: "40px",
-            borderRadius: "8px",
+            borderRadius: "30px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "1000px",
+            maxWidth: "1300px",
           }}
         >
           <Typography
@@ -375,13 +375,14 @@ const EditTrueFalse = () => {
               variant="contained"
               className="button-font"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginLeft: "20px",
                 marginBottom: "60px",
-                padding: "15px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
+                paddingX: "30px",
               }}
             >
               Back
@@ -395,6 +396,8 @@ const EditTrueFalse = () => {
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
                 ":hover": { backgroundColor: "#F7B92C" },
+                borderRadius: "10px",
+                padding: "14px",
               }}
             >
               Add Question
@@ -403,13 +406,14 @@ const EditTrueFalse = () => {
               onClick={handleSubmit}
               variant="contained"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginRight: "20px",
                 marginBottom: "60px",
-                padding: "15px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
+                paddingX: "30px",
               }}
               disabled={!isFormComplete()}
             >

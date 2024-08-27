@@ -6,7 +6,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Checkbox,
   FormControlLabel,
   Radio,
 } from "@mui/material";
@@ -164,29 +163,29 @@ const EditImageQuiz = () => {
         backgroundColor: "#3CA3EE",
       }}
     >
-      <MenuBar />
+      <Box sx={{ padding: "10px" }}>
+        <MenuBar />
+      </Box>
       <Box
         sx={{
-          position: "relative",
-          width: "100vw",
-          backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: "#3CA3EE",
+          height: "100%",
           justifyContent: "center",
-          padding: "20px",
         }}
       >
         <Box
           sx={{
             backgroundColor: "white",
-
-            borderRadius: "8px",
+            padding: "40px",
+            borderRadius: "30px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "1100px",
+            maxWidth: "1300px",
           }}
         >
           <Typography
@@ -222,7 +221,7 @@ const EditImageQuiz = () => {
                   sx={{
                     borderRadius: "15px",
                     backgroundColor: "#6AB6F3",
-                    width: "100%",
+                    width: "90%",
                     padding: "30px",
                     position: "relative",
                     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
@@ -445,13 +444,14 @@ const EditImageQuiz = () => {
                   variant="contained"
                   className="button-font"
                   sx={{
-                    ":hover": { backgroundColor: "#2196F3" },
+                    ":hover": { backgroundColor: "#F7B92C" },
                     marginLeft: "20px",
                     marginBottom: "60px",
-                    padding: "15px",
+                    padding: "20px",
                     borderRadius: "15px",
                     backgroundColor: "#FFC93C",
                     pointerEvents: "auto",
+                    paddingX: "30px",
                   }}
                 >
                   Back
@@ -464,7 +464,9 @@ const EditImageQuiz = () => {
                     marginBottom: "60px",
                     backgroundColor: "#FFC93C",
                     pointerEvents: "auto",
-                    ":hover": { backgroundColor: "#2196F3" },
+                    ":hover": { backgroundColor: "#F7B92C" },
+                    borderRadius: "10px",
+                    padding: "14px",
                   }}
                 >
                   Add Question
@@ -473,13 +475,14 @@ const EditImageQuiz = () => {
                   onClick={handleSubmit}
                   variant="contained"
                   sx={{
-                    ":hover": { backgroundColor: "#2196F3" },
+                    ":hover": { backgroundColor: "#F7B92C" },
                     marginRight: "20px",
                     marginBottom: "60px",
-                    padding: "15px",
+                    padding: "20px",
                     borderRadius: "15px",
                     backgroundColor: "#FFC93C",
                     pointerEvents: "auto",
+                    paddingX: "30px",
                   }}
                   disabled={!isFormComplete()}
                 >
