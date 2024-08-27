@@ -113,7 +113,7 @@ const EditShortAnswerQuestion = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          bgcolor: "white",
+          backgroundColor: "#3CA3EE",
           height: "100%",
           justifyContent: "center",
         }}
@@ -121,14 +121,13 @@ const EditShortAnswerQuestion = () => {
         <Box
           sx={{
             backgroundColor: "white",
-            borderRadius: "8px",
+            padding: "40px",
+            borderRadius: "30px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "1000px",
-
-            marginTop: "20px",
+            maxWidth: "1300px",
           }}
         >
           <Typography
@@ -145,142 +144,142 @@ const EditShortAnswerQuestion = () => {
           >
             Edit Short Answer Quiz
           </Typography>
-        </Box>
-        {!isLoading &&
-          questions.map((question, index) => (
-            <Box
-              key={question._id}
-              sx={{
-                width: "100%",
-                alignItems: "center",
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-                overflow: "auto",
-                marginBottom: "40px",
-              }}
-            >
+          {!isLoading &&
+            questions.map((question, index) => (
               <Box
+                key={question._id}
                 sx={{
-                  borderRadius: "15px",
-                  backgroundColor: "#6AB6F3",
-                  width: "60%",
-                  padding: "30px",
-                  position: "relative",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                  width: "100%",
+                  alignItems: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  flexGrow: 1,
+                  overflow: "auto",
+                  marginBottom: "40px",
                 }}
               >
                 <Box
                   sx={{
-                    marginBottom: "20px",
-                    display: "flex",
-                    justifyContent: "space-between",
+                    borderRadius: "15px",
+                    backgroundColor: "#6AB6F3",
+                    width: "90%",
+                    padding: "30px",
+                    position: "relative",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                   }}
                 >
-                  <Box>
-                    <Typography
-                      variant="h4"
-                      sx={{
-                        fontFamily: "Poppins, sans-serif",
-                        fontSize: "36px",
-                        fontWeight: "600",
-                        color: "#FFFFFF",
-                        letterSpacing: "0.5px",
-                      }}
-                    >
-                      {index + 1} | Fill in the blanks
-                    </Typography>
+                  <Box
+                    sx={{
+                      marginBottom: "20px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Box>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontFamily: "Poppins, sans-serif",
+                          fontSize: "36px",
+                          fontWeight: "600",
+                          color: "#FFFFFF",
+                          letterSpacing: "0.5px",
+                        }}
+                      >
+                        {index + 1} | Fill in the blanks
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <IconButton
+                        onClick={() => moveQuestion(index, -1)}
+                        disabled={index === 0}
+                      >
+                        <ArrowUpwardIcon fontSize="large" />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => moveQuestion(index, 1)}
+                        disabled={index === questions.length - 1}
+                      >
+                        <ArrowDownwardIcon fontSize="large" />
+                      </IconButton>
+                      <IconButton onClick={() => deleteQuestion(index)}>
+                        <DeleteIcon fontSize="large" />
+                      </IconButton>
+                    </Box>
                   </Box>
-                  <Box>
-                    <IconButton
-                      onClick={() => moveQuestion(index, -1)}
-                      disabled={index === 0}
-                    >
-                      <ArrowUpwardIcon fontSize="large" />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => moveQuestion(index, 1)}
-                      disabled={index === questions.length - 1}
-                    >
-                      <ArrowDownwardIcon fontSize="large" />
-                    </IconButton>
-                    <IconButton onClick={() => deleteQuestion(index)}>
-                      <DeleteIcon fontSize="large" />
-                    </IconButton>
-                  </Box>
+                  <TextField
+                    required
+                    variant="filled"
+                    label="Question Text"
+                    name="questionText"
+                    value={question.questionText}
+                    onChange={(e) => handleInputChange(e, index)}
+                    multiline
+                    minRows={4}
+                    sx={{
+                      width: "100%",
+                      marginBottom: "20px",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
+                      },
+                    }}
+                  />
+                  <TextField
+                    required
+                    variant="filled"
+                    label="Answer"
+                    name="answer"
+                    value={question.answer}
+                    onChange={(e) => handleInputChange(e, index)}
+                    sx={{
+                      width: "100%",
+                      marginBottom: "20px",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
+                      },
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: "20px",
+                    }}
+                  ></Box>
+                  <TextField
+                    required
+                    variant="filled"
+                    label="Points"
+                    name="points"
+                    value={question.points}
+                    onChange={(e) => handlePointChange(e, index)}
+                    inputProps={{
+                      min: "0",
+                      type: "number",
+                    }}
+                    sx={{
+                      width: "100%",
+                      marginBottom: "20px",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
+                      },
+                    }}
+                  />
+                  {error && <p style={{ color: "red" }}>{error}</p>}
+                  {successMessage && (
+                    <p style={{ color: "green" }}>{successMessage}</p>
+                  )}
                 </Box>
-                <TextField
-                  required
-                  variant="filled"
-                  label="Question Text"
-                  name="questionText"
-                  value={question.questionText}
-                  onChange={(e) => handleInputChange(e, index)}
-                  multiline
-                  minRows={4}
-                  sx={{
-                    width: "100%",
-                    marginBottom: "20px",
-                    backgroundColor: "white",
-                    borderRadius: "10px",
-                    "&:hover": {
-                      backgroundColor: "#EFEFEF",
-                    },
-                  }}
-                />
-                <TextField
-                  required
-                  variant="filled"
-                  label="Answer"
-                  name="answer"
-                  value={question.answer}
-                  onChange={(e) => handleInputChange(e, index)}
-                  sx={{
-                    width: "100%",
-                    marginBottom: "20px",
-                    backgroundColor: "white",
-                    borderRadius: "10px",
-                    "&:hover": {
-                      backgroundColor: "#EFEFEF",
-                    },
-                  }}
-                />
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginTop: "20px",
-                  }}
-                ></Box>
-                <TextField
-                  required
-                  variant="filled"
-                  label="Points"
-                  name="points"
-                  value={question.points}
-                  onChange={(e) => handlePointChange(e, index)}
-                  inputProps={{
-                    min: "0",
-                    type: "number",
-                  }}
-                  sx={{
-                    width: "100%",
-                    marginBottom: "20px",
-                    backgroundColor: "white",
-                    borderRadius: "10px",
-                    "&:hover": {
-                      backgroundColor: "#EFEFEF",
-                    },
-                  }}
-                />
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                {successMessage && (
-                  <p style={{ color: "green" }}>{successMessage}</p>
-                )}
               </Box>
-            </Box>
-          ))}
+            ))}
+        </Box>
       </Box>
 
       <AppBar
@@ -308,12 +307,14 @@ const EditShortAnswerQuestion = () => {
               variant="contained"
               className="button-font"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginLeft: "20px",
-                padding: "15px",
+                marginBottom: "60px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
+                paddingX: "30px",
               }}
             >
               Back
@@ -323,10 +324,12 @@ const EditShortAnswerQuestion = () => {
               variant="contained"
               startIcon={<AddIcon />}
               sx={{
-                marginBottom: "20px",
+                marginBottom: "60px",
                 backgroundColor: "#FFC93C",
-                ":hover": { backgroundColor: "#F7B92C" },
                 pointerEvents: "auto",
+                ":hover": { backgroundColor: "#F7B92C" },
+                borderRadius: "10px",
+                padding: "14px",
               }}
             >
               Add Question
@@ -336,12 +339,14 @@ const EditShortAnswerQuestion = () => {
               variant="contained"
               className="button-font"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginRight: "20px",
-                padding: "15px",
+                marginBottom: "60px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
+                paddingX: "30px",
               }}
             >
               Save
