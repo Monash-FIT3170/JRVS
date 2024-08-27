@@ -90,9 +90,14 @@ const EditMultipleChoice = () => {
   const isFormComplete = () => {
     return questions.every(
       (question) =>
+        question &&
+        question.questionText &&
         question.questionText.trim() !== "" &&
+        question.answer &&
         question.answer.trim() !== "" &&
-        question.options.every((option) => option.option.trim() !== ""),
+        question.options.every(
+          (option) => option && option.option && option.option.trim() !== "",
+        ),
     );
   };
 
@@ -421,6 +426,7 @@ const EditMultipleChoice = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
+          pointerEvents: "none",
         }}
       >
         <Toolbar>
@@ -443,6 +449,7 @@ const EditMultipleChoice = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: "auto",
               }}
             >
               Back
@@ -454,6 +461,7 @@ const EditMultipleChoice = () => {
               sx={{
                 marginBottom: "60px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: "auto",
                 ":hover": { backgroundColor: "#2196F3" },
               }}
             >
@@ -469,6 +477,7 @@ const EditMultipleChoice = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: "auto",
               }}
               disabled={!isFormComplete()}
             >

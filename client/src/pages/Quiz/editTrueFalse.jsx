@@ -68,7 +68,11 @@ const EditTrueFalse = () => {
   const isFormComplete = () => {
     return questions.every(
       (question) =>
-        question.questionText.trim() !== "" && question.answer !== "",
+        question &&
+        question.questionText &&
+        question.questionText.trim() !== "" &&
+        question.answer &&
+        question.answer !== "",
     );
   };
 
@@ -161,7 +165,7 @@ const EditTrueFalse = () => {
         <Box
           sx={{
             backgroundColor: "white",
-            padding: "60px",
+            padding: "40px",
             borderRadius: "8px",
             display: "flex",
             flexDirection: "column",
@@ -172,9 +176,17 @@ const EditTrueFalse = () => {
         >
           <Typography
             variant="h4"
-            sx={{ paddingBottom: "25px", color: "#333" }}
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              fontSize: "36px",
+              fontWeight: "700",
+              color: "#333",
+              marginBottom: "20px",
+              letterSpacing: "0.5px",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+            }}
           >
-            Edit True/False Questions
+            Edit True or False Quiz
           </Typography>
 
           {!isLoading &&
@@ -186,18 +198,19 @@ const EditTrueFalse = () => {
                   alignItems: "center",
                   display: "flex",
                   flexDirection: "column",
-                  marginBottom: "20px",
+                  flexGrow: 1,
+                  overflow: "auto",
+                  marginBottom: "40px",
                 }}
               >
                 <Box
                   sx={{
-                    borderRadius: "5px",
-                    backgroundColor: "#3CA3EE",
-                    borderWidth: "2px",
-                    borderColor: "#3CA3EE",
+                    borderRadius: "15px",
+                    backgroundColor: "#6AB6F3",
                     width: "90%",
-                    padding: "20px",
+                    padding: "30px",
                     position: "relative",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                   }}
                 >
                   <Box
@@ -207,34 +220,43 @@ const EditTrueFalse = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <h3 className="heading-font">
-                      {index + 1} | True or False{" "}
-                    </h3>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: "36px",
+                        fontWeight: "600",
+                        color: "#FFFFFF",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      {index + 1} True Or False {""}
+                    </Typography>
                     <Box>
                       <IconButton
                         onClick={() => moveQuestion(index, -1)}
                         disabled={index === 0}
                       >
-                        <ArrowUpwardIcon />
+                        <ArrowUpwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() => moveQuestion(index, 1)}
                         disabled={index === questions.length - 1}
                       >
-                        <ArrowDownwardIcon />
+                        <ArrowDownwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton onClick={() => deleteQuestion(index)}>
-                        <DeleteIcon />
+                        <DeleteIcon fontSize="large" />
                       </IconButton>
                       <IconButton onClick={() => revertQuestion(index)}>
-                        <UndoIcon />
+                        <UndoIcon fontSize="large" />
                       </IconButton>
                     </Box>
                   </Box>
 
                   <TextField
                     required
-                    variant="outlined"
+                    variant="filled"
                     label="Question Text"
                     name="questionText"
                     value={question.questionText}
@@ -243,24 +265,18 @@ const EditTrueFalse = () => {
                     minRows={4}
                     sx={{
                       width: "100%",
+
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
+                      },
                       marginBottom: "20px",
-                      "& .MuiOutlinedInput-root": {
-                        backgroundColor: "#F9F6EE",
-                        "& fieldset": { borderColor: "black" },
-                        "&:hover": { backgroundColor: "#C0C0C0" },
-                        "&:hover fieldset:": { borderColor: "black" },
-                        "&.Mui-focused fieldset": { borderColor: "black" },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "black",
-                        backgroundColor: "#3CA3EE",
-                        borderRadius: "5px",
-                      },
                     }}
                   />
                   <FormControl
                     required
-                    variant="outlined"
+                    variant="filled"
                     sx={{ width: "100%", marginBottom: "20px" }}
                   >
                     <InputLabel
@@ -279,18 +295,20 @@ const EditTrueFalse = () => {
                       value={question.answer}
                       onChange={(e) => handleInputChange(e, index)}
                       sx={{
-                        backgroundColor: "#F9F6EE",
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "black",
-                        },
+                        width: "100%",
+
+                        backgroundColor: "white",
+                        borderRadius: "10px",
+
                         "&:hover": {
-                          backgroundColor: "#C0C0C0",
+                          backgroundColor: "#EFEFEF",
                         },
-                        "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "black",
+
+                        "&.Mui-focused": {
+                          backgroundColor: "white", // Background when focused
                         },
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "black",
+                        "& .MuiSelect-icon": {
+                          color: "#333", // Icon color if needed
                         },
                       }}
                     >
@@ -301,7 +319,7 @@ const EditTrueFalse = () => {
 
                   <TextField
                     required
-                    variant="outlined"
+                    variant="filled"
                     label="Points"
                     name="points"
                     value={question.points}
@@ -312,18 +330,11 @@ const EditTrueFalse = () => {
                     }}
                     sx={{
                       width: "100%",
-                      marginBottom: "20px",
-                      "& .MuiOutlinedInput-root": {
-                        backgroundColor: "#F9F6EE",
-                        "& fieldset": { borderColor: "black" },
-                        "&:hover": { backgroundColor: "#C0C0C0" },
-                        "&:hover fieldset:": { borderColor: "black" },
-                        "&.Mui-focused fieldset": { borderColor: "black" },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "black",
-                        backgroundColor: "#3CA3EE",
-                        borderRadius: "5px",
+
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
                       },
                     }}
                   />
@@ -347,6 +358,7 @@ const EditTrueFalse = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
+          pointerEvents: "none",
         }}
       >
         <Toolbar>
@@ -369,6 +381,7 @@ const EditTrueFalse = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: "auto",
               }}
             >
               Back
@@ -380,7 +393,8 @@ const EditTrueFalse = () => {
               sx={{
                 marginBottom: "60px",
                 backgroundColor: "#FFC93C",
-                ":hover": { backgroundColor: "#2196F3" },
+                pointerEvents: "auto",
+                ":hover": { backgroundColor: "#F7B92C" },
               }}
             >
               Add Question
@@ -395,6 +409,7 @@ const EditTrueFalse = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
+                pointerEvents: "auto",
               }}
               disabled={!isFormComplete()}
             >

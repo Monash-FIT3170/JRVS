@@ -20,6 +20,7 @@ import EditVideo from "./pages/Video/editVideo";
 import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
 import EditDragDrop from "./pages/Quiz/EditDragDrop";
 import EditMultipleChoice from "./pages/Quiz/editMultipleChoice";
+import EditReorderQuestion from "./pages/Quiz/EditReorder";
 
 const App = () => {
   return (
@@ -106,6 +107,17 @@ const App = () => {
             exact
             path="/quiz/multiplechoice/edit/:quizId"
             element={<EditMultipleChoice />}
+          />
+        </Route>
+        <Route
+          exact
+          path="/quiz/reorder/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/quiz/reorder/edit/:quizId"
+            element={<EditReorderQuestion />}
           />
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>

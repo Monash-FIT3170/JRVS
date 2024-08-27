@@ -6,8 +6,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  FormControlLabel,
-  Radio,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -40,13 +38,13 @@ const EditDragDrop = () => {
         if (quiz.questions) {
           setQuestions(quiz.questions);
           setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
-          console.log(quiz.questions);
+          //console.log(quiz.questions);
         }
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
-      console.log(originalQuestions);
+      //console.log(originalQuestions);
     };
     fetchData();
   }, [getData, quizId]);
@@ -103,7 +101,7 @@ const EditDragDrop = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(questions);
+    //console.log(questions);
     e.preventDefault();
     if (isFormComplete()) {
       try {

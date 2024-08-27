@@ -8,6 +8,8 @@ const questionSchema = mongoose.Schema(
     options: [
       { option: String, value: String, term: String, definition: String },
     ], // If options are present
+    wrongOptions: [String],
+    correctOptions: [String], // If options are present
     image: String, // if for image quiz
     answer: String,
     points: Number,
