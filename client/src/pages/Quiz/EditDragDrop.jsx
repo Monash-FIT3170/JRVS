@@ -6,8 +6,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  FormControlLabel,
-  Radio,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import UndoIcon from "@mui/icons-material/Undo";
 
-const EditMultipleChoice = () => {
+const EditDragDrop = () => {
   const navigate = useNavigate();
   const { getData, updateData } = useApi();
   const [questions, setQuestions] = useState([]);
@@ -40,12 +38,13 @@ const EditMultipleChoice = () => {
         if (quiz.questions) {
           setQuestions(quiz.questions);
           setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
+          //console.log(quiz.questions);
         }
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
-      console.log(originalQuestions);
+      //console.log(originalQuestions);
     };
     fetchData();
   }, [getData, quizId]);
@@ -63,20 +62,19 @@ const EditMultipleChoice = () => {
     updatedQuestions[index][name] = parseFloat(value);
     setQuestions(updatedQuestions);
   };
-
-  const handleOptionChange = (e, questionIndex, optionIndex) => {
+  const handleOptionChange = (e, questionIndex, optionIndex, field) => {
     const { value } = e.target;
     const updatedQuestions = [...questions];
     updatedQuestions[questionIndex].options[optionIndex] = {
-      option: value,
-      value: value,
+      ...updatedQuestions[questionIndex].options[optionIndex],
+      [field]: value,
     };
     setQuestions(updatedQuestions);
   };
 
   const addOption = (questionIndex) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].options.push({ option: "", value: "" });
+    updatedQuestions[questionIndex].options.push({ term: "", definition: "" });
     setQuestions(updatedQuestions);
     console.log(questions);
   };
@@ -88,20 +86,22 @@ const EditMultipleChoice = () => {
   };
 
   const isFormComplete = () => {
-    return questions.every(
-      (question) =>
-        question &&
+    return questions.every((question) => {
+      return (
         question.questionText &&
         question.questionText.trim() !== "" &&
-        question.answer &&
-        question.answer.trim() !== "" &&
         question.options.every(
-          (option) => option && option.option && option.option.trim() !== "",
-        ),
-    );
+          (option) => option.term && option.term.trim() !== "",
+        ) &&
+        question.options.every(
+          (option) => option.definition && option.term.trim() !== "",
+        )
+      );
+    });
   };
 
   const handleSubmit = async (e) => {
+    //console.log(questions);
     e.preventDefault();
     if (isFormComplete()) {
       try {
@@ -119,9 +119,8 @@ const EditMultipleChoice = () => {
   const addNewQuestion = () => {
     const newQuestion = {
       questionText: "",
-      answer: "",
-      type: "MultipleChoice", // Set the default type
-      options: [{ option: "", value: "" }],
+      type: "DragAndDrop", // Set the default type
+      options: [{ term: "", definition: "" }],
       points: 0,
     };
     console.log("Adding new question:", newQuestion); // Debugging statement
@@ -149,9 +148,8 @@ const EditMultipleChoice = () => {
       const updatedQuestions = [...questions];
       updatedQuestions[index] = {
         questionText: "",
-        answer: "",
-        type: "MultipleChoice",
-        options: [{ option: "", value: "" }],
+        type: "DragAndDrop",
+        options: [{ term: "", definition: "" }],
         points: 0,
       };
       setQuestions(updatedQuestions);
@@ -197,7 +195,7 @@ const EditMultipleChoice = () => {
             variant="h4"
             sx={{ paddingBottom: "25px", color: "#333" }}
           >
-            Edit Multiple Choice Quiz
+            Edit Drag and Drop Quiz
           </Typography>
 
           {!isLoading &&
@@ -231,7 +229,7 @@ const EditMultipleChoice = () => {
                     }}
                   >
                     <h3 className="heading-font">
-                      {index + 1} | True or False{" "}
+                      {index + 1} | Drag and Drop{" "}
                     </h3>
                     <Box>
                       <IconButton
@@ -254,6 +252,7 @@ const EditMultipleChoice = () => {
                       </IconButton>
                     </Box>
                   </Box>
+
                   <TextField
                     required
                     variant="outlined"
@@ -292,16 +291,49 @@ const EditMultipleChoice = () => {
                       <TextField
                         required
                         variant="outlined"
-                        label={`Option ${optionIndex + 1}`}
-                        value={question.options[optionIndex].option}
+                        label={`Term ${optionIndex + 1}`}
+                        value={question.options[optionIndex].term}
                         onChange={(e) =>
-                          handleOptionChange(e, index, optionIndex)
+                          handleOptionChange(e, index, optionIndex, "term")
                         }
                         multiline
                         minRows={1}
                         sx={{
-                          width: "100%",
+                          width: "30%",
                           marginBottom: "20px",
+                          "& .MuiOutlinedInput-root": {
+                            backgroundColor: "#F9F6EE",
+                            "& fieldset": { borderColor: "black" },
+                            "&:hover": { backgroundColor: "#C0C0C0" },
+                            "&:hover fieldset:": { borderColor: "black" },
+                            "&.Mui-focused fieldset": { borderColor: "black" },
+                          },
+                          "& .MuiInputLabel-root": {
+                            color: "black",
+                            backgroundColor: "#3CA3EE",
+                            borderRadius: "5px",
+                          },
+                        }}
+                      />
+                      <TextField
+                        required
+                        variant="outlined"
+                        label={`Definition ${optionIndex + 1}`}
+                        value={question.options[optionIndex].definition}
+                        onChange={(e) =>
+                          handleOptionChange(
+                            e,
+                            index,
+                            optionIndex,
+                            "definition",
+                          )
+                        }
+                        multiline
+                        minRows={1}
+                        sx={{
+                          width: "70%",
+                          marginBottom: "20px",
+                          marginLeft: "10px",
                           "& .MuiOutlinedInput-root": {
                             backgroundColor: "#F9F6EE",
                             "& fieldset": { borderColor: "black" },
@@ -322,47 +354,6 @@ const EditMultipleChoice = () => {
                       >
                         <DeleteIcon />
                       </IconButton>
-
-                      <FormControlLabel
-                        control={
-                          <Radio
-                            checked={
-                              question.answer === option.value &&
-                              option.value.trim() !== ""
-                            }
-                            onChange={() => {
-                              handleInputChange(
-                                {
-                                  target: {
-                                    name: "answer",
-                                    value: option.value,
-                                  },
-                                },
-                                index,
-                              );
-                            }}
-                            sx={{
-                              color: "#000",
-                              "&.Mui-checked": { color: "#000" },
-                              "& .MuiSvgIcon-root": {
-                                borderRadius: "50%",
-                                width: "24px",
-                                height: "24px",
-                                padding: "4px",
-                              },
-                            }}
-                          />
-                        }
-                        label={
-                          <Typography variant="subtitle1">Answer?</Typography>
-                        }
-                        sx={{
-                          marginLeft: "10px",
-                          "& .MuiFormControlLabel-label": {
-                            color: "#000",
-                          },
-                        }}
-                      />
                     </Box>
                   ))}
                   <Button
@@ -371,7 +362,7 @@ const EditMultipleChoice = () => {
                     startIcon={<AddIcon />}
                     sx={{ marginTop: "10px" }}
                   >
-                    Add Option
+                    Add Term & Definition
                   </Button>
 
                   <TextField
@@ -426,7 +417,6 @@ const EditMultipleChoice = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
-          pointerEvents: "none",
         }}
       >
         <Toolbar>
@@ -449,7 +439,6 @@ const EditMultipleChoice = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: "auto",
               }}
             >
               Back
@@ -461,7 +450,6 @@ const EditMultipleChoice = () => {
               sx={{
                 marginBottom: "60px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: "auto",
                 ":hover": { backgroundColor: "#2196F3" },
               }}
             >
@@ -477,7 +465,6 @@ const EditMultipleChoice = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: "auto",
               }}
               disabled={!isFormComplete()}
             >
@@ -490,4 +477,4 @@ const EditMultipleChoice = () => {
   );
 };
 
-export default EditMultipleChoice;
+export default EditDragDrop;

@@ -1,6 +1,5 @@
-
-import React from 'react';
-import { Button } from '@mui/material';
+import React from "react";
+import { Button } from "@mui/material";
 
 const ActionButton = ({ onClick, children }) => {
   return (
@@ -8,12 +7,13 @@ const ActionButton = ({ onClick, children }) => {
       variant="contained"
       onClick={onClick}
       sx={{
-        ':hover': { backgroundColor: '#E6B635' },
+        ":hover": { backgroundColor: "#E6B635" },
         padding: 3,
-        px:5,
-        borderRadius: '15px',
-        backgroundColor: '#FFD700',
-        fontSize:15
+        px: 5,
+        borderRadius: "15px",
+        backgroundColor: "#FFD700",
+        fontSize: 15,
+        pointerEvents: "auto",
       }}
     >
       {children}
