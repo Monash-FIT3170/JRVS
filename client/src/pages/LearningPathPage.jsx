@@ -200,6 +200,8 @@ const LearningPathPage = () => {
         window.location.href = `http://localhost:${port}/quiz/multiplechoice/edit/${id}`; // .../quiz/multiplechoice/edit/:quizId
       else if (inputSubType === "Reorder")
         window.location.href = `http://localhost:${port}/quiz/reorder/edit/${id}`; // .../quiz/reorder/edit/:quizId
+      else if (inputSubType === "DragAndDrop")
+        window.location.href = `http://localhost:${port}/quiz/drag-drop/edit/${id}`; // .../quiz/drag-drop/edit/:quizId
       else alert(`Quiz sub-type '${inputSubType}' cannot be edited.`);
     }
   };

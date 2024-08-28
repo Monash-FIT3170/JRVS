@@ -5,10 +5,6 @@ import {
   TextField,
   Toolbar,
   IconButton,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
   Typography,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
@@ -21,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import UndoIcon from "@mui/icons-material/Undo";
 
-const EditTrueFalse = () => {
+const EditDragDrop = () => {
   const navigate = useNavigate();
   const { getData, updateData } = useApi();
   const [questions, setQuestions] = useState([]);
@@ -42,11 +38,13 @@ const EditTrueFalse = () => {
         if (quiz.questions) {
           setQuestions(quiz.questions);
           setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
+          //console.log(quiz.questions);
         }
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
+      //console.log(originalQuestions);
     };
     fetchData();
   }, [getData, quizId]);
@@ -64,19 +62,46 @@ const EditTrueFalse = () => {
     updatedQuestions[index][name] = parseFloat(value);
     setQuestions(updatedQuestions);
   };
+  const handleOptionChange = (e, questionIndex, optionIndex, field) => {
+    const { value } = e.target;
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex].options[optionIndex] = {
+      ...updatedQuestions[questionIndex].options[optionIndex],
+      [field]: value,
+    };
+    setQuestions(updatedQuestions);
+  };
+
+  const addOption = (questionIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex].options.push({ term: "", definition: "" });
+    setQuestions(updatedQuestions);
+    console.log(questions);
+  };
+
+  const deleteOption = (questionIndex, optionIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex].options.splice(optionIndex, 1);
+    setQuestions(updatedQuestions);
+  };
 
   const isFormComplete = () => {
-    return questions.every(
-      (question) =>
-        question &&
+    return questions.every((question) => {
+      return (
         question.questionText &&
         question.questionText.trim() !== "" &&
-        question.answer &&
-        question.answer !== "",
-    );
+        question.options.every(
+          (option) => option.term && option.term.trim() !== "",
+        ) &&
+        question.options.every(
+          (option) => option.definition && option.term.trim() !== "",
+        )
+      );
+    });
   };
 
   const handleSubmit = async (e) => {
+    //console.log(questions);
     e.preventDefault();
     if (isFormComplete()) {
       try {
@@ -94,12 +119,8 @@ const EditTrueFalse = () => {
   const addNewQuestion = () => {
     const newQuestion = {
       questionText: "",
-      answer: "",
-      type: "TrueFalse", // Set the default type
-      options: [
-        { option: "True", value: "true" },
-        { option: "False", value: "false" },
-      ],
+      type: "DragAndDrop", // Set the default type
+      options: [{ term: "", definition: "" }],
       points: 0,
     };
     console.log("Adding new question:", newQuestion); // Debugging statement
@@ -127,12 +148,8 @@ const EditTrueFalse = () => {
       const updatedQuestions = [...questions];
       updatedQuestions[index] = {
         questionText: "",
-        answer: "",
-        type: "TrueFalse",
-        options: [
-          { option: "True", value: "true" },
-          { option: "False", value: "false" },
-        ],
+        type: "DragAndDrop",
+        options: [{ term: "", definition: "" }],
         points: 0,
       };
       setQuestions(updatedQuestions);
@@ -165,7 +182,7 @@ const EditTrueFalse = () => {
         <Box
           sx={{
             backgroundColor: "white",
-            padding: "40px",
+            padding: "60px",
             borderRadius: "8px",
             display: "flex",
             flexDirection: "column",
@@ -176,17 +193,9 @@ const EditTrueFalse = () => {
         >
           <Typography
             variant="h4"
-            sx={{
-              fontFamily: "Poppins, sans-serif",
-              fontSize: "36px",
-              fontWeight: "700",
-              color: "#333",
-              marginBottom: "20px",
-              letterSpacing: "0.5px",
-              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
-            }}
+            sx={{ paddingBottom: "25px", color: "#333" }}
           >
-            Edit True or False Quiz
+            Edit Drag and Drop Quiz
           </Typography>
 
           {!isLoading &&
@@ -198,19 +207,18 @@ const EditTrueFalse = () => {
                   alignItems: "center",
                   display: "flex",
                   flexDirection: "column",
-                  flexGrow: 1,
-                  overflow: "auto",
-                  marginBottom: "40px",
+                  marginBottom: "20px",
                 }}
               >
                 <Box
                   sx={{
-                    borderRadius: "15px",
-                    backgroundColor: "#6AB6F3",
+                    borderRadius: "5px",
+                    backgroundColor: "#3CA3EE",
+                    borderWidth: "2px",
+                    borderColor: "#3CA3EE",
                     width: "90%",
-                    padding: "30px",
+                    padding: "20px",
                     position: "relative",
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                   }}
                 >
                   <Box
@@ -220,43 +228,34 @@ const EditTrueFalse = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Typography
-                      variant="h4"
-                      sx={{
-                        fontFamily: "Poppins, sans-serif",
-                        fontSize: "36px",
-                        fontWeight: "600",
-                        color: "#FFFFFF",
-                        letterSpacing: "0.5px",
-                      }}
-                    >
-                      {index + 1} True Or False {""}
-                    </Typography>
+                    <h3 className="heading-font">
+                      {index + 1} | Drag and Drop{" "}
+                    </h3>
                     <Box>
                       <IconButton
                         onClick={() => moveQuestion(index, -1)}
                         disabled={index === 0}
                       >
-                        <ArrowUpwardIcon fontSize="large" />
+                        <ArrowUpwardIcon />
                       </IconButton>
                       <IconButton
                         onClick={() => moveQuestion(index, 1)}
                         disabled={index === questions.length - 1}
                       >
-                        <ArrowDownwardIcon fontSize="large" />
+                        <ArrowDownwardIcon />
                       </IconButton>
                       <IconButton onClick={() => deleteQuestion(index)}>
-                        <DeleteIcon fontSize="large" />
+                        <DeleteIcon />
                       </IconButton>
                       <IconButton onClick={() => revertQuestion(index)}>
-                        <UndoIcon fontSize="large" />
+                        <UndoIcon />
                       </IconButton>
                     </Box>
                   </Box>
 
                   <TextField
                     required
-                    variant="filled"
+                    variant="outlined"
                     label="Question Text"
                     name="questionText"
                     value={question.questionText}
@@ -265,61 +264,110 @@ const EditTrueFalse = () => {
                     minRows={4}
                     sx={{
                       width: "100%",
-
-                      backgroundColor: "white",
-                      borderRadius: "10px",
-                      "&:hover": {
-                        backgroundColor: "#EFEFEF",
-                      },
                       marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
+                      },
                     }}
                   />
-                  <FormControl
-                    required
-                    variant="filled"
-                    sx={{ width: "100%", marginBottom: "20px" }}
+                  {question.options.map((option, optionIndex) => (
+                    <Box
+                      key={optionIndex}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <TextField
+                        required
+                        variant="outlined"
+                        label={`Term ${optionIndex + 1}`}
+                        value={question.options[optionIndex].term}
+                        onChange={(e) =>
+                          handleOptionChange(e, index, optionIndex, "term")
+                        }
+                        multiline
+                        minRows={1}
+                        sx={{
+                          width: "30%",
+                          marginBottom: "20px",
+                          "& .MuiOutlinedInput-root": {
+                            backgroundColor: "#F9F6EE",
+                            "& fieldset": { borderColor: "black" },
+                            "&:hover": { backgroundColor: "#C0C0C0" },
+                            "&:hover fieldset:": { borderColor: "black" },
+                            "&.Mui-focused fieldset": { borderColor: "black" },
+                          },
+                          "& .MuiInputLabel-root": {
+                            color: "black",
+                            backgroundColor: "#3CA3EE",
+                            borderRadius: "5px",
+                          },
+                        }}
+                      />
+                      <TextField
+                        required
+                        variant="outlined"
+                        label={`Definition ${optionIndex + 1}`}
+                        value={question.options[optionIndex].definition}
+                        onChange={(e) =>
+                          handleOptionChange(
+                            e,
+                            index,
+                            optionIndex,
+                            "definition",
+                          )
+                        }
+                        multiline
+                        minRows={1}
+                        sx={{
+                          width: "70%",
+                          marginBottom: "20px",
+                          marginLeft: "10px",
+                          "& .MuiOutlinedInput-root": {
+                            backgroundColor: "#F9F6EE",
+                            "& fieldset": { borderColor: "black" },
+                            "&:hover": { backgroundColor: "#C0C0C0" },
+                            "&:hover fieldset:": { borderColor: "black" },
+                            "&.Mui-focused fieldset": { borderColor: "black" },
+                          },
+                          "& .MuiInputLabel-root": {
+                            color: "black",
+                            backgroundColor: "#3CA3EE",
+                            borderRadius: "5px",
+                          },
+                        }}
+                      />
+                      <IconButton
+                        onClick={() => deleteOption(index, optionIndex)}
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  ))}
+                  <Button
+                    onClick={() => addOption(index)}
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    sx={{ marginTop: "10px" }}
                   >
-                    <InputLabel
-                      sx={{
-                        backgroundColor: "#3CA3EE",
-                        color: "black",
-                        padding: "0 5px",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Answer
-                    </InputLabel>
-                    <Select
-                      label="Answer"
-                      name="answer"
-                      value={question.answer}
-                      onChange={(e) => handleInputChange(e, index)}
-                      sx={{
-                        width: "100%",
-
-                        backgroundColor: "white",
-                        borderRadius: "10px",
-
-                        "&:hover": {
-                          backgroundColor: "#EFEFEF",
-                        },
-
-                        "&.Mui-focused": {
-                          backgroundColor: "white", // Background when focused
-                        },
-                        "& .MuiSelect-icon": {
-                          color: "#333", // Icon color if needed
-                        },
-                      }}
-                    >
-                      <MenuItem value="true">True</MenuItem>
-                      <MenuItem value="false">False</MenuItem>
-                    </Select>
-                  </FormControl>
+                    Add Term & Definition
+                  </Button>
 
                   <TextField
                     required
-                    variant="filled"
+                    variant="outlined"
                     label="Points"
                     name="points"
                     value={question.points}
@@ -330,19 +378,30 @@ const EditTrueFalse = () => {
                     }}
                     sx={{
                       width: "100%",
-
-                      backgroundColor: "white",
-                      borderRadius: "10px",
-                      "&:hover": {
-                        backgroundColor: "#EFEFEF",
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "#F9F6EE",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover": { backgroundColor: "#C0C0C0" },
+                        "&:hover fieldset:": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "black",
+                        backgroundColor: "#3CA3EE",
+                        borderRadius: "5px",
                       },
                     }}
                   />
-
-                  {error && <p style={{ color: "red" }}>{error}</p>}
-                  {successMessage && (
-                    <p style={{ color: "green" }}>{successMessage}</p>
-                  )}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                      marginTop: "30px",
+                    }}
+                  ></Box>
                 </Box>
               </Box>
             ))}
@@ -358,7 +417,6 @@ const EditTrueFalse = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
-          pointerEvents: "none",
         }}
       >
         <Toolbar>
@@ -381,7 +439,6 @@ const EditTrueFalse = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: "auto",
               }}
             >
               Back
@@ -393,8 +450,7 @@ const EditTrueFalse = () => {
               sx={{
                 marginBottom: "60px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: "auto",
-                ":hover": { backgroundColor: "#F7B92C" },
+                ":hover": { backgroundColor: "#2196F3" },
               }}
             >
               Add Question
@@ -409,7 +465,6 @@ const EditTrueFalse = () => {
                 padding: "15px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: "auto",
               }}
               disabled={!isFormComplete()}
             >
@@ -422,4 +477,4 @@ const EditTrueFalse = () => {
   );
 };
 
-export default EditTrueFalse;
+export default EditDragDrop;

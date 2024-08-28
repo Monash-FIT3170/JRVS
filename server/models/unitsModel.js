@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Define the main schema
@@ -7,7 +7,7 @@ const UnitsSchema = new Schema({
   numberOfLessons: Number,
   colour: String,
   icon: String,
-  title: String
+  title: String,
 });
 
-module.exports = mongoose.model('units', UnitsSchema);
+module.exports = mongoose.model("units", UnitsSchema);
