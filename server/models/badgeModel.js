@@ -1,27 +1,18 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const badgeSchema = mongoose.Schema(
-    {
-        name: {
-            type: String,
-            required: true,
-        },
-        description: {
-            type: String,
-            required: true,
-        },
-        achievedTimestamp: {
-            type: Date,
-            default: Date.now,
-        },
-        imagePath: {
-            type: String, // Binary data of the image
-            required: true, // Mime type of the image
-        }
-    },  
-    {
-        timestamps: true
-    }
-)
+const badgeSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  imagePath: {
+    type: String, // Binary data of the image
+    required: true, // Mime type of the image
+  },
+});
 
-module.exports = mongoose.model('Badge', badgeSchema)
+module.exports = mongoose.model("Badge", badgeSchema);
