@@ -124,12 +124,12 @@ const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
               "Image",
               "True False",
               "Short Answer",
-              // "Drag And Drop",
+              "Drag And Drop",
             ].map((quizType, index) => (
               <MenuItem
                 key={index}
                 onClick={() => {
-                  onClick("quiz", quizType.replace(" ", ""));
+                  onClick("quiz", quizType.replace(/ /g, ""));
                 }}
                 sx={{
                   ":hover": {

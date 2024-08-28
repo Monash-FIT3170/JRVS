@@ -18,6 +18,7 @@ import EditTrueFalse from "./pages/Quiz/editTrueFalse";
 import EditImageQuiz from "./pages/Quiz/editImageQuiz";
 import EditVideo from "./pages/Video/editVideo";
 import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
+import EditDragDrop from "./pages/Quiz/EditDragDrop";
 import EditMultipleChoice from "./pages/Quiz/editMultipleChoice";
 import EditReorderQuestion from "./pages/Quiz/EditReorder";
 
@@ -62,6 +63,17 @@ const App = () => {
             exact
             path="/quiz/short-answer/edit/:quizId"
             element={<EditShortAnswerQuestion />}
+          />
+        </Route>
+        <Route
+          exact
+          path="/quiz/drag-drop/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/quiz/drag-drop/edit/:quizId"
+            element={<EditDragDrop />}
           />
         </Route>
         <Route
