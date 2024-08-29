@@ -12,6 +12,7 @@ export default function DragAndDrop({
   //const [feedbackMessage, setFeedbackMessage] = useState('');
   const [shuffledTerms, setShuffledTerms] = useState([]);
   //const isIncorrect = (term, definition) => answers[term] !== definition;
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     // set selection at start just in case
@@ -45,6 +46,7 @@ export default function DragAndDrop({
 
   const handleDragStart = (event, option) => {
     event.dataTransfer.setData("option", option);
+    setIsDragging(true);
   };
 
   const handleDragOver = (event) => {
@@ -53,6 +55,7 @@ export default function DragAndDrop({
 
   const handleDrop = (event, newDefinition) => {
     event.preventDefault();
+    setIsDragging(false);
     const term = event.dataTransfer.getData("option");
     const currentTermInNewDefinition = Object.entries(answers).find(
       ([key, value]) => value === newDefinition,
@@ -95,12 +98,23 @@ export default function DragAndDrop({
                       border={1}
                       p={3}
                       mb={1}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        transition: "background-color 0.5s ease",
+                        "&:hover": {
+                          backgroundColor: "#C0C0C0",
+                          cursor: "grab",
+                        },
+                        cursor: isDragging ? "grabbing" : "grab",
+                      }}
                       backgroundColor={"white"}
                       borderColor={"#3CA3EE"}
                       color={"#3CA3EE"}
                       borderRadius={"10px"}
                       draggable
                       onDragStart={(event) => handleDragStart(event, term.term)}
+                      onDragEnd={() => setIsDragging(false)}
                     >
                       <Typography variant="outline"> </Typography>
                       {term.term}
@@ -112,17 +126,21 @@ export default function DragAndDrop({
           </Paper>
         </Grid>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} marginTop="10px">
           <Grid container spacing={2}>
             {question.options.map(({ term, definition }) => (
-              <Grid item key={term} lg={4}>
+              <Grid item key={term}>
                 <Paper
                   elevation={3}
                   style={{
+                    display: "flex",
+                    flexDirection: "column",
                     padding: "20px",
                     textAlign: "center",
                     backgroundColor: "white",
                     height: "250px",
+                    justifyContent: "center",
+                    width: "100%",
                   }}
                   onDragOver={(event) => handleDragOver(event)}
                   onDrop={(event) => handleDrop(event, definition)}
@@ -131,7 +149,8 @@ export default function DragAndDrop({
                     border={1}
                     p={3}
                     mb={1}
-                    backgroundColor={"white"}
+                    sx={{ display: "flex", justifyContent: "center" }}
+                    backgroundColor={isDragging ? "#C0C0C0" : "white"}
                     borderColor={"#3CA3EE"}
                     color={"#3CA3EE"}
                     borderRadius={"10px"}
