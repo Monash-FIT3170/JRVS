@@ -1,140 +1,155 @@
-import React, { useState } from "react";
-//import { Container, Draggable } from "react-smooth-dnd";
-import { Button, Typography, Grid, Paper, Tooltip, Box } from '@mui/material';
-//import StyledBox from "./StyledBox";
+import React, { useState, useEffect } from "react";
+import { Typography, Grid, Paper, Tooltip, Box } from "@mui/material";
 
-export default function DragAndDrop({ question, index, setSelection, userValues }) {
-    // set constants for answers arr, submitted bool and feedback str
-    const [answers, setAnswers] = useState({});
-    const [submitted, setSubmitted] = useState(false);
-    const [feedbackMessage, setFeedbackMessage] = useState('');
+export default function DragAndDrop({
+  question,
+  index,
+  setSelection,
+  userValues,
+}) {
+  const [answers, setAnswers] = useState({});
+  //const [submitted, setSubmitted] = useState(false);
+  //const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [shuffledTerms, setShuffledTerms] = useState([]);
+  //const isIncorrect = (term, definition) => answers[term] !== definition;
 
-    const handleDragStart = (event, option) => {
-        event.dataTransfer.setData('option', option);
-    };
-    
-    const handleDragOver = (event) => {
-        event.preventDefault();
-    };
+  useEffect(() => {
+    // set selection at start just in case
+    setSelection(question.questionText, answers);
+    // debugging only
+    for (let i = 0; i < question.options.length; i++) {
+      console.log("the ith option's term is: ", question.options[i].term);
+    }
+    console.log("original questions", question.options);
+    if (question?.options) {
+      // check question.options is populated
+      const shuffled = shuffleArray(question.options);
+      setShuffledTerms(shuffled);
+      //setSelection(question.questionText,sh
+      console.log("shuffled terms", shuffled);
+    }
+  }, [question]);
 
-    const handleDrop = (event, newDefinition) => {
-        event.preventDefault();
-        const term = event.dataTransfer.getData('option');
+  // Fisher-Yates shuffle algorithm, source: https://www.geeksforgeeks.org/shuffle-a-given-array-using-fisher-yates-shuffle-algorithm/
+  const shuffleArray = (array) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  };
 
-        // get current term in new def box if applicable
-        const currentTermInNewDefinition = Object.entries(answers).find(([key,value]) => value === newDefinition);
+  const handleDragStart = (event, option) => {
+    event.dataTransfer.setData("option", option);
+  };
 
-        // find the prev definition for dragged term (so we can swap)
-        const previousDefinition = answers[term];
-        const updatedAnswers = {...answers}; // arr to contain updated answers
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
 
-        // if term already in new def box, swap
-        if (currentTermInNewDefinition) {
-            const [currentTerm] = currentTermInNewDefinition; // retrieve current term in definition box
-            updatedAnswers[currentTerm] = previousDefinition; // place the current term into the new term's old definition
-        }
-
-        // update new term to new definition
-        updatedAnswers[term] = newDefinition;
-
-        setAnswers(updatedAnswers); // update
-    };
-
-    const handleSubmit = () => {
-        setSubmitted(true);
-        checkAnswers();
-    };
-
-    const resetQuiz = () => {
-        setAnswers({});
-        setSubmitted(false);
-        setFeedbackMessage('');
-    };
-
-    const checkAnswers = () => {
-        let allCorrect = true;
-        question.terms.forEach((term) => {
-            if (answers[term.term] !== term.definition) {
-                allCorrect = false;
-            }
-        });
-        setFeedbackMessage(allCorrect ? 'Great job! You got all the answers correct!' : 'Oops! Not all answers are correct. Try again!');
-    };
-
-    const isIncorrect = (term, definition) => answers[term] !== definition;
-
-    return (
-        <div>
-            <Grid container direction="column" marginTop='60px'>
-
-                    <Grid item key={question._id}>
-                        <Paper elevation={3} border={1} style={{ padding: '30px', backgroundColor: 'white', width: '100%' }}>
-                            <Typography variant="h6" align="center">{question.questionText}</Typography>
-                            <Grid container spacing={2} justifyContent="center" marginTop='10px'>
-                                {question.terms.map((term) => (
-                                    <Grid item key={term.term} width='32%' align='center'>
-                                        <Tooltip title={submitted && isIncorrect(term.term, answers[term.term]) ? 'Incorrect' : ''}>
-                                            <Box
-                                                border={1} p={3} mb={1} backgroundColor={'white'} borderColor={'#3CA3EE'} color={'#3CA3EE'} borderRadius={'10px'}
-                                                draggable
-                                                onDragStart={(event) => handleDragStart(event, term.term)}
-                                            >
-                                                <Typography variant='outline'> </Typography>{term.term}
-                                            </Box>
-                                        </Tooltip>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </Paper>
-                    </Grid>
-
-                <Grid container spacing={2}>
-                        <Grid container spacing={2}>
-                            {question.terms.map(({ term, definition }) => (
-                                <Grid item key={question} lg={4}>
-                                    <Paper elevation={3}
-                                        style={{
-                                            padding: '20px', textAlign: 'center', backgroundColor: 'white',
-                                            height: '250px'
-                                        }}
-                                        onDragOver={(event) => handleDragOver(event)}
-                                        onDrop={(event) => handleDrop(event, definition)} >
-                                        <Box border={1} p={3} mb={1} backgroundColor={'white'} borderColor={'#3CA3EE'} color={'#3CA3EE'} borderRadius={'10px'}>
-                                            {Object.entries(answers).map(([term, selectedDefinition]) => (
-                                                selectedDefinition === definition && <div key={term}>{term}</div>
-                                            ))}
-                                        </Box>
-                                        <Typography>{definition}</Typography>
-                                    </Paper>
-                                </Grid>
-                            ))}
-                        </Grid>
-                </Grid>
-
-                {!submitted && (
-                    <Grid container direction="row" justifyContent="flex-end" alignItems="center">
-                        <Grid item marginTop='20px'>
-                            <Button variant="contained" color="inherit" onClick={handleSubmit}>
-                                Submit
-                            </Button>
-                        </Grid>
-                    </Grid>
-                )}
-                {submitted && (
-                    <Grid container direction="row" justifyContent="flex-end" alignItems="center" marginTop='10px'>
-                        <Box padding= '30px' marginRight={10} backgroundColor='white'>{feedbackMessage}</Box>
-                        <Button variant="contained" color="inherit" onClick={resetQuiz}>
-                            Try Again
-                        </Button>
-                        <Button variant="contained" color="inherit" onClick={resetQuiz}>
-                            Finish
-                        </Button>
-
-                    </Grid>
-                )}
-            </Grid>
-
-        </div>
+  const handleDrop = (event, newDefinition) => {
+    event.preventDefault();
+    const term = event.dataTransfer.getData("option");
+    const currentTermInNewDefinition = Object.entries(answers).find(
+      ([key, value]) => value === newDefinition,
     );
+    const previousDefinition = answers[term];
+    const updatedAnswers = { ...answers };
 
-}      
+    if (currentTermInNewDefinition) {
+      const [currentTerm] = currentTermInNewDefinition;
+      updatedAnswers[currentTerm] = previousDefinition;
+    }
+
+    updatedAnswers[term] = newDefinition;
+    setAnswers(updatedAnswers);
+    setSelection(question.questionText, updatedAnswers);
+  };
+
+  return (
+    <div>
+      <Grid container direction="column" marginTop="60px">
+        <Grid item key={question._id}>
+          <Paper
+            elevation={3}
+            border={1}
+            style={{ padding: "30px", backgroundColor: "white", width: "100%" }}
+          >
+            <Typography variant="h6" align="center">
+              {question.questionText}
+            </Typography>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              marginTop="10px"
+            >
+              {shuffledTerms.map((term) => (
+                <Grid item key={term.term} width="32%" align="center">
+                  <Tooltip title={term.term}>
+                    <Box
+                      border={1}
+                      p={3}
+                      mb={1}
+                      backgroundColor={"white"}
+                      borderColor={"#3CA3EE"}
+                      color={"#3CA3EE"}
+                      borderRadius={"10px"}
+                      draggable
+                      onDragStart={(event) => handleDragStart(event, term.term)}
+                    >
+                      <Typography variant="outline"> </Typography>
+                      {term.term}
+                    </Box>
+                  </Tooltip>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        </Grid>
+
+        <Grid container spacing={2}>
+          <Grid container spacing={2}>
+            {question.options.map(({ term, definition }) => (
+              <Grid item key={term} lg={4}>
+                <Paper
+                  elevation={3}
+                  style={{
+                    padding: "20px",
+                    textAlign: "center",
+                    backgroundColor: "white",
+                    height: "250px",
+                  }}
+                  onDragOver={(event) => handleDragOver(event)}
+                  onDrop={(event) => handleDrop(event, definition)}
+                >
+                  <Box
+                    border={1}
+                    p={3}
+                    mb={1}
+                    backgroundColor={"white"}
+                    borderColor={"#3CA3EE"}
+                    color={"#3CA3EE"}
+                    borderRadius={"10px"}
+                  >
+                    {Object.entries(answers).map(
+                      ([term, selectedDefinition]) =>
+                        selectedDefinition === definition && (
+                          <div key={term}>{term}</div>
+                        ),
+                    )}
+                  </Box>
+                  <Typography>{definition}</Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
+    </div>
+  );
+}
