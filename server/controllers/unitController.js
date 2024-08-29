@@ -1,3 +1,32 @@
+/**
+ * Handles unit-related operations for the API.
+ *
+ * This module provides functions to manage units and their associated nodes.
+ * The following operations are supported:
+ * - Get a list of all units
+ * - Get a specific unit by ID
+ * - Append a new node to a unit
+ * - Insert a new node into a unit
+ * - Delete a node from a unit and reappend its children
+ * - Get the list of tail node IDs for the tree
+ *
+ * Each function uses the Mongoose models (`unitsModel`, `unitModel`, `lessonModel`, `videoModel`, `quizModel`)
+ * to interact with the MongoDB collections storing unit and node information. Functions are asynchronous
+ * and use `express-async-handler` to handle exceptions within async routes. Errors are properly handled
+ * and returned to the client with appropriate status codes.
+ *
+ * @module unitController
+ * @requires express-async-handler
+ * @requires ../models/unitsModel
+ * @requires ../models/unitModel
+ * @requires ./lessonController
+ * @requires ../models/lessonModel
+ * @requires ../models/videoModel
+ * @requires ../models/quizModel
+ * @throws {Error} Throws errors for unit not found, invalid node types, or issues with node operations.
+ * @returns {Promise<void>} A promise that resolves when the operation is successfully completed.
+ */
+
 const asyncHandler = require("express-async-handler");
 const unitsModel = require("../models/unitsModel");
 const unitModel = require("../models/unitModel");
@@ -6,17 +35,32 @@ const lessonModel = require("../models/lessonModel");
 const videoModel = require("../models/videoModel");
 const quizModel = require("../models/quizModel");
 
-// @desc    Get Unit
-// @route   GET /api/units
-// @access  Private
+/**
+ * @desc    Get a list of all units
+ * @route   GET /api/units
+ * @access  Private
+ * @function getUnits
+ * @async
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the list of units is retrieved and sent in the response.
+ */
 const getUnits = asyncHandler(async (req, res) => {
   const units = await unitsModel.find();
   res.status(200).json(units);
 });
 
-// @desc    Get Unit
-// @route   GET /api/units/:id
-// @access  Private
+/**
+ * @desc    Get a specific unit by ID
+ * @route   GET /api/units/:id
+ * @access  Private
+ * @function getUnit
+ * @async
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the unit is retrieved and sent in the response.
+ * @throws {Error} Throws a 404 error if the unit is not found.
+ */
 const getUnit = asyncHandler(async (req, res) => {
   const unitId = req.params.id;
   const units = await unitModel.find();
@@ -30,9 +74,17 @@ const getUnit = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Append a node to a unit
-// @route   POST /api/units/:id/append
-// @access  Private
+/**
+ * @desc    Append a node to a unit
+ * @route   POST /api/units/:id/append
+ * @access  Private
+ * @function appendNode
+ * @async
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the node is appended successfully.
+ * @throws {Error} Throws errors if the unit is not found, the node type is invalid, or there's an issue with appending the node.
+ */
 const appendNode = asyncHandler(async (req, res) => {
   // Get the inputs
   const { unitId, targetNodeId, newNode, inputSubType } = req.body;
@@ -100,9 +152,17 @@ const appendNode = asyncHandler(async (req, res) => {
     .json({ message: "Node appended successfully", newNode });
 });
 
-// @desc    Append a node to a unit
-// @route   POST /api/units/:id/insert
-// @access  Private
+/**
+ * @desc    Insert a node into a unit
+ * @route   POST /api/units/:id/insert
+ * @access  Private
+ * @function insertNode
+ * @async
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the node is inserted successfully.
+ * @throws {Error} Throws errors if the unit is not found, the node type is invalid, or there's an issue with inserting the node.
+ */
 const insertNode = asyncHandler(async (req, res) => {
   // Get the inputs
   const { unitId, targetNodeId, newNode, inputSubType } = req.body;
@@ -170,7 +230,14 @@ const insertNode = asyncHandler(async (req, res) => {
     .json({ message: "Node inserted successfully", newNode });
 });
 
-// Recursive function to insert the new node
+/**
+ * @function insertChildNode
+ * @desc    Recursively insert a new node into the tree
+ * @param {Object[]} tree - The tree data to insert the node into.
+ * @param {string} nodeId - The ID of the node to insert the new node under.
+ * @param {Object} newNode - The new node to insert.
+ * @returns {boolean} Returns true if the node was successfully inserted, otherwise false.
+ */
 function insertChildNode(tree, nodeId, newNode) {
   for (let node of tree) {
     if (node.id === nodeId) {
@@ -192,7 +259,14 @@ function insertChildNode(tree, nodeId, newNode) {
   return false; // Return false if the target node wasn't found
 }
 
-// Recursive function to append a node to a target node in the learning path
+/**
+ * @function appendChildNode
+ * @desc    Recursively append a new node to a target node's children
+ * @param {Object[]} data - The tree data to append the node to.
+ * @param {string} targetId - The ID of the target node.
+ * @param {Object} newNode - The new node to append.
+ * @returns {boolean} Returns true if the node was successfully appended, otherwise false.
+ */
 function appendChildNode(data, targetId, newNode) {
   for (let item of data) {
     // Log the IDs being compared to help debug
@@ -217,7 +291,12 @@ function appendChildNode(data, targetId, newNode) {
   return false; // Return false if the target node wasn't found
 }
 
-// Create a new lesson in the lessons collection
+/**
+ * @function createLesson
+ * @desc    Create a new lesson document
+ * @param {string} nodeTitle - The title of the new lesson.
+ * @returns {Promise<Object>} A promise that resolves to the created lesson document.
+ */
 async function createLesson(nodeTitle) {
   // Empty node
   generatedNode = await lessonModel.create({
@@ -249,7 +328,12 @@ async function createLesson(nodeTitle) {
   return generatedNode;
 }
 
-// Create a new video in the videos collection
+/**
+ * @function createVideo
+ * @desc    Create a new video document
+ * @param {string} nodeTitle - The title of the new video.
+ * @returns {Promise<Object>} A promise that resolves to the created video document.
+ */
 async function createVideo(nodeTitle) {
   generatedNode = await videoModel.create({
     title: nodeTitle || "New Video",
@@ -266,7 +350,13 @@ async function createVideo(nodeTitle) {
   return generatedNode;
 }
 
-// Create a new quiz in the quiz collection
+/**
+ * @function createQuiz
+ * @desc    Create a new quiz document
+ * @param {string} nodeTitle - The title of the new quiz.
+ * @param {string} quizType - The type of quiz (e.g., TrueFalse).
+ * @returns {Promise<Object>} A promise that resolves to the created quiz document.
+ */
 async function createQuiz(nodeTitle, quizType) {
   generatedNode = await quizModel.create({
     topic: nodeTitle || "New Quiz",
@@ -287,6 +377,17 @@ async function createQuiz(nodeTitle, quizType) {
   return generatedNode;
 }
 
+/**
+ * @desc    Delete a node from a unit and reappend its children
+ * @route   POST /api/units/:id/delete
+ * @access  Private
+ * @function deleteNode
+ * @async
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the node is deleted and its children are reappended.
+ * @throws {Error} Throws errors if the unit is not found, the node is not found, or there is a server error.
+ */
 const deleteNode = asyncHandler(async (req, res) => {
   const { unitId, nodeId } = req.body;
 
@@ -341,6 +442,15 @@ const deleteNode = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * @function removeNodeAndReappendChildren
+ * @desc    Recursively remove a node from the tree and reappend its children to the parent
+ * @param {Object[]} tree - The tree data.
+ * @param {string} nodeId - The ID of the node to remove.
+ * @param {Object|null} parent - The parent node of the node to remove.
+ * @param {Function} onNodeFound - Callback function to handle the removed node.
+ * @returns {boolean} Returns true if the node was successfully removed, otherwise false.
+ */
 function removeNodeAndReappendChildren(tree, nodeId, parent, onNodeFound) {
   for (let i = 0; i < tree.length; i++) {
     if (tree[i].id === nodeId) {
@@ -372,6 +482,12 @@ function removeNodeAndReappendChildren(tree, nodeId, parent, onNodeFound) {
   return false;
 }
 
+/**
+ * @function deleteNodeDocument
+ * @desc    Delete the corresponding lesson, video, or quiz document based on the node type
+ * @param {Object} node - The node to delete.
+ * @returns {Promise<void>} A promise that resolves when the document is deleted.
+ */
 async function deleteNodeDocument(node) {
   switch (node.type) {
     case "lesson":
@@ -388,7 +504,17 @@ async function deleteNodeDocument(node) {
   }
 }
 
-// Function to return object for full tree access. This contains the list of tail nodes id in format for the 'beautiful skill tree' package.
+/**
+ * @desc    Get the list of tail node IDs for the tree
+ * @route   GET /api/units/:id/unlocked
+ * @access  Private
+ * @function getUnlockedTreeData
+ * @async
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the list of tail node IDs is retrieved and sent in the response.
+ * @throws {Error} Throws a 404 error if the unit is not found or a server error.
+ */
 const getUnlockedTreeData = asyncHandler(async (req, res) => {
   const unitId = req.params.id;
 
@@ -416,7 +542,13 @@ const getUnlockedTreeData = asyncHandler(async (req, res) => {
   }
 });
 
-// Recursive function to retrieve the list of child node ids
+/**
+ * @function findTailNodeIds
+ * @desc    Recursively find all tail node IDs in the tree
+ * @param {Object[]} data - The tree data.
+ * @param {string[]} [tailNodeIds=[]] - The array of tail node IDs.
+ * @returns {string[]} The array of tail node IDs.
+ */
 function findTailNodeIds(data, tailNodeIds = []) {
   for (let item of data) {
     // Check if the current node has no children or an empty children array

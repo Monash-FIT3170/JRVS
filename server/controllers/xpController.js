@@ -1,8 +1,30 @@
+/**
+ * @file xpController.js
+ * @description This file contains the controller functions for managing experience points (XP) for users.
+ * It provides functionality for adding XP, retrieving XP within a specified period, and generating leaderboards.
+ * The file uses the XP and User models for database interactions and includes error handling for various operations.
+ *
+ * @requires ../models/xpModel - Mongoose model for experience points.
+ * @requires ../models/userModel - Mongoose model for users.
+ * @requires ../utils/levelUtils - Utility functions for calculating user levels.
+ *
+ * @module xpController
+ * @throws {Error} Throws errors for user not found, validation issues, or problems with database operations.
+ * @returns {Promise<void>} A promise that resolves when the operation is successfully completed.
+ */
+
 const XP = require("../models/xpModel");
 const User = require("../models/userModel");
-
 const { calculateLevel } = require("../utils/levelUtils");
 
+/**
+ * Adds XP for the requesting user and updates their level.
+ *
+ * @async
+ * @param {Object} req - The request object, containing the XP amount in the body and user information from authentication.
+ * @param {Object} res - The response object used to return the created XP entry and updated user level or an error message.
+ * @returns {Promise<void>} A promise that resolves when the XP is added and the user's level is updated.
+ */
 const addXP = async (req, res) => {
   try {
     // Retrieve the requesting user from the request
@@ -35,6 +57,14 @@ const addXP = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves the total XP earned by the requesting user within a specified period.
+ *
+ * @async
+ * @param {Object} req - The request object, containing startDate and endDate query parameters, and user information from authentication.
+ * @param {Object} res - The response object used to return the total XP and XP entries within the period or an error message.
+ * @returns {Promise<void>} A promise that resolves when the total XP and XP entries are retrieved.
+ */
 const getXPWithinPeriod = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
@@ -62,6 +92,14 @@ const getXPWithinPeriod = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves the leaderboard of users based on XP earned within a specified period.
+ *
+ * @async
+ * @param {Object} req - The request object, containing startDate, endDate, and userGroup query parameters, and user information from authentication.
+ * @param {Object} res - The response object used to return the leaderboard or an error message.
+ * @returns {Promise<void>} A promise that resolves when the leaderboard data is retrieved.
+ */
 const getLeaderboard = async (req, res) => {
   try {
     const { startDate, endDate, userGroup } = req.query;
