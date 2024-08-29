@@ -248,7 +248,7 @@ function Lessons() {
           variant="contained"
           className="button-font"
           sx={{
-            ":hover": { backgroundColor: "#2196F3" },
+            ":hover": { backgroundColor: "#F7B92C" },
             marginLeft: "60px",
             padding: "15px",
             borderRadius: "15px",
@@ -277,7 +277,7 @@ function Lessons() {
           variant="contained"
           className="button-font"
           sx={{
-            ":hover": { backgroundColor: "#2196F3" },
+            ":hover": { backgroundColor: "#F7B92C" },
             marginRight: "60px",
             padding: "15px",
             borderRadius: "15px",

@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, TextField } from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import "./editComponents.css";
@@ -91,16 +91,29 @@ export default function EditMultipleImageTextBox({
   return (
     <Box
       sx={{
-        bgcolor: "#3CA3EE",
+        bgcolor: "#6AB6F3",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
         width: "50%",
-        borderRadius: "5px",
+        borderRadius: "15px",
         marginBottom: "20px",
         marginLeft: "70px",
+        position: "relative",
+        padding: "10px",
       }}
     >
       <Box sx={{ padding: "20px" }}>
-        <h2 className="heading-font">{index + 1}. Text & Gallery</h2>
+        <Typography
+          variant="h4"
+          sx={{
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "36px",
+            fontWeight: "600",
+            color: "#FFFFFF",
+            letterSpacing: "0.5px",
+          }}
+        >
+          {index + 1}. Text & Gallery
+        </Typography>
       </Box>
       <Box sx={{ padding: "20px" }}>
         <h2 className="text-font">Heading</h2>
@@ -113,15 +126,13 @@ export default function EditMultipleImageTextBox({
           variant="outlined"
           defaultValue={heading || ""}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: "#F9F6EE",
-              "& fieldset": { border: "0" },
-              "&:hover": { backgroundColor: "#C0C0C0" },
-              "&:hover fieldset:": { border: "0" },
-              "&.Mui-focused fieldset": { border: "0" },
-            },
+            width: "100%",
             marginBottom: "20px",
-            marginTop: "4px",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            "&:hover": {
+              backgroundColor: "#EFEFEF",
+            },
           }}
         />
 
@@ -136,15 +147,13 @@ export default function EditMultipleImageTextBox({
           maxRows={6}
           defaultValue={text || ""}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: "#F9F6EE",
-              "& fieldset": { border: "0" },
-              "&:hover": { backgroundColor: "#C0C0C0" },
-              "&:hover fieldset:": { border: "0" },
-              "&.Mui-focused fieldset": { border: "0" },
-            },
-            marginTop: "4px",
+            width: "100%",
             marginBottom: "20px",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            "&:hover": {
+              backgroundColor: "#EFEFEF",
+            },
           }}
         />
 
@@ -161,14 +170,13 @@ export default function EditMultipleImageTextBox({
               maxRows={2}
               defaultValue={imageSrc ? imageSrc : ""}
               sx={{
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "#F9F6EE",
-                  "& fieldset": { border: "0" },
-                  "&:hover": { backgroundColor: "#C0C0C0" },
-                  "&:hover fieldset:": { border: "0" },
-                  "&.Mui-focused fieldset": { border: "0" },
+                width: "100%",
+                marginBottom: "20px",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                "&:hover": {
+                  backgroundColor: "#EFEFEF",
                 },
-                marginTop: "10px",
               }}
               key={index}
             />
@@ -184,11 +192,11 @@ export default function EditMultipleImageTextBox({
         >
           {currentImageSrcs && currentImageSrcs.length > 0 && (
             <IconButton onClick={handleImageSrcRemove}>
-              <RemoveCircleIcon sx={{ color: "black" }} />
+              <RemoveCircleIcon fontSize="large" sx={{ color: "white" }} />
             </IconButton>
           )}
           <IconButton onClick={handleImageSrcAdd}>
-            <AddCircleIcon sx={{ color: "black" }} />
+            <AddCircleIcon fontSize="large" sx={{ color: "white" }} />
           </IconButton>
         </Box>
       </Box>
@@ -207,8 +215,19 @@ export default function EditMultipleImageTextBox({
           disabled={
             (!headingChanged && !textChanged && !imageSrcsChanged) || !isValid
           }
+          sx={{
+            ":hover": { backgroundColor: "#F7B92C" },
+            "&:disabled": {
+              backgroundColor: "#A9C3D9",
+            },
+            padding: "15px",
+            paddingX: "20px",
+            borderRadius: "10px",
+            backgroundColor: "#FFC93C",
+            pointerEvents: "auto",
+          }}
         >
-          EDIT
+          SAVE
         </Button>
         {!isValid && imageSrcsChanged && (
           <h2 className="error-font" style={{ marginLeft: "5px" }}>

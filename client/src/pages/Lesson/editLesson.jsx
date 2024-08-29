@@ -7,6 +7,7 @@ import {
   Snackbar,
   TextField,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -231,10 +232,10 @@ const EditLesson = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
       <div ref={topRef}></div>
@@ -248,7 +249,7 @@ const EditLesson = () => {
           flexDirection: "column",
           alignItems: "center",
           bgcolor: "white",
-          height: "100%",
+
           justifyContent: "center",
         }}
       >
@@ -354,16 +355,28 @@ const EditLesson = () => {
           >
             <Box
               sx={{
-                borderRadius: "5px",
-                bgcolor: "#3CA3EE",
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                borderRadius: "15px",
+                backgroundColor: "#6AB6F3",
                 width: "50%",
-                padding: "20px",
+                padding: "30px",
+                position: "relative",
                 marginBottom: "20px",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
               }}
             >
               <Box sx={{ marginBottom: "40px" }}>
-                <h2 className="heading-font">Title</h2>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: "36px",
+                    fontWeight: "600",
+                    color: "#FFFFFF",
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  Title
+                </Typography>
               </Box>
               <TextField
                 onChange={handleTitleChange}
@@ -375,15 +388,13 @@ const EditLesson = () => {
                 label="Title"
                 value={currentTitle || ""}
                 sx={{
-                  "& .MuiFilledInput-root": {
-                    backgroundColor: "#F9F6EE",
-                    "& fieldset": { border: "0" },
-                    "&:hover": { backgroundColor: "#C0C0C0" },
-                    "&:hover fieldset:": { border: "0" },
-                    "&.Mui-focused fieldset": { border: "0" },
-                  },
                   width: "100%",
                   marginBottom: "20px",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "#EFEFEF",
+                  },
                 }}
               />
               <Button
@@ -391,8 +402,19 @@ const EditLesson = () => {
                 variant="contained"
                 onClick={() => changeLessonTitle(currentTitle)}
                 disabled={!titleChanged}
+                sx={{
+                  ":hover": { backgroundColor: "#F7B92C" },
+                  "&:disabled": {
+                    backgroundColor: "#A9C3D9",
+                  },
+                  padding: "15px",
+                  paddingX: "20px",
+                  borderRadius: "10px",
+                  backgroundColor: "#FFC93C",
+                  pointerEvents: "auto",
+                }}
               >
-                EDIT
+                Save
               </Button>
             </Box>
             {lesson.content &&
@@ -601,7 +623,7 @@ const EditLesson = () => {
               variant="contained"
               className="button-font"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginRight: "20px",
                 padding: "15px",
                 borderRadius: "15px",

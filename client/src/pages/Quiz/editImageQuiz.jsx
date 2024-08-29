@@ -52,6 +52,7 @@ const EditImageQuiz = () => {
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
+
     const updatedQuestions = [...questions];
     updatedQuestions[index][name] = value;
     setQuestions(updatedQuestions);
@@ -157,10 +158,10 @@ const EditImageQuiz = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
       <Box sx={{ padding: "10px" }}>
@@ -171,8 +172,8 @@ const EditImageQuiz = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          backgroundColor: "#3CA3EE",
-          height: "100%",
+          backgroundColor: "white",
+
           justifyContent: "center",
         }}
       >
@@ -404,8 +405,8 @@ const EditImageQuiz = () => {
                         type: "number",
                       }}
                       sx={{
-                        width: "100%",
-                        marginBottom: "20px",
+                        width: "40%",
+                        display: "flex",
                         backgroundColor: "white",
                         borderRadius: "10px",
                         "&:hover": {

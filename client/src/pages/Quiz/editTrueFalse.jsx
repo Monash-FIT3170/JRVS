@@ -114,8 +114,10 @@ const EditTrueFalse = () => {
   };
 
   const deleteQuestion = (index) => {
-    const updatedQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(updatedQuestions);
+    if (questions.length > 1) {
+      const updatedQuestions = questions.filter((_, i) => i !== index);
+      setQuestions(updatedQuestions);
+    }
   };
 
   const revertQuestion = (index) => {
@@ -142,10 +144,10 @@ const EditTrueFalse = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
       <Box sx={{ padding: "10px" }}>
@@ -157,8 +159,8 @@ const EditTrueFalse = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          backgroundColor: "#3CA3EE",
-          height: "100%",
+          backgroundColor: "white",
+
           justifyContent: "center",
         }}
       >
@@ -305,10 +307,10 @@ const EditTrueFalse = () => {
                         },
 
                         "&.Mui-focused": {
-                          backgroundColor: "white", // Background when focused
+                          backgroundColor: "white",
                         },
                         "& .MuiSelect-icon": {
-                          color: "#333", // Icon color if needed
+                          color: "#333",
                         },
                       }}
                     >
@@ -329,8 +331,8 @@ const EditTrueFalse = () => {
                       type: "number",
                     }}
                     sx={{
-                      width: "100%",
-
+                      width: "40%",
+                      display: "flex",
                       backgroundColor: "white",
                       borderRadius: "10px",
                       "&:hover": {
@@ -400,7 +402,7 @@ const EditTrueFalse = () => {
                 padding: "14px",
               }}
             >
-              Add Question
+              Question
             </Button>
             <Button
               onClick={handleSubmit}

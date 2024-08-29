@@ -91,17 +91,19 @@ const EditShortAnswerQuestion = () => {
   };
 
   const deleteQuestion = (index) => {
-    const updatedQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(updatedQuestions);
+    if (questions.length > 1) {
+      const updatedQuestions = questions.filter((_, i) => i !== index);
+      setQuestions(updatedQuestions);
+    }
   };
 
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
       <Box sx={{ padding: "10px" }}>
@@ -113,8 +115,8 @@ const EditShortAnswerQuestion = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          backgroundColor: "#3CA3EE",
-          height: "100%",
+          backgroundColor: "white",
+
           justifyContent: "center",
         }}
       >
@@ -263,8 +265,8 @@ const EditShortAnswerQuestion = () => {
                       type: "number",
                     }}
                     sx={{
-                      width: "100%",
-                      marginBottom: "20px",
+                      width: "40%",
+                      display: "flex",
                       backgroundColor: "white",
                       borderRadius: "10px",
                       "&:hover": {

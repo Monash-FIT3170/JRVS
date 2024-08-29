@@ -160,10 +160,10 @@ const EditReorderQuestion = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
       <Box sx={{ padding: "10px" }}>
@@ -175,8 +175,8 @@ const EditReorderQuestion = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          backgroundColor: "#3CA3EE",
-          height: "100%",
+          bgcolor: "white",
+
           justifyContent: "center",
         }}
       >
@@ -242,7 +242,7 @@ const EditReorderQuestion = () => {
                         variant="h4"
                         sx={{
                           fontFamily: "Poppins, sans-serif",
-                          fontSize: "48px",
+                          fontSize: "36px",
                           fontWeight: "600",
                           color: "#FFFFFF",
                           letterSpacing: "0.5px",
@@ -302,6 +302,7 @@ const EditReorderQuestion = () => {
                       fontSize: "20px",
                       fontWeight: "600",
                       color: "#FFFFFF",
+                      textDecoration: "underline",
                     }}
                   >
                     Question order
@@ -368,6 +369,7 @@ const EditReorderQuestion = () => {
                       fontSize: "20px",
                       fontWeight: "600",
                       color: "#FFFFFF",
+                      textDecoration: "underline",
                     }}
                   >
                     Answer order
@@ -430,7 +432,25 @@ const EditReorderQuestion = () => {
                         </IconButton>
                       </Box>
                     ))}
-                  <br></br>
+                  <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => {
+                      const updatedQuestions = [...questions];
+                      updatedQuestions[questionIndex].wrongOptions.push("");
+                      updatedQuestions[questionIndex].correctOptions.push("");
+                      setQuestions(updatedQuestions);
+                    }}
+                    sx={{
+                      marginY: "20px",
+                      backgroundColor: "#FFC93C",
+                      ":hover": { backgroundColor: "#F7B92C" },
+                      padding: "14px",
+                      border: "20px",
+                    }}
+                  >
+                    Add Option
+                  </Button>
                   <TextField
                     required
                     variant="filled"
@@ -443,8 +463,8 @@ const EditReorderQuestion = () => {
                       type: "number",
                     }}
                     sx={{
-                      width: "100%",
-
+                      width: "40%",
+                      display: "flex",
                       backgroundColor: "white",
                       borderRadius: "10px",
                       "&:hover": {
@@ -452,26 +472,6 @@ const EditReorderQuestion = () => {
                       },
                     }}
                   />
-
-                  <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => {
-                      const updatedQuestions = [...questions];
-                      updatedQuestions[questionIndex].wrongOptions.push("");
-                      updatedQuestions[questionIndex].correctOptions.push("");
-                      setQuestions(updatedQuestions);
-                    }}
-                    sx={{
-                      marginTop: "20px",
-                      backgroundColor: "#FFC93C",
-                      ":hover": { backgroundColor: "#F7B92C" },
-                      padding: "14px",
-                      border: "20px",
-                    }}
-                  >
-                    Add Option
-                  </Button>
 
                   {error && <p style={{ color: "red" }}>{error}</p>}
                   {successMessage && (

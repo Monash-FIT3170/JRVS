@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useApi } from "../context/ApiProvider";
 
 import Grid from "@mui/material/Unstable_Grid2";
-import { IconButton } from "@mui/material";
+import { IconButton, Button, Typography } from "@mui/material";
 import FaceIcon from "@mui/icons-material/Face";
 import SchoolIcon from "@mui/icons-material/School";
 import Menu from "@mui/material/Menu";
@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Logout from "@mui/icons-material/Logout";
+import { padding } from "@mui/system";
 
 const MenuBar = ({ title, subtitle }) => {
   title = title ? title : "";
@@ -27,11 +28,12 @@ const MenuBar = ({ title, subtitle }) => {
         const token = localStorage.getItem("token");
         const res = await postData("api/auth/current", { token });
         const userData = await getData(`api/users/id/${res.decoded.id}`);
-        console.log(userData);
+
         setUser({
           username: userData.username,
           points: userData.points || 0,
           usertype: userData.usertype,
+          firstname: userData.firstname,
         });
         setIsUserLoading(false);
       } catch (error) {
@@ -116,14 +118,26 @@ const MenuBar = ({ title, subtitle }) => {
         >
           <SchoolIcon fontSize="inherit" />
         </IconButton>
+
         <React.Fragment>
-          <IconButton
-            onClick={handleClick}
-            aria-label="face"
-            style={{ color: "white", fontSize: "40px" }}
-          >
-            <FaceIcon fontSize="inherit" />
-          </IconButton>
+          <Button onClick={handleClick}>
+            <Typography
+              sx={{
+                color: "white",
+                fontSize: "20px",
+                fontWeight: 700,
+                paddingRight: "2px",
+              }}
+            >
+              {user.firstname}
+            </Typography>
+            <IconButton
+              aria-label="face"
+              style={{ color: "white", fontSize: "40px" }}
+            >
+              <FaceIcon fontSize="inherit" />
+            </IconButton>
+          </Button>
 
           <Menu
             anchorEl={anchorEl}
@@ -134,10 +148,35 @@ const MenuBar = ({ title, subtitle }) => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem onClick={handleProfile}>My Profile</MenuItem>
-            <MenuItem onClick={handleDetails}>My Details</MenuItem>
+            <MenuItem
+              onClick={handleProfile}
+              sx={{
+                padding: "16px 28px",
+                fontSize: "18px",
+                justifyContent: "end",
+              }}
+            >
+              My Profile
+            </MenuItem>
+            <MenuItem
+              onClick={handleDetails}
+              sx={{
+                padding: "16px 28px",
+                fontSize: "18px",
+                justifyContent: "end",
+              }}
+            >
+              My Details
+            </MenuItem>
             <Divider />
-            <MenuItem onClick={handleLogout}>
+            <MenuItem
+              onClick={handleLogout}
+              sx={{
+                padding: "16px 28px",
+                fontSize: "18px",
+                justifyContent: "start",
+              }}
+            >
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
