@@ -98,9 +98,6 @@ const EditMultipleChoice = () => {
         question.options.every(
           (option) => option && option.option && option.option.trim() !== "",
         ),
-        question.options.every(
-          (option) => option && option.option && option.option.trim() !== "",
-        ),
     );
   };
 
@@ -453,8 +450,6 @@ const EditMultipleChoice = () => {
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
-                pointerEvents: "auto",
-                paddingX: "30px",
               }}
             >
               Back
