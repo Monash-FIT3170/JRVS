@@ -8,6 +8,7 @@ import Submitted from "../../components/quizComponents/Submitted.jsx";
 import MenuBar from "../../components/MenuBar.jsx";
 import ActionButton from "../../components/quizComponents/ActionButton.jsx";
 import Reorder from "../../components/quizComponents/Reorder.jsx";
+import DragAndDrop from "../../components/quizComponents/DragAndDrop.jsx";
 import ImageQuiz from "../../components/quizComponents/ImageQuiz.jsx";
 
 import { useApi } from "../../context/ApiProvider.jsx";
@@ -77,6 +78,19 @@ function Quizzes() {
             break;
           }
         }
+        if (correct) {
+          correctCount += 1;
+          points += question.points;
+        }
+      } else if (question.type === "DragAndDrop") {
+        let correct = true;
+        question.options.forEach((term) => {
+          if (
+            userValues[question.questionText][term.term] !== term.definition
+          ) {
+            correct = false;
+          }
+        });
         if (correct) {
           correctCount += 1;
           points += question.points;
@@ -183,6 +197,15 @@ function Quizzes() {
       } else if (questions[currentIndex].type === "ImageQuiz") {
         return (
           <ImageQuiz
+            question={questions[currentIndex]}
+            index={currentIndex}
+            setSelection={setSelections}
+            userValues={userValues}
+          />
+        );
+      } else if (questions[currentIndex].type === "DragAndDrop") {
+        return (
+          <DragAndDrop
             question={questions[currentIndex]}
             index={currentIndex}
             setSelection={setSelections}

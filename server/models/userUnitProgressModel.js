@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const userUnitProgressSchema = mongoose.Schema({
-    userId: String,
-    unitId: String,
-    completedLessons: [String]
-})
+  userId: String,
+  unitId: String,
+  completedLessons: [String],
+});
 
-module.exports = mongoose.model('user_progress', userUnitProgressSchema)
+module.exports = mongoose.model("user_progress", userUnitProgressSchema);

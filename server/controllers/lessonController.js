@@ -1,38 +1,35 @@
+const asyncHandler = require("express-async-handler");
 
-const asyncHandler = require('express-async-handler')
+const lessonModel = require("../models/lessonModel");
 
-const lessonModel = require('../models/lessonModel')
+const getLesson = asyncHandler(async (req, res) => {
+  const lessonId = req.params.id;
+  const lesson = await lessonModel.findById(lessonId);
 
+  if (!lesson) {
+    res.status(404).json({ message: "Lesson not found" });
+  } else {
+    res.status(200).json(lesson);
+  }
+});
 
-const getLesson = asyncHandler (async (req, res) => {
-    const lessonId = req.params.id
-    const lesson = await lessonModel.findById(lessonId)
+const updateLesson = asyncHandler(async (req, res) => {
+  const lessonId = req.params.id;
+  const { title, content } = req.body;
 
-    if (!lesson) {
-        res.status(404).json({message: 'Lesson not found'})
-    } else {
-        res.status(200).json(lesson);
-    }
-})
+  const lesson = await lessonModel.findById(lessonId);
 
-const updateLesson = asyncHandler (async (req, res) => {
-    const lessonId = req.params.id;
-    const { title, content } = req.body;
-
-    const lesson = await lessonModel.findById(lessonId);
-
-    if (!lesson) {
-        res.status(404).json({message: 'Lesson not found'});
-    } else {
-        lesson.title = title;
-        lesson.content = content;
-        await lesson.save();
-        res.status(200).json(lesson);
-    }
-
-})
+  if (!lesson) {
+    res.status(404).json({ message: "Lesson not found" });
+  } else {
+    lesson.title = title;
+    lesson.content = content;
+    await lesson.save();
+    res.status(200).json(lesson);
+  }
+});
 
 module.exports = {
-    getLesson,
-    updateLesson
-}
+  getLesson,
+  updateLesson,
+};
