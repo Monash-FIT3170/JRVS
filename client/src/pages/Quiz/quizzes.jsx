@@ -82,6 +82,19 @@ function Quizzes() {
           correctCount += 1;
           points += question.points;
         }
+      } else if (question.type === "DragAndDrop") {
+        let correct = true;
+        question.options.forEach((term) => {
+          if (
+            userValues[question.questionText][term.term] !== term.definition
+          ) {
+            correct = false;
+          }
+        });
+        if (correct) {
+          correctCount += 1;
+          points += question.points;
+        }
       } else {
         if (
           userValues[question.questionText]?.toString() ===
