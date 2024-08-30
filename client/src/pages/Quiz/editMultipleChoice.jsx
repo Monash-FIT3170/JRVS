@@ -159,8 +159,10 @@ const EditMultipleChoice = () => {
   };
 
   const deleteQuestion = (index) => {
-    const updatedQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(updatedQuestions);
+    if (questions.length > 1) {
+      const updatedQuestions = questions.filter((_, i) => i !== index);
+      setQuestions(updatedQuestions);
+    }
   };
 
   const revertQuestion = (index) => {
@@ -184,13 +186,13 @@ const EditMultipleChoice = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
-      <Box sx={{ padding: "10px" }}>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
         <MenuBar />
       </Box>
 
@@ -199,26 +201,34 @@ const EditMultipleChoice = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          bgcolor: "white",
-          height: "100%",
+          backgroundColor: "white",
+
           justifyContent: "center",
         }}
       >
         <Box
           sx={{
             backgroundColor: "white",
-            padding: "60px",
-            borderRadius: "8px",
+            padding: "40px",
+            borderRadius: "30px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "1000px",
+            maxWidth: "1300px",
           }}
         >
           <Typography
             variant="h4"
-            sx={{ paddingBottom: "25px", color: "#333" }}
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              fontSize: "36px",
+              fontWeight: "700",
+              color: "#333",
+              marginBottom: "20px",
+              letterSpacing: "0.5px",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+            }}
           >
             Edit Multiple Choice Quiz
           </Typography>
@@ -232,18 +242,19 @@ const EditMultipleChoice = () => {
                   alignItems: "center",
                   display: "flex",
                   flexDirection: "column",
-                  marginBottom: "20px",
+                  flexGrow: 1,
+                  overflow: "auto",
+                  marginBottom: "40px",
                 }}
               >
                 <Box
                   sx={{
-                    borderRadius: "5px",
-                    backgroundColor: "#3CA3EE",
-                    borderWidth: "2px",
-                    borderColor: "#3CA3EE",
+                    borderRadius: "15px",
+                    backgroundColor: "#6AB6F3",
                     width: "90%",
-                    padding: "20px",
+                    padding: "30px",
                     position: "relative",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                   }}
                 >
                   <Box
@@ -253,27 +264,37 @@ const EditMultipleChoice = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <h3 className="heading-font">
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: "48px",
+                        fontWeight: "600",
+                        color: "#FFFFFF",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
                       {index + 1} | True or False{" "}
-                    </h3>
+                    </Typography>
+
                     <Box>
                       <IconButton
                         onClick={() => moveQuestion(index, -1)}
                         disabled={index === 0}
                       >
-                        <ArrowUpwardIcon />
+                        <ArrowUpwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() => moveQuestion(index, 1)}
                         disabled={index === questions.length - 1}
                       >
-                        <ArrowDownwardIcon />
+                        <ArrowDownwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton onClick={() => deleteQuestion(index)}>
-                        <DeleteIcon />
+                        <DeleteIcon fontSize="large" />
                       </IconButton>
                       <IconButton onClick={() => revertQuestion(index)}>
-                        <UndoIcon />
+                        <UndoIcon fontSize="large" />
                       </IconButton>
                     </Box>
                   </Box>
@@ -289,17 +310,10 @@ const EditMultipleChoice = () => {
                     sx={{
                       width: "100%",
                       marginBottom: "20px",
-                      "& .MuiOutlinedInput-root": {
-                        backgroundColor: "#F9F6EE",
-                        "& fieldset": { borderColor: "black" },
-                        "&:hover": { backgroundColor: "#C0C0C0" },
-                        "&:hover fieldset:": { borderColor: "black" },
-                        "&.Mui-focused fieldset": { borderColor: "black" },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "black",
-                        backgroundColor: "#3CA3EE",
-                        borderRadius: "5px",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
                       },
                     }}
                   />
@@ -324,18 +338,11 @@ const EditMultipleChoice = () => {
                         minRows={1}
                         sx={{
                           width: "100%",
-                          marginBottom: "20px",
-                          "& .MuiOutlinedInput-root": {
-                            backgroundColor: "#F9F6EE",
-                            "& fieldset": { borderColor: "black" },
-                            "&:hover": { backgroundColor: "#C0C0C0" },
-                            "&:hover fieldset:": { borderColor: "black" },
-                            "&.Mui-focused fieldset": { borderColor: "black" },
-                          },
-                          "& .MuiInputLabel-root": {
-                            color: "black",
-                            backgroundColor: "#3CA3EE",
-                            borderRadius: "5px",
+
+                          backgroundColor: "white",
+                          borderRadius: "10px",
+                          "&:hover": {
+                            backgroundColor: "#EFEFEF",
                           },
                         }}
                       />
@@ -343,7 +350,7 @@ const EditMultipleChoice = () => {
                         onClick={() => deleteOption(index, optionIndex)}
                         sx={{ marginLeft: "10px" }}
                       >
-                        <DeleteIcon />
+                        <DeleteIcon fontSize="large" />
                       </IconButton>
 
                       <FormControlLabel
@@ -365,7 +372,7 @@ const EditMultipleChoice = () => {
                               );
                             }}
                             sx={{
-                              color: "#000",
+                              color: "#black",
                               "&.Mui-checked": { color: "#000" },
                               "& .MuiSvgIcon-root": {
                                 borderRadius: "50%",
@@ -392,9 +399,15 @@ const EditMultipleChoice = () => {
                     onClick={() => addOption(index)}
                     variant="contained"
                     startIcon={<AddIcon />}
-                    sx={{ marginTop: "10px" }}
+                    sx={{
+                      marginY: "20px",
+                      backgroundColor: "#FFC93C",
+                      ":hover": { backgroundColor: "#F7B92C" },
+                      padding: "14px",
+                      border: "20px",
+                    }}
                   >
-                    Add Option
+                    Add Options
                   </Button>
 
                   <TextField
@@ -409,20 +422,12 @@ const EditMultipleChoice = () => {
                       type: "number",
                     }}
                     sx={{
-                      width: "100%",
-                      marginTop: "20px",
-                      marginBottom: "20px",
-                      "& .MuiOutlinedInput-root": {
-                        backgroundColor: "#F9F6EE",
-                        "& fieldset": { borderColor: "black" },
-                        "&:hover": { backgroundColor: "#C0C0C0" },
-                        "&:hover fieldset:": { borderColor: "black" },
-                        "&.Mui-focused fieldset": { borderColor: "black" },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "black",
-                        backgroundColor: "#3CA3EE",
-                        borderRadius: "5px",
+                      width: "40%",
+                      display: "flex",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
                       },
                     }}
                   />
@@ -466,10 +471,10 @@ const EditMultipleChoice = () => {
               variant="contained"
               className="button-font"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginLeft: "20px",
                 marginBottom: "60px",
-                padding: "15px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
@@ -485,7 +490,9 @@ const EditMultipleChoice = () => {
                 marginBottom: "60px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
+                borderRadius: "10px",
+                padding: "14px",
               }}
             >
               Add Question
@@ -494,13 +501,14 @@ const EditMultipleChoice = () => {
               onClick={handleSubmit}
               variant="contained"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginRight: "20px",
                 marginBottom: "60px",
-                padding: "15px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
+                paddingX: "30px",
               }}
               disabled={!isFormComplete()}
             >

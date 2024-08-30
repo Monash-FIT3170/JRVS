@@ -36,6 +36,7 @@ import MenuBar from "../components/MenuBar";
 import PasswordChangePopup from "../components/PasswordChangePopup";
 import Select from "react-select";
 import "../index.css";
+import { Box } from "@mui/material";
 
 const EditProfile = () => {
   // Create the hooks for the different inputs
@@ -147,10 +148,12 @@ const EditProfile = () => {
   }, [getData]);
 
   return (
-    <div className="App-page" style={{ height: "100vh" }}>
-      <MenuBar />
+    <div className="App-page" style={{ height: "100vh", width: "100vw" }}>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
+        <MenuBar />
+      </Box>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ width: "100%" }}>
         {/* Row 1 */}
         <Grid xs={2}></Grid>
         <Grid xs={8}>

@@ -137,8 +137,10 @@ const EditTrueFalse = () => {
   };
 
   const deleteQuestion = (index) => {
-    const updatedQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(updatedQuestions);
+    if (questions.length > 1) {
+      const updatedQuestions = questions.filter((_, i) => i !== index);
+      setQuestions(updatedQuestions);
+    }
   };
 
   const revertQuestion = (index) => {
@@ -165,13 +167,13 @@ const EditTrueFalse = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
-      <Box sx={{ padding: "10px" }}>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
         <MenuBar />
       </Box>
 
@@ -180,8 +182,8 @@ const EditTrueFalse = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          bgcolor: "white",
-          height: "100%",
+          backgroundColor: "white",
+
           justifyContent: "center",
         }}
       >
@@ -189,12 +191,12 @@ const EditTrueFalse = () => {
           sx={{
             backgroundColor: "white",
             padding: "40px",
-            borderRadius: "8px",
+            borderRadius: "30px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "1000px",
+            maxWidth: "1300px",
           }}
         >
           <Typography
@@ -328,10 +330,10 @@ const EditTrueFalse = () => {
                         },
 
                         "&.Mui-focused": {
-                          backgroundColor: "white", // Background when focused
+                          backgroundColor: "white",
                         },
                         "& .MuiSelect-icon": {
-                          color: "#333", // Icon color if needed
+                          color: "#333",
                         },
                       }}
                     >
@@ -352,8 +354,8 @@ const EditTrueFalse = () => {
                       type: "number",
                     }}
                     sx={{
-                      width: "100%",
-
+                      width: "40%",
+                      display: "flex",
                       backgroundColor: "white",
                       borderRadius: "10px",
                       "&:hover": {
@@ -398,13 +400,14 @@ const EditTrueFalse = () => {
               variant="contained"
               className="button-font"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginLeft: "20px",
                 marginBottom: "60px",
-                padding: "15px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
+                paddingX: "30px",
               }}
             >
               Back
@@ -418,21 +421,24 @@ const EditTrueFalse = () => {
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
                 ":hover": { backgroundColor: "#F7B92C" },
+                borderRadius: "10px",
+                padding: "14px",
               }}
             >
-              Add Question
+              Question
             </Button>
             <Button
               onClick={handleSubmit}
               variant="contained"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginRight: "20px",
                 marginBottom: "60px",
-                padding: "15px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
                 pointerEvents: "auto",
+                paddingX: "30px",
               }}
               disabled={!isFormComplete()}
             >

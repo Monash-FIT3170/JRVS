@@ -257,7 +257,9 @@ function Quizzes() {
         overflow: "auto",
       }}
     >
-      <MenuBar />
+      <Box sx={{ padding: "10px" }}>
+        <MenuBar />
+      </Box>
       <Grid
         container
         direction="column"
