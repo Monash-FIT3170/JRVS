@@ -1,3 +1,11 @@
+/**
+ * @file unitRoutes.js
+ * @description Express routes for managing units, including retrieving, appending, inserting, and deleting nodes, and getting unlocked tree data.
+ * @module unitRoutes
+ * @requires express
+ * @requires ../controllers/unitController
+ */
+
 const express = require("express");
 const router = express.Router();
 const {
