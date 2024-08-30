@@ -26,6 +26,9 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
+    ],
+    "setupFiles": [
+      "./jest/setEnvVars.js"
     ]
   },
   "devDependencies": {

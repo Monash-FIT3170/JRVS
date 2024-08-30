@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 const { faker } = require("@faker-js/faker");
 const dotenv = require("dotenv").config();
 const request = require("supertest");
-// const app = require("../server")
+const app = require("../server");
 
 jest.setTimeout(30000);
 
@@ -74,41 +74,39 @@ describe("Database Tests", () => {
   });
 });
 
-// describe("API Tests", () =>{
+describe("API Tests", () => {
+  beforeAll(async () => {
+    try {
+      await client.connect();
+      const db = client.db("test");
+      usersCollection = db.collection("users");
+    } catch (err) {
+      console.error("Error connecting to the database:", err);
+    }
+  });
 
-//   beforeAll(async () => {
-//     try {
-//       await client.connect();
-//       const db = client.db("test");
-//       usersCollection = db.collection("users");
-//     } catch (err) {
-//       console.error("Error connecting to the database:", err);
-//     }
-//   });
+  it("tests /users endpoint - positive test", async () => {
+    const response = await request(app).get("/users");
+    expect(response.statusCode).toBe(200);
+  });
 
-//   it("tests /users endpoint - positive test", async () => {
-//     const response = await request(app).get("users");
-//     expect(response.body).toHaveLength(3);
-//     expect(response.statusCode).toBe(200);
-// });
+  // it("test adding user", (done) => {
+  //     let user = {username: faker.internet.userName(), firstname: faker.person.firstName() , lastname: faker.person.lastName(), email: faker.internet.email(), school: "monash", password: faker.internet.password()};
+  //     const response = request(app)
+  //     .post('/users')
+  //     .send()
+  //     .set('Accept', 'application/json')
+  //     .expect(200)
+  //     .expect((res) => {
+  //       res.body.username = user.username;
+  //     })
+  //     .end((err, res) => {
+  //       if (err) return done(err);
+  //         return done();
+  //     })
+  // })
 
-// it("test adding user", (done) => {
-//     let user = {username: faker.internet.userName(), firstname: faker.person.firstName() , lastname: faker.person.lastName(), email: faker.internet.email(), school: "monash", password: faker.internet.password()};
-//     const response = request(app)
-//     .post('/users')
-//     .send()
-//     .set('Accept', 'application/json')
-//     .expect(200)
-//     .expect((res) => {
-//       res.body.username = user.username;
-//     })
-//     .end((err, res) => {
-//       if (err) return done(err);
-//         return done();
-//     })
-// })
-
-//   afterAll(async () => {
-//     await client.close();
-//   });
-// })
+  afterAll(async () => {
+    await client.close();
+  });
+});
