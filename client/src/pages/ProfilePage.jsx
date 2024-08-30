@@ -7,7 +7,7 @@ import DefaultButton from "../components/DefaultButton";
 import "../assets/styles/App.css";
 import { useApi } from "../context/ApiProvider";
 import Avatar from "../components/characterCustomization/Avatar";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import CustomButton from "../components/CustomButton"; // Import CustomButton
 
 const ProfilePage = () => {
@@ -124,9 +124,15 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="App-page">
-      <MenuBar />
-      <Grid container spacing={2} style={{ padding: "0 30px 0 20px" }}>
+    <div className="App-page" style={{ maxWidth: "100vw" }}>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
+        <MenuBar />
+      </Box>
+      <Grid
+        container
+        spacing={2}
+        style={{ padding: "0 30px 0 20px", width: "100%" }}
+      >
         <Grid xs={10} style={{ padding: "0 0 10px 40px" }}>
           <h2
             style={{

@@ -77,7 +77,9 @@ const EditVideo = () => {
         overflow: "auto",
       }}
     >
-      <MenuBar />
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
+        <MenuBar />
+      </Box>
       <Box
         sx={{
           position: "relative",
