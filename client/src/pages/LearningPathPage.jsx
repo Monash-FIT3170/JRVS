@@ -392,7 +392,7 @@ const LearningPathPage = () => {
   }
 
   return (
-    <div style={{ backgroundColor: "#3CA3EE" }}>
+    <div style={{ backgroundColor: "#3CA3EE", minHeight: "100vh" }}>
       <Box sx={{ padding: "10px" }}>
         <Menu title={learningPathTitle} subtitle="Learning Path" />
       </Box>{" "}
