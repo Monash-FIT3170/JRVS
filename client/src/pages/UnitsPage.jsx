@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useApi } from "../context/ApiProvider";
 import UnitCard from "../components/UnitCard";
 import MenuBar from "../components/MenuBar";
+import { Box } from "@mui/material";
 
 const UnitsPage = () => {
   const { getData } = useApi();
@@ -33,22 +34,24 @@ const UnitsPage = () => {
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: "100vw" }}>
       <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/icon?family=Material+Icons"
       ></link>
 
-      <MenuBar
-        title="Unit Overview"
-        subtitle="Get ready to learn more about AI today"
-      ></MenuBar>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
+        <MenuBar
+          title="Unit Overview"
+          subtitle="Get ready to learn more about AI today"
+        ></MenuBar>
+      </Box>
       <Grid
         container
         rowSpacing={6}
         columnSpacing={5}
         padding={10}
-        backgroundColor="white"
+        width="100vw"
       >
         {isUnitLoading ? (
           <div className="spinner"></div>

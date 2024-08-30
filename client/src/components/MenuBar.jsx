@@ -10,7 +10,14 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Logout from "@mui/icons-material/Logout";
-import { padding } from "@mui/system";
+import { bgcolor, padding } from "@mui/system";
+
+const shortenString = (str, num) => {
+  if (str.length <= num) {
+    return str;
+  }
+  return str.slice(0, num) + "...";
+};
 
 const MenuBar = ({ title, subtitle }) => {
   title = title ? title : "";
@@ -85,14 +92,14 @@ const MenuBar = ({ title, subtitle }) => {
       >
         <p className="russo-one-regular text-5xl text-white">JRVS</p>
       </Grid>
-      <Grid xs={15}></Grid>
+      <Grid xs={13}></Grid>
       <Grid
-        xs={5}
+        xs={7}
         style={{
           color: "white",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "right",
         }}
       >
         {user.usertype === "student" && (
@@ -101,6 +108,7 @@ const MenuBar = ({ title, subtitle }) => {
               padding: "10px",
               backgroundColor: "#FFC700",
               borderRadius: "20px",
+              marginRight: "10px",
             }}
           >
             <p className="russo-one-regular text-4xl">
@@ -114,7 +122,7 @@ const MenuBar = ({ title, subtitle }) => {
         <IconButton
           href="/units"
           aria-label="school"
-          style={{ color: "white", fontSize: "40px" }}
+          style={{ color: "white", fontSize: "40px", marginRight: "10px" }}
         >
           <SchoolIcon fontSize="inherit" />
         </IconButton>
@@ -129,7 +137,7 @@ const MenuBar = ({ title, subtitle }) => {
                 paddingRight: "2px",
               }}
             >
-              {user.firstname}
+              {user.firstname && shortenString(user.firstname, 7)}
             </Typography>
             <IconButton
               aria-label="face"
