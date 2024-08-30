@@ -52,6 +52,7 @@ const EditLesson = () => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [showList, setShowList] = useState(false);
   const sectionRefs = useRef([]);
+  const boxRef = useRef(null);
 
   const handleBackClick = () => {
     navigate(-1); // Go back to the previous page
@@ -70,17 +71,21 @@ const EditLesson = () => {
   };
 
   const handleScrollPosition = () => {
-    if (window.scrollY > 0) {
-      setShowList(true);
-    } else {
-      setShowList(false);
+    if (boxRef.current) {
+      if (boxRef.current.scrollTop > 0) {
+        setShowList(true);
+      } else {
+        setShowList(false);
+      }
     }
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScrollPosition);
+    if (boxRef.current)
+      boxRef.current.addEventListener("scroll", handleScrollPosition);
     return () => {
-      window.removeEventListener("scroll", handleScrollPosition);
+      if (boxRef.current)
+        boxRef.current.removeEventListener("scroll", handleScrollPosition);
     };
   }, []);
 
@@ -231,6 +236,7 @@ const EditLesson = () => {
 
   return (
     <Box
+      ref={boxRef}
       sx={{
         width: "100vw",
         height: "100vh",
@@ -239,7 +245,7 @@ const EditLesson = () => {
       }}
     >
       <div ref={topRef}></div>
-      <Box sx={{ padding: "10px" }}>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
         <MenuBar title="Edit Lesson" subtitle={lesson.title || "Loading..."} />
       </Box>
 
@@ -249,7 +255,6 @@ const EditLesson = () => {
           flexDirection: "column",
           alignItems: "center",
           bgcolor: "white",
-
           justifyContent: "center",
         }}
       >
@@ -414,7 +419,7 @@ const EditLesson = () => {
                   pointerEvents: "auto",
                 }}
               >
-                Save
+                EDIT
               </Button>
             </Box>
             {lesson.content &&
@@ -489,7 +494,6 @@ const EditLesson = () => {
           elevation={0}
           sx={{
             ":hover": { opacity: 1 },
-            top: "auto",
             left: 0,
             bgcolor: "transparent",
             height: "100vh",

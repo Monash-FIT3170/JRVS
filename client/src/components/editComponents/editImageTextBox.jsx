@@ -181,7 +181,7 @@ export default function EditImageTextBox({
             pointerEvents: "auto",
           }}
         >
-          SAVE
+          EDIT
         </Button>
         {!isValid && (
           <h2 className="error-font" style={{ marginLeft: "5px" }}>

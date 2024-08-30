@@ -158,7 +158,7 @@ export default function EditListBox({ heading, points, index, updateContent }) {
             pointerEvents: "auto",
           }}
         >
-          SAVE
+          EDIT
         </Button>
       </Box>
     </Box>

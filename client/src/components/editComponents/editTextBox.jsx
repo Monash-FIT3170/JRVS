@@ -118,7 +118,7 @@ export default function EditTextBox({ heading, text, index, updateContent }) {
             pointerEvents: "auto",
           }}
         >
-          SAVE
+          EDIT
         </Button>
       </Box>
     </Box>

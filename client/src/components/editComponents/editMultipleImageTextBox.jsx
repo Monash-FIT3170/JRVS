@@ -227,7 +227,7 @@ export default function EditMultipleImageTextBox({
             pointerEvents: "auto",
           }}
         >
-          SAVE
+          EDIT
         </Button>
         {!isValid && imageSrcsChanged && (
           <h2 className="error-font" style={{ marginLeft: "5px" }}>
