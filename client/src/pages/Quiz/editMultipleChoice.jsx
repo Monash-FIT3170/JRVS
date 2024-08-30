@@ -169,7 +169,7 @@ const EditMultipleChoice = () => {
         overflow: "auto",
       }}
     >
-      <Box sx={{ padding: "10px" }}>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
         <MenuBar />
       </Box>
 
