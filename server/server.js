@@ -1,3 +1,36 @@
+/**
+ * @file server.js
+ * @description This file sets up and configures the Express server for the application. 
+ * It connects to the database, initializes middleware, and defines routes for various APIs, 
+ * including authentication, goals, badges, quizzes, lessons, and more.
+ * 
+ * @module Server
+ * @requires path
+ * @requires express
+ * @requires colors
+ * @requires dotenv
+ * @requires ./middleware/errorMiddleware
+ * @requires ./config/db
+ * @requires cors
+ * @requires ./routes/auth
+ * @requires ./routes/goalRoutes
+ * @requires ./routes/badgeRoutes
+ * @requires ./routes/quizRoutes
+ * @requires ./routes/lessonRoutes
+ * @requires ./routes/unitRoutes
+ * @requires ./routes/userRoutes
+ * @requires ./routes/videoRoutes
+ * @requires ./routes/schoolRoutes
+ * @requires ./routes/lessonProgressRoutes
+ * @requires ./routes/xpRoutes
+ * @requires ./routes/userUnitProgressRoutes
+ * @example
+ * // Run the server
+ * node server.js
+ * @returns {void}
+ */
+
+
 const path = require("path");
 const express = require("express");
 const colors = require("colors");

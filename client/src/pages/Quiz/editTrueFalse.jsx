@@ -1,3 +1,26 @@
+/**
+ * @file editTrueFalse.js
+ * @description This component provides an interface for editing True/False quiz questions within a specific quiz. It allows users to view, modify, reorder, delete, and add new True/False questions. The component fetches existing questions from an API, provides forms for editing each question, and handles form submissions to update the quiz. It also provides navigation and error handling to ensure the user can easily manage the quiz questions.
+ *
+ * @module editTrueFalse
+ * @requires AppBar, Box, Button, TextField, Toolbar, IconButton, InputLabel, MenuItem, FormControl, Select, Typography from @mui/material
+ * @requires MenuBar from "../../components/MenuBar"
+ * @requires useNavigate, useParams from react-router-dom
+ * @requires useEffect, useState from React
+ * @requires useApi from "../../context/ApiProvider"
+ * @requires ArrowUpwardIcon, ArrowDownwardIcon, DeleteIcon, AddIcon, UndoIcon from "@mui/icons-material"
+ *
+ * @example
+ * // Example usage:
+ * import editTrueFalse from './editTrueFalse';
+ *
+ * function App() {
+ *   return <editTrueFalse />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered interface for editing True/False quiz questions, including forms for editing, adding new questions, and navigation buttons.
+ */
+
 import {
   AppBar,
   Box,
@@ -68,7 +91,11 @@ const EditTrueFalse = () => {
   const isFormComplete = () => {
     return questions.every(
       (question) =>
-        question && question.questionText && question.questionText.trim() !== "" && question.answer && question.answer !== "",
+        question &&
+        question.questionText &&
+        question.questionText.trim() !== "" &&
+        question.answer &&
+        question.answer !== "",
     );
   };
 
@@ -110,8 +137,10 @@ const EditTrueFalse = () => {
   };
 
   const deleteQuestion = (index) => {
-    const updatedQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(updatedQuestions);
+    if (questions.length > 1) {
+      const updatedQuestions = questions.filter((_, i) => i !== index);
+      setQuestions(updatedQuestions);
+    }
   };
 
   const revertQuestion = (index) => {
@@ -138,13 +167,13 @@ const EditTrueFalse = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
-      <Box sx={{ padding: "10px" }}>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
         <MenuBar />
       </Box>
 
@@ -153,28 +182,36 @@ const EditTrueFalse = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          bgcolor: "white",
-          height: "100%",
+          backgroundColor: "white",
+
           justifyContent: "center",
         }}
       >
         <Box
           sx={{
             backgroundColor: "white",
-            padding: "60px",
-            borderRadius: "8px",
+            padding: "40px",
+            borderRadius: "30px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "1000px",
+            maxWidth: "1300px",
           }}
         >
           <Typography
             variant="h4"
-            sx={{ paddingBottom: "25px", color: "#333" }}
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              fontSize: "36px",
+              fontWeight: "700",
+              color: "#333",
+              marginBottom: "20px",
+              letterSpacing: "0.5px",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+            }}
           >
-            Edit True/False Questions
+            Edit True or False Quiz
           </Typography>
 
           {!isLoading &&
@@ -186,18 +223,19 @@ const EditTrueFalse = () => {
                   alignItems: "center",
                   display: "flex",
                   flexDirection: "column",
-                  marginBottom: "20px",
+                  flexGrow: 1,
+                  overflow: "auto",
+                  marginBottom: "40px",
                 }}
               >
                 <Box
                   sx={{
-                    borderRadius: "5px",
-                    backgroundColor: "#3CA3EE",
-                    borderWidth: "2px",
-                    borderColor: "#3CA3EE",
+                    borderRadius: "15px",
+                    backgroundColor: "#6AB6F3",
                     width: "90%",
-                    padding: "20px",
+                    padding: "30px",
                     position: "relative",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                   }}
                 >
                   <Box
@@ -207,34 +245,43 @@ const EditTrueFalse = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <h3 className="heading-font">
-                      {index + 1} | True or False{" "}
-                    </h3>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: "36px",
+                        fontWeight: "600",
+                        color: "#FFFFFF",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      {index + 1} True Or False {""}
+                    </Typography>
                     <Box>
                       <IconButton
                         onClick={() => moveQuestion(index, -1)}
                         disabled={index === 0}
                       >
-                        <ArrowUpwardIcon />
+                        <ArrowUpwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() => moveQuestion(index, 1)}
                         disabled={index === questions.length - 1}
                       >
-                        <ArrowDownwardIcon />
+                        <ArrowDownwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton onClick={() => deleteQuestion(index)}>
-                        <DeleteIcon />
+                        <DeleteIcon fontSize="large" />
                       </IconButton>
                       <IconButton onClick={() => revertQuestion(index)}>
-                        <UndoIcon />
+                        <UndoIcon fontSize="large" />
                       </IconButton>
                     </Box>
                   </Box>
 
                   <TextField
                     required
-                    variant="outlined"
+                    variant="filled"
                     label="Question Text"
                     name="questionText"
                     value={question.questionText}
@@ -243,24 +290,18 @@ const EditTrueFalse = () => {
                     minRows={4}
                     sx={{
                       width: "100%",
+
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
+                      },
                       marginBottom: "20px",
-                      "& .MuiOutlinedInput-root": {
-                        backgroundColor: "#F9F6EE",
-                        "& fieldset": { borderColor: "black" },
-                        "&:hover": { backgroundColor: "#C0C0C0" },
-                        "&:hover fieldset:": { borderColor: "black" },
-                        "&.Mui-focused fieldset": { borderColor: "black" },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "black",
-                        backgroundColor: "#3CA3EE",
-                        borderRadius: "5px",
-                      },
                     }}
                   />
                   <FormControl
                     required
-                    variant="outlined"
+                    variant="filled"
                     sx={{ width: "100%", marginBottom: "20px" }}
                   >
                     <InputLabel
@@ -279,18 +320,20 @@ const EditTrueFalse = () => {
                       value={question.answer}
                       onChange={(e) => handleInputChange(e, index)}
                       sx={{
-                        backgroundColor: "#F9F6EE",
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "black",
-                        },
+                        width: "100%",
+
+                        backgroundColor: "white",
+                        borderRadius: "10px",
+
                         "&:hover": {
-                          backgroundColor: "#C0C0C0",
+                          backgroundColor: "#EFEFEF",
                         },
-                        "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "black",
+
+                        "&.Mui-focused": {
+                          backgroundColor: "white",
                         },
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "black",
+                        "& .MuiSelect-icon": {
+                          color: "#333",
                         },
                       }}
                     >
@@ -301,7 +344,7 @@ const EditTrueFalse = () => {
 
                   <TextField
                     required
-                    variant="outlined"
+                    variant="filled"
                     label="Points"
                     name="points"
                     value={question.points}
@@ -311,19 +354,12 @@ const EditTrueFalse = () => {
                       type: "number",
                     }}
                     sx={{
-                      width: "100%",
-                      marginBottom: "20px",
-                      "& .MuiOutlinedInput-root": {
-                        backgroundColor: "#F9F6EE",
-                        "& fieldset": { borderColor: "black" },
-                        "&:hover": { backgroundColor: "#C0C0C0" },
-                        "&:hover fieldset:": { borderColor: "black" },
-                        "&.Mui-focused fieldset": { borderColor: "black" },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "black",
-                        backgroundColor: "#3CA3EE",
-                        borderRadius: "5px",
+                      width: "40%",
+                      display: "flex",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
                       },
                     }}
                   />
@@ -347,7 +383,7 @@ const EditTrueFalse = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
-          pointerEvents: 'none'
+          pointerEvents: "none",
         }}
       >
         <Toolbar>
@@ -364,13 +400,14 @@ const EditTrueFalse = () => {
               variant="contained"
               className="button-font"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginLeft: "20px",
                 marginBottom: "60px",
-                padding: "15px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: 'auto'
+                pointerEvents: "auto",
+                paddingX: "30px",
               }}
             >
               Back
@@ -382,23 +419,26 @@ const EditTrueFalse = () => {
               sx={{
                 marginBottom: "60px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: 'auto',
-                ":hover": { backgroundColor: "#2196F3" },
+                pointerEvents: "auto",
+                ":hover": { backgroundColor: "#F7B92C" },
+                borderRadius: "10px",
+                padding: "14px",
               }}
             >
-              Add Question
+              Question
             </Button>
             <Button
               onClick={handleSubmit}
               variant="contained"
               sx={{
-                ":hover": { backgroundColor: "#2196F3" },
+                ":hover": { backgroundColor: "#F7B92C" },
                 marginRight: "20px",
                 marginBottom: "60px",
-                padding: "15px",
+                padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
-                pointerEvents: 'auto'
+                pointerEvents: "auto",
+                paddingX: "30px",
               }}
               disabled={!isFormComplete()}
             >

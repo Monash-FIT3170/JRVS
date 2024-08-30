@@ -1,5 +1,5 @@
 :root {
-  --app-blue: #3CA3EE;
+  --app-blue: #3ca3ee;
 }
 
 .App {
@@ -41,7 +41,6 @@
   }
 }
 
-
 .spinner {
   border: 16px solid #3498db;
   border-top: 16px solid #f3f3f3;
@@ -52,18 +51,35 @@
   margin: auto;
 }
 
+.custom-swal-popup {
+  background-color: #ffffff;
+  border: 8px solid #6086c0 !important; /* Replace with your desired border style */
+  border-radius: 10px !important; /* Adjust border radius if needed */
+}
+
+.custom-swal-title {
+  color: #000000;
+}
+
+.custom-swal-text {
+  color: #ffffff;
+}
+
 div.unit-card:hover {
   box-shadow: 3px 3px 5px rgb(153, 153, 153);
   transition: 0.8s;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .App-page {
   background-color: var(--app-blue);
   align-items: center;
   justify-content: center;
 }
-

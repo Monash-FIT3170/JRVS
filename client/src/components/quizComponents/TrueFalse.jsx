@@ -1,3 +1,27 @@
+/**
+ * @file TrueFalse.js
+ * @description React component for rendering a true/false question with radio buttons using Material-UI components. It displays a question, allows users to select their answer, and handles changes to update the selection state.
+ * @module TrueFalse
+ * @requires @mui/material/Radio
+ * @requires @mui/material/RadioGroup
+ * @requires @mui/material/FormControlLabel
+ * @requires @mui/material/Typography
+ * @requires @mui/material/FormControl
+ * @requires @mui/material/Grid
+ * @requires ./StyledBox
+ * @param {Object} props - Component properties.
+ * @param {Object} props.question - The question object containing the question text and options.
+ * @param {number} props.index - The index of the current question.
+ * @param {Function} props.setSelection - Function to update the selected answer for the question.
+ * @param {Object} props.userValues - An object containing the user's selected values for the questions.
+ * @returns {JSX.Element} A Material-UI Grid containing the question and radio button options for true/false answers.
+ * @example
+ * // Example usage of TrueFalse
+ * const question = { questionText: 'Is the sky blue?', options: [{option: 'True', value: 'true'}, {option: 'False', value: 'false'}] };
+ * <TrueFalse question={question} index={0} setSelection={handleSelection} userValues={userAnswers} />
+ */
+
+
 import {
   Radio,
   RadioGroup,

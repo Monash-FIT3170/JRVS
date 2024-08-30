@@ -1,3 +1,10 @@
+/**
+ * @file App.jsx
+ * @description Main application component that sets up routing for the entire application using React Router.
+ * This file defines all routes and their associated components, including protected routes that require authentication.
+ *
+ */
+
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Lessons from "./pages/Lesson/lessons";
@@ -18,6 +25,7 @@ import EditTrueFalse from "./pages/Quiz/editTrueFalse";
 import EditImageQuiz from "./pages/Quiz/editImageQuiz";
 import EditVideo from "./pages/Video/editVideo";
 import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
+import EditDragDrop from "./pages/Quiz/EditDragDrop";
 import EditMultipleChoice from "./pages/Quiz/editMultipleChoice";
 import EditReorderQuestion from "./pages/Quiz/EditReorder";
 
@@ -62,6 +70,17 @@ const App = () => {
             exact
             path="/quiz/short-answer/edit/:quizId"
             element={<EditShortAnswerQuestion />}
+          />
+        </Route>
+        <Route
+          exact
+          path="/quiz/drag-drop/edit/:quizId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/quiz/drag-drop/edit/:quizId"
+            element={<EditDragDrop />}
           />
         </Route>
         <Route

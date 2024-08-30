@@ -1,3 +1,30 @@
+/**
+ * @file TrueFalse.js
+ * @description React component for a True/False question with selectable buttons using Material-UI. The component displays the question, an optional image, and provides buttons for user responses. It visually indicates correctness and disables options after selection.
+ * @module TrueFalse
+ * @requires @mui/material/Typography
+ * @requires @mui/material/FormControl
+ * @requires @mui/material/Grid
+ * @requires @mui/material/Button
+ * @requires ./StyledBox
+ * @param {Object} props - Component properties.
+ * @param {Object} props.question - The question object containing the question text, options, and answer.
+ * @param {number} props.index - The index of the current question.
+ * @param {Function} props.setSelection - Function to update the user's selected answer.
+ * @param {Object} props.userValues - An object containing the user's current answers.
+ * @returns {JSX.Element} A Material-UI Grid containing a True/False question with selectable buttons for the options, styled with a custom `StyledBox` component.
+ * @example
+ * // Example usage of TrueFalse
+ * const question = {
+ *   questionText: 'Is the Earth round?',
+ *   options: [{ value: 'true', option: 'True' }, { value: 'false', option: 'False' }],
+ *   answer: 'true',
+ *   image: '/path/to/image.jpg'
+ * };
+ * <TrueFalse question={question} index={1} setSelection={handleSelection} userValues={userAnswers} />
+ */
+
+
 import {
   Typography,
   FormControl,

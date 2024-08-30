@@ -1,9 +1,31 @@
+/**
+ * @file Submitted.js
+ * @description React component that displays a submission result page after a quiz or activity is completed. It shows the score, total score, and rewards points, and triggers a confetti animation for successful attempts.
+ * @module Submitted
+ * @requires @mui/material/Button
+ * @requires @mui/material/Typography
+ * @requires @mui/material/Box
+ * @requires @mui/material/Grid
+ * @requires react
+ * @requires react-confetti
+ * @requires ../../components/content/botBox
+ * @requires react-router-dom
+ * @param {Object} props - Component properties.
+ * @param {number} props.score - The user's score in the quiz or activity.
+ * @param {number} props.totalScore - The total possible score for the quiz or activity.
+ * @param {number} props.points - The points awarded to the user for their performance.
+ * @returns {JSX.Element} A Material-UI Grid displaying the results, score, and a button to return to the learning path.
+ * @example
+ * // Example usage of Submitted
+ * <Submitted score={8} totalScore={10} points={50} />
+ */
+
+
 import { Button, Typography, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import BotBox from "../../components/content/botBox";
 import { useParams, useNavigate } from "react-router-dom";
-
 
 export default function Submitted({ score, totalScore, points }) {
   const [showConfetti, setShowConfetti] = useState(true);
