@@ -1,3 +1,21 @@
+/**
+ * @file CustomButton.js
+ * @description A custom-styled button component using Material-UI's Button component. It applies a specific set of styles and allows for additional customization through props.
+ * @module CustomButton
+ * @requires react
+ * @requires @mui/material/Button
+ * @requires @mui/material/styles
+ * @param {Function} onClick - Function to handle button click events.
+ * @param {string} text - Text to be displayed on the button.
+ * @param {Object} style - Additional styles to override the default custom button styles.
+ * @param {Object} props - Additional properties to be passed to the Button component.
+ * @example
+ * // Example usage of CustomButton
+ * <CustomButton onClick={handleClick} text="Submit" />
+ * @returns {JSX.Element} A Material-UI Button with custom styles.
+ */
+
+
 // src/components/CustomButton.js
 import React from "react";
 import Button from "@mui/material/Button";

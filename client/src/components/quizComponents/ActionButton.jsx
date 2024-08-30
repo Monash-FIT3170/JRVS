@@ -1,3 +1,20 @@
+/**
+ * @file ActionButton.js
+ * @description A customizable button component using Material-UI's Button component. Designed to handle click events and provide a distinct visual style with specific hover and active state styles.
+ * @module ActionButton
+ * @requires @mui/material/Button
+ * @param {Object} props - Component properties.
+ * @param {Function} props.onClick - Callback function to handle button clicks.
+ * @param {React.ReactNode} props.children - Content to be displayed inside the button (e.g., text or icons).
+ * @returns {JSX.Element} A Material-UI Button component styled with custom colors, padding, and hover effects.
+ * @example
+ * // Example usage of ActionButton
+ * <ActionButton onClick={() => alert('Button clicked!')}>
+ *   Click Me
+ * </ActionButton>
+ */
+
+
 import React from "react";
 import { Button } from "@mui/material";
 

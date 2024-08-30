@@ -1,5 +1,6 @@
 /**
- * Handles school-related operations for the API.
+ * @file schoolController.js
+ * @description Handles school-related operations for the API.
  *
  * This module provides functions to retrieve a list of schools from the database.
  * The following operation is supported:

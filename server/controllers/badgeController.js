@@ -1,5 +1,6 @@
 /**
- * Handles badge-related operations for the API.
+ * @file badgeController.js
+ * @description Handles badge-related operations for the API.
  *
  * This module provides functions to perform CRUD operations on badges in the database.
  * The following operations are supported:

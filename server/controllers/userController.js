@@ -1,5 +1,6 @@
 /**
- * Handles user-related operations for the API.
+ * @file userController.js
+ * @description Handles user-related operations for the API.
  *
  * This module provides functions to manage user accounts and their associated data.
  * The following operations are supported:

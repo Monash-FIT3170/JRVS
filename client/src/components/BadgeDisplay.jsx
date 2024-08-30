@@ -1,3 +1,24 @@
+/**
+ * @file BadgeContainer.js
+ * @description React component that renders a container for displaying user badges with tooltips. The component uses Material-UI's Tooltip for displaying badge details on hover and dynamically loads badge images.
+ * @module BadgeContainer
+ * @requires react
+ * @requires @mui/material/Tooltip
+ * @requires @mui/material/styles
+ * @requires ../assets/images/Badge1.png
+ * @requires ../assets/images/Badge2.png
+ * @requires ../assets/images/Badge3.png
+ * @requires ../assets/images/Badge4.png
+ * @requires ../assets/images/Badge_Shop.png
+ * @param {Object} badges - Object containing badge data including image path, name, description, and time achieved.
+ * @returns {JSX.Element} A container component that displays badges in a grid layout with hoverable tooltips showing badge details.
+ * @example
+ * // Example usage of BadgeContainer
+ * const badges = [{ name: 'Badge1', description: 'First badge', timeAchieved: Date.now(), imagePath: 'Badge1' }];
+ * <BadgeContainer badges={badges} />
+ */
+
+
 import React from "react";
 import Badge1 from "../assets/images/Badge1.png";
 import Badge2 from "../assets/images/Badge2.png";

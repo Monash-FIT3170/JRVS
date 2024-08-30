@@ -1,3 +1,30 @@
+/**
+ * @file EditTextBox.js
+ * @description A component that provides an editable text box with a heading and content area. It allows users to modify the heading and text content, and save the changes with an "EDIT" button. The component manages its own state for tracking changes and updates the content via a callback function.
+ * @module EditTextBox
+ * @requires @mui/material/Box
+ * @requires @mui/material/Button
+ * @requires @mui/material/TextField
+ * @requires @mui/icons-material/Edit
+ * @param {Object} props - Component properties.
+ * @param {string} props.heading - The initial heading text for the text box.
+ * @param {string} props.text - The initial content text for the text box.
+ * @param {number} props.index - The index of the text box within a list of items, used for identifying which text box to update.
+ * @param {Function} props.updateContent - Callback function to update the content when the "EDIT" button is clicked. Receives the index and an object with updated heading and text.
+ * @returns {JSX.Element} A styled Box component containing editable TextFields for heading and text, and a button to save changes.
+ * @example
+ * // Example usage of EditTextBox
+ * <EditTextBox
+ *   heading="Initial Heading"
+ *   text="Initial content goes here..."
+ *   index={0}
+ *   updateContent={(index, updatedContent) => {
+ *     console.log("Updated content for index", index, ":", updatedContent);
+ *   }}
+ * />
+ */
+
+
 import { Box, Button, TextField } from "@mui/material";
 import "./editComponents.css";
 import { useState } from "react";

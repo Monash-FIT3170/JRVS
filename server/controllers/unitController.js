@@ -1,5 +1,6 @@
 /**
- * Handles unit-related operations for the API.
+ * @file unitController.js
+ * @description Handles unit-related operations for the API.
  *
  * This module provides functions to manage units and their associated nodes.
  * The following operations are supported:

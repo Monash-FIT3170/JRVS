@@ -1,5 +1,6 @@
 /**
- * Connects to the MongoDB database using Mongoose.
+ * @file db.js
+ * @description Connects to the MongoDB database using Mongoose.
  *
  * This function establishes a connection to the MongoDB database specified
  * in the `MONGO_URI` environment variable. Upon successful connection, it logs

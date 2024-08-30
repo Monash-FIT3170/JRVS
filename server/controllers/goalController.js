@@ -1,5 +1,6 @@
 /**
- * Handles goal-related operations for the API.
+ * @file goalController.js
+ * @description Handles goal-related operations for the API.
  *
  * This module provides functions to perform CRUD operations on goals in the database.
  * The following operations are supported:

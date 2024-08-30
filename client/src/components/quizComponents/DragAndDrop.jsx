@@ -1,3 +1,32 @@
+/**
+ * @file DragAndDrop.js
+ * @description React component for a drag-and-drop matching exercise where users drag terms to match with their definitions. It utilizes Material-UI components and supports drag-and-drop functionality with visual feedback.
+ * @module DragAndDrop
+ * @requires @mui/material/Typography
+ * @requires @mui/material/Grid
+ * @requires @mui/material/Paper
+ * @requires @mui/material/Tooltip
+ * @requires @mui/material/Box
+ * @param {Object} props - Component properties.
+ * @param {Object} props.question - The question object containing the question text and options (terms and definitions) for the drag-and-drop exercise.
+ * @param {number} props.index - The index of the current question.
+ * @param {Function} props.setSelection - Function to update the user's selections.
+ * @param {Object} props.userValues - An object containing the user's current answers.
+ * @returns {JSX.Element} A Material-UI Grid containing a drag-and-drop matching exercise with terms and definitions, styled with Paper and Box components.
+ * @example
+ * // Example usage of DragAndDrop
+ * const question = {
+ *   questionText: 'Match the terms with their definitions:',
+ *   options: [
+ *     { term: 'Term1', definition: 'Definition1' },
+ *     { term: 'Term2', definition: 'Definition2' },
+ *     // more terms and definitions
+ *   ],
+ * };
+ * <DragAndDrop question={question} index={1} setSelection={handleSelection} userValues={userAnswers} />
+ */
+
+
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, Paper, Tooltip, Box } from "@mui/material";
 

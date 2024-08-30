@@ -1,5 +1,6 @@
 /**
- * Handles quiz-related operations for the API.
+ * @file quizController.js
+ * @description Handles quiz-related operations for the API.
  *
  * This module provides functions to perform CRUD operations on quizzes in the database.
  * The following operations are supported:

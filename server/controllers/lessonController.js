@@ -1,5 +1,6 @@
 /**
- * Handles lesson-related operations for the API.
+ * @file lessonController.js
+ * @description Handles lesson-related operations for the API.
  *
  * This module provides functions to perform operations on lessons in the database.
  * The following operations are supported:

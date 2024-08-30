@@ -1,3 +1,34 @@
+/**
+ * @file ImageSelector.js
+ * @description A set of React components for displaying and selecting images in various categories such as avatars, backgrounds, and borders. Includes components for displaying images with overlays indicating selection or lock status.
+ * @module ImageSelector
+ * @requires @mui/material/Unstable_Grid2
+ * @requires ../../assets/images/greenTick.png
+ * @requires ../../assets/images/locked.png
+ * @requires ../../assets/images/avatars/*.png
+ * @requires ../../assets/images/backgrounds/*.png
+ * @requires ../../assets/images/borders/*.png
+ * 
+ * @exports Avatars
+ * @exports Borders
+ * @exports Backgrounds
+ * 
+ * @param {Object} props - The component props.
+ * @param {Array<string>} props.unlocked - List of names of unlocked items.
+ * @param {Function} props.change - Function to call when an item is selected.
+ * @param {string} props.current - Name of the currently selected item.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * @example
+ * <Avatars 
+ *   unlocked={['avatar1.png', 'avatar2.png']} 
+ *   change={(selected) => console.log('Selected:', selected)} 
+ *   current='avatar1.png' 
+ * />
+ */
+
+
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Tick from '../../assets/images/greenTick.png';

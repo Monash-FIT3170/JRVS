@@ -1,5 +1,6 @@
 /**
- * Handles user unit progress operations for the API.
+ * @file userUnitProgressController.js
+ * @description Handles user unit progress operations for the API.
  *
  * This module provides functions to manage the progress of users in specific units.
  * The following operations are supported:

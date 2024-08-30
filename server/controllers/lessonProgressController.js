@@ -1,5 +1,6 @@
 /**
- * Handles lesson progress-related operations for the API.
+ * @file lessonProgressController.js
+ * @description Handles lesson progress-related operations for the API.
  *
  * This module provides functions to perform operations on lesson progress in the database.
  * The following operations are supported:
