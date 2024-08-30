@@ -1,3 +1,12 @@
+/**
+ * @file xpRoutes.js
+ * @description Express routes for managing experience points (XP), including adding XP, retrieving XP within a period, and getting the leaderboard.
+ * @module xpRoutes
+ * @requires express
+ * @requires ../controllers/xpController
+ * @requires ../middleware/authMiddleware
+ */
+
 const express = require("express");
 const router = express.Router();
 const {

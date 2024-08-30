@@ -1,3 +1,30 @@
+/**
+ * @file BotBox.js
+ * @description A React component that displays a box containing a 3D model of the JRVS mascot using the Spline library. The component allows customization of the box's appearance and the 3D model based on the provided avatar state.
+ * @module BotBox
+ * @requires @mui/material/Box
+ * @requires @splinetool/react-spline
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} [props.backgroundColor='#E6EBEF'] - The background color of the box.
+ * @param {string} [props.width='350px'] - The width of the box.
+ * @param {string} [props.height='400px'] - The height of the box.
+ * @param {string} [props.boxShadow='0px 4px 4px rgba(0, 0, 0, 0.25)'] - The box shadow of the box.
+ * @param {string} [props.avatarState='blue'] - The state of the avatar, which determines the 3D model scene to be displayed.
+ * 
+ * @returns {JSX.Element} The rendered BotBox component.
+ * 
+ * @example
+ * <BotBox 
+ *   backgroundColor="#FFFFFF" 
+ *   width="400px" 
+ *   height="500px" 
+ *   boxShadow="0px 6px 6px rgba(0, 0, 0, 0.3)" 
+ *   avatarState="red" 
+ * />
+ */
+
+
 import { Box } from "@mui/material";
 import Spline from '@splinetool/react-spline';
 

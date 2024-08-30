@@ -1,3 +1,28 @@
+/**
+ * @file Reorder.js
+ * @description React component for a reorderable list question using react-smooth-dnd for drag-and-drop functionality. It allows users to reorder a list of options and updates the selection accordingly.
+ * @module Reorder
+ * @requires react
+ * @requires react-smooth-dnd
+ * @requires @mui/material/ListItem
+ * @requires @mui/material/ListItemText
+ * @requires @mui/material/Grid
+ * @requires @mui/material/Typography
+ * @requires ./StyledBox
+ * @requires ../../components/content/botBox
+ * @param {Object} props - Component properties.
+ * @param {Object} props.question - The question object containing the question text and options.
+ * @param {number} props.index - The index of the current question.
+ * @param {Function} props.setSelection - Function to update the user's reordered list.
+ * @param {Object} props.userValues - An object containing the user's current answers or selected options.
+ * @returns {JSX.Element} A Material-UI Grid with draggable list items for reordering, styled with a custom `StyledBox` component.
+ * @example
+ * // Example usage of Reorder
+ * const question = { questionText: 'Order these items:', wrongOptions: ['A', 'B', 'C'] };
+ * <Reorder question={question} index={0} setSelection={handleSelection} userValues={userAnswers} />
+ */
+
+
 import React, { useEffect } from "react";
 import { Container, Draggable } from "react-smooth-dnd";
 import { ListItem, ListItemText, Grid, Typography } from "@mui/material";

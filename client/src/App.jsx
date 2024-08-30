@@ -1,3 +1,10 @@
+/**
+ * @file App.jsx
+ * @description Main application component that sets up routing for the entire application using React Router.
+ * This file defines all routes and their associated components, including protected routes that require authentication.
+ *
+ */
+
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Lessons from "./pages/Lesson/lessons";

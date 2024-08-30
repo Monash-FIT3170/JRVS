@@ -1,3 +1,11 @@
+/**
+ * @file badgeRoutes.js
+ * @description Express routes for managing badges, including retrieving, creating, updating, and deleting badges.
+ * @module badgeRoutes
+ * @requires express
+ * @requires ../controllers/badgeController
+ */
+
 const express = require("express");
 const router = express.Router();
 const {

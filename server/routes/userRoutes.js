@@ -1,3 +1,12 @@
+/**
+ * @file userRoutes.js
+ * @description Express routes for managing users, including creating users, updating user details, and retrieving user information.
+ * @module userRoutes
+ * @requires express
+ * @requires ../middleware/authMiddleware
+ * @requires ../controllers/userController
+ */
+
 const express = require("express");
 const router = express.Router();
 const authenticate = require("../middleware/authMiddleware"); // Import the authenticate middleware

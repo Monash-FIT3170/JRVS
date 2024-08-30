@@ -1,3 +1,39 @@
+/**
+ * @file userController.js
+ * @description Handles user-related operations for the API.
+ *
+ * This module provides functions to manage user accounts and their associated data.
+ * The following operations are supported:
+ * - Create a new user
+ * - Update user points
+ * - Fetch user data by username or ID
+ * - Update user avatar, border, and background
+ * - Update user personal details
+ * - Update unlocked avatars, borders, and backgrounds
+ * - Add badges to user profiles
+ * - Fetch all users or specific student data
+ * - Retrieve the profile of the currently logged-in user
+ * - Allow a student to join a teacher using a sharable code
+ * - Update the user password
+ *
+ * Each function uses the Mongoose models (`userModel`, `xpModel`) to interact with MongoDB
+ * collections storing user and experience data. Functions are asynchronous and use
+ * `express-async-handler` to handle exceptions within async routes. Encryption and decryption
+ * operations are managed using the `crypto` module. Errors are handled and returned to the
+ * client with appropriate status codes.
+ *
+ * @module userController
+ * @requires express-async-handler
+ * @requires mongoose
+ * @requires crypto
+ * @requires ../models/userModel
+ * @requires ../models/xpModel
+ * @requires ../utils/levelUtils
+ * @throws {Error} Throws errors for encryption/decryption failures, user not found, invalid inputs,
+ *                  or issues with user operations.
+ * @returns {Promise<void>} A promise that resolves when the operation is successfully completed.
+ */
+
 const mongoose = require("mongoose");
 
 // controllers/userController.js
@@ -7,6 +43,13 @@ const XP = require("../models/xpModel");
 const crypto = require("crypto");
 const { calculateLevel } = require("../utils/levelUtils");
 
+/**
+ * Encrypts a given text using AES-256-CBC encryption.
+ *
+ * @param {string} text - The text to encrypt.
+ * @returns {string} The encrypted text in hexadecimal format.
+ * @throws {Error} If encryption fails.
+ */
 const encrypt = (text) => {
   try {
     const key = Buffer.from(process.env.ENCRYPTION_KEY);
@@ -21,6 +64,13 @@ const encrypt = (text) => {
   }
 };
 
+/**
+ * Decrypts a given text using AES-256-CBC decryption.
+ *
+ * @param {string} text - The encrypted text in hexadecimal format.
+ * @returns {string} The decrypted text.
+ * @throws {Error} If decryption fails.
+ */
 const decrypt = (text) => {
   if (!text || text.length < 2) {
     return "0"; // Handle this scenario appropriately
@@ -38,7 +88,14 @@ const decrypt = (text) => {
   }
 };
 
-// Create a new user
+/**
+ * Creates a new user in the database.
+ *
+ * @route POST /users
+ * @access Public
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const createUser = asyncHandler(async (req, res) => {
   const { username } = req.body;
 
@@ -75,6 +132,14 @@ const createUser = asyncHandler(async (req, res) => {
 //     });
 // });
 
+/**
+ * Updates the points of a user.
+ *
+ * @route PUT /users/points
+ * @access Private
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const updatePoints = asyncHandler(async (req, res) => {
   const { newPoints } = req.body;
   const user = req.user; // Get the logged-in user from the middleware
@@ -122,7 +187,14 @@ const updatePoints = asyncHandler(async (req, res) => {
   });
 });
 
-// Fetch specific user data by username
+/**
+ * Fetches a specific user's data by username.
+ *
+ * @route GET /users/:username
+ * @access Public
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const getUserByUsername = asyncHandler(async (req, res) => {
   const { username } = req.params;
   const user = await User.findOne({ username });
@@ -134,7 +206,14 @@ const getUserByUsername = asyncHandler(async (req, res) => {
   res.json({ ...user._doc, points: decryptedPoints });
 });
 
-// Fetch specific user data by ID
+/**
+ * Fetches a specific user's data by ID.
+ *
+ * @route GET /users/id/:id
+ * @access Public
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const getUserById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id);
@@ -146,6 +225,14 @@ const getUserById = asyncHandler(async (req, res) => {
   res.json({ ...user._doc, points: decryptedPoints });
 });
 
+/**
+ * Updates a user's avatar, border, and background.
+ *
+ * @route PUT /users/avatar
+ * @access Private
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const updateAvatar = asyncHandler(async (req, res) => {
   const { username, avatar, border, background } = req.body;
   const user = await User.findOne({ username });
@@ -159,6 +246,14 @@ const updateAvatar = asyncHandler(async (req, res) => {
   await user.save();
 });
 
+/**
+ * Updates a user's personal details.
+ *
+ * @route PUT /users/details
+ * @access Private
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const updateDetails = asyncHandler(async (req, res) => {
   const {
     firstname,
@@ -185,6 +280,14 @@ const updateDetails = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "User details updated successfully" });
 });
 
+/**
+ * Updates the unlocked avatars, borders, and backgrounds for a user.
+ *
+ * @route PUT /users/unlocked
+ * @access Private
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const updateUnlocked = asyncHandler(async (req, res) => {
   const { username, unlockedAvatars, unlockedBorders, unlockedBackgrounds } =
     req.body;
@@ -204,6 +307,14 @@ const updateUnlocked = asyncHandler(async (req, res) => {
   await user.save();
 });
 
+/**
+ * Adds a new badge to a user's profile.
+ *
+ * @route POST /users/badges
+ * @access Private
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 const addBadge = asyncHandler(async (req, res) => {
   const { username, newBadgeId } = req.body;
   const user = await User.findOne({ username });
@@ -216,6 +327,14 @@ const addBadge = asyncHandler(async (req, res) => {
   await user.save();
 });
 
+/**
+ * Fetches all users from the database, returning specific fields.
+ *
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object used to return user data.
+ * @returns {Promise<void>} A promise that resolves when all users are fetched.
+ */
 const getAllUsers = asyncHandler(async (req, res) => {
   try {
     const users = await User.find({}, "username _id school"); // Select only username, _id, and school fields
@@ -230,6 +349,14 @@ const getAllUsers = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * Fetches specific student data based on provided student IDs.
+ *
+ * @async
+ * @param {Object} req - The request object, containing student IDs.
+ * @param {Object} res - The response object used to return student data.
+ * @returns {Promise<void>} A promise that resolves when student data is fetched.
+ */
 const getStudents = asyncHandler(async (req, res) => {
   const { studentIds } = req.body; // Assuming studentIds are sent in the request body
   console.log(studentIds);
@@ -246,6 +373,12 @@ const getStudents = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * Retrieves the profile of the currently logged-in user.
+ *
+ * @param {Object} req - The request object, containing user data.
+ * @param {Object} res - The response object used to return the user profile.
+ */
 const getProfile = (req, res) => {
   try {
     const user = req.user;
@@ -259,6 +392,15 @@ const getProfile = (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+/**
+ * Allows a student to join a teacher using a sharable code.
+ *
+ * @async
+ * @param {Object} req - The request object, containing the sharable code.
+ * @param {Object} res - The response object used to return the join status.
+ * @returns {Promise<void>} A promise that resolves when the student joins the teacher.
+ */
 const joinTeacher = asyncHandler(async (req, res) => {
   const { sharableCode } = req.body;
   const studentId = req.user._id;
@@ -289,6 +431,14 @@ const joinTeacher = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Successfully joined the teacher" });
 });
 
+/**
+ * Updates the password for a user after verifying the old password.
+ *
+ * @async
+ * @param {Object} req - The request object, containing username, old password, and new password.
+ * @param {Object} res - The response object used to return the update status.
+ * @returns {Promise<void>} A promise that resolves when the password is updated.
+ */
 const updatePassword = asyncHandler(async (req, res) => {
   const { username, oldPassword, newPassword } = req.body;
   const user = await User.findOne({ username });

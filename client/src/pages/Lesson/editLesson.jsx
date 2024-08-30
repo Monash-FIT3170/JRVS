@@ -1,3 +1,39 @@
+/**
+ * @file editLesson Component
+ *
+ * @description This component provides an interface for editing a lesson. It includes functionalities to
+ * view, modify, and save lesson details, including adding, deleting, and updating content
+ * sections. The component uses Material-UI components for layout and styling, and interacts
+ * with an API to fetch and update lesson data.
+ *
+ * @module editLesson
+ * @requires @mui/material/AppBar
+ * @requires @mui/material/Box
+ * @requires @mui/material/Button
+ * @requires @mui/material/CircularProgress
+ * @requires @mui/material/Fade
+ * @requires @mui/material/Snackbar
+ * @requires @mui/material/TextField
+ * @requires @mui/material/Toolbar
+ * @requires ../../components/MenuBar
+ * @requires react-router-dom
+ * @requires ../../context/ApiProvider
+ * @requires ../../components/editComponents/editTextBox
+ * @requires ../../components/editComponents/editListBox
+ * @requires ../../components/editComponents/editImageTextBox
+ * @requires ../../components/editComponents/editMultipleImageTextBox
+ * @requires ../../components/editComponents/editOptionsBox
+ * @requires @mui/icons-material/Add
+ * @requires @mui/icons-material/Notes
+ * @requires @mui/icons-material/List
+ * @requires @mui/icons-material/Image
+ * @requires @mui/icons-material/BurstMode
+ * @requires @mui/icons-material/Edit
+ * @requires @mui/icons-material/History
+ *
+ * @returns {JSX.Element} The rendered editLesson component.
+ */
+
 import {
   AppBar,
   Box,

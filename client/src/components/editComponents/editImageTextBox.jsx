@@ -1,3 +1,32 @@
+/**
+ * @file EditImageTextBox.js
+ * @description A React component for editing a combination of text and an image URL. The component allows users to update a heading, text content, and an image link. It validates the image URL and provides feedback to ensure the entered URL is valid.
+ * @module EditImageTextBox
+ * @requires @mui/material/Box
+ * @requires @mui/material/Button
+ * @requires @mui/material/TextField
+ * @requires @mui/icons-material/Edit
+ * @requires React
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} props.heading - The heading for the image text box.
+ * @param {string} props.text - The text content associated with the image.
+ * @param {string} props.imageSrc - The URL of the image to be displayed.
+ * @param {number} props.index - The index of the image text box in the parent component.
+ * @param {Function} props.updateContent - Function to update the content when changes are saved.
+ * 
+ * @returns {JSX.Element} The rendered EditImageTextBox component.
+ * 
+ * @example
+ * <EditImageTextBox
+ *   heading="Sample Heading"
+ *   text="Sample text content"
+ *   imageSrc="https://example.com/image.png"
+ *   index={0}
+ *   updateContent={(index, updatedContent) => console.log(index, updatedContent)}
+ * />
+ */
+
 import { Box, Button, TextField, Typography } from "@mui/material";
 import "./editComponents.css";
 import { useEffect, useState } from "react";

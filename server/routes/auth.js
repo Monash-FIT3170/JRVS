@@ -1,3 +1,13 @@
+/**
+ * @file authRoutes.js
+ * @description Express routes for user authentication, including registration, login, and retrieving the current user from a JWT token.
+ * @module authRoutes
+ * @requires express
+ * @requires jsonwebtoken
+ * @requires ../models/userModel
+ * @requires crypto
+ */
+
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
@@ -5,7 +15,13 @@ const crypto = require("crypto");
 
 const router = express.Router();
 
-// Register route
+/**
+ * @route POST /register
+ * @description Register a new user.
+ * @access Public
+ * @param {Object} req.body - The user details for registration.
+ * @returns {Object} A response object containing a success message or error details.
+ */
 router.post("/register", async (req, res) => {
   if (!req.body.usertype) {
     return res.status(400).json({ error: "Please select a usertype" });
@@ -71,7 +87,13 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login route
+/**
+ * @route POST /login
+ * @description Authenticate a user and generate a JWT token.
+ * @access Public
+ * @param {Object} req.body - The username and password for login.
+ * @returns {Object} A response object containing the JWT token or error details.
+ */
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -90,6 +112,13 @@ router.post("/login", async (req, res) => {
   }
 });
 
+/**
+ * @route POST /current
+ * @description Verify and decode the JWT token to retrieve the current user.
+ * @access Public
+ * @param {Object} req.body - The JWT token to be verified.
+ * @returns {Object} A response object containing the decoded token information.
+ */
 router.post("/current", async (req, res) => {
   const { token } = req.body;
   const decoded = jwt.verify(token, process.env.JWT_SECRET);

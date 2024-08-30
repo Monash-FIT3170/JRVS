@@ -1,3 +1,11 @@
+/**
+ * @file videoRoutes.js
+ * @description Express routes for managing videos, including retrieving, creating, and updating video records.
+ * @module videoRoutes
+ * @requires express
+ * @requires ../controllers/videoController
+ */
+
 const express = require("express");
 const router = express.Router();
 const {

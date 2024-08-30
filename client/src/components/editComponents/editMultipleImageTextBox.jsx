@@ -1,3 +1,33 @@
+/**
+ * @file editMultipleImageTextBox.js
+ * @description A React component for editing a content item consisting of a heading, text, and multiple image URLs. This component allows users to update the heading, text, and image sources dynamically and provides validation feedback on the image URLs.
+ * @module editMultipleImageTextBox
+ * @requires @mui/material/Box
+ * @requires @mui/material/Button
+ * @requires @mui/material/IconButton
+ * @requires @mui/material/TextField
+ * @requires @mui/icons-material/AddCircle
+ * @requires @mui/icons-material/RemoveCircle
+ * @requires @mui/icons-material/Edit
+ * @requires react
+ * @param {Object} props - Component properties.
+ * @param {string} props.heading - The initial heading text for the content item.
+ * @param {string} props.text - The initial body text for the content item.
+ * @param {string[]} props.imageSrcs - An array of image URLs associated with the content item.
+ * @param {number} props.index - The index of the current content item within the list.
+ * @param {Function} props.updateContent - A callback function to update the content item. Receives the index and new content object.
+ * @returns {JSX.Element} A Box component containing editable fields for heading, text, and image URLs, along with add/remove buttons for images and a save button.
+ * @example
+ * // Example usage of EditMultipleImageTextBox
+ * <EditMultipleImageTextBox
+ *   heading="Sample Heading"
+ *   text="Sample text content."
+ *   imageSrcs={["http://example.com/image1.png", "http://example.com/image2.png"]}
+ *   index={0}
+ *   updateContent={(index, newContent) => console.log("Update content at index", index, "with", newContent)}
+ * />
+ */
+
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";

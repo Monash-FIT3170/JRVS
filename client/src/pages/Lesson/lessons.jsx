@@ -1,3 +1,32 @@
+/**
+ * @file Lessons.js
+ * @description This component provides an interface for interacting with lesson content, including text, images, and other types of content. It manages the loading and display of lesson details, tracks user progress through the lesson, and provides navigation options. The component fetches lesson data and user progress from APIs, updates the progress as the user interacts with the lesson, and handles UI states such as loading and completion. It also integrates a carousel for displaying content and a progress bar to indicate lesson completion.
+ *
+ * @module Lessons
+ * @requires Button, Box, LinearProgress from @mui/material
+ * @requires styled from @mui/system
+ * @requires useState, useEffect from React
+ * @requires useParams, useNavigate from react-router-dom
+ * @requires TextBox from "../../components/contentTypes/textBox"
+ * @requires ListBox from "../../components/contentTypes/listBox.jsx"
+ * @requires MultipleImageTextBox from "../../components/contentTypes/multipleImageTextBox.jsx"
+ * @requires Carousel from "../../components/content/contentCarousal"
+ * @requires ImageTextBox from "../../components/contentTypes/imageTextBox"
+ * @requires BotBox from "../../components/content/botBox"
+ * @requires useApi from "../../context/ApiProvider.jsx"
+ * @requires MenuBar from "../../components/MenuBar.jsx"
+ *
+ * @example
+ * // Example usage:
+ * import Lessons from './Lessons';
+ *
+ * function App() {
+ *   return <Lessons />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered interface for interacting with lesson content, including a carousel, progress bar, and navigation buttons.
+ */
+
 import { Button, Box, LinearProgress } from "@mui/material";
 import { styled } from "@mui/system";
 import { useState, useEffect } from "react";

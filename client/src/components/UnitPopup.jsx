@@ -1,3 +1,24 @@
+/**
+ * @file UnitPopup Component
+ *
+ * @description A modal dialog used for displaying details about a unit and providing actions based on user roles.
+ * The dialog includes options for entering a lesson, and, if the user is an admin, inserting, appending,
+ * editing, and deleting modules.
+ *
+ * @module UnitPopup
+ * @requires react
+ * @requires @mui/material/Dialog
+ * @requires @mui/material/DialogTitle
+ * @requires @mui/material/DialogContent
+ * @requires @mui/material/DialogContentText
+ * @requires @mui/material/DialogActions
+ * @requires @mui/material/Button
+ * @requires @mui/material/IconButton
+ * @requires @mui/icons-material/Close
+ *
+ * @returns {JSX.Element} The rendered UnitPopup component
+ */
+
 import React from "react";
 import {
   Dialog,

@@ -1,3 +1,47 @@
+/**
+ * @file BasicTabs.js
+ * @description A React component that provides a tabbed interface for a virtual shop where users 
+ * can spend in-game currency to unlock avatars, backgrounds, and borders. 
+ * Includes components for displaying loot boxes, handling selections, and integrating with a Spline animation.
+ * @module BasicTabs
+ * @requires @mui/material/Tabs
+ * @requires @mui/material/Tab
+ * @requires @mui/material/Typography
+ * @requires @mui/material/Box
+ * @requires @mui/material/Unstable_Grid2
+ * @requires @splinetool/runtime
+ * @requires ../../assets/images/box_1.png
+ * @requires ../../assets/images/box_2.png
+ * @requires ../../assets/images/box_3.png
+ * @requires ./TileCreator
+ * @requires ../../context/ApiProvider
+ * 
+ * @param {Object} props - The component props.
+ * @param {number} props.coins - The number of in-game currency coins available.
+ * @param {Function} props.spendCoins - Function to call when coins are spent.
+ * @param {Function} props.setAvatar - Function to update the current avatar.
+ * @param {Function} props.setBackground - Function to update the current background.
+ * @param {Function} props.setBorder - Function to update the current border.
+ * @param {string} props.currentAvatar - The name of the currently selected avatar.
+ * @param {string} props.currentBackground - The name of the currently selected background.
+ * @param {string} props.currentBorder - The name of the currently selected border.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * @example
+ * <BasicTabs 
+ *   coins={1500} 
+ *   spendCoins={(amount) => console.log('Spent:', amount)} 
+ *   setAvatar={(avatar) => console.log('New Avatar:', avatar)} 
+ *   setBackground={(background) => console.log('New Background:', background)} 
+ *   setBorder={(border) => console.log('New Border:', border)} 
+ *   currentAvatar='avatar1.png'
+ *   currentBackground='background1.png'
+ *   currentBorder='border1.png'
+ * />
+ */
+
+
 import React, { useState, useEffect} from 'react';
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";

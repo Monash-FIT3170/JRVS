@@ -1,3 +1,11 @@
+/**
+ * @file quizRoutes.js
+ * @description Express routes for managing quizzes, including retrieving and updating quiz details.
+ * @module quizRoutes
+ * @requires express
+ * @requires ../controllers/quizController
+ */
+
 const express = require("express");
 const router = express.Router();
 const {

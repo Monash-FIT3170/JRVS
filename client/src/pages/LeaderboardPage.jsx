@@ -1,3 +1,32 @@
+/**
+ * @file LeaderboardPage.js
+ * @description This component renders the leaderboard page, displaying user rankings based on experience points (XP) for a selected time period and user group. It includes options to filter the leaderboard data by time period and user group. The component fetches data from an API and handles loading states with a spinner.
+ *
+ * @module LeaderboardPage
+ * @requires React
+ * @requires useState
+ * @requires useEffect
+ * @requires MenuBar from ../components/MenuBar
+ * @requires useApi from ../context/ApiProvider
+ * @requires Grid from @mui/material/Unstable_Grid2
+ * @requires CircularProgress from @mui/material/CircularProgress
+ *
+ * @constant {string} timePeriod - The selected time period for leaderboard data (e.g., "all-time", "month", "week", "day").
+ * @constant {string} userGroup - The selected user group for leaderboard data (e.g., "all", "school", "class").
+ * @constant {Array} leaderboardData - The data for the leaderboard, including user rankings, usernames, schools, and total XP.
+ * @constant {boolean} loading - State indicating whether the leaderboard data is being loaded.
+ *
+ * @example
+ * // Example usage:
+ * import LeaderboardPage from './LeaderboardPage';
+ *
+ * function App() {
+ *   return <LeaderboardPage />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered leaderboard page with options to filter and display leaderboard data.
+ */
+
 import React, { useState, useEffect } from "react";
 import MenuBar from "../components/MenuBar";
 import { useApi } from "../context/ApiProvider";

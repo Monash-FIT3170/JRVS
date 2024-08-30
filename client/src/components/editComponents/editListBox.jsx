@@ -1,3 +1,26 @@
+/**
+ * @file editListBox.js
+ * @description A React component that provides an editable list box for users to modify content dynamically. This component allows users to update a heading and a list of items, add or remove list items, and save changes.
+ * @module EditListBox
+ * @requires @mui/material/Box
+ * @requires @mui/material/Button
+ * @requires @mui/material/IconButton
+ * @requires @mui/material/TextField
+ * @requires @mui/icons-material/AddCircle
+ * @requires @mui/icons-material/RemoveCircle
+ * @requires @mui/icons-material/Edit
+ * @requires React
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} props.heading - The heading of the list box.
+ * @param {Array<string>} props.points - The list of points/items to display and edit.
+ * @param {number} props.index - The index of the list box in the parent component.
+ * @param {Function} props.updateContent - Function to update the content of the list box.
+ * 
+ * @returns {JSX.Element} The rendered EditListBox component.
+ */
+
+
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";

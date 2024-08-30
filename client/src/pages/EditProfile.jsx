@@ -1,3 +1,28 @@
+/**
+ * @file EditProfile.js
+ * @description This component allows users to view and update their profile details, including personal information, username, email, and school. It also provides functionality for changing the password and displays appropriate popups upon successful updates.
+ *
+ * @module EditProfile
+ * @requires React
+ * @requires useState, useEffect from React
+ * @requires useApi from ../context/ApiProvider
+ * @requires Grid, Dialog, DialogTitle, DialogContent, DialogActions, Button from @mui/material
+ * @requires Select from react-select
+ * @requires MenuBar from ../components/MenuBar
+ * @requires PasswordChangePopup from ../components/PasswordChangePopup
+ * @requires "../index.css"
+ *
+ * @example
+ * // Example usage:
+ * import EditProfile from './EditProfile';
+ *
+ * function App() {
+ *   return <EditProfile />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered profile editing page, including user details form, password change functionality, and popups for confirmations.
+ */
+
 import React, { useEffect, useState } from "react";
 import { useApi } from "../context/ApiProvider";
 import Grid from "@mui/material/Unstable_Grid2";

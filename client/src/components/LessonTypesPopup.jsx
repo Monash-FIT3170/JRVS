@@ -1,3 +1,31 @@
+/**
+ * @file LessonTypesPopup Component
+ *
+ * @description A modal popup for creating new modules. This component allows users to select between different types of modules:
+ * - Reading
+ * - Video
+ * - Quiz (with additional options for quiz types)
+ *
+ * The component is styled using Material-UI components and provides a responsive layout with buttons for each module type.
+ *
+ * @module LessonTypesPopup
+ * @requires react
+ * @requires @mui/material/Box
+ * @requires @mui/material/Button
+ * @requires @mui/material/Typography
+ * @requires @mui/material/MenuItem
+ * @requires @mui/material/Menu
+ * @requires @mui/material/Grid
+ * @requires @mui/material/Modal
+ * @requires react-router-dom
+ *
+ * @param {boolean} isOpen - Controls the visibility of the modal.
+ * @param {function} onClose - Callback function to handle closing of the modal.
+ * @param {function} onClick - Callback function to handle button clicks with the selected module type.
+ *
+ * @returns {JSX.Element} The rendered modal with options for creating new modules.
+ */
+
 import React, { useState } from "react";
 import {
   Box,

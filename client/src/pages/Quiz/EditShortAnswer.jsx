@@ -1,3 +1,26 @@
+/**
+ * @file EditShortAnswerQuestion.js
+ * @description This component provides an interface for editing short answer quiz questions within a specific quiz. It allows users to view, modify, reorder, and delete short answer questions. The component fetches existing questions from an API, provides forms for editing each question, and handles form submissions to update the quiz. It also includes navigation and error handling to ensure a smooth user experience.
+ *
+ * @module EditShortAnswerQuestion
+ * @requires AppBar, Box, Button, TextField, Toolbar, IconButton, Typography from @mui/material
+ * @requires MenuBar from "../../components/MenuBar"
+ * @requires useNavigate, useParams from react-router-dom
+ * @requires useEffect, useState from React
+ * @requires useApi from "../../context/ApiProvider"
+ * @requires ArrowUpwardIcon, ArrowDownwardIcon, DeleteIcon, AddIcon from "@mui/icons-material"
+ *
+ * @example
+ * // Example usage:
+ * import EditShortAnswerQuestion from './EditShortAnswerQuestion';
+ *
+ * function App() {
+ *   return <EditShortAnswerQuestion />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered interface for editing short answer quiz questions, including forms for editing, adding new questions, and navigation buttons.
+ */
+
 import {
   AppBar,
   Box,

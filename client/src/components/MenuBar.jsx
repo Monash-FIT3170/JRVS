@@ -1,3 +1,31 @@
+/**
+ * @file MenuBar Component
+ *
+ * @description A navigation bar component that displays a title, subtitle, and user information. It includes:
+ * - A logo or branding section.
+ * - Conditional display of user points based on user type.
+ * - Navigation buttons for units and user profile with a dropdown menu for profile options.
+ * - The dropdown menu provides links for profile, details, and logout functionality.
+ *
+ * @module MenuBar
+ * @requires react
+ * @requires @mui/material/Unstable_Grid2
+ * @requires @mui/material/IconButton
+ * @requires @mui/icons-material/Face
+ * @requires @mui/icons-material/School
+ * @requires @mui/material/Menu
+ * @requires @mui/material/MenuItem
+ * @requires @mui/material/ListItemIcon
+ * @requires @mui/material/Divider
+ * @requires @mui/icons-material/Logout
+ * @requires ../context/ApiProvider
+ *
+ * @param {string} title - The main title displayed in the menu bar.
+ * @param {string} subtitle - The subtitle displayed below the title.
+ *
+ * @returns {JSX.Element} The rendered menu bar component with user information and navigation options.
+ */
+
 import React, { useEffect, useState } from "react";
 import { useApi } from "../context/ApiProvider";
 
