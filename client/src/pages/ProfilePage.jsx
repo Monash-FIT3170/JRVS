@@ -1,3 +1,28 @@
+/**
+ * @file ProfilePage.jsx
+ * @description This component renders the profile page for users. It displays user-specific details such as username, points, and level. The profile page adapts based on the user type (student or teacher), including sections for badges, avatar customization, and sharable codes. It handles fetching user and badge data, joining teachers for students, and displaying the relevant information.
+ *
+ * @module ProfilePage
+ * @requires React
+ * @requires useEffect
+ * @requires useState
+ * @requires BadgeContainer
+ * @requires StudentDisplay
+ * @requires @mui/material/Unstable_Grid2
+ * @requires MenuBar
+ * @requires DefaultButton
+ * @requires CustomButton
+ * @requires ../context/ApiProvider
+ * @requires ../components/characterCustomization/Avatar
+ * @requires ../assets/styles/App.css
+ *
+ * @component
+ * @example
+ * <ProfilePage />
+ *
+ * @returns {JSX.Element} The Profile Page component
+ */
+
 import React, { useEffect, useState } from "react";
 import BadgeContainer from "../components/BadgeDisplay";
 import StudentDisplay from "../components/StudentDisplay";

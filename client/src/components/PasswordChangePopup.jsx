@@ -1,3 +1,29 @@
+/**
+ * @file PasswordChangePopup Component
+ *
+ * @description A modal component for changing a user's password. It allows the user to input their old password,
+ * a new password, and confirm the new password. The modal includes visibility toggles for password fields
+ * and handles form submission with validation for password confirmation.
+ *
+ * @module PasswordChangePopup
+ * @requires react
+ * @requires @mui/material/Modal
+ * @requires @mui/material/Box
+ * @requires @mui/material/Button
+ * @requires @mui/material/TextField
+ * @requires @mui/material/IconButton
+ * @requires @mui/icons-material/Visibility
+ * @requires @mui/icons-material/VisibilityOff
+ * @requires @mui/icons-material/Close
+ * @requires ../index.css
+ *
+ * @param {boolean} open - Whether the modal is open or closed.
+ * @param {function} onClose - Function to call when the modal is closed.
+ * @param {function} onSubmit - Function to call when the form is submitted with the old and new passwords.
+ *
+ * @returns {JSX.Element} The rendered modal component for password change.
+ */
+
 import React, { useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";

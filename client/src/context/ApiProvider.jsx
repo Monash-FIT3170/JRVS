@@ -1,3 +1,18 @@
+/**
+ * @file ApiProvider Component
+ *
+ * @description Provides a context for interacting with a MongoDB API. This component includes functions
+ * for making API requests such as GET, POST, PUT, and DELETE. It uses a context to make
+ * these functions accessible throughout the application.
+ *
+ * @module ApiProvider
+ * @requires react
+ * @requires react/createContext
+ * @requires react/useContext
+ *
+ * @returns {JSX.Element} The rendered ApiProvider component.
+ */
+
 import React, { createContext, useContext } from "react";
 
 // Create a context for MongoDB API

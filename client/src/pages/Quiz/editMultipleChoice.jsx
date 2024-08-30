@@ -1,3 +1,26 @@
+/**
+ * @file editMultipleChoice.js
+ * @description This component provides an interface for editing and managing multiple-choice quiz questions within a specific quiz. It allows users to view, modify, reorder, add, and delete multiple-choice questions. The component fetches existing questions from an API, provides forms for editing each question, and handles form submissions to update the quiz. It also includes functionality for adding new questions, moving questions up and down, deleting questions, and reverting changes. Navigation and error handling are integrated to ensure a smooth user experience.
+ *
+ * @module editMultipleChoice
+ * @requires AppBar, Box, Button, TextField, Toolbar, IconButton, Typography, FormControlLabel, Radio from @mui/material
+ * @requires MenuBar from "../../components/MenuBar"
+ * @requires useNavigate, useParams from react-router-dom
+ * @requires useEffect, useState from React
+ * @requires useApi from "../../context/ApiProvider"
+ * @requires ArrowUpwardIcon, ArrowDownwardIcon, DeleteIcon, AddIcon, UndoIcon from "@mui/icons-material"
+ *
+ * @example
+ * // Example usage:
+ * import editMultipleChoice from './editMultipleChoice';
+ *
+ * function App() {
+ *   return <editMultipleChoice />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered interface for editing multiple-choice quiz questions, including forms for editing, adding new questions, and navigation buttons.
+ */
+
 import {
   AppBar,
   Box,

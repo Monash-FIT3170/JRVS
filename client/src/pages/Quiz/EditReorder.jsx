@@ -1,3 +1,27 @@
+/**
+ * @file EditReorderQuestion.js
+ * @description This component provides an interface for editing and reordering questions in a quiz. It allows users to view, modify, reorder, add, and delete reorder-type quiz questions. The component fetches existing questions from an API, provides forms for editing each question, and handles form submissions to update the quiz. It also includes navigation, error handling, and status messages to ensure a smooth user experience.
+ *
+ * @module EditReorderQuestion
+ * @requires AppBar, Box, Button, TextField, Toolbar, IconButton, Typography from @mui/material
+ * @requires MenuBar from "../../components/MenuBar"
+ * @requires useNavigate, useParams from react-router-dom
+ * @requires useEffect, useState from React
+ * @requires useApi from "../../context/ApiProvider"
+ * @requires ArrowUpwardIcon, ArrowDownwardIcon, DeleteIcon, AddIcon, UndoIcon from "@mui/icons-material"
+ * @requires ActionButton from "../../components/quizComponents/ActionButton"
+ *
+ * @example
+ * // Example usage:
+ * import EditReorderQuestion from './EditReorderQuestion';
+ *
+ * function App() {
+ *   return <EditReorderQuestion />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered interface for editing and reordering reorder-type quiz questions, including forms for editing, adding new questions, and navigation buttons.
+ */
+
 import {
   AppBar,
   Box,

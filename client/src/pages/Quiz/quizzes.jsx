@@ -1,3 +1,33 @@
+/**
+ * @file quizzes.js
+ * @description This component renders a quiz interface where users can navigate through various types of questions including multiple choice, true/false, short answer, reorder, drag and drop, and image quizzes. It fetches quiz data and user information from the API, handles user interactions, and submits the quiz results for scoring and updating user points. The component manages the display of questions, handles form submission, and provides feedback based on user responses.
+ *
+ * @module quizzes
+ * @requires useState, useEffect from React
+ * @requires useParams from react-router-dom
+ * @requires Box, Grid, Typography from @mui/material
+ * @requires MultipleChoice from "../../components/quizComponents/MutipleChoice.jsx"
+ * @requires TrueFalse from "../../components/quizComponents/TrueFalse.jsx"
+ * @requires ShortAnswer from "../../components/quizComponents/ShortAnswer.jsx"
+ * @requires Submitted from "../../components/quizComponents/Submitted.jsx"
+ * @requires ActionButton from "../../components/quizComponents/ActionButton.jsx"
+ * @requires Reorder from "../../components/quizComponents/Reorder.jsx"
+ * @requires DragAndDrop from "../../components/quizComponents/DragAndDrop.jsx"
+ * @requires ImageQuiz from "../../components/quizComponents/ImageQuiz.jsx"
+ * @requires useApi from "../../context/ApiProvider.jsx"
+ * @requires "../../assets/styles/App.css"
+ *
+ * @example
+ * // Example usage:
+ * import Quizzes from './Quizzes';
+ *
+ * function App() {
+ *   return <Quizzes />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered quiz interface, including the current quiz question and navigation buttons for interacting with the quiz.
+ */
+
 import { Box, Grid, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";

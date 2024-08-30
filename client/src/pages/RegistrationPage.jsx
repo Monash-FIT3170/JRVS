@@ -1,3 +1,29 @@
+/**
+ * @file RegistrationPage.jsx
+ * @description This component renders the registration page for new users. It includes a form for user details such as name, username, email, school, and password. Users can select their type (student or teacher) and customize their avatar color. Upon form submission, user data is sent to the server for registration.
+ *
+ * @module RegistrationPage
+ * @requires React
+ * @requires useEffect
+ * @requires useState
+ * @requires useLocation
+ * @requires useNavigate
+ * @requires @mui/material/Unstable_Grid2
+ * @requires @mui/material/ToggleButton
+ * @requires @mui/material/ToggleButtonGroup
+ * @requires @mui/icons-material/School
+ * @requires @mui/icons-material/HistoryEdu
+ * @requires react-select
+ * @requires ../context/ApiProvider
+ * @requires ../components/content/botBox
+ *
+ * @component
+ * @example
+ * <RegistrationPage />
+ *
+ * @returns {JSX.Element} The Registration Page component
+ */
+
 import React, { useEffect, useState } from "react";
 import { useApi } from "../context/ApiProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";

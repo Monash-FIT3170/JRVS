@@ -1,3 +1,26 @@
+/**
+ * @file LearningPathPage.jsx
+ * @description This component renders the learning path page for the application. It displays a skill tree with nodes representing lessons, quizzes, and videos. Users can interact with the tree to view, insert, append, edit, or delete nodes, depending on their user type. The component also includes various popups for managing lessons and types.
+ *
+ * @module LearningPathPage
+ * @requires React
+ * @requires useParams and useNavigate from 'react-router-dom'
+ * @requires Menu from '../components/MenuBar.jsx'
+ * @requires quizIcon, lessonIcon, videoIcon from '../assets/images'
+ * @requires SkillTreeGroup, SkillTree, SkillProvider from 'beautiful-skill-tree'
+ * @requires useApi from '../context/ApiProvider'
+ * @requires UnitPopup from '../components/UnitPopup.jsx'
+ * @requires LessonTypesPopup from '../components/LessonTypesPopup.jsx'
+ * @requires Box from '@mui/material'
+ * @requires App.css for styling
+ *
+ * @component
+ * @example
+ * <LearningPathPage />
+ *
+ * @returns {JSX.Element} The Learning Path Page component
+ */
+
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Menu from "../components/MenuBar.jsx";

@@ -1,3 +1,29 @@
+/**
+ * @file CustomizePage.js
+ * @description This component allows users to customize their avatar, background, and border. It displays the current avatar and user coins, and provides functionality to save or cancel changes. The component fetches user data, manages state for customization, and integrates with API endpoints for saving updates.
+ *
+ * @module CustomizePage
+ * @requires React
+ * @requires useState, useEffect from React
+ * @requires Link from react-router-dom
+ * @requires Grid from @mui/material/Unstable_Grid2
+ * @requires Avatar from ../components/characterCustomization/Avatar
+ * @requires MenuBar from ../components/MenuBar
+ * @requires LabTabs from ../components/characterCustomization/CustomizeItemTabs
+ * @requires useApi from ../context/ApiProvider
+ * @requires triggerBadge from ../components/BadgeAchieve
+ *
+ * @example
+ * // Example usage:
+ * import CustomizePage from './CustomizePage';
+ *
+ * function App() {
+ *   return <CustomizePage />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered customization page, including the avatar customization interface, user details display, and save/cancel options.
+ */
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LabTabs from "../components/characterCustomization/CustomizeItemTabs";

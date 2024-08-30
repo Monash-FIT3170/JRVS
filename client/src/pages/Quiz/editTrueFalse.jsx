@@ -1,3 +1,26 @@
+/**
+ * @file editTrueFalse.js
+ * @description This component provides an interface for editing True/False quiz questions within a specific quiz. It allows users to view, modify, reorder, delete, and add new True/False questions. The component fetches existing questions from an API, provides forms for editing each question, and handles form submissions to update the quiz. It also provides navigation and error handling to ensure the user can easily manage the quiz questions.
+ *
+ * @module editTrueFalse
+ * @requires AppBar, Box, Button, TextField, Toolbar, IconButton, InputLabel, MenuItem, FormControl, Select, Typography from @mui/material
+ * @requires MenuBar from "../../components/MenuBar"
+ * @requires useNavigate, useParams from react-router-dom
+ * @requires useEffect, useState from React
+ * @requires useApi from "../../context/ApiProvider"
+ * @requires ArrowUpwardIcon, ArrowDownwardIcon, DeleteIcon, AddIcon, UndoIcon from "@mui/icons-material"
+ *
+ * @example
+ * // Example usage:
+ * import editTrueFalse from './editTrueFalse';
+ *
+ * function App() {
+ *   return <editTrueFalse />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered interface for editing True/False quiz questions, including forms for editing, adding new questions, and navigation buttons.
+ */
+
 import {
   AppBar,
   Box,

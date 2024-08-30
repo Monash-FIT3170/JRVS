@@ -1,3 +1,27 @@
+/**
+ * @file videos.js
+ * @description This component displays a video player with associated metadata, including the video title and heading. It fetches video data based on the video ID from the URL parameters and shows a loading state while the data is being fetched. It also includes a button to navigate back to the previous page.
+ *
+ * @module videos
+ * @requires useApi from ../../context/ApiProvider.jsx
+ * @requires MenuBar from ../../components/MenuBar.jsx
+ * @requires VideoBox from ../../components/videoComponents/videoBox.jsx
+ * @requires Box, Button from @mui/material
+ * @requires useState, useEffect from React
+ * @requires useNavigate, useParams from react-router-dom
+ * @requires "./videos.css"
+ *
+ * @example
+ * // Example usage:
+ * import Videos from './videos';
+ *
+ * function App() {
+ *   return <videos />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered video page, including the video player, title, and navigation button.
+ */
+
 import { useApi } from "../../context/ApiProvider.jsx";
 import MenuBar from "../../components/MenuBar.jsx";
 import VideoBox from "../../components/videoComponents/videoBox.jsx";

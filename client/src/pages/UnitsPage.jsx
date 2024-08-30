@@ -1,3 +1,24 @@
+/**
+ * @file UnitsPage.jsx
+ * @description Renders the Units Page, displaying a list of units with their respective details. Includes functionality for routing to a learning path based on the selected unit.
+ *
+ * @module UnitsPage
+ * @requires React
+ * @requires useEffect
+ * @requires useState
+ * @requires @mui/material/Unstable_Grid2
+ * @requires useNavigate
+ * @requires ../context/ApiProvider
+ * @requires ../components/UnitCard
+ * @requires ../components/MenuBar
+ *
+ * @component
+ * @example
+ * <UnitsPage />
+ *
+ * @returns {JSX.Element} The Units Page component
+ */
+
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useNavigate } from "react-router-dom";
