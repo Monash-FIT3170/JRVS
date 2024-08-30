@@ -1,8 +1,36 @@
+/**
+ * @file MenuBar Component
+ *
+ * @description A navigation bar component that displays a title, subtitle, and user information. It includes:
+ * - A logo or branding section.
+ * - Conditional display of user points based on user type.
+ * - Navigation buttons for units and user profile with a dropdown menu for profile options.
+ * - The dropdown menu provides links for profile, details, and logout functionality.
+ *
+ * @module MenuBar
+ * @requires react
+ * @requires @mui/material/Unstable_Grid2
+ * @requires @mui/material/IconButton
+ * @requires @mui/icons-material/Face
+ * @requires @mui/icons-material/School
+ * @requires @mui/material/Menu
+ * @requires @mui/material/MenuItem
+ * @requires @mui/material/ListItemIcon
+ * @requires @mui/material/Divider
+ * @requires @mui/icons-material/Logout
+ * @requires ../context/ApiProvider
+ *
+ * @param {string} title - The main title displayed in the menu bar.
+ * @param {string} subtitle - The subtitle displayed below the title.
+ *
+ * @returns {JSX.Element} The rendered menu bar component with user information and navigation options.
+ */
+
 import React, { useEffect, useState } from "react";
 import { useApi } from "../context/ApiProvider";
 
 import Grid from "@mui/material/Unstable_Grid2";
-import { IconButton } from "@mui/material";
+import { IconButton, Button, Typography } from "@mui/material";
 import FaceIcon from "@mui/icons-material/Face";
 import SchoolIcon from "@mui/icons-material/School";
 import Menu from "@mui/material/Menu";
@@ -10,6 +38,14 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Logout from "@mui/icons-material/Logout";
+import { bgcolor, padding } from "@mui/system";
+
+const shortenString = (str, num) => {
+  if (str.length <= num) {
+    return str;
+  }
+  return str.slice(0, num) + "...";
+};
 
 const MenuBar = ({ title, subtitle }) => {
   title = title ? title : "";
@@ -27,11 +63,12 @@ const MenuBar = ({ title, subtitle }) => {
         const token = localStorage.getItem("token");
         const res = await postData("api/auth/current", { token });
         const userData = await getData(`api/users/id/${res.decoded.id}`);
-        console.log(userData);
+
         setUser({
           username: userData.username,
           points: userData.points || 0,
           usertype: userData.usertype,
+          firstname: userData.firstname,
         });
         setIsUserLoading(false);
       } catch (error) {
@@ -83,14 +120,14 @@ const MenuBar = ({ title, subtitle }) => {
       >
         <p className="russo-one-regular text-5xl text-white">JRVS</p>
       </Grid>
-      <Grid xs={15}></Grid>
+      <Grid xs={13}></Grid>
       <Grid
-        xs={5}
+        xs={7}
         style={{
           color: "white",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "right",
         }}
       >
         {user.usertype === "student" && (
@@ -99,6 +136,7 @@ const MenuBar = ({ title, subtitle }) => {
               padding: "10px",
               backgroundColor: "#FFC700",
               borderRadius: "20px",
+              marginRight: "10px",
             }}
           >
             <p className="russo-one-regular text-4xl">
@@ -112,18 +150,30 @@ const MenuBar = ({ title, subtitle }) => {
         <IconButton
           href="/units"
           aria-label="school"
-          style={{ color: "white", fontSize: "40px" }}
+          style={{ color: "white", fontSize: "40px", marginRight: "10px" }}
         >
           <SchoolIcon fontSize="inherit" />
         </IconButton>
+
         <React.Fragment>
-          <IconButton
-            onClick={handleClick}
-            aria-label="face"
-            style={{ color: "white", fontSize: "40px" }}
-          >
-            <FaceIcon fontSize="inherit" />
-          </IconButton>
+          <Button onClick={handleClick}>
+            <Typography
+              sx={{
+                color: "white",
+                fontSize: "20px",
+                fontWeight: 700,
+                paddingRight: "2px",
+              }}
+            >
+              {user.firstname && shortenString(user.firstname, 7)}
+            </Typography>
+            <IconButton
+              aria-label="face"
+              style={{ color: "white", fontSize: "40px" }}
+            >
+              <FaceIcon fontSize="inherit" />
+            </IconButton>
+          </Button>
 
           <Menu
             anchorEl={anchorEl}
@@ -134,10 +184,35 @@ const MenuBar = ({ title, subtitle }) => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem onClick={handleProfile}>My Profile</MenuItem>
-            <MenuItem onClick={handleDetails}>My Details</MenuItem>
+            <MenuItem
+              onClick={handleProfile}
+              sx={{
+                padding: "16px 28px",
+                fontSize: "18px",
+                justifyContent: "end",
+              }}
+            >
+              My Profile
+            </MenuItem>
+            <MenuItem
+              onClick={handleDetails}
+              sx={{
+                padding: "16px 28px",
+                fontSize: "18px",
+                justifyContent: "end",
+              }}
+            >
+              My Details
+            </MenuItem>
             <Divider />
-            <MenuItem onClick={handleLogout}>
+            <MenuItem
+              onClick={handleLogout}
+              sx={{
+                padding: "16px 28px",
+                fontSize: "18px",
+                justifyContent: "start",
+              }}
+            >
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>

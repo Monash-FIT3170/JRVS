@@ -1,3 +1,25 @@
+/**
+ * @file ListBox.js
+ * @description A React component for rendering a styled list with a heading. Utilizes Material-UI components for a clean and consistent design.
+ * @module ListBox
+ * @requires @mui/material/Typography
+ * @requires @mui/material/Box
+ * @requires React
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} props.heading - The heading text to display above the list.
+ * @param {string[]} props.points - An array of strings representing the list items to display.
+ * 
+ * @returns {JSX.Element} The rendered ListBox component.
+ * 
+ * @example
+ * <ListBox 
+ *   heading="Features" 
+ *   points={["Feature 1", "Feature 2", "Feature 3"]} 
+ * />
+ */
+
+
 import { Typography, Box } from "@mui/material"
 import './textBox.css'
 

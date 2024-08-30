@@ -1,3 +1,26 @@
+/**
+ * @file editVideo.js
+ * @description This component allows users to edit the details of a video lesson. It fetches the current video data based on the video ID from the URL parameters and provides a form for updating the video title, URL, and heading. The URL is validated to ensure it is a valid YouTube URL and is formatted correctly for embedding. The component displays error messages if data loading or saving fails and includes a button to save changes.
+ *
+ * @module editVideo
+ * @requires useState, useEffect from React
+ * @requires useApi from "../../context/ApiProvider.jsx"
+ * @requires MenuBar from "../../components/MenuBar.jsx"
+ * @requires Box, Button, TextField, Typography from @mui/material
+ * @requires useNavigate, useParams from react-router-dom
+ * @requires "./videos.css"
+ *
+ * @example
+ * // Example usage:
+ * import editVideo from './editVideo';
+ *
+ * function App() {
+ *   return <editVideo />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered edit video page, including a form to edit video details and a button to save changes.
+ */
+
 import React, { useState, useEffect } from "react";
 import { useApi } from "../../context/ApiProvider.jsx";
 import MenuBar from "../../components/MenuBar.jsx";
@@ -77,7 +100,9 @@ const EditVideo = () => {
         overflow: "auto",
       }}
     >
-      <MenuBar />
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
+        <MenuBar />
+      </Box>
       <Box
         sx={{
           position: "relative",

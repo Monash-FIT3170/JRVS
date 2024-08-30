@@ -1,4 +1,19 @@
-import React, { createContext, useContext } from 'react';
+/**
+ * @file ApiProvider Component
+ *
+ * @description Provides a context for interacting with a MongoDB API. This component includes functions
+ * for making API requests such as GET, POST, PUT, and DELETE. It uses a context to make
+ * these functions accessible throughout the application.
+ *
+ * @module ApiProvider
+ * @requires react
+ * @requires react/createContext
+ * @requires react/useContext
+ *
+ * @returns {JSX.Element} The rendered ApiProvider component.
+ */
+
+import React, { createContext, useContext } from "react";
 
 // Create a context for MongoDB API
 const ApiContext = createContext();
@@ -9,19 +24,19 @@ export const useApi = () => useContext(ApiContext);
 // MongoDB API Provider component
 export const ApiProvider = ({ children }) => {
   // Define your MongoDB API base URL
-  const baseURL = 'http://localhost:5000';
+  const baseURL = "http://localhost:5000";
 
   // Generic function to make API requests
   const fetchData = async (url, options = {}) => {
-    const token = localStorage.getItem('token'); // Get the token from local storage
+    const token = localStorage.getItem("token"); // Get the token from local storage
     const defaultHeaders = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
 
     const headers = {
       ...defaultHeaders,
       ...options.headers,
-      'Authorization': token ? `Bearer ${token}` : undefined,
+      Authorization: token ? `Bearer ${token}` : undefined,
     };
 
     try {
@@ -46,7 +61,7 @@ export const ApiProvider = ({ children }) => {
   const postData = async (endpoint, data) => {
     const url = `${baseURL}/${endpoint}`.replace(/([^:]\/)\/+/g, "$1");
     const options = {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(data),
     };
     return fetchData(url, options);
@@ -56,7 +71,7 @@ export const ApiProvider = ({ children }) => {
   const updateData = async (endpoint, data) => {
     const url = `${baseURL}/${endpoint}`;
     const options = {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(data),
     };
     return fetchData(url, options);
@@ -66,21 +81,21 @@ export const ApiProvider = ({ children }) => {
   const deleteData = async (endpoint) => {
     const url = `${baseURL}/${endpoint}`;
     const options = {
-      method: 'DELETE',
+      method: "DELETE",
     };
     return fetchData(url, options);
   };
 
   return (
-      <ApiContext.Provider
-          value={{
-            getData,
-            postData,
-            updateData,
-            deleteData,
-          }}
-      >
-        {children}
-      </ApiContext.Provider>
+    <ApiContext.Provider
+      value={{
+        getData,
+        postData,
+        updateData,
+        deleteData,
+      }}
+    >
+      {children}
+    </ApiContext.Provider>
   );
 };

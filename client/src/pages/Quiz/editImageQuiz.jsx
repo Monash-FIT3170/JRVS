@@ -1,3 +1,26 @@
+/**
+ * @file editImageQuiz.js
+ * @description This component provides an interface for editing and managing image-based quiz questions within a specific quiz. It allows users to view, modify, reorder, add, and delete image quiz questions. The component fetches existing questions from an API, provides forms for editing each question, and handles form submissions to update the quiz. It also includes functionality for adding new questions, moving questions up and down, deleting questions, and reverting changes. Navigation and error handling are integrated to ensure a smooth user experience.
+ *
+ * @module editImageQuiz
+ * @requires AppBar, Box, Button, TextField, Toolbar, IconButton, Typography, FormControlLabel, Radio from @mui/material
+ * @requires MenuBar from "../../components/MenuBar"
+ * @requires useNavigate, useParams from react-router-dom
+ * @requires useEffect, useState from React
+ * @requires useApi from "../../context/ApiProvider"
+ * @requires ArrowUpwardIcon, ArrowDownwardIcon, DeleteIcon, AddIcon, UndoIcon from "@mui/icons-material"
+ *
+ * @example
+ * // Example usage:
+ * import editImageQuiz from './editImageQuiz';
+ *
+ * function App() {
+ *   return <editImageQuiz />;
+ * }
+ *
+ * @returns {JSX.Element} The rendered interface for editing image-based quiz questions, including forms for editing, adding new questions, and navigation buttons.
+ */
+
 import {
   AppBar,
   Box,
@@ -6,7 +29,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Checkbox,
   FormControlLabel,
   Radio,
 } from "@mui/material";
@@ -53,6 +75,7 @@ const EditImageQuiz = () => {
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
+
     const updatedQuestions = [...questions];
     updatedQuestions[index][name] = value;
     setQuestions(updatedQuestions);
@@ -80,7 +103,11 @@ const EditImageQuiz = () => {
   const isFormComplete = () => {
     return questions.every(
       (question) =>
-        question && question.questionText && question.questionText.trim() !== "" && question.answer && question.answer.trim() !== "",
+        question &&
+        question.questionText &&
+        question.questionText.trim() !== "" &&
+        question.answer &&
+        question.answer.trim() !== "",
     );
   };
 
@@ -154,40 +181,48 @@ const EditImageQuiz = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "100vw",
-        backgroundColor: "#3CA3EE",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "white",
+        overflow: "auto",
       }}
     >
-      <MenuBar />
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
+        <MenuBar />
+      </Box>
       <Box
         sx={{
-          position: "relative",
-          width: "100vw",
-          backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: "white",
+
           justifyContent: "center",
-          padding: "20px",
         }}
       >
         <Box
           sx={{
             backgroundColor: "white",
-            padding: "60px",
-            borderRadius: "8px",
+            padding: "40px",
+            borderRadius: "30px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            maxWidth: "1100px",
+            maxWidth: "1300px",
           }}
         >
           <Typography
             variant="h4"
-            sx={{ paddingBottom: "25px", color: "#333" }}
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              fontSize: "36px",
+              fontWeight: "700",
+              color: "#333",
+              marginBottom: "20px",
+              letterSpacing: "0.5px",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+            }}
           >
             Edit Image Quiz
           </Typography>
@@ -201,18 +236,19 @@ const EditImageQuiz = () => {
                   alignItems: "center",
                   display: "flex",
                   flexDirection: "column",
-                  marginBottom: "20px",
+                  flexGrow: 1,
+                  overflow: "auto",
+                  marginBottom: "40px",
                 }}
               >
                 <Box
                   sx={{
-                    borderRadius: "5px",
-                    backgroundColor: "#3CA3EE",
-                    borderWidth: "2px",
-                    borderColor: "#3CA3EE",
+                    borderRadius: "15px",
+                    backgroundColor: "#6AB6F3",
                     width: "90%",
-                    padding: "20px",
+                    padding: "30px",
                     position: "relative",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                   }}
                 >
                   <Box
@@ -222,41 +258,50 @@ const EditImageQuiz = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <h3 className="heading-font">
-                      {index + 1} | Image Question
-                    </h3>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: "36px",
+                        fontWeight: "600",
+                        color: "#FFFFFF",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      {index + 1} | Image question
+                    </Typography>
                     <Box>
                       <IconButton
                         onClick={() => moveQuestion(index, -1)}
                         disabled={index === 0}
                         aria-label="Move question up"
                       >
-                        <ArrowUpwardIcon />
+                        <ArrowUpwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() => moveQuestion(index, 1)}
                         disabled={index === questions.length - 1}
                         aria-label="Move question down"
                       >
-                        <ArrowDownwardIcon />
+                        <ArrowDownwardIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() => deleteQuestion(index)}
                         aria-label="Delete question"
                       >
-                        <DeleteIcon />
+                        <DeleteIcon fontSize="large" />
                       </IconButton>
                       <IconButton
                         onClick={() => revertQuestion(index)}
                         aria-label="Revert question"
                       >
-                        <UndoIcon />
+                        <UndoIcon fontSize="large" />
                       </IconButton>
                     </Box>
                   </Box>
                   <TextField
                     required
-                    variant="outlined"
+                    variant="filled"
                     label="Question Text"
                     name="questionText"
                     value={question.questionText}
@@ -265,24 +310,17 @@ const EditImageQuiz = () => {
                     sx={{
                       width: "100%",
                       marginBottom: "20px",
-                      "& .MuiOutlinedInput-root": {
-                        backgroundColor: "#F9F6EE",
-                        "& fieldset": { borderColor: "black" },
-                        "&:hover": { backgroundColor: "#C0C0C0" },
-                        "&:hover fieldset:": { borderColor: "black" },
-                        "&.Mui-focused fieldset": { borderColor: "black" },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "black",
-                        backgroundColor: "#3CA3EE",
-                        borderRadius: "5px",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
                       },
                     }}
                   />
 
                   <TextField
                     required
-                    variant="outlined"
+                    variant="filled"
                     label="Image URL"
                     name="image"
                     value={question.image}
@@ -291,17 +329,10 @@ const EditImageQuiz = () => {
                     sx={{
                       width: "100%",
                       marginBottom: "20px",
-                      "& .MuiOutlinedInput-root": {
-                        backgroundColor: "#F9F6EE",
-                        "& fieldset": { borderColor: "black" },
-                        "&:hover": { backgroundColor: "#C0C0C0" },
-                        "&:hover fieldset:": { borderColor: "black" },
-                        "&.Mui-focused fieldset": { borderColor: "black" },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "black",
-                        backgroundColor: "#3CA3EE",
-                        borderRadius: "5px",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#EFEFEF",
                       },
                     }}
                   />
@@ -324,7 +355,7 @@ const EditImageQuiz = () => {
                       >
                         <TextField
                           required
-                          variant="outlined"
+                          variant="filled"
                           label={`Option ${optionIndex + 1}`}
                           name="value"
                           value={option.value}
@@ -334,19 +365,10 @@ const EditImageQuiz = () => {
                           sx={{
                             width: "100%",
                             marginBottom: "20px",
-                            "& .MuiOutlinedInput-root": {
-                              backgroundColor: "#F9F6EE",
-                              "& fieldset": { borderColor: "black" },
-                              "&:hover": { backgroundColor: "#C0C0C0" },
-                              "&:hover fieldset:": { borderColor: "black" },
-                              "&.Mui-focused fieldset": {
-                                borderColor: "black",
-                              },
-                            },
-                            "& .MuiInputLabel-root": {
-                              color: "black",
-                              backgroundColor: "#3CA3EE",
-                              borderRadius: "5px",
+                            backgroundColor: "white",
+                            borderRadius: "10px",
+                            "&:hover": {
+                              backgroundColor: "#EFEFEF",
                             },
                           }}
                         />
@@ -396,7 +418,7 @@ const EditImageQuiz = () => {
 
                     <TextField
                       required
-                      variant="outlined"
+                      variant="filled"
                       label="Points"
                       name="points"
                       value={question.points}
@@ -406,19 +428,12 @@ const EditImageQuiz = () => {
                         type: "number",
                       }}
                       sx={{
-                        width: "100%",
-                        marginBottom: "20px",
-                        "& .MuiOutlinedInput-root": {
-                          backgroundColor: "#F9F6EE",
-                          "& fieldset": { borderColor: "black" },
-                          "&:hover": { backgroundColor: "#C0C0C0" },
-                          "&:hover fieldset:": { borderColor: "black" },
-                          "&.Mui-focused fieldset": { borderColor: "black" },
-                        },
-                        "& .MuiInputLabel-root": {
-                          color: "black",
-                          backgroundColor: "#3CA3EE",
-                          borderRadius: "5px",
+                        width: "40%",
+                        display: "flex",
+                        backgroundColor: "white",
+                        borderRadius: "10px",
+                        "&:hover": {
+                          backgroundColor: "#EFEFEF",
                         },
                       }}
                     />
@@ -436,7 +451,7 @@ const EditImageQuiz = () => {
               bgcolor: "transparent",
               height: "100px",
               justifyContent: "center",
-              pointerEvents: 'none'
+              pointerEvents: "none",
             }}
           >
             <Toolbar>
@@ -453,13 +468,14 @@ const EditImageQuiz = () => {
                   variant="contained"
                   className="button-font"
                   sx={{
-                    ":hover": { backgroundColor: "#2196F3" },
+                    ":hover": { backgroundColor: "#F7B92C" },
                     marginLeft: "20px",
                     marginBottom: "60px",
-                    padding: "15px",
+                    padding: "20px",
                     borderRadius: "15px",
                     backgroundColor: "#FFC93C",
-                    pointerEvents: 'auto'
+                    pointerEvents: "auto",
+                    paddingX: "30px",
                   }}
                 >
                   Back
@@ -471,8 +487,10 @@ const EditImageQuiz = () => {
                   sx={{
                     marginBottom: "60px",
                     backgroundColor: "#FFC93C",
-                    pointerEvents: 'auto',
-                    ":hover": { backgroundColor: "#2196F3" },
+                    pointerEvents: "auto",
+                    ":hover": { backgroundColor: "#F7B92C" },
+                    borderRadius: "10px",
+                    padding: "14px",
                   }}
                 >
                   Add Question
@@ -481,13 +499,14 @@ const EditImageQuiz = () => {
                   onClick={handleSubmit}
                   variant="contained"
                   sx={{
-                    ":hover": { backgroundColor: "#2196F3" },
+                    ":hover": { backgroundColor: "#F7B92C" },
                     marginRight: "20px",
                     marginBottom: "60px",
-                    padding: "15px",
+                    padding: "20px",
                     borderRadius: "15px",
                     backgroundColor: "#FFC93C",
-                    pointerEvents: 'auto'
+                    pointerEvents: "auto",
+                    paddingX: "30px",
                   }}
                   disabled={!isFormComplete()}
                 >

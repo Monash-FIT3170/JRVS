@@ -1,3 +1,22 @@
+/**
+ * @file index.js
+ * @description Entry point for the React application. This file sets up the React root, applies global styles, and renders the main App component within a strict mode context and API provider.
+ * @module Client
+ * @requires react
+ * @requires react-dom/client
+ * @requires ./index.css
+ * @requires ./assets/styles/tailwind.css
+ * @requires ./assets/styles/russoFont.css
+ * @requires ./App
+ * @requires ./reportWebVitals
+ * @requires ./context/ApiProvider
+ * @example
+ * // Start the React application
+ * npm start
+ * @returns {void}
+ */
+
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
