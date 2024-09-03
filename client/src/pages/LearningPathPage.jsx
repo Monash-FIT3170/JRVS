@@ -343,7 +343,7 @@ const LearningPathPage = () => {
 
   const getCompletedLessonsArray = async () => {
     try {
-      if (usertype === "teacher") {
+      if (usertype === "teacher" || usertype === "admin") {
         return await getData(`api/units/${unitId}/unlockedTreeData`);
       } else {
         // get user's progress for this unit
@@ -365,26 +365,24 @@ const LearningPathPage = () => {
   };
 
   async function handleSave(storage, treeId, skills) {
-    if (usertype === "teacher") {
-      var completedLessons = [];
-      if (completedLessonsArray) {
-        completedLessons = completedLessonsArray;
-      } else {
-        completedLessons = await getCompletedLessonsArray();
-      }
-      completedLessons.forEach((lessonId) => {
-        skills[lessonId] = {
-          optional: false,
-          nodeState: "selected",
-        };
-      });
-      for (const lesson in skills) {
-        if (
-          !completedLessons.includes(lesson) &&
-          skills[lesson].nodeState === "selected"
-        ) {
-          skills[lesson].nodeState = "unlocked";
-        }
+    var completedLessons = [];
+    if (completedLessonsArray) {
+      completedLessons = completedLessonsArray;
+    } else {
+      completedLessons = await getCompletedLessonsArray();
+    }
+    completedLessons.forEach((lessonId) => {
+      skills[lessonId] = {
+        optional: false,
+        nodeState: "selected",
+      };
+    });
+    for (const lesson in skills) {
+      if (
+        !completedLessons.includes(lesson) &&
+        skills[lesson].nodeState === "selected"
+      ) {
+        skills[lesson].nodeState = "unlocked";
       }
     }
 
@@ -409,7 +407,7 @@ const LearningPathPage = () => {
                 title=""
                 data={learningPathData} // SkillType
                 // Other useful fields (the rest we won't need):
-                savedData={usertype === "student" ? null : savedData}
+                savedData={savedData}
                 handleNodeSelect={handleNodeSelect} // To trigger an action when a lesson is clicked
                 handleSave={handleSave}
               />
@@ -425,7 +423,7 @@ const LearningPathPage = () => {
         onAppend={handleAppendNewLessonType}
         onEdit={handlePopupEdit}
         onDelete={handlePopupDelete}
-        isAdmin={usertype === "teacher"} // Check the current user's type
+        isAdmin={usertype === "admin"} // Check the current user's type
       />
       <LessonTypesPopup
         isOpen={isInsertLessonTypeModalOpen}
