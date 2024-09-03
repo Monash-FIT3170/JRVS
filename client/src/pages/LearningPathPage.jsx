@@ -343,7 +343,7 @@ const LearningPathPage = () => {
 
   const getCompletedLessonsArray = async () => {
     try {
-      if (usertype === "teacher") {
+      if (usertype === "teacher" || usertype === "admin") {
         return await getData(`api/units/${unitId}/unlockedTreeData`);
       } else {
         // get user's progress for this unit
@@ -365,7 +365,7 @@ const LearningPathPage = () => {
   };
 
   async function handleSave(storage, treeId, skills) {
-    if (usertype === "teacher") {
+    if (usertype === "teacher" || usertype === "admin") {
       var completedLessons = [];
       if (completedLessonsArray) {
         completedLessons = completedLessonsArray;
@@ -425,7 +425,7 @@ const LearningPathPage = () => {
         onAppend={handleAppendNewLessonType}
         onEdit={handlePopupEdit}
         onDelete={handlePopupDelete}
-        isAdmin={usertype === "teacher"} // Check the current user's type
+        isAdmin={usertype === "admin"} // Check the current user's type
       />
       <LessonTypesPopup
         isOpen={isInsertLessonTypeModalOpen}
