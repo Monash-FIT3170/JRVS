@@ -568,9 +568,19 @@ function findTailNodeIds(data, tailNodeIds = []) {
   return tailNodeIds; // Return the array of tail node IDs
 }
 
+/**
+ * @desc    Set the details of a node in a learning tree path
+ * @route   POST /api/units/:id/updateNodeDetails
+ * @access  Private
+ * @function updateTreeNodeDetails
+ * @async
+ * @param {Request} req - The request object. Contains unitId, nodeId, newTitle, newDescription.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the node is appended successfully.
+ * @throws {Error} Throws errors if the unit is not found, or there's an issue with editing the node.
+ */
 const updateTreeNodeDetails = asyncHandler(async (req, res) => {
   try {
-
     // Get the inputs
     const { unitId, nodeId, newTitle, newDescription } = req.body;
 
@@ -582,20 +592,20 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
     }
 
     // 2. Locate the selected node within the unit, and update the node with the new data
-    const isUpdated = updateChildNodeRecursive(unit.data, nodeId, newTitle, newDescription);
+    const isUpdated = updateNodeRecursive(unit.data, nodeId, newTitle, newDescription);
     if (!isUpdated) {
       console.log("Target node not found");
       return res.status(404).json({ message: "Target node not found" });
     }
 
-    // 6. Update unit_details object in mongodb with new structure
+    // 3. Update unit_details object in mongodb with new structure
     unit.markModified("data"); // Explicitly mark the 'data' field as modified
     await unit.save();
 
-    // If all previous steps completed, then it was a successful append!
+    // If all previous steps completed, then the node was updated successfuly
     return res
       .status(200)
-      .json({ message: "Node appended successfully", node: {'NodeId': nodeId, 'title': newTitle, 'description': newDescription } });
+      .json({ message: "Node updated successfully", node: {'id': nodeId, 'title': newTitle, 'description': newDescription } });
   
   } catch (error) {
     console.error("Error in updateTreeNodeDetails:", error);
@@ -604,7 +614,16 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
 
 });
 
-function updateChildNodeRecursive(data, targetId, newTitle, newDescription) {
+/**
+ * @function updateNodeRecursive
+ * @desc    Recursively find the node specified and update its details
+ * @param {*} data - The tree data containing the node.
+ * @param {*} targetId - The ID of the node to be updated.
+ * @param {*} newTitle - The new title to be set in the node.
+ * @param {*} newDescription - The new description to be se in the node.
+ * @returns {boolean} Returns true if the node was successfully updated, otherwise false.
+ */
+function updateNodeRecursive(data, targetId, newTitle, newDescription) {
   // Iterate through each child
   for (let item of data) {
     
@@ -619,7 +638,7 @@ function updateChildNodeRecursive(data, targetId, newTitle, newDescription) {
 
     // Otherwise recur if children exist
     if (item.children && item.children.length > 0) {
-      const found = updateChildNodeRecursive(item.children, targetId, newTitle, newDescription);
+      const found = updateNodeRecursive(item.children, targetId, newTitle, newDescription);
       if (found) {
         return true; // Stop further recursion if the node was found
       }
