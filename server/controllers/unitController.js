@@ -578,6 +578,31 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
 
 });
 
+function updateChildNodeRecursive(data, targetId, newTitle, newDescription) {
+  // Iterate through each child
+  for (let item of data) {
+    
+    // Check if the item matches
+    if (item.id === targetId) {
+      // Update this node with the new details
+      item.title = newTitle;
+      item.tooltip.content = newDescription;
+      
+      return true; // Return true to indicate success
+    }
+
+    // Otherwise recur if children exist
+    if (item.children && item.children.length > 0) {
+      const found = updateChildNodeRecursive(item.children, targetId, newTitle, newDescription);
+      if (found) {
+        return true; // Stop further recursion if the node was found
+      }
+    }
+  }
+
+  return false; // Return false if the target node wasn't found
+}
+
 module.exports = {
   getUnits,
   getUnit,
