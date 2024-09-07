@@ -570,6 +570,32 @@ function findTailNodeIds(data, tailNodeIds = []) {
 
 const updateTreeNodeDetails = asyncHandler(async (req, res) => {
   try {
+
+    // Get the inputs
+    const { unitId, nodeId, newTitle, newDescription } = req.body;
+
+    // 1. Get the target unit to be modified
+    const unit = await unitModel.findById(unitId);
+    if (!unit) {
+      console.log("unit_details not found");
+      return res.status(404).json({ message: "unit_details not found" });
+    }
+
+    // 2. Locate the selected node within the unit, and update the node with the new data
+    const isUpdated = updateChildNodeRecursive(unit.data, nodeId, newTitle, newDescription);
+    if (!isUpdated) {
+      console.log("Target node not found");
+      return res.status(404).json({ message: "Target node not found" });
+    }
+
+    // 6. Update unit_details object in mongodb with new structure
+    unit.markModified("data"); // Explicitly mark the 'data' field as modified
+    await unit.save();
+
+    // If all previous steps completed, then it was a successful append!
+    return res
+      .status(200)
+      .json({ message: "Node appended successfully", node: {'NodeId': nodeId, 'title': newTitle, 'description': newDescription } });
   
   } catch (error) {
     console.error("Error in updateTreeNodeDetails:", error);
