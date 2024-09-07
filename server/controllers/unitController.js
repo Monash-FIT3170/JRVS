@@ -568,6 +568,16 @@ function findTailNodeIds(data, tailNodeIds = []) {
   return tailNodeIds; // Return the array of tail node IDs
 }
 
+const updateTreeNodeDetails = asyncHandler(async (req, res) => {
+  try {
+  
+  } catch (error) {
+    console.error("Error in updateTreeNodeDetails:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+
+});
+
 module.exports = {
   getUnits,
   getUnit,
@@ -575,4 +585,5 @@ module.exports = {
   insertNode,
   deleteNode,
   getUnlockedTreeData,
+  updateTreeNodeDetails,
 };
