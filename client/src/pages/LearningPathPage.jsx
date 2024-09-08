@@ -206,10 +206,10 @@ const LearningPathPage = () => {
     setIsAppendLessonTypeModalOpen(true);
   };
 
-  const navigateToEditPage = (inputType, inputSubType, id) => {
+  const navigateToEditPage = (inputType, inputSubType, id, unitId) => {
     const port = window.location.port;
     if (inputType === "lesson") {
-      window.location.href = `http://localhost:${port}/edit/${id}`; // .../edit/lessonId
+      window.location.href = `http://localhost:${port}/edit/${unitId}/${id}`; // .../edit/lessonId
     } else if (inputType === "video") {
       window.location.href = `http://localhost:${port}/video/edit/${id}`; // .../video/edit/:videoId
     } else if (inputType === "quiz") {
@@ -237,6 +237,7 @@ const LearningPathPage = () => {
     const newNode = {
       icon: `${inputType}Icon`,
       title: `New ${inputType}`,
+      desc: "Description of the new child node",
       tooltip: { content: "Description of the new child node" },
       children: [],
       type: inputType,
@@ -252,7 +253,7 @@ const LearningPathPage = () => {
       console.log(response);
 
       // Navigate to the edit the page
-      navigateToEditPage(inputType, inputSubType, response.newNode.id);
+      navigateToEditPage(inputType, inputSubType, response.newNode.id, unitId);
     } catch (error) {
       console.log(error);
     }
@@ -266,6 +267,7 @@ const LearningPathPage = () => {
     const newNode = {
       icon: `${inputType}Icon`,
       title: `New ${inputType}`,
+      desc: "Description of the new child node",
       tooltip: { content: "Description of the new child node" },
       children: [],
       type: inputType,
@@ -281,7 +283,7 @@ const LearningPathPage = () => {
       console.log(response);
 
       // Navigate to the edit the page
-      navigateToEditPage(inputType, inputSubType, response.newNode.id);
+      navigateToEditPage(inputType, inputSubType, response.newNode.id, unitId);
     } catch (error) {
       console.log(error);
     }
@@ -291,7 +293,7 @@ const LearningPathPage = () => {
     // Handle an editing of a node. Navigate to the edit page
     if (selectedNode.type !== "quiz") {
       // Navigate to the lesson/video edit page
-      navigateToEditPage(selectedNode.type, null, selectedNode.id);
+      navigateToEditPage(selectedNode.type, null, selectedNode.id, unitId);
     }
 
     // Retrieve the quiz sub-type
@@ -305,6 +307,7 @@ const LearningPathPage = () => {
         selectedNode.type,
         response.questions[0].type,
         selectedNode.id,
+        unitId,
       );
     } catch (error) {
       console.log(error);
@@ -423,7 +426,7 @@ const LearningPathPage = () => {
         onAppend={handleAppendNewLessonType}
         onEdit={handlePopupEdit}
         onDelete={handlePopupDelete}
-        isAdmin={usertype === "admin"} // Check the current user's type
+        isAdmin={usertype === "teacher"} // Check the current user's type
       />
       <LessonTypesPopup
         isOpen={isInsertLessonTypeModalOpen}

@@ -72,17 +72,19 @@ function shortenString(str, maxLength) {
 
 const EditLesson = () => {
   const navigate = useNavigate();
-  const { getData, updateData } = useApi();
+  const { getData, updateData, postData } = useApi();
   const [lesson, setLesson] = useState({ title: "", content: [] });
   const [initialLesson, setInitialLesson] = useState({
     title: "",
     content: [],
   });
   const [isLessonLoading, setIsLessonLoading] = useState(true);
-  const { lessonId } = useParams();
+  const { lessonId, unitId } = useParams();
   const bottomRef = useRef(null);
   const topRef = useRef(null);
   const [currentTitle, setCurrentTitle] = useState("");
+  const [currentDesc, setCurrentDesc] = useState("");
+  const [descChanged, setDescChanged] = useState(false);
   const [titleChanged, setTitleChanged] = useState(false);
   const [editMade, setEditMade] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -132,6 +134,7 @@ const EditLesson = () => {
         setLesson(responseData);
         setInitialLesson(responseData);
         setCurrentTitle(responseData.title);
+        setCurrentDesc(responseData.desc && responseData.desc);
         setIsLessonLoading(false);
       } catch (error) {
         console.log(error);
@@ -149,6 +152,18 @@ const EditLesson = () => {
     } catch (error) {
       console.log("Error updating of lesson", error);
     }
+
+    // edit node title and desc
+    try {
+      await postData(`api/units/${unitId}/updateNodeDetails`, {
+        unitId: unitId,
+        nodeId: lessonId,
+        newTitle: lesson.title,
+        newDescription: lesson.desc,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleTitleChange = (event) => {
@@ -157,11 +172,28 @@ const EditLesson = () => {
     else setTitleChanged(false);
   };
 
+  const handleDescChange = (event) => {
+    setCurrentDesc(event.target.value);
+    if (event.target.value !== lesson.desc) setDescChanged(true);
+    else setDescChanged(false);
+  };
+
   const changeLessonTitle = useCallback(
     (newTitle) => {
       if (lesson.title && lesson.title !== newTitle) {
         setLesson({ ...lesson, title: newTitle });
         setTitleChanged(false);
+        setEditMade(true);
+      }
+    },
+    [lesson],
+  );
+
+  const changeDescTitle = useCallback(
+    (newDesc) => {
+      if (lesson.desc && lesson.desc !== newDesc) {
+        setLesson({ ...lesson, desc: newDesc });
+        setDescChanged(false);
         setEditMade(true);
       }
     },
@@ -266,6 +298,7 @@ const EditLesson = () => {
   const revertChanges = useCallback(() => {
     setLesson(initialLesson);
     setCurrentTitle(initialLesson.title);
+    setCurrentDesc(initialLesson.desc && initialLesson.desc);
     setEditMade(false);
     setTitleChanged(false);
   }, [initialLesson]);
@@ -438,11 +471,34 @@ const EditLesson = () => {
                   },
                 }}
               />
+              <h2 className="text-font">Description</h2>
+              <TextField
+                onChange={handleDescChange}
+                required
+                multiline
+                minRows={1}
+                maxRows={2}
+                variant="filled"
+                label="Title"
+                value={currentDesc || ""}
+                sx={{
+                  width: "100%",
+                  marginBottom: "20px",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "#EFEFEF",
+                  },
+                }}
+              />
               <Button
                 startIcon={<EditIcon />}
                 variant="contained"
-                onClick={() => changeLessonTitle(currentTitle)}
-                disabled={!titleChanged}
+                onClick={() => {
+                  changeLessonTitle(currentTitle);
+                  changeDescTitle(currentDesc);
+                }}
+                disabled={!titleChanged && !descChanged}
                 sx={{
                   ":hover": { backgroundColor: "#F7B92C" },
                   "&:disabled": {

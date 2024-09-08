@@ -101,7 +101,7 @@ const appendNode = asyncHandler(async (req, res) => {
   var generatedNode;
 
   if (newNode.type == "lesson") {
-    generatedNode = await createLesson(newNode.title);
+    generatedNode = await createLesson(newNode.title, newNode.desc);
   } else if (newNode.type == "video") {
     generatedNode = await createVideo(newNode.title);
   } else if (newNode.type == "quiz") {
@@ -179,7 +179,7 @@ const insertNode = asyncHandler(async (req, res) => {
   var generatedNode;
 
   if (newNode.type == "lesson") {
-    generatedNode = await createLesson(newNode.title);
+    generatedNode = await createLesson(newNode.title, newNode.desc);
   } else if (newNode.type == "video") {
     generatedNode = await createVideo(newNode.title);
   } else if (newNode.type == "quiz") {
@@ -296,12 +296,14 @@ function appendChildNode(data, targetId, newNode) {
  * @function createLesson
  * @desc    Create a new lesson document
  * @param {string} nodeTitle - The title of the new lesson.
+ * @param {string} nodeDesc - The description of the new lesson.
  * @returns {Promise<Object>} A promise that resolves to the created lesson document.
  */
-async function createLesson(nodeTitle) {
+async function createLesson(nodeTitle, nodeDesc) {
   // Empty node
   generatedNode = await lessonModel.create({
     title: nodeTitle || "New lesson",
+    desc: nodeDesc || "New lesson description",
     content: [
       {
         type: "listBox",
@@ -592,7 +594,12 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
     }
 
     // 2. Locate the selected node within the unit, and update the node with the new data
-    const isUpdated = updateNodeRecursive(unit.data, nodeId, newTitle, newDescription);
+    const isUpdated = updateNodeRecursive(
+      unit.data,
+      nodeId,
+      newTitle,
+      newDescription,
+    );
     if (!isUpdated) {
       console.log("Target node not found");
       return res.status(404).json({ message: "Target node not found" });
@@ -605,13 +612,14 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
     // If all previous steps completed, then the node was updated successfuly
     return res
       .status(200)
-      .json({ message: "Node updated successfully", node: {'id': nodeId, 'title': newTitle, 'description': newDescription } });
-  
+      .json({
+        message: "Node updated successfully",
+        node: { id: nodeId, title: newTitle, description: newDescription },
+      });
   } catch (error) {
     console.error("Error in updateTreeNodeDetails:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
-
 });
 
 /**
@@ -626,19 +634,23 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
 function updateNodeRecursive(data, targetId, newTitle, newDescription) {
   // Iterate through each child
   for (let item of data) {
-    
     // Check if the item matches
     if (item.id === targetId) {
       // Update this node with the new details
       item.title = newTitle;
       item.tooltip.content = newDescription;
-      
+
       return true; // Return true to indicate success
     }
 
     // Otherwise recur if children exist
     if (item.children && item.children.length > 0) {
-      const found = updateNodeRecursive(item.children, targetId, newTitle, newDescription);
+      const found = updateNodeRecursive(
+        item.children,
+        targetId,
+        newTitle,
+        newDescription,
+      );
       if (found) {
         return true; // Stop further recursion if the node was found
       }

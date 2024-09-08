@@ -30,11 +30,13 @@ const contentSchema = new mongoose.Schema({
  * @typedef {Object} Lesson
  * @property {ObjectId} _id - The unique identifier for the lesson (automatically generated).
  * @property {string} title - The title of the lesson.
+ * @property {string} desc - The description of the lesson.
  * @property {Content[]} content - An array of content objects associated with the lesson.
  */
 const lessonSchema = mongoose.Schema({
   _id: { type: Schema.Types.ObjectId, auto: true }, // Automatically generate ObjectId
   title: String,
+  desc: String,
   content: [contentSchema],
 });
 
