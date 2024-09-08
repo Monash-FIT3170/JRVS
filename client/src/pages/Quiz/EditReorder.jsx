@@ -44,12 +44,14 @@ import ActionButton from "../../components/quizComponents/ActionButton";
 
 const EditReorderQuestion = () => {
   const navigate = useNavigate();
-  const { getData, updateData } = useApi();
+  const { getData, updateData, postData } = useApi();
   const [questions, setQuestions] = useState([]);
+  const [currentTitle, setCurrentTitle] = useState("");
+  const [currentHeading, setCurrentHeading] = useState("");
   const [originalQuestions, setOriginalQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const { quizId } = useParams();
+  const { quizId, unitId } = useParams();
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleBackClick = () => {
@@ -64,6 +66,8 @@ const EditReorderQuestion = () => {
           setQuestions(quiz.questions);
           setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
         }
+        setCurrentTitle(quiz.title || "");
+        setCurrentHeading(quiz.heading || "");
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -135,13 +139,29 @@ const EditReorderQuestion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateData(`api/quizzes/${quizId}`, questions);
+      await updateData(`api/quizzes/${quizId}`, {
+        title: currentTitle,
+        heading: currentHeading,
+        questions: questions,
+      });
       console.log("All questions updated successfully");
       handleBackClick();
     } catch (error) {
       console.error("Failed to update the questions:", error);
       setError("Failed to update questions. Please try again.");
       setSuccessMessage("");
+    }
+
+    // edit node title and desc
+    try {
+      await postData(`api/units/${unitId}/updateNodeDetails`, {
+        unitId: unitId,
+        nodeId: quizId,
+        newTitle: currentTitle,
+        newDescription: currentHeading,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -230,6 +250,73 @@ const EditReorderQuestion = () => {
           >
             Edit Reorder Quiz
           </Typography>
+
+          <Box
+            sx={{
+              borderRadius: "15px",
+              backgroundColor: "#6AB6F3",
+              width: "50%",
+              padding: "30px",
+              position: "relative",
+              marginBottom: "20px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <Box sx={{ marginBottom: "40px" }}>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontSize: "36px",
+                  fontWeight: "600",
+                  color: "#FFFFFF",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                Title
+              </Typography>
+            </Box>
+            <TextField
+              onChange={(e) => setCurrentTitle(e.target.value)}
+              required
+              multiline
+              minRows={1}
+              maxRows={2}
+              variant="filled"
+              label="Title"
+              value={currentTitle || ""}
+              sx={{
+                width: "100%",
+                marginBottom: "20px",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                "&:hover": {
+                  backgroundColor: "#EFEFEF",
+                },
+              }}
+            />
+            <h2 className="text-font">Heading</h2>
+            <TextField
+              onChange={(e) => setCurrentHeading(e.target.value)}
+              required
+              multiline
+              minRows={1}
+              maxRows={2}
+              variant="filled"
+              label="Title"
+              value={currentHeading || ""}
+              sx={{
+                width: "100%",
+                marginBottom: "20px",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                "&:hover": {
+                  backgroundColor: "#EFEFEF",
+                },
+              }}
+            />
+          </Box>
+
           {!isLoading &&
             questions.map((question, questionIndex) => (
               <Box
