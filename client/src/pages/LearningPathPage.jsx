@@ -211,7 +211,7 @@ const LearningPathPage = () => {
     if (inputType === "lesson") {
       window.location.href = `http://localhost:${port}/edit/${unitId}/${id}`; // .../edit/lessonId
     } else if (inputType === "video") {
-      window.location.href = `http://localhost:${port}/video/edit/${id}`; // .../video/edit/:videoId
+      window.location.href = `http://localhost:${port}/video/edit/${unitId}/${id}`; // .../video/edit/:videoId
     } else if (inputType === "quiz") {
       if (inputSubType === "Image" || inputSubType === "ImageQuiz")
         window.location.href = `http://localhost:${port}/quiz/imagequiz/edit/${id}`; // .../quiz/imagequiz/edit/:quizId

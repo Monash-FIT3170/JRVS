@@ -138,8 +138,16 @@ const App = () => {
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
           <Route exact path="/video/:videoId" element={<Videos />} />
         </Route>
-        <Route exact path="/video/edit/:videoId" element={<ProtectedRoute />}>
-          <Route exact path="/video/edit/:videoId" element={<EditVideo />} />
+        <Route
+          exact
+          path="/video/edit/:unitId/:videoId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/video/edit/:unitId/:videoId"
+            element={<EditVideo />}
+          />
         </Route>
         <Route exact path="/units" element={<ProtectedRoute />}>
           <Route exact path="/units" element={<UnitsPage />} />
