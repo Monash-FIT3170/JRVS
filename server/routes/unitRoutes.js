@@ -15,6 +15,7 @@ const {
   insertNode,
   deleteNode,
   getUnlockedTreeData,
+  updateTreeNodeDetails,
 } = require("../controllers/unitController");
 
 router.route("/").get(getUnits);
@@ -23,5 +24,6 @@ router.post("/:id/append", appendNode);
 router.post("/:id/insert", insertNode);
 router.post("/:id/delete", deleteNode);
 router.route("/:id/unlockedTreeData").get(getUnlockedTreeData);
+router.post("/:id/updateNodeDetails", updateTreeNodeDetails);
 
 module.exports = router;
