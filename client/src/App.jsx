@@ -71,45 +71,45 @@ const App = () => {
         </Route>
         <Route
           exact
-          path="/quiz/short-answer/edit/:quizId"
+          path="/quiz/short-answer/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/short-answer/edit/:quizId"
+            path="/quiz/short-answer/edit/:unitId/:quizId"
             element={<EditShortAnswerQuestion />}
           />
         </Route>
         <Route
           exact
-          path="/quiz/drag-drop/edit/:quizId"
+          path="/quiz/drag-drop/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/drag-drop/edit/:quizId"
+            path="/quiz/drag-drop/edit/:unitId/:quizId"
             element={<EditDragDrop />}
           />
         </Route>
         <Route
           exact
-          path="/quiz/imagequiz/edit/:quizId"
+          path="/quiz/imagequiz/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/imagequiz/edit/:quizId"
+            path="/quiz/imagequiz/edit/:unitId/:quizId"
             element={<EditImageQuiz />}
           />
         </Route>
         <Route
           exact
-          path="/quiz/truefalse/edit/:quizId"
+          path="/quiz/truefalse/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/truefalse/edit/:quizId"
+            path="/quiz/truefalse/edit/:unitId/:quizId"
             element={<EditTrueFalse />}
           />
         </Route>
@@ -126,12 +126,12 @@ const App = () => {
         </Route>
         <Route
           exact
-          path="/quiz/reorder/edit/:quizId"
+          path="/quiz/reorder/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/reorder/edit/:quizId"
+            path="/quiz/reorder/edit/:unitId/:quizId"
             element={<EditReorderQuestion />}
           />
         </Route>
