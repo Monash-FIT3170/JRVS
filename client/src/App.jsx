@@ -115,12 +115,12 @@ const App = () => {
         </Route>
         <Route
           exact
-          path="/quiz/multiplechoice/edit/:quizId"
+          path="/quiz/multiplechoice/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/multiplechoice/edit/:quizId"
+            path="/quiz/multiplechoice/edit/:unitId/:quizId"
             element={<EditMultipleChoice />}
           />
         </Route>

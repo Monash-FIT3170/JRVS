@@ -103,9 +103,9 @@ const appendNode = asyncHandler(async (req, res) => {
   if (newNode.type == "lesson") {
     generatedNode = await createLesson(newNode.title, newNode.desc);
   } else if (newNode.type == "video") {
-    generatedNode = await createVideo(newNode.title);
+    generatedNode = await createVideo(newNode.title, newNode.desc);
   } else if (newNode.type == "quiz") {
-    generatedNode = await createQuiz(newNode.title, inputSubType); // Pass in quiz sub-type
+    generatedNode = await createQuiz(newNode.title, inputSubType, newNode.desc); // Pass in quiz sub-type
   } else {
     console.log("New node type invalid");
     return res.status(500).json({ message: "New node type invalid" });
@@ -183,7 +183,7 @@ const insertNode = asyncHandler(async (req, res) => {
   } else if (newNode.type == "video") {
     generatedNode = await createVideo(newNode.title, newNode.desc);
   } else if (newNode.type == "quiz") {
-    generatedNode = await createQuiz(newNode.title, inputSubType); // Pass in quiz sub-type
+    generatedNode = await createQuiz(newNode.title, inputSubType, newNode.desc); // Pass in quiz sub-type
   } else {
     console.log("New node type invalid");
     return res.status(500).json({ message: "New node type invalid" });
@@ -359,11 +359,13 @@ async function createVideo(nodeTitle, nodeDesc) {
  * @desc    Create a new quiz document
  * @param {string} nodeTitle - The title of the new quiz.
  * @param {string} quizType - The type of quiz (e.g., TrueFalse).
+ * @param {string} nodeDesc - The description/heading of the new quiz.
  * @returns {Promise<Object>} A promise that resolves to the created quiz document.
  */
-async function createQuiz(nodeTitle, quizType) {
+async function createQuiz(nodeTitle, quizType, nodeDesc) {
   generatedNode = await quizModel.create({
-    topic: nodeTitle || "New Quiz",
+    title: nodeTitle || "New Quiz",
+    heading: nodeDesc || "New Quiz Heading",
     questions: [
       {
         type: quizType,

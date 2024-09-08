@@ -280,7 +280,7 @@ function Quizzes() {
                 pl: 6,
               }}
             >
-              Quiz
+              {quizzes.title || "Quiz"}
             </Typography>
             <Typography
               sx={{
@@ -292,7 +292,7 @@ function Quizzes() {
                 pl: 6,
               }}
             >
-              {quizzes.topic}
+              {quizzes.heading || ""}
             </Typography>
 
             {renderQuestion()}
