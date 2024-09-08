@@ -426,7 +426,7 @@ const LearningPathPage = () => {
         onAppend={handleAppendNewLessonType}
         onEdit={handlePopupEdit}
         onDelete={handlePopupDelete}
-        isAdmin={usertype === "teacher"} // Check the current user's type
+        isAdmin={usertype === "admin"} // Check the current user's type
       />
       <LessonTypesPopup
         isOpen={isInsertLessonTypeModalOpen}
