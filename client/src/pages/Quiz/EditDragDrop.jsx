@@ -303,7 +303,7 @@ const EditDragDrop = () => {
               minRows={1}
               maxRows={2}
               variant="filled"
-              label="Title"
+              label="Heading"
               value={currentHeading || ""}
               sx={{
                 width: "100%",

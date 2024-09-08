@@ -479,7 +479,7 @@ const EditLesson = () => {
                 minRows={1}
                 maxRows={2}
                 variant="filled"
-                label="Title"
+                label="Description"
                 value={currentDesc || ""}
                 sx={{
                   width: "100%",
