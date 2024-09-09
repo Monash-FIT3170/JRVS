@@ -76,6 +76,47 @@ const getUnit = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Creates a new unit in the database.
+ *
+ * @route POST /units
+ * @access Public
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+const createUnit = asyncHandler(async (req, res) => {
+  const { title, icon, colour } = req.body;
+
+  // Create a placeholder lesson
+  newLesson = await createLesson();
+
+  const newLessonForUnit = {
+    _id: newLesson._id,
+    id: newLesson._id.toString(),
+    icon: "lessonIcon",
+    title: "New Lesson",
+    tooltip: { content: "Description of the new child node" },
+    children: [],
+    type: "lesson",
+  };
+
+  // create the unit
+  unit_details = await unitModel.create({
+    data: [newLessonForUnit],
+    numberOfLessons: 1,
+  });
+
+  unit = await unitsModel.create({
+    _id: unit_details._id,
+    title: title,
+    icon: icon,
+    colour: colour,
+    numberOfLessons: 1,
+  });
+
+  res.status(200).json(unit);
+});
+
+/**
  * @desc    Append a node to a unit
  * @route   POST /api/units/:id/append
  * @access  Private
@@ -592,7 +633,12 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
     }
 
     // 2. Locate the selected node within the unit, and update the node with the new data
-    const isUpdated = updateNodeRecursive(unit.data, nodeId, newTitle, newDescription);
+    const isUpdated = updateNodeRecursive(
+      unit.data,
+      nodeId,
+      newTitle,
+      newDescription,
+    );
     if (!isUpdated) {
       console.log("Target node not found");
       return res.status(404).json({ message: "Target node not found" });
@@ -605,13 +651,14 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
     // If all previous steps completed, then the node was updated successfuly
     return res
       .status(200)
-      .json({ message: "Node updated successfully", node: {'id': nodeId, 'title': newTitle, 'description': newDescription } });
-  
+      .json({
+        message: "Node updated successfully",
+        node: { id: nodeId, title: newTitle, description: newDescription },
+      });
   } catch (error) {
     console.error("Error in updateTreeNodeDetails:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
-
 });
 
 /**
@@ -626,19 +673,23 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
 function updateNodeRecursive(data, targetId, newTitle, newDescription) {
   // Iterate through each child
   for (let item of data) {
-    
     // Check if the item matches
     if (item.id === targetId) {
       // Update this node with the new details
       item.title = newTitle;
       item.tooltip.content = newDescription;
-      
+
       return true; // Return true to indicate success
     }
 
     // Otherwise recur if children exist
     if (item.children && item.children.length > 0) {
-      const found = updateNodeRecursive(item.children, targetId, newTitle, newDescription);
+      const found = updateNodeRecursive(
+        item.children,
+        targetId,
+        newTitle,
+        newDescription,
+      );
       if (found) {
         return true; // Stop further recursion if the node was found
       }
@@ -651,6 +702,7 @@ function updateNodeRecursive(data, targetId, newTitle, newDescription) {
 module.exports = {
   getUnits,
   getUnit,
+  createUnit,
   appendNode,
   insertNode,
   deleteNode,
