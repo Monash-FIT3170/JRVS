@@ -75,7 +75,7 @@ const UnitsPage = () => {
                 progress={
                   ((userData?.assignedUnits.find(
                     (userUnit) => userUnit.unitId == unit._id
-                  )?.lessonsCompleted || 0) / unit.numberOfLessons)*100
+                  )?.lessonsCompleted.length || 0) / unit.numberOfLessons)*100
                 }
                 imageColour={unit.colour}
                 icon={unit.icon}

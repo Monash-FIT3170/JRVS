@@ -65,7 +65,7 @@ function Lessons() {
 
 
     const handleLessonFinished = () =>{
-        postData(`api/users/updateUnitProgress/${unitId}`)
+        postData(`api/users/updateUnitProgress/${unitId}`, { lessonId })
         navigate(`/learningPath/${unitId}`)
     }
     

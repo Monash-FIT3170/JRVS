@@ -5,6 +5,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const XP = require('../models/xpModel');
 const crypto = require('crypto');
+const { SystemSecurityUpdate } = require('@mui/icons-material');
 
 const encrypt = (text) => {
     try {
@@ -117,6 +118,7 @@ const updatePoints = asyncHandler(async (req, res) => {
 const updateUnitProgress = asyncHandler(async (req, res) => {
     try {
         const { unitId } = req.params;
+        const { lessonId } = req.body;
         const user = req.user; // Get the logged-in user from the middleware
 
         // Find the unit object in the assignedUnits array
@@ -124,10 +126,18 @@ const updateUnitProgress = asyncHandler(async (req, res) => {
         // const unitToUpdate = userAssignedUnits.find(unit => unit.unitId == unitId);
         const unitIndex = user.assignedUnits.findIndex(unit => unit.unitId == unitId);
 
-        if (unitIndex !== -1) {
-            // Increment the lessonsCompleted
-            user.assignedUnits[unitIndex].lessonsCompleted += 1;
+        console.log(user.assignedUnits[unitIndex].lessonsCompleted)
 
+        if (unitIndex !== -1) {
+
+        
+            // Check if lessonId is already in lessonsCompleted
+            if (!user.assignedUnits[unitIndex].lessonsCompleted.includes(lessonId)) {
+                // Add the lessonId to the lessonsCompleted array
+                
+                user.assignedUnits[unitIndex].lessonsCompleted.push(lessonId);
+                console.log(user.assignedUnits[unitIndex].lessonsCompleted)
+            }
 
         // if (unitToUpdate) {
         //     // Increment the lessonsCompleted
@@ -137,7 +147,7 @@ const updateUnitProgress = asyncHandler(async (req, res) => {
             // Save the updated user object to the database
             user.markModified('assignedUnits');
             await user.save();
-            console.log(user)
+            
 
             // Send a success response
             res.status(200).json({ message: 'Unit progress updated successfully.' });
