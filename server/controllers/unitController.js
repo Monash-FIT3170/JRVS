@@ -183,11 +183,15 @@ const insertNode = asyncHandler(async (req, res) => {
   var generatedNode;
 
   if (newNode.type == "lesson") {
-    generatedNode = await createLesson(newNode.title, newNode.desc);
+    generatedNode = await createLesson(newNode.title, newNode.tooltip.content);
   } else if (newNode.type == "video") {
-    generatedNode = await createVideo(newNode.title, newNode.desc);
+    generatedNode = await createVideo(newNode.title, newNode.tooltip.content);
   } else if (newNode.type == "quiz") {
-    generatedNode = await createQuiz(newNode.title, inputSubType, newNode.desc); // Pass in quiz sub-type
+    generatedNode = await createQuiz(
+      newNode.title,
+      inputSubType,
+      newNode.tooltip.content,
+    ); // Pass in quiz sub-type
   } else {
     console.log("New node type invalid");
     return res.status(500).json({ message: "New node type invalid" });

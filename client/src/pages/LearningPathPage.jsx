@@ -237,7 +237,6 @@ const LearningPathPage = () => {
     const newNode = {
       icon: `${inputType}Icon`,
       title: `New ${inputType}`,
-      //desc: "Description of the new child node",
       tooltip: { content: "Description of the new child node" },
       children: [],
       type: inputType,
@@ -267,7 +266,6 @@ const LearningPathPage = () => {
     const newNode = {
       icon: `${inputType}Icon`,
       title: `New ${inputType}`,
-      //desc: "Description of the new child node",
       tooltip: { content: "Description of the new child node" },
       children: [],
       type: inputType,
