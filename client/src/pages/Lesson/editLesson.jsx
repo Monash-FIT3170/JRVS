@@ -191,7 +191,7 @@ const EditLesson = () => {
 
   const changeDescTitle = useCallback(
     (newDesc) => {
-      if (lesson.desc && lesson.desc !== newDesc) {
+      if (!lesson.desc || lesson.desc !== newDesc) {
         setLesson({ ...lesson, desc: newDesc });
         setDescChanged(false);
         setEditMade(true);
