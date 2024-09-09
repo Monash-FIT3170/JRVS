@@ -26,10 +26,10 @@ import { useNavigate } from "react-router-dom";
 import { useApi } from "../context/ApiProvider";
 import UnitCard from "../components/UnitCard";
 import MenuBar from "../components/MenuBar";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 const UnitsPage = () => {
-  const { getData } = useApi();
+  const { getData, postData } = useApi();
   const [units, setUnits] = useState(undefined);
   const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
 
@@ -54,6 +54,24 @@ const UnitsPage = () => {
     navigate(path);
   };
 
+  const handleCreateUnit = async (title, icon, colour) => {
+    console.log("here");
+
+    try {
+      const response = await postData(`api/units/`, {
+        title,
+        icon,
+        colour,
+      });
+      console.log(response);
+
+      // Navigate to the edit the page
+      routeChange(response._id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div style={{ maxWidth: "100vw" }}>
       <link
@@ -67,6 +85,13 @@ const UnitsPage = () => {
           subtitle="Get ready to learn more about AI today"
         ></MenuBar>
       </Box>
+      <Button
+        onClick={() => {
+          handleCreateUnit("TestUnit", "search", "#A366FF");
+        }}
+      >
+        Add Unit
+      </Button>
       <Grid
         container
         rowSpacing={6}
