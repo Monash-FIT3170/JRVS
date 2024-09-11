@@ -1,0 +1,13 @@
+# Frontend service (Nginx + React)
+[service.frontend]
+path = "client"
+build = "docker build --target production -t frontend ."
+start = "nginx -g 'daemon off;'"
+ports = ["80:80"]
+
+# Backend service (Node.js)
+[service.backend]
+path = "server"
+build = "docker build --target backend-stage -t backend ."
+start = "node server/server.js"
+env = { NODE_ENV = "production" }
