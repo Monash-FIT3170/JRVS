@@ -10,8 +10,6 @@ services:
       - ./server/.env
     ports:
       - "5000:5000"
-    networks:
-      - my_network
 
   nginx:
     build:
@@ -22,9 +20,3 @@ services:
       - "80:80"
     depends_on:
       - backend
-    networks:
-      - my_network
-
-networks:
-  my_network:
-    driver: bridge
