@@ -36,7 +36,7 @@
   "scripts": {
     "start": "react-scripts start",
     "prebuild": "npm install --omit=dev",
-    "serve": "serve -s build -l 0.0.0.0:8080",
+    "serve": "serve -s build -l tcp://0.0.0.0:8080",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
