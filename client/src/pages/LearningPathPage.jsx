@@ -207,24 +207,23 @@ const LearningPathPage = () => {
   };
 
   const navigateToEditPage = (inputType, inputSubType, id, unitId) => {
-    const port = window.location.port;
     if (inputType === "lesson") {
-      window.location.href = `http://localhost:${port}/edit/${unitId}/${id}`; // .../edit/lessonId
+      window.location.href = `/edit/${unitId}/${id}`; // .../edit/lessonId
     } else if (inputType === "video") {
-      window.location.href = `http://localhost:${port}/video/edit/${unitId}/${id}`; // .../video/edit/:videoId
+      window.location.href = `/video/edit/${unitId}/${id}`; // .../video/edit/:videoId
     } else if (inputType === "quiz") {
       if (inputSubType === "Image" || inputSubType === "ImageQuiz")
-        window.location.href = `http://localhost:${port}/quiz/imagequiz/edit/${unitId}/${id}`; // .../quiz/imagequiz/edit/:quizId
+        window.location.href = `/quiz/imagequiz/edit/${unitId}/${id}`; // .../quiz/imagequiz/edit/:quizId
       else if (inputSubType === "ShortAnswer")
-        window.location.href = `http://localhost:${port}/quiz/short-answer/edit/${unitId}/${id}`; // .../quiz/imagequiz/edit/:quizId
+        window.location.href = `/quiz/short-answer/edit/${unitId}/${id}`; // .../quiz/imagequiz/edit/:quizId
       else if (inputSubType === "TrueFalse")
-        window.location.href = `http://localhost:${port}/quiz/truefalse/edit/${unitId}/${id}`; // .../quiz/truefalse/edit/:quizId
+        window.location.href = `/quiz/truefalse/edit/${unitId}/${id}`; // .../quiz/truefalse/edit/:quizId
       else if (inputSubType === "MultipleChoice")
-        window.location.href = `http://localhost:${port}/quiz/multiplechoice/edit/${unitId}/${id}`; // .../quiz/multiplechoice/edit/:quizId
+        window.location.href = `/quiz/multiplechoice/edit/${unitId}/${id}`; // .../quiz/multiplechoice/edit/:quizId
       else if (inputSubType === "Reorder")
-        window.location.href = `http://localhost:${port}/quiz/reorder/edit/${unitId}/${id}`; // .../quiz/reorder/edit/:quizId
+        window.location.href = `/quiz/reorder/edit/${unitId}/${id}`; // .../quiz/reorder/edit/:quizId
       else if (inputSubType === "DragAndDrop")
-        window.location.href = `http://localhost:${port}/quiz/drag-drop/edit/${unitId}/${id}`; // .../quiz/drag-drop/edit/:quizId
+        window.location.href = `/quiz/drag-drop/edit/${unitId}/${id}`; // .../quiz/drag-drop/edit/:quizId
       else alert(`Quiz sub-type '${inputSubType}' cannot be edited.`);
     }
   };
