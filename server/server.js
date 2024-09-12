@@ -49,7 +49,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost",
-      "https://jrvs-client-production.up.railway.app/",
+      "https://jrvs-client-production.up.railway.app",
     ],
   }),
 ); // Enable CORS for all routes
