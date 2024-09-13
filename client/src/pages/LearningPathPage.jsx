@@ -206,24 +206,24 @@ const LearningPathPage = () => {
     setIsAppendLessonTypeModalOpen(true);
   };
 
-  const navigateToEditPage = (inputType, inputSubType, id) => {
+  const navigateToEditPage = (inputType, inputSubType, id, unitId) => {
     if (inputType === "lesson") {
-      window.location.href = `/edit/${id}`; // .../edit/lessonId
+      window.location.href = `/edit/${unitId}/${id}`; // .../edit/lessonId
     } else if (inputType === "video") {
-      window.location.href = `/video/edit/${id}`; // .../video/edit/:videoId
+      window.location.href = `/video/edit/${unitId}/${id}`; // .../video/edit/:videoId
     } else if (inputType === "quiz") {
       if (inputSubType === "Image" || inputSubType === "ImageQuiz")
-        window.location.href = `/quiz/imagequiz/edit/${id}`; // .../quiz/imagequiz/edit/:quizId
+        window.location.href = `/quiz/imagequiz/edit/${unitId}/${id}`; // .../quiz/imagequiz/edit/:quizId
       else if (inputSubType === "ShortAnswer")
-        window.location.href = `/quiz/short-answer/edit/${id}`; // .../quiz/imagequiz/edit/:quizId
+        window.location.href = `/quiz/short-answer/edit/${unitId}/${id}`; // .../quiz/imagequiz/edit/:quizId
       else if (inputSubType === "TrueFalse")
-        window.location.href = `/quiz/truefalse/edit/${id}`; // .../quiz/truefalse/edit/:quizId
+        window.location.href = `/quiz/truefalse/edit/${unitId}/${id}`; // .../quiz/truefalse/edit/:quizId
       else if (inputSubType === "MultipleChoice")
-        window.location.href = `/quiz/multiplechoice/edit/${id}`; // .../quiz/multiplechoice/edit/:quizId
+        window.location.href = `/quiz/multiplechoice/edit/${unitId}/${id}`; // .../quiz/multiplechoice/edit/:quizId
       else if (inputSubType === "Reorder")
-        window.location.href = `/quiz/reorder/edit/${id}`; // .../quiz/reorder/edit/:quizId
+        window.location.href = `/quiz/reorder/edit/${unitId}/${id}`; // .../quiz/reorder/edit/:quizId
       else if (inputSubType === "DragAndDrop")
-        window.location.href = `/quiz/drag-drop/edit/${id}`; // .../quiz/drag-drop/edit/:quizId
+        window.location.href = `/quiz/drag-drop/edit/${unitId}/${id}`; // .../quiz/drag-drop/edit/:quizId
       else alert(`Quiz sub-type '${inputSubType}' cannot be edited.`);
     }
   };
@@ -251,7 +251,7 @@ const LearningPathPage = () => {
       console.log(response);
 
       // Navigate to the edit the page
-      navigateToEditPage(inputType, inputSubType, response.newNode.id);
+      navigateToEditPage(inputType, inputSubType, response.newNode.id, unitId);
     } catch (error) {
       console.log(error);
     }
@@ -280,7 +280,7 @@ const LearningPathPage = () => {
       console.log(response);
 
       // Navigate to the edit the page
-      navigateToEditPage(inputType, inputSubType, response.newNode.id);
+      navigateToEditPage(inputType, inputSubType, response.newNode.id, unitId);
     } catch (error) {
       console.log(error);
     }
@@ -290,7 +290,7 @@ const LearningPathPage = () => {
     // Handle an editing of a node. Navigate to the edit page
     if (selectedNode.type !== "quiz") {
       // Navigate to the lesson/video edit page
-      navigateToEditPage(selectedNode.type, null, selectedNode.id);
+      navigateToEditPage(selectedNode.type, null, selectedNode.id, unitId);
     }
 
     // Retrieve the quiz sub-type
@@ -304,6 +304,7 @@ const LearningPathPage = () => {
         selectedNode.type,
         response.questions[0].type,
         selectedNode.id,
+        unitId,
       );
     } catch (error) {
       console.log(error);

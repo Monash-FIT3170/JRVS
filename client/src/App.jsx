@@ -42,8 +42,16 @@ const App = () => {
         <Route exact path="/lesson/:lessonId" element={<ProtectedRoute />}>
           <Route exact path="/lesson/:lessonId" element={<Lessons />} />
         </Route>
-        <Route exact path="/edit/:lessonId" element={<ProtectedRoute />}>
-          <Route exact path="/edit/:lessonId" element={<EditLesson />} />
+        <Route
+          exact
+          path="/edit/:unitId/:lessonId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/edit/:unitId/:lessonId"
+            element={<EditLesson />}
+          />
         </Route>
         <Route exact path="/learningPath/:unitId" element={<ProtectedRoute />}>
           <Route
@@ -63,75 +71,83 @@ const App = () => {
         </Route>
         <Route
           exact
-          path="/quiz/short-answer/edit/:quizId"
+          path="/quiz/short-answer/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/short-answer/edit/:quizId"
+            path="/quiz/short-answer/edit/:unitId/:quizId"
             element={<EditShortAnswerQuestion />}
           />
         </Route>
         <Route
           exact
-          path="/quiz/drag-drop/edit/:quizId"
+          path="/quiz/drag-drop/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/drag-drop/edit/:quizId"
+            path="/quiz/drag-drop/edit/:unitId/:quizId"
             element={<EditDragDrop />}
           />
         </Route>
         <Route
           exact
-          path="/quiz/imagequiz/edit/:quizId"
+          path="/quiz/imagequiz/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/imagequiz/edit/:quizId"
+            path="/quiz/imagequiz/edit/:unitId/:quizId"
             element={<EditImageQuiz />}
           />
         </Route>
         <Route
           exact
-          path="/quiz/truefalse/edit/:quizId"
+          path="/quiz/truefalse/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/truefalse/edit/:quizId"
+            path="/quiz/truefalse/edit/:unitId/:quizId"
             element={<EditTrueFalse />}
           />
         </Route>
         <Route
           exact
-          path="/quiz/multiplechoice/edit/:quizId"
+          path="/quiz/multiplechoice/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/multiplechoice/edit/:quizId"
+            path="/quiz/multiplechoice/edit/:unitId/:quizId"
             element={<EditMultipleChoice />}
           />
         </Route>
         <Route
           exact
-          path="/quiz/reorder/edit/:quizId"
+          path="/quiz/reorder/edit/:unitId/:quizId"
           element={<ProtectedRoute />}
         >
           <Route
             exact
-            path="/quiz/reorder/edit/:quizId"
+            path="/quiz/reorder/edit/:unitId/:quizId"
             element={<EditReorderQuestion />}
           />
         </Route>
         <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
           <Route exact path="/video/:videoId" element={<Videos />} />
         </Route>
-        <Route exact path="/video/edit/:videoId" element={<ProtectedRoute />}>
-          <Route exact path="/video/edit/:videoId" element={<EditVideo />} />
+        <Route
+          exact
+          path="/video/edit/:unitId/:videoId"
+          element={<ProtectedRoute />}
+        >
+          <Route
+            exact
+            path="/video/edit/:unitId/:videoId"
+            element={<EditVideo />}
+          />
         </Route>
         <Route exact path="/units" element={<ProtectedRoute />}>
           <Route exact path="/units" element={<UnitsPage />} />
