@@ -42,8 +42,7 @@ const UnitPopup = ({
   isAdmin,
 }) => {
   const handleEnterLesson = () => {
-    const port = window.location.port;
-    window.location.href = `http://localhost:${port}/${node.type}/${node.id}`;
+    window.location.href = `/${node.type}/${node.id}`;
   };
 
   const titleStyle = {
