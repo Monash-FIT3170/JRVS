@@ -69,7 +69,7 @@ export const ApiProvider = ({ children }) => {
 
   // Function to update data in MongoDB
   const updateData = async (endpoint, data) => {
-    const url = `${baseURL}/${endpoint}`;
+    const url = `${baseURL}/${endpoint}`.replace(/([^:]\/)\/+/g, "$1");
     const options = {
       method: "PUT",
       body: JSON.stringify(data),
@@ -79,7 +79,7 @@ export const ApiProvider = ({ children }) => {
 
   // Function to delete data from MongoDB
   const deleteData = async (endpoint) => {
-    const url = `${baseURL}/${endpoint}`;
+    const url = `${baseURL}/${endpoint}`.replace(/([^:]\/)\/+/g, "$1");
     const options = {
       method: "DELETE",
     };
