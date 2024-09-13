@@ -24,7 +24,7 @@ export const useApi = () => useContext(ApiContext);
 // MongoDB API Provider component
 export const ApiProvider = ({ children }) => {
   // Define your MongoDB API base URL
-  const baseURL = "http://localhost:5000";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}`;
 
   // Generic function to make API requests
   const fetchData = async (url, options = {}) => {
