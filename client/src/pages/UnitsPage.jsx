@@ -32,10 +32,14 @@ const UnitsPage = () => {
   const { getData, postData } = useApi();
   const [units, setUnits] = useState();
   const [userData, setUserData] = useState();
+  const [userUnitProgress, setUserUnitProgress] = useState();
+  const [isUserUnitProgressLoading, setIsUserUnitProgressLoading] =
+    useState(true);
   const [isUnitLoading, setIsUnitLoading] = useState(true);
   const [isUserDataLoading, setIsUserDataLoading] = useState(true);
 
-  const isLoading = isUnitLoading || isUserDataLoading;
+  const isLoading =
+    isUnitLoading || isUserDataLoading || isUserUnitProgressLoading;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +53,11 @@ const UnitsPage = () => {
         const userData = await getData(`api/users/id/${res.decoded.id}`);
         setUserData(userData);
         setIsUserDataLoading(false);
+
+        const userUnits = await getData("api/userUnitProgress");
+        console.log(userUnits);
+        setUserUnitProgress(userUnits);
+        setIsUserUnitProgressLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -99,9 +108,11 @@ const UnitsPage = () => {
               <UnitCard
                 title={unit.title}
                 progress={
-                  ((userData?.assignedUnits.find(
-                    (userUnit) => userUnit.unitId == unit._id
-                  )?.lessonsCompleted.length || 0) / unit.numberOfLessons)*100
+                  ((userUnitProgress?.find(
+                    (userUnit) => userUnit.unitId == unit._id,
+                  )?.completedLessons.length || 0) /
+                    unit.numberOfLessons) *
+                  100
                 }
                 imageColour={unit.colour}
                 icon={unit.icon}

@@ -7,15 +7,18 @@
  */
 
 const express = require("express");
+const authenticate = require("../middleware/authMiddleware");
 const router = express.Router();
 const {
   getUserUnitProgress,
   updateUserUnitProgress,
   createUserUnitProgress,
+  getAllUnitsProgressForUser,
 } = require("../controllers/userUnitProgressController");
 
-router.route("/:userId/:unitId").get(getUserUnitProgress);
-router.route("/:userId/:unitId").put(updateUserUnitProgress);
-router.route("/:userId/:unitId").post(createUserUnitProgress);
+router.get("/", authenticate, getAllUnitsProgressForUser);
+router.get("/:unitId", authenticate, getUserUnitProgress);
+router.put("/:unitId", authenticate, updateUserUnitProgress);
+router.post("/:unitId", authenticate, createUserUnitProgress);
 
 module.exports = router;

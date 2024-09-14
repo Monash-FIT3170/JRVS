@@ -346,11 +346,8 @@ const LearningPathPage = () => {
       if (usertype === "teacher" || usertype === "admin") {
         return await getData(`api/units/${unitId}/unlockedTreeData`);
       } else {
-        // get user's progress for this unit
-        const token = localStorage.getItem("token");
-        const res = await postData("api/auth/current", { token });
         const userProgressResponseData = await getData(
-          `api/userUnitProgress/${res.decoded.id}/${unitId}`,
+          `api/userUnitProgress/${unitId}`,
         );
         if (userProgressResponseData.completedLessons) {
           return userProgressResponseData.completedLessons;

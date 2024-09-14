@@ -79,10 +79,28 @@ function Lessons() {
   const [lastSectionIndex, setLastSectionIndex] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleLessonFinished = () =>{
-    postData(`api/users/updateUnitProgress/${unitId}`, { lessonId })
-    navigate(`/learningPath/${unitId}`)
-}
+  const handleLessonFinished = async () => {
+    try {
+      await updateData(`api/userUnitProgress/${unitId}`, {
+        newCompletedLessons: [lessonId],
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        try {
+          console.log(
+            "userUnitProgress entry not found, creating a new one...",
+          );
+          await postData(`api/userUnitProgress/${unitId}`, {
+            completedLessons: [lessonId],
+          });
+        } catch (creationError) {
+          console.error("Error creating user progress entry:", creationError);
+        }
+      } else {
+        console.error("Error updating user progress:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
