@@ -76,7 +76,6 @@ const UnitsPage = () => {
       (userUnit) => userUnit.unitId == unit._id,
     )?.completedLessons.length;
     let progress = (numLessonsCompleted || 0) / unit.numberOfLessons;
-    console.log(unit.numberOfLessons);
     return progress * 100;
   };
 

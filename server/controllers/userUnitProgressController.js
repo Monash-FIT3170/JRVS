@@ -42,12 +42,10 @@ const getAllUnitsProgressForUser = asyncHandler(async (req, res) => {
     // Return all the unit progress records for the user
     res.status(200).json(userUnitProgresses);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error fetching user unit progress",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error fetching user unit progress",
+      error: error.message,
+    });
   }
 });
 
@@ -120,9 +118,9 @@ const createUserUnitProgress = asyncHandler(async (req, res) => {
     unitId: unitId,
   });
   if (userUnitProgress) {
-    res.status(404).json({ message: "User's unit progress not found" });
+    res.status(403).json({ message: "User's unit progress already exists" });
   } else {
-    userUnitProgress = new lessonProgressModel({
+    userUnitProgress = new userUnitProgressModel({
       userId: userId,
       unitId: unitId,
       completedLessons: completedLessons,

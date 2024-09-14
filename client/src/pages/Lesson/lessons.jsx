@@ -84,23 +84,20 @@ function Lessons() {
       await updateData(`api/userUnitProgress/${unitId}`, {
         newCompletedLessons: [lessonId],
       });
+      navigate(-1);
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        try {
-          console.log(
-            "userUnitProgress entry not found, creating a new one...",
-          );
-          await postData(`api/userUnitProgress/${unitId}`, {
-            completedLessons: [lessonId],
-          });
-        } catch (creationError) {
-          console.error("Error creating user progress entry:", creationError);
-        }
-      } else {
-        console.error("Error updating user progress:", error);
-      }
+      console.log(error.message);
     }
-    navigate(-1);
+
+    try {
+      console.log("userUnitProgress entry not found, creating a new one...");
+      await postData(`api/userUnitProgress/${unitId}`, {
+        completedLessons: [lessonId],
+      });
+      navigate(-1);
+    } catch (creationError) {
+      console.error("Error creating user progress entry:", creationError);
+    }
   };
 
   useEffect(() => {
