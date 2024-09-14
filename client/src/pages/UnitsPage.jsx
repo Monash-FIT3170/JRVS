@@ -55,7 +55,6 @@ const UnitsPage = () => {
         setIsUserDataLoading(false);
 
         const userUnits = await getData("api/userUnitProgress");
-        console.log(userUnits);
         setUserUnitProgress(userUnits);
         setIsUserUnitProgressLoading(false);
       } catch (error) {
@@ -70,6 +69,15 @@ const UnitsPage = () => {
   const routeChange = (unitId) => {
     let path = `/learningPath/${unitId}`;
     navigate(path);
+  };
+
+  const getUnitProgress = (unit) => {
+    let numLessonsCompleted = userUnitProgress?.find(
+      (userUnit) => userUnit.unitId == unit._id,
+    )?.completedLessons.length;
+    let progress = (numLessonsCompleted || 0) / unit.numberOfLessons;
+    console.log(unit.numberOfLessons);
+    return progress * 100;
   };
 
   return (
@@ -107,13 +115,7 @@ const UnitsPage = () => {
             >
               <UnitCard
                 title={unit.title}
-                progress={
-                  ((userUnitProgress?.find(
-                    (userUnit) => userUnit.unitId == unit._id,
-                  )?.completedLessons.length || 0) /
-                    unit.numberOfLessons) *
-                  100
-                }
+                progress={getUnitProgress(unit)}
                 imageColour={unit.colour}
                 icon={unit.icon}
               ></UnitCard>

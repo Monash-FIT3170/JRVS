@@ -413,6 +413,7 @@ const LearningPathPage = () => {
         </SkillProvider>
       )}
       <UnitPopup
+        unitId={unitId}
         isOpen={isModalOpen}
         node={selectedNode}
         onClose={handlePopupClose}

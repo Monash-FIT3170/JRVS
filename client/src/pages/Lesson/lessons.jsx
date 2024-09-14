@@ -100,6 +100,7 @@ function Lessons() {
         console.error("Error updating user progress:", error);
       }
     }
+    navigate(-1);
   };
 
   useEffect(() => {

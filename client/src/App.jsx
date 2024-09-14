@@ -39,9 +39,12 @@ const App = () => {
         <Route exact path="/" element={<ProtectedRoute />}>
           <Route exact path="/" element={<UnitsPage />} />
         </Route>
-        <Route exact path="/learningPath/:unitId/:lessonId" 
-          element={<ProtectedRoute/>}>
-          <Route exact path="/learningPath/:unitId/:lessonId" element={<Lessons />} /> 
+        <Route
+          exact
+          path="/lesson/:unitId/:lessonId"
+          element={<ProtectedRoute />}
+        >
+          <Route exact path="/lesson/:unitId/:lessonId" element={<Lessons />} />
         </Route>
         <Route
           exact
@@ -67,8 +70,8 @@ const App = () => {
         <Route exact path="/customize" element={<ProtectedRoute />}>
           <Route exact path="/customize" element={<CustomizePage />} />
         </Route>
-        <Route exact path="/quiz/:quizId" element={<ProtectedRoute />}>
-          <Route exact path="/quiz/:quizId" element={<Quizzes />} />
+        <Route exact path="/quiz/:unitId/:quizId" element={<ProtectedRoute />}>
+          <Route exact path="/quiz/:unitId/:quizId" element={<Quizzes />} />
         </Route>
         <Route
           exact
@@ -136,8 +139,12 @@ const App = () => {
             element={<EditReorderQuestion />}
           />
         </Route>
-        <Route exact path="/video/:videoId" element={<ProtectedRoute />}>
-          <Route exact path="/video/:videoId" element={<Videos />} />
+        <Route
+          exact
+          path="/video/:unitId/:videoId"
+          element={<ProtectedRoute />}
+        >
+          <Route exact path="/video/:unitId/:videoId" element={<Videos />} />
         </Route>
         <Route
           exact

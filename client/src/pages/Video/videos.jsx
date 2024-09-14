@@ -32,10 +32,10 @@ import "./videos.css";
 
 function Videos() {
   const navigate = useNavigate();
-  const { getData } = useApi();
+  const { getData, postData, updateData } = useApi();
   const [video, setVideo] = useState([]);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
-  const { videoId } = useParams();
+  const { unitId, videoId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +49,30 @@ function Videos() {
     };
     fetchData();
   }, [getData, videoId]);
+
+  const handleFinishVideo = async () => {
+    try {
+      await updateData(`api/userUnitProgress/${unitId}`, {
+        newCompletedLessons: [videoId],
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        try {
+          console.log(
+            "userUnitProgress entry not found, creating a new one...",
+          );
+          await postData(`api/userUnitProgress/${unitId}`, {
+            completedLessons: [videoId],
+          });
+        } catch (creationError) {
+          console.error("Error creating user progress entry:", creationError);
+        }
+      } else {
+        console.error("Error updating user progress:", error);
+      }
+    }
+    navigate(-1);
+  };
 
   return (
     <Box
@@ -110,7 +134,7 @@ function Videos() {
         }}
       >
         <Button
-          onClick={() => navigate(-1)}
+          onClick={handleFinishVideo}
           variant="contained"
           className="button-font"
           sx={{
