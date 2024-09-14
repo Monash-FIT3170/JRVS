@@ -1,7 +1,11 @@
-# JRVS #
-### Project 4 - FIT3170 - 2024 ###
+# JRVS
+
+### Project 4 - FIT3170 - 2024
+
 JRVS is an educational app that makes AI easy to understand and exciting to learn through interactive learning paths and modifiable content.
-### Team: ###
+
+### Team:
+
 - Max Verhoef, 32497342, Release Train Engineer, mver0017@student.monash.edu
 - Jasraj Bhasin, 32522118, Software Architect, jbha0006@student.monash.edu
 - Daniel Ding, 31483216, Release Train Engineer, ddin0018@student.monash.edu
@@ -20,12 +24,22 @@ JRVS is an educational app that makes AI easy to understand and exciting to lear
 - Vivian Pham, 31475477, Product Manager, vpha0021@student.monash.edu
 - Riordan Alfredo, Mentor, riordan.alfredo@monash.edu
 
-### Running the app ###
+### Running the app
+
 Pre-requisites:
+
 - Make sure that your IP is added to the mongodb database, by going to network access in the database, 'add current IP address'
 - Ensure node version is >= 18
 
 1. delete all yarn.lock files, node_modules and package-lock.json files
-2. update .env file with mongo_uri password, encryption_key and encrpytion_iv
-3. npm run install-all-mac or install-all-win (if on mac or windows)
-4. npm run dev
+2. update .env file in server/ with mongo_uri password, encryption_key, encrpytion_iv and jwt_secret
+3. add/update .env file in client/ with REACT_APP_BACKEND_URL
+4. `npm run install-all-mac` or `npm run install-all-win` (if on mac or windows)
+5. `npm run dev` to run the dev app
+
+## Hosting the app through docker
+
+1. make sure you have docker desktop installed from https://www.docker.com/
+2. make sure you have the .env correctly setup in the root of the server/ directory, and client/ directory
+3. navigate to the root directory of the project in the terminal and run `docker-compose up --build`
+4. you should now be able to access the application from http://localhost domain!

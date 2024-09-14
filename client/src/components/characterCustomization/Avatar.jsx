@@ -1,3 +1,28 @@
+/**
+ * @file Avatar.js
+ * @description A React component that displays a user avatar with a background and border. The avatar, background, and border are sourced from image files imported using Webpack's `require.context`.
+ * @module Avatar
+ * @requires React
+ * @requires ../../assets/images/avatars (all .png files)
+ * @requires ../../assets/images/backgrounds (all .png files)
+ * @requires ../../assets/images/borders (all .png and .gif files)
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} props.avatar - The filename of the avatar image.
+ * @param {string} props.background - The filename of the background image.
+ * @param {string} props.border - The filename of the border image.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * @example
+ * <Avatar 
+ *   avatar="avatar1.png" 
+ *   background="background1.png" 
+ *   border="border1.png" 
+ * />
+ */
+
+
 import * as React from "react";
 const avatars = require.context('../../assets/images/avatars', false, /\.png$/);
 const backgrounds = require.context('../../assets/images/backgrounds', false, /\.png$/);

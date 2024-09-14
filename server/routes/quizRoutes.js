@@ -1,7 +1,20 @@
-const express = require('express')
-const router = express.Router()
-const { getQuiz, setQuiz } = require('../controllers/quizController')
+/**
+ * @file quizRoutes.js
+ * @description Express routes for managing quizzes, including retrieving and updating quiz details.
+ * @module quizRoutes
+ * @requires express
+ * @requires ../controllers/quizController
+ */
 
-router.route('/:id').get(getQuiz)
+const express = require("express");
+const router = express.Router();
+const {
+  getQuiz,
+  setQuiz,
+  updateQuiz,
+} = require("../controllers/quizController");
 
-module.exports = router
+router.route("/:id").get(getQuiz);
+router.route("/:id").put(updateQuiz);
+
+module.exports = router;
