@@ -178,22 +178,17 @@ const EditLesson = () => {
     else setDescChanged(false);
   };
 
-  const changeLessonTitle = useCallback(
-    (newTitle) => {
-      if (lesson.title && lesson.title !== newTitle) {
-        setLesson({ ...lesson, title: newTitle });
-        setTitleChanged(false);
-        setEditMade(true);
-      }
-    },
-    [lesson],
-  );
-
   const changeDescTitle = useCallback(
-    (newDesc) => {
-      if (!lesson.desc || lesson.desc !== newDesc) {
-        setLesson({ ...lesson, desc: newDesc });
+    (newDesc, newTitle) => {
+      if (
+        !lesson.desc ||
+        lesson.desc !== newDesc ||
+        !lesson.title ||
+        lesson.title !== newTitle
+      ) {
+        setLesson({ ...lesson, title: newTitle, desc: newDesc });
         setDescChanged(false);
+        setTitleChanged(false);
         setEditMade(true);
       }
     },
@@ -495,8 +490,7 @@ const EditLesson = () => {
                 startIcon={<EditIcon />}
                 variant="contained"
                 onClick={() => {
-                  changeLessonTitle(currentTitle);
-                  changeDescTitle(currentDesc);
+                  changeDescTitle(currentDesc, currentTitle);
                 }}
                 disabled={!titleChanged && !descChanged}
                 sx={{
