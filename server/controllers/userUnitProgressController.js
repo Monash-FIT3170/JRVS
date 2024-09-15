@@ -33,11 +33,11 @@ const getAllUnitsProgressForUser = asyncHandler(async (req, res) => {
       userId: userId,
     });
 
-    if (!userUnitProgresses || userUnitProgresses.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No unit progress found for this user" });
-    }
+    // if (!userUnitProgresses || userUnitProgresses.length === 0) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "No unit progress found for this user" });
+    // }
 
     // Return all the unit progress records for the user
     res.status(200).json(userUnitProgresses);
