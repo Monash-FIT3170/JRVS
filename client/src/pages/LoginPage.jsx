@@ -126,9 +126,9 @@ const LoginPage = () => {
           height={{
             xs: "0px",
             sm: "0px",
-            md: "400px",
-            lg: "400px",
-            xl: "400px",
+            md: "800px",
+            lg: "800px",
+            xl: "800px",
           }}
           avatarState={avatarState}
         />
