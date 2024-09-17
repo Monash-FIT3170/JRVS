@@ -110,13 +110,29 @@ const UnitsPage = () => {
           subtitle="Get ready to learn more about AI today"
         ></MenuBar>
       </Box>
-      <Button
-        onClick={() => {
-          handleCreateUnit("TestUnit", "search", "#A366FF");
-        }}
-      >
-        Add Unit
-      </Button>
+
+      {isLoading ? null : (
+        <Button
+          onClick={() => {
+            handleCreateUnit("TestUnit", "search", "#A366FF");
+          }}
+          style={{
+            margin: "10px",
+            marginLeft: "80px",
+            marginTop: "30px",
+            marginBottom: "-50px",
+            padding: "10px 20px",
+            fontSize: "16px",
+            borderRadius: "10px",
+            whiteSpace: "nowrap",
+            backgroundColor: "#3ca3ee",
+            color: "#fff",
+          }}
+        >
+          + New Unit
+        </Button>
+      )}
+
       <Grid
         container
         rowSpacing={6}
