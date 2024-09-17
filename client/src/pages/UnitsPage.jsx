@@ -31,7 +31,15 @@ import { Box, Button } from "@mui/material";
 const UnitsPage = () => {
   const { getData, postData } = useApi();
   const [units, setUnits] = useState(undefined);
-  const [isUnitLoading, setIsUnitLoading] = useState(true); // set loading spinner
+  const [userData, setUserData] = useState();
+  const [userUnitProgress, setUserUnitProgress] = useState();
+  const [isUserUnitProgressLoading, setIsUserUnitProgressLoading] =
+    useState(true);
+  const [isUnitLoading, setIsUnitLoading] = useState(true);
+  const [isUserDataLoading, setIsUserDataLoading] = useState(true);
+
+  const isLoading =
+    isUnitLoading || isUserDataLoading || isUserUnitProgressLoading;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +47,16 @@ const UnitsPage = () => {
         const unitsResponse = await getData("api/units");
         setUnits(unitsResponse);
         setIsUnitLoading(false);
+
+        const token = localStorage.getItem("token");
+        const res = await postData("api/auth/current", { token });
+        const userData = await getData(`api/users/id/${res.decoded.id}`);
+        setUserData(userData);
+        setIsUserDataLoading(false);
+
+        const userUnits = await getData("api/userUnitProgress");
+        setUserUnitProgress(userUnits);
+        setIsUserUnitProgressLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -49,9 +67,16 @@ const UnitsPage = () => {
   const navigate = useNavigate();
 
   const routeChange = (unitId) => {
-    console.log(unitId);
     let path = `/learningPath/${unitId}`;
     navigate(path);
+  };
+
+  const getUnitProgress = (unit) => {
+    let numLessonsCompleted = userUnitProgress?.find(
+      (userUnit) => userUnit.unitId == unit._id,
+    )?.completedLessons.length;
+    let progress = (numLessonsCompleted || 0) / unit.numberOfLessons;
+    return progress * 100;
   };
 
   const handleCreateUnit = async (title, icon, colour) => {
@@ -97,9 +122,10 @@ const UnitsPage = () => {
         rowSpacing={6}
         columnSpacing={5}
         padding={10}
+        backgroundColor="white"
         width="100vw"
       >
-        {isUnitLoading ? (
+        {isLoading ? (
           <div className="spinner"></div>
         ) : (
           units.map((unit) => (
@@ -113,7 +139,7 @@ const UnitsPage = () => {
             >
               <UnitCard
                 title={unit.title}
-                progress={70} // TODO: placeholder
+                progress={getUnitProgress(unit)}
                 imageColour={unit.colour}
                 icon={unit.icon}
               ></UnitCard>

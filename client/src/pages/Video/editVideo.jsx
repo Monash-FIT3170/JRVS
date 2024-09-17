@@ -32,9 +32,9 @@ const EditVideo = () => {
   const [currentUrl, setCurrentUrl] = useState("");
   const [currentHeading, setCurrentHeading] = useState("");
   const [error, setError] = useState("");
-  const { getData, updateData } = useApi();
+  const { getData, updateData, postData } = useApi();
   const navigate = useNavigate();
-  const { videoId } = useParams();
+  const { videoId, unitId } = useParams();
 
   // Fetch video details for editing
   useEffect(() => {
@@ -88,6 +88,18 @@ const EditVideo = () => {
     } catch (error) {
       console.log("Error updating video:", error);
       setError("Failed to update video. Please try again.");
+    }
+
+    // edit node title and desc
+    try {
+      await postData(`api/units/${unitId}/updateNodeDetails`, {
+        unitId: unitId,
+        nodeId: videoId,
+        newTitle: currentTitle,
+        newDescription: currentHeading,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 

@@ -24,7 +24,7 @@ export const useApi = () => useContext(ApiContext);
 // MongoDB API Provider component
 export const ApiProvider = ({ children }) => {
   // Define your MongoDB API base URL
-  const baseURL = "http://localhost:5000";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}`;
 
   // Generic function to make API requests
   const fetchData = async (url, options = {}) => {
@@ -69,7 +69,7 @@ export const ApiProvider = ({ children }) => {
 
   // Function to update data in MongoDB
   const updateData = async (endpoint, data) => {
-    const url = `${baseURL}/${endpoint}`;
+    const url = `${baseURL}/${endpoint}`.replace(/([^:]\/)\/+/g, "$1");
     const options = {
       method: "PUT",
       body: JSON.stringify(data),
@@ -79,7 +79,7 @@ export const ApiProvider = ({ children }) => {
 
   // Function to delete data from MongoDB
   const deleteData = async (endpoint) => {
-    const url = `${baseURL}/${endpoint}`;
+    const url = `${baseURL}/${endpoint}`.replace(/([^:]\/)\/+/g, "$1");
     const options = {
       method: "DELETE",
     };

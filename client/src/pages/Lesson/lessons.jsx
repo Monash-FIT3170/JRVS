@@ -59,7 +59,7 @@ function Lessons() {
   const { getData, postData, updateData } = useApi();
   const [lesson, setLesson] = useState([]);
   const [isLessonLoading, setIsLessonLoading] = useState(true);
-  const { lessonId } = useParams();
+  const { unitId, lessonId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,6 +78,27 @@ function Lessons() {
   const [seenNum, setSeenNum] = useState(1);
   const [lastSectionIndex, setLastSectionIndex] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleLessonFinished = async () => {
+    try {
+      await updateData(`api/userUnitProgress/${unitId}`, {
+        newCompletedLessons: [lessonId],
+      });
+      navigate(-1);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    try {
+      console.log("userUnitProgress entry not found, creating a new one...");
+      await postData(`api/userUnitProgress/${unitId}`, {
+        completedLessons: [lessonId],
+      });
+      navigate(-1);
+    } catch (creationError) {
+      console.error("Error creating user progress entry:", creationError);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -302,7 +323,7 @@ function Lessons() {
           </h1>
         </Box>
         <Button
-          onClick={handleBackClick}
+          onClick={handleLessonFinished}
           variant="contained"
           className="button-font"
           sx={{
