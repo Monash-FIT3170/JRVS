@@ -18,6 +18,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
 import SchoolIcon from "@mui/icons-material/School";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import CloseIcon from "@mui/icons-material/Close";
 
 const iconList = {
   search: <SearchIcon />,
@@ -43,19 +44,42 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle
-        style={{
-          color: "#3ca3ee",
-          fontSize: "26px",
-          fontWeight: "bold",
-          textAlign: "center",
-          margin: "10px 0",
-        }}
-      >
-        Create a new unit
+      <DialogTitle style={{ padding: "0px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "16px 24px",
+          }}
+        >
+          {/* Title */}
+          <span
+            style={{
+              color: "#3ca3ee",
+              fontSize: "28px",
+              fontWeight: "bold",
+            }}
+          >
+            Create a new unit
+          </span>
+
+          {/* Close button in top-right corner */}
+          <IconButton
+            edge="end"
+            color="inherit"
+            onClick={onClose}
+            aria-label="close"
+            style={{ margin: "12px" }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
       </DialogTitle>
+
       <DialogContent>
         <Box component="form" noValidate autoComplete="off">
+          {/* Unit title input */}
           <TextField
             label="Unit Name"
             fullWidth
@@ -64,7 +88,7 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
             onChange={(e) => setUnitName(e.target.value)}
           />
 
-          {/* MuiColorInput for Hex Code */}
+          {/* MUI colour input for hex code */}
           <MuiColorInput
             label="Hex Code"
             format="hex"
@@ -97,26 +121,20 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
           </FormControl>
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={onClose}
-          style={{
-            marginRight: "20px",
-            marginBottom: "15px",
-            padding: "10px 20px",
-            fontSize: "16px",
-            borderRadius: "10px",
-            whiteSpace: "nowrap",
-            border: "2px solid #3ca3ee",
-          }}
-        >
-          Cancel
-        </Button>
+
+      <DialogActions
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "16px 24px",
+        }}
+      >
+        {/* Create button */}
         <Button
           onClick={handleCreate}
           style={{
-            marginRight: "20px",
-            marginBottom: "15px",
+            marginTop: "-20px",
+            marginBottom: "5px",
             padding: "10px 20px",
             fontSize: "16px",
             borderRadius: "10px",
