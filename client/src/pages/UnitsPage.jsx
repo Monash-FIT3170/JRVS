@@ -22,11 +22,12 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useNavigate } from "react-router-dom";
+import { Box, Button } from "@mui/material";
 
 import { useApi } from "../context/ApiProvider";
 import UnitCard from "../components/UnitCard";
 import MenuBar from "../components/MenuBar";
-import { Box, Button } from "@mui/material";
+import CreateUnitDialog from "../components/CreateUnitDialog";
 
 const UnitsPage = () => {
   const { getData, postData } = useApi();
@@ -37,6 +38,7 @@ const UnitsPage = () => {
     useState(true);
   const [isUnitLoading, setIsUnitLoading] = useState(true);
   const [isUserDataLoading, setIsUserDataLoading] = useState(true);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false); // Controls the create unit popup state
 
   const isLoading =
     isUnitLoading || isUserDataLoading || isUserUnitProgressLoading;
@@ -79,14 +81,14 @@ const UnitsPage = () => {
     return progress * 100;
   };
 
-  const handleCreateUnit = async (title, icon, colour) => {
-    console.log("here");
+  const handleCreateUnit = async ({ unitName, hexCode, icon }) => {
+    console.log(`unitName: ${unitName}, hexCode: ${hexCode}, icon: ${icon}`);
 
     try {
       const response = await postData(`api/units/`, {
-        title,
+        title: unitName,
+        colour: hexCode,
         icon,
-        colour,
       });
       console.log(response);
 
@@ -111,11 +113,11 @@ const UnitsPage = () => {
         ></MenuBar>
       </Box>
 
+      {/* New unit button */}
       {isLoading ? null : (
         <Button
-          onClick={() => {
-            handleCreateUnit("TestUnit", "search", "#A366FF");
-          }}
+          // onClick={() => {handleCreateUnit("TestUnit", "search", "#A366FF");}}
+          onClick={() => setIsCreateDialogOpen(true)}
           style={{
             margin: "10px",
             marginLeft: "80px",
@@ -132,6 +134,13 @@ const UnitsPage = () => {
           + New Unit
         </Button>
       )}
+
+      {/* Create Unit Dialog */}
+      <CreateUnitDialog
+        open={isCreateDialogOpen}
+        onClose={() => setIsCreateDialogOpen(false)}
+        onCreate={handleCreateUnit}
+      />
 
       <Grid
         container
