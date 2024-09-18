@@ -1,20 +1,3 @@
-/**
- * @file CreateUnitDialog Component
- *
- * @description A modal dialog component to create a new unit. It contains input fields for the unit's name, description, hex code, and icon.
- *
- * @module CreateUnitDialog
- * @requires React
- * @requires @mui/material/Dialog
- * @requires @mui/material/DialogTitle
- * @requires @mui/material/DialogContent
- * @requires @mui/material/DialogActions
- * @requires @mui/material/Button
- * @requires @mui/material/TextField
- *
- * @returns {JSX.Element} The rendered CreateUnitDialog component
- */
-
 import React, { useState } from "react";
 import {
   Dialog,
@@ -25,16 +8,21 @@ import {
   TextField,
   Box,
 } from "@mui/material";
+import { MuiColorInput } from "mui-color-input";
 
 const CreateUnitDialog = ({ open, onClose, onCreate }) => {
   const [unitName, setUnitName] = useState("");
-  const [hexCode, setHexCode] = useState("");
+  const [hexCode, setHexCode] = useState("#ffffff");
   const [icon, setIcon] = useState("");
+
+  const handleHexCodeChange = (newValue) => {
+    setHexCode(newValue);
+  };
 
   const handleCreate = () => {
     // Pass the form data back to the parent component
     onCreate({ unitName, hexCode, icon });
-    onClose(); // Close the dialog after creating the unit
+    onClose();
   };
 
   return (
@@ -49,13 +37,17 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
             value={unitName}
             onChange={(e) => setUnitName(e.target.value)}
           />
-          <TextField
+
+          {/* MuiColorInput for Hex Code */}
+          <MuiColorInput
             label="Hex Code"
+            format="hex"
             fullWidth
             margin="normal"
             value={hexCode}
-            onChange={(e) => setHexCode(e.target.value)}
+            onChange={handleHexCodeChange}
           />
+
           <TextField
             label="Icon"
             fullWidth
