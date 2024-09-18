@@ -152,6 +152,8 @@ export default function Submitted({ score, totalScore, points }) {
             fontSize: "20px",
             fontWeight: 700,
             fontFamily: '"Roboto-Bold", Helvetica',
+            pointerEvents: "auto",
+            zIndex: 100,
           }}
         >
           Return to learning path

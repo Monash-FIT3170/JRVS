@@ -526,6 +526,7 @@ const EditDragDrop = () => {
           bgcolor: "transparent",
           height: "100px",
           justifyContent: "center",
+          pointerEvents: "none",
         }}
       >
         <Toolbar>
