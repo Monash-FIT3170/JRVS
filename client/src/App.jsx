@@ -28,11 +28,15 @@ import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
 import EditDragDrop from "./pages/Quiz/EditDragDrop";
 import EditMultipleChoice from "./pages/Quiz/editMultipleChoice";
 import EditReorderQuestion from "./pages/Quiz/EditReorder";
+import CodeChallenge from "./pages/Gemini/CodeChallenge";
 
 const App = () => {
   return (
     <Router>
       <Routes>
+        <Route exact path="/codechallenge" element={<CodeChallenge />}>
+          <Route exact path="/codechallenge" element={<CodeChallenge />} />
+        </Route>
         <Route exact path="/leaderboard" element={<ProtectedRoute />}>
           <Route exact path="/leaderboard" element={<LeaderboardPage />} />
         </Route>
