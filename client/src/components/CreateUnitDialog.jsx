@@ -11,6 +11,7 @@ import {
   Select,
   InputLabel,
   FormControl,
+  IconButton,
 } from "@mui/material";
 import { MuiColorInput } from "mui-color-input";
 import SearchIcon from "@mui/icons-material/Search";
@@ -42,7 +43,17 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Create a new unit</DialogTitle>
+      <DialogTitle
+        style={{
+          color: "#3ca3ee",
+          fontSize: "26px",
+          fontWeight: "bold",
+          textAlign: "center",
+          margin: "10px 0",
+        }}
+      >
+        Create a new unit
+      </DialogTitle>
       <DialogContent>
         <Box component="form" noValidate autoComplete="off">
           <TextField
@@ -87,10 +98,33 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="secondary">
+        <Button
+          onClick={onClose}
+          style={{
+            marginRight: "20px",
+            marginBottom: "15px",
+            padding: "10px 20px",
+            fontSize: "16px",
+            borderRadius: "10px",
+            whiteSpace: "nowrap",
+            border: "2px solid #3ca3ee",
+          }}
+        >
           Cancel
         </Button>
-        <Button onClick={handleCreate} color="primary">
+        <Button
+          onClick={handleCreate}
+          style={{
+            marginRight: "20px",
+            marginBottom: "15px",
+            padding: "10px 20px",
+            fontSize: "16px",
+            borderRadius: "10px",
+            whiteSpace: "nowrap",
+            backgroundColor: "#3ca3ee",
+            color: "#fff",
+          }}
+        >
           Create
         </Button>
       </DialogActions>
