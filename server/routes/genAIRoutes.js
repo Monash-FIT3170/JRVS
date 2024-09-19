@@ -3,7 +3,7 @@ const router = express.Router();
 const {
   generateText,
   generateImage,
-} = require("../controllers/geminiController");
+} = require("../controllers/genAIController");
 
 router.route("/generateText").post(generateText);
 router.route("/generateImage").post(generateImage);
