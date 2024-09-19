@@ -28,8 +28,8 @@ import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
 import EditDragDrop from "./pages/Quiz/EditDragDrop";
 import EditMultipleChoice from "./pages/Quiz/editMultipleChoice";
 import EditReorderQuestion from "./pages/Quiz/EditReorder";
-import CodeChallenge from "./pages/Gemini/CodeChallenge";
-import GenImageChallenge from "./pages/Gemini/GenImageChallenge";
+import CodeChallenge from "./pages/GenAIActivities/CodeChallenge";
+import GenImageChallenge from "./pages/GenAIActivities/GenImageChallenge";
 
 const App = () => {
   return (

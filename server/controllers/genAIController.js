@@ -1,10 +1,18 @@
 const asyncHandler = require("express-async-handler");
 const axios = require("axios");
+const pako = require("pako");
 require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const imageStore = {};
+
+function decompressBase64(compressedBase64String) {
+  const binaryData = Buffer.from(compressedBase64String, "base64");
+  const decompressedData = pako.ungzip(binaryData);
+  return Buffer.from(decompressedData).toString("base64");
+}
 
 const generateText = asyncHandler(async (req, res) => {
   const { prompt } = req.body;
@@ -20,6 +28,52 @@ const generateText = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error generating text." });
+  }
+});
+
+const generateImageVision = asyncHandler(async (req, res) => {
+  const { prompt, filePart, sessionId } = req.body;
+
+  // decompress each element in fileParts
+  // each element {inlineData: {data: 'base64', mimeType}}
+
+  if (!prompt) {
+    return res.status(400).json({ message: "Please provide a prompt." });
+  }
+  if (!filePart) {
+    return res.status(400).json({ message: "Please provide image." });
+  }
+  if (!sessionId) {
+    return res.status(400).json({ message: "Please provide sessionId" });
+  }
+
+  if (!imageStore[sessionId]) {
+    imageStore[sessionId] = [];
+  }
+  imageStore[sessionId].push(filePart);
+
+  if (imageStore[sessionId].length === 2) {
+    try {
+      const decompressedFileParts = imageStore[sessionId].map((part) => ({
+        inlineData: {
+          data: decompressBase64(part.inlineData.data),
+          mimeType: part.inlineData.mimeType,
+        },
+      }));
+
+      const result = await model.generateContent([
+        prompt,
+        ...decompressedFileParts,
+      ]);
+      const generatedText = result.response.text();
+      delete imageStore[sessionId];
+      res.json({ content: generatedText });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error generating text." });
+    }
+  } else {
+    res.json({ message: "Image received, waiting for the second image." });
   }
 });
 
@@ -42,12 +96,11 @@ const generateImage = asyncHandler(async (req, res) => {
       prompt: prompt,
       width: 512,
       height: 512,
+      steps: 20,
     },
   };
 
   try {
-    console.log(process.env.GEMINI_API_KEY);
-    console.log(process.env.GETIMG_API_KEY);
     const response = await axios(url, options);
     const generatedData = response.data;
     res.json({ content: generatedData });
@@ -57,4 +110,4 @@ const generateImage = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { generateText, generateImage };
+module.exports = { generateText, generateImage, generateImageVision };
