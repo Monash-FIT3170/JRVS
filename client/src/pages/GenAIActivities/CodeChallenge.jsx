@@ -43,6 +43,7 @@ const CodeChallenge = () => {
   const [resultKey, setResultKey] = useState(0);
   const [codeMode, setCodeMode] = useState("python");
 
+  // generate result from code input
   const genResult = async () => {
     try {
       const response = await postData(`api/gemini/generateText`, {
@@ -55,6 +56,7 @@ const CodeChallenge = () => {
     }
   };
 
+  // generate a coding challenge from gemini ai
   const genCodeChallenge = async () => {
     try {
       const response = await postData(`api/gemini/generateText`, {
@@ -69,6 +71,7 @@ const CodeChallenge = () => {
     }
   };
 
+  // get hint from gemini ai
   const genHint = async () => {
     try {
       const response = await postData(`api/gemini/generateText`, {

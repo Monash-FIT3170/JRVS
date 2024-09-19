@@ -112,7 +112,7 @@ const UnitsPage = () => {
             <UnitCard
               title="Gemini AI Code Challenge"
               progress={false}
-              imageColour="#702963"
+              imageColour="#00141a"
               icon="auto_awesome"
               noProgressBar={true}
             />
@@ -130,7 +130,7 @@ const UnitsPage = () => {
             <UnitCard
               title="Generative Image Challenge"
               progress={false}
-              imageColour="#702963"
+              imageColour="#00141a"
               icon="photo_filter"
               noProgressBar={true}
             />

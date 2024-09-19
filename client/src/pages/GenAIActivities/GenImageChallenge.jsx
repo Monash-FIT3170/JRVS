@@ -13,7 +13,21 @@ import {
 } from "react-compare-slider";
 import TargetImage from "../../assets/images/eagle-in-flight.png";
 import DefaultImage from "../../assets/images/solid-color-image.png";
+import { keyframes } from "@emotion/react";
 
+const pulse = keyframes`
+  0% {
+    background-color: rgb(0, 43, 54, 1);
+  }
+  50% {
+    background-color: rgba(0, 43, 54, 0.5);
+  }
+  100% {
+    background-color: rgba(0, 43, 54, 1);
+  }
+`;
+
+// used to get base64 from file
 function getBase64FromUrl(url) {
   return fetch(url)
     .then((response) => response.blob())
@@ -30,6 +44,7 @@ function getBase64FromUrl(url) {
     );
 }
 
+// turns base 64 image to generative part of gemini vision
 async function base64ToGenerativePart(base64, mimeType) {
   const compressedBase64 = await compressBase64(base64);
   return {
@@ -40,6 +55,7 @@ async function base64ToGenerativePart(base64, mimeType) {
   };
 }
 
+// resizes base64 image to desired dimensions, to reduce size
 function resizeBase64Image(base64Str, newWidth, newHeight) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -57,6 +73,7 @@ function resizeBase64Image(base64Str, newWidth, newHeight) {
   });
 }
 
+// compress base 64 string to post in request body
 async function compressBase64(base64String) {
   try {
     const resizedBase64 = await resizeBase64Image(base64String, 256, 256);
@@ -75,8 +92,11 @@ const GenImageChallenge = () => {
   const [generatedComparison, setGeneratedComparison] = useState("");
   const [comparisonKey, setComparisonKey] = useState(0);
   const [base64String, setBase64String] = useState("");
+  const [loadingImage, setLoadingImage] = useState(false);
+  // session id for posting multiple images
   const sessionId = uuidv4();
 
+  // turn target image to base 64
   useEffect(() => {
     getBase64FromUrl(TargetImage)
       .then((base64) => setBase64String(base64))
@@ -85,11 +105,15 @@ const GenImageChallenge = () => {
 
   const genResult = async () => {
     try {
+      setLoadingImage(true);
       const response = await postData(`api/gemini/generateImage`, {
         prompt: promptInput,
       });
       setGeneratedResult(response.content);
+      setLoadingImage(false);
+      // after generates image from getimg.ai, send to gemini to compare
 
+      // turn each image to generative part for gemini ai
       const genImagePart = await base64ToGenerativePart(
         response.content.image,
         "image/jpeg",
@@ -100,6 +124,7 @@ const GenImageChallenge = () => {
       );
       const imageParts = [genImagePart, targetImagePart];
 
+      // for each image part, post to server
       for (const imagePart of imageParts) {
         try {
           const response = await postData(`api/gemini/generateImageVision`, {
@@ -109,6 +134,7 @@ const GenImageChallenge = () => {
             sessionId: sessionId,
           });
 
+          // if gemini response is given, show to user in front end
           if (response.content) {
             setGeneratedComparison(response.content);
             setComparisonKey((prevKey) => prevKey + 1);
@@ -175,6 +201,7 @@ const GenImageChallenge = () => {
                   backgroundColor: "#002b36",
                   width: "100%",
                   color: "#839496",
+                  animation: loadingImage ? `${pulse} 1.5s infinite` : "none",
                 }}
               >
                 <TypewriterComponent
@@ -250,76 +277,82 @@ const GenImageChallenge = () => {
                   </Tooltip>
                 </Box>
               </Box>
-
               <Box
-                borderRadius="10px"
-                p={5}
                 sx={{
-                  backgroundColor: "#002b36",
                   display: "flex",
-                  maxWidth: "100%",
-                  width: "fit-content",
-                  color: "#839496",
-                  marginTop: "20px",
-                  marginBottom: "20px",
-                  justifyContent: "center",
-                  alignContent: "center",
-                }}
-              >
-                <ReactCompareSlider
-                  style={{ width: "512px", borderRadius: "10px" }}
-                  itemOne={
-                    <ReactCompareSliderImage
-                      src={
-                        generatedResult
-                          ? `data:image/png;base64, ${generatedResult.image}`
-                          : DefaultImage
-                      }
-                      alt="Your Image"
-                    />
-                  }
-                  itemTwo={
-                    <ReactCompareSliderImage
-                      src={TargetImage}
-                      alt="Target Image"
-                    />
-                  }
-                />
-              </Box>
-              <Box
-                borderRadius="10px"
-                p={5}
-                sx={{
-                  backgroundColor: "#002b36",
                   width: "100%",
-                  color: "#839496",
-                  marginLeft: "5px",
+                  marginTop: "20px",
+                  marginBottom: "40px",
                 }}
               >
-                {generatedComparison ? (
-                  <TypewriterComponent
-                    key={comparisonKey}
-                    onInit={(typewriter) => {
-                      typewriter
-                        .changeDelay(0.01)
-                        .typeString(generatedComparison)
-                        .pauseFor(2500)
-                        .start();
-                    }}
+                <Box
+                  borderRadius="10px"
+                  p={5}
+                  sx={{
+                    backgroundColor: "#002b36",
+                    display: "flex",
+                    maxWidth: "100%",
+                    width: "fit-content",
+                    color: "#839496",
+                    justifyContent: "center",
+                    alignContent: "center",
+                  }}
+                >
+                  <ReactCompareSlider
+                    style={{ width: "512px", borderRadius: "10px" }}
+                    itemOne={
+                      <ReactCompareSliderImage
+                        src={
+                          generatedResult
+                            ? `data:image/png;base64, ${generatedResult.image}`
+                            : DefaultImage
+                        }
+                        alt="Your Image"
+                      />
+                    }
+                    itemTwo={
+                      <ReactCompareSliderImage
+                        src={TargetImage}
+                        alt="Target Image"
+                      />
+                    }
                   />
-                ) : (
-                  <TypewriterComponent
-                    onInit={(typewriter) => {
-                      typewriter
-                        .changeDelay(0.01)
-                        .typeString(
-                          "Generate an image to get a comparison from Gemini AI!",
-                        )
-                        .pauseFor(2500)
-                        .start();
-                    }}
-                  />
-                )}
+                </Box>
+                <Box
+                  borderRadius="10px"
+                  p={5}
+                  sx={{
+                    backgroundColor: "#002b36",
+                    width: "100%",
+                    color: "#839496",
+                    marginLeft: "20px",
+                  }}
+                >
+                  {generatedComparison ? (
+                    <TypewriterComponent
+                      key={comparisonKey}
+                      onInit={(typewriter) => {
+                        typewriter
+                          .changeDelay(0.01)
+                          .typeString(generatedComparison)
+                          .pauseFor(2500)
+                          .start();
+                      }}
+                    />
+                  ) : (
+                    <TypewriterComponent
+                      onInit={(typewriter) => {
+                        typewriter
+                          .changeDelay(0.01)
+                          .typeString(
+                            "Generate an image to get a comparison from Gemini AI!",
+                          )
+                          .pauseFor(2500)
+                          .start();
+                      }}
+                    />
+                  )}
+                </Box>
               </Box>
             </Box>
           </Box>

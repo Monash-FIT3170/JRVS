@@ -6,14 +6,16 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-const imageStore = {};
+const imageStore = {}; // used to store images
 
+// used to decompressed incoming base64 images
 function decompressBase64(compressedBase64String) {
   const binaryData = Buffer.from(compressedBase64String, "base64");
   const decompressedData = pako.ungzip(binaryData);
   return Buffer.from(decompressedData).toString("base64");
 }
 
+// can be used to generate text responses from gemini AI
 const generateText = asyncHandler(async (req, res) => {
   const { prompt } = req.body;
 
@@ -31,6 +33,7 @@ const generateText = asyncHandler(async (req, res) => {
   }
 });
 
+// can be used to generate text responses from gemini AI based on the prompt, and two images as context
 const generateImageVision = asyncHandler(async (req, res) => {
   const { prompt, filePart, sessionId } = req.body;
 
@@ -52,6 +55,7 @@ const generateImageVision = asyncHandler(async (req, res) => {
   }
   imageStore[sessionId].push(filePart);
 
+  // max two images to compare
   if (imageStore[sessionId].length === 2) {
     try {
       const decompressedFileParts = imageStore[sessionId].map((part) => ({
@@ -77,6 +81,7 @@ const generateImageVision = asyncHandler(async (req, res) => {
   }
 });
 
+// can be used to generate images from getimg.ai using stable diffusion
 const generateImage = asyncHandler(async (req, res) => {
   const { prompt } = req.body;
 
