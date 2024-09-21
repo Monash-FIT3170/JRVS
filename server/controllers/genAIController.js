@@ -15,6 +15,25 @@ function decompressBase64(compressedBase64String) {
   return Buffer.from(decompressedData).toString("base64");
 }
 
+// broad method can be used to generate responses from gemini AI
+const geminiGenerateContent = asyncHandler(async (req, res) => {
+  // allows user to specify the request content
+  const { requestContent } = req.body;
+
+  if (!requestContent) {
+    return res.status(400).json({ message: "Please provide request content" });
+  }
+
+  try {
+    const result = await model.generateContent(requestContent);
+    const generatedResponse = result.response.text();
+    res.json({ content: generatedResponse });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error generating response." });
+  }
+});
+
 // can be used to generate text responses from gemini AI
 const generateText = asyncHandler(async (req, res) => {
   const { prompt } = req.body;
@@ -34,6 +53,7 @@ const generateText = asyncHandler(async (req, res) => {
 });
 
 // can be used to generate text responses from gemini AI based on the prompt, and two images as context
+// image base64 strings should be compressed using pako, and decompressed using pako (gzip, gunzip)
 const generateImageVision = asyncHandler(async (req, res) => {
   const { prompt, filePart, sessionId } = req.body;
 
@@ -83,10 +103,12 @@ const generateImageVision = asyncHandler(async (req, res) => {
 
 // can be used to generate images from getimg.ai using stable diffusion
 const generateImage = asyncHandler(async (req, res) => {
-  const { prompt } = req.body;
+  const { prompt, negativePrompt } = req.body;
 
-  if (!prompt) {
-    return res.status(400).json({ message: "Please provide a prompt." });
+  if (!prompt || negativePrompt == null) {
+    return res
+      .status(400)
+      .json({ message: "Please provide a prompt and negative prompt." });
   }
 
   const url = "https://api.getimg.ai/v1/stable-diffusion-xl/text-to-image";
@@ -99,6 +121,7 @@ const generateImage = asyncHandler(async (req, res) => {
     },
     data: {
       prompt: prompt,
+      negative_prompt: negativePrompt,
       width: 512,
       height: 512,
       steps: 20,
@@ -115,4 +138,50 @@ const generateImage = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { generateText, generateImage, generateImageVision };
+// can be used to generate an Image from a provided prompt and image using getimg.ai
+// image base64 strings should be compressed using pako, and decompressed using pako (gzip, gunzip)
+const generateImageToImage = asyncHandler(async (req, res) => {
+  const { prompt, negativePrompt, image } = req.body;
+
+  if (!prompt || !image || negativePrompt == null) {
+    return res
+      .status(400)
+      .json({
+        message:
+          "Please provide a prompt, negative prompt and an image (base64).",
+      });
+  }
+
+  const url = "https://api.getimg.ai/v1/stable-diffusion-xl/image-to-image";
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      authorization: `Bearer ${process.env.GETIMG_API_KEY}`,
+    },
+    data: {
+      prompt: prompt,
+      negative_prompt: negativePrompt,
+      image: decompressBase64(image),
+      steps: 20,
+    },
+  };
+
+  try {
+    const response = await axios(url, options);
+    const generatedData = response.data;
+    res.json({ content: generatedData });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error generating image." });
+  }
+});
+
+module.exports = {
+  generateText,
+  generateImage,
+  generateImageToImage,
+  generateImageVision,
+  geminiGenerateContent,
+};

@@ -108,6 +108,7 @@ const GenImageChallenge = () => {
       setLoadingImage(true);
       const response = await postData(`api/gemini/generateImage`, {
         prompt: promptInput,
+        negativePrompt: "",
       });
       setGeneratedResult(response.content);
       setLoadingImage(false);
