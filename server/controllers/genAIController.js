@@ -55,7 +55,7 @@ const generateText = asyncHandler(async (req, res) => {
 // can be used to generate text responses from gemini AI based on the prompt, and two images as context
 // image base64 strings should be compressed using pako, and decompressed using pako (gzip, gunzip)
 const generateImageVision = asyncHandler(async (req, res) => {
-  const { prompt, filePart, sessionId } = req.body;
+  const { prompt, filePart, sessionId, noImages } = req.body;
 
   // decompress each element in fileParts
   // each element {inlineData: {data: 'base64', mimeType}}
@@ -69,6 +69,11 @@ const generateImageVision = asyncHandler(async (req, res) => {
   if (!sessionId) {
     return res.status(400).json({ message: "Please provide sessionId" });
   }
+  if (!noImages || noImages > 5) {
+    return res
+      .status(400)
+      .json({ message: "Please provide appropriate no. of images (1-5)" });
+  }
 
   if (!imageStore[sessionId]) {
     imageStore[sessionId] = [];
@@ -76,7 +81,7 @@ const generateImageVision = asyncHandler(async (req, res) => {
   imageStore[sessionId].push(filePart);
 
   // max two images to compare
-  if (imageStore[sessionId].length === 2) {
+  if (imageStore[sessionId].length === noImages) {
     try {
       const decompressedFileParts = imageStore[sessionId].map((part) => ({
         inlineData: {
@@ -144,12 +149,10 @@ const generateImageToImage = asyncHandler(async (req, res) => {
   const { prompt, negativePrompt, image } = req.body;
 
   if (!prompt || !image || negativePrompt == null) {
-    return res
-      .status(400)
-      .json({
-        message:
-          "Please provide a prompt, negative prompt and an image (base64).",
-      });
+    return res.status(400).json({
+      message:
+        "Please provide a prompt, negative prompt and an image (base64).",
+    });
   }
 
   const url = "https://api.getimg.ai/v1/stable-diffusion-xl/image-to-image";

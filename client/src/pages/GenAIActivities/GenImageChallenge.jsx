@@ -95,6 +95,8 @@ const GenImageChallenge = () => {
   const [loadingImage, setLoadingImage] = useState(false);
   // session id for posting multiple images
   const sessionId = uuidv4();
+  // no of images for gemini image vision context
+  const noImages = 2;
 
   // turn target image to base 64
   useEffect(() => {
@@ -130,9 +132,10 @@ const GenImageChallenge = () => {
         try {
           const response = await postData(`api/gemini/generateImageVision`, {
             prompt:
-              "Based on these two images, can you give me a similarity report on these two images, with a score (under 100 words).",
+              "Based on these two images, can you give me a similarity report on these two images, with a percentage score out of 100 (under 100 words).",
             filePart: imagePart,
             sessionId: sessionId,
+            noImages: noImages,
           });
 
           // if gemini response is given, show to user in front end
