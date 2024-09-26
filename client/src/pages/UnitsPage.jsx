@@ -167,7 +167,11 @@ const UnitsPage = () => {
             >
               <UnitCard
                 title={unit.title}
-                progress={getUnitProgress(unit)}
+                progress={
+                  userType !== "admin" && userType !== "teacher"
+                    ? getUnitProgress(unit)
+                    : 100 /* Teachers and admins always have 100% unit progress */
+                }
                 imageColour={unit.colour}
                 icon={unit.icon}
               ></UnitCard>
