@@ -40,6 +40,8 @@ const UnitsPage = () => {
   const [isUserDataLoading, setIsUserDataLoading] = useState(true);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false); // Controls the create unit popup state
 
+  const [userType, setUserType] = useState(); // User type
+
   const isLoading =
     isUnitLoading || isUserDataLoading || isUserUnitProgressLoading;
 
@@ -54,6 +56,7 @@ const UnitsPage = () => {
         const res = await postData("api/auth/current", { token });
         const userData = await getData(`api/users/id/${res.decoded.id}`);
         setUserData(userData);
+        setUserType(userData.usertype);
         setIsUserDataLoading(false);
 
         const userUnits = await getData("api/userUnitProgress");
@@ -113,8 +116,8 @@ const UnitsPage = () => {
         ></MenuBar>
       </Box>
 
-      {/* New unit button */}
-      {isLoading ? null : (
+      {/* New unit button. Only display if current user is an admin or teacher */}
+      {isLoading || (userType !== "admin" && userType !== "teacher") ? null : (
         <Button
           // onClick={() => {handleCreateUnit("TestUnit", "search", "#A366FF");}}
           onClick={() => setIsCreateDialogOpen(true)}
