@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { MuiColorInput } from "mui-color-input";
 import CloseIcon from "@mui/icons-material/Close";
-
+import Icon from "@mui/material/Icon";
 // Icons
 import SearchIcon from "@mui/icons-material/Search";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
@@ -40,27 +40,27 @@ import PhotoCameraBackIcon from "@mui/icons-material/PhotoCameraBack";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 
 const iconList = {
-  Search: <SearchIcon />,
-  Lightbulb: <TipsAndUpdatesIcon />,
-  Memory: <MemoryIcon />,
-  BarChart: <BarChartIcon />,
-  Balance: <BalanceIcon />,
-  People: <PeopleAltIcon />,
-  Rocket: <RocketLaunchIcon />,
-  Cloud: <CloudIcon />,
-  Psychology: <PsychologyIcon />,
-  Camera: <LocalSeeIcon />,
-  Construction: <ConstructionIcon />,
-  Money: <MonetizationOnIcon />,
-  Fitness: <FitnessCenterIcon />,
-  Home: <HomeIcon />,
-  Create: <AutoFixHighIcon />,
-  "QR Code": <QrCode2Icon />,
-  Click: <AdsClickIcon />,
-  Route: <AltRouteIcon />,
-  Query: <QueryStatsIcon />,
-  Photo: <PhotoCameraBackIcon />,
-  Time: <AccessTimeFilledIcon />,
+  search: <SearchIcon />,
+  tips_and_updates: <TipsAndUpdatesIcon />,
+  memory: <MemoryIcon />,
+  bar_chart: <BarChartIcon />,
+  balance: <BalanceIcon />,
+  people_alt: <PeopleAltIcon />,
+  rocket_launch: <RocketLaunchIcon />,
+  cloud: <CloudIcon />,
+  psychology: <PsychologyIcon />,
+  local_see: <LocalSeeIcon />,
+  construction: <ConstructionIcon />,
+  monetization_on: <MonetizationOnIcon />,
+  fitness_center: <FitnessCenterIcon />,
+  home: <HomeIcon />,
+  auto_fix_high_icon: <AutoFixHighIcon />,
+  qr_code_2: <QrCode2Icon />,
+  ads_click: <AdsClickIcon />,
+  alt_route: <AltRouteIcon />,
+  query_stats: <QueryStatsIcon />,
+  photo_camera_back: <PhotoCameraBackIcon />,
+  access_time_filled: <AccessTimeFilledIcon />,
 };
 
 const CreateUnitDialog = ({ open, onClose, onCreate }) => {
@@ -163,9 +163,14 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
                 <MenuItem key={iconKey} value={iconKey}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     {iconList[iconKey]}
-                    <Box sx={{ width: 8 }} />{" "}
+                    <Box sx={{ width: 8 }} />
                     {/* Space between icon and text */}
-                    {iconKey.charAt(0).toUpperCase() + iconKey.slice(1)}
+                    {
+                      iconKey.charAt(0).toUpperCase() +
+                        iconKey
+                          .slice(1)
+                          .replace(/_/g, " ") /* Make text more readable */
+                    }
                   </Box>
                 </MenuItem>
               ))}
