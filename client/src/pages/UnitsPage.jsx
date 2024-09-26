@@ -116,8 +116,8 @@ const UnitsPage = () => {
         ></MenuBar>
       </Box>
 
-      {/* New unit button. Only display if current user is an admin or teacher */}
-      {isLoading || (userType !== "admin" && userType !== "teacher") ? null : (
+      {/* New unit button. Only display if current user is an admin */}
+      {isLoading || userType !== "admin" ? null : (
         <Button
           // onClick={() => {handleCreateUnit("TestUnit", "search", "#A366FF");}}
           onClick={() => setIsCreateDialogOpen(true)}

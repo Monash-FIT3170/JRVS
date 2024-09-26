@@ -16,68 +16,43 @@ import {
 import { MuiColorInput } from "mui-color-input";
 import CloseIcon from "@mui/icons-material/Close";
 import Icon from "@mui/material/Icon";
-// Icons
-import SearchIcon from "@mui/icons-material/Search";
-import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
-import MemoryIcon from "@mui/icons-material/Memory";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import BalanceIcon from "@mui/icons-material/Balance";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import AdsClickIcon from "@mui/icons-material/AdsClick";
-import CloudIcon from "@mui/icons-material/Cloud";
-import PsychologyIcon from "@mui/icons-material/Psychology";
-import LocalSeeIcon from "@mui/icons-material/LocalSee";
-import QrCode2Icon from "@mui/icons-material/QrCode2";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import HomeIcon from "@mui/icons-material/Home";
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-import AltRouteIcon from "@mui/icons-material/AltRoute";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import PhotoCameraBackIcon from "@mui/icons-material/PhotoCameraBack";
-import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 
-const iconList = {
-  search: <SearchIcon />,
-  tips_and_updates: <TipsAndUpdatesIcon />,
-  memory: <MemoryIcon />,
-  bar_chart: <BarChartIcon />,
-  balance: <BalanceIcon />,
-  people_alt: <PeopleAltIcon />,
-  rocket_launch: <RocketLaunchIcon />,
-  cloud: <CloudIcon />,
-  psychology: <PsychologyIcon />,
-  local_see: <LocalSeeIcon />,
-  construction: <ConstructionIcon />,
-  monetization_on: <MonetizationOnIcon />,
-  fitness_center: <FitnessCenterIcon />,
-  home: <HomeIcon />,
-  auto_fix_high_icon: <AutoFixHighIcon />,
-  qr_code_2: <QrCode2Icon />,
-  ads_click: <AdsClickIcon />,
-  alt_route: <AltRouteIcon />,
-  query_stats: <QueryStatsIcon />,
-  photo_camera_back: <PhotoCameraBackIcon />,
-  access_time_filled: <AccessTimeFilledIcon />,
-};
-
+// Icon list
+const iconList = [
+  "search",
+  "tips_and_updates",
+  "memory",
+  "bar_chart",
+  "balance",
+  "people_alt",
+  "rocket_launch",
+  "cloud",
+  "psychology",
+  "local_see",
+  "construction",
+  "monetization_on",
+  "fitness_center",
+  "home",
+  "auto_fix_high",
+  "qr_code_2",
+  "ads_click",
+  "alt_route",
+  "query_stats",
+  "photo_camera_back",
+  "access_time_filled",
+];
 const CreateUnitDialog = ({ open, onClose, onCreate }) => {
   const [unitName, setUnitName] = useState("");
   const [hexCode, setHexCode] = useState("#ffffff");
   const [icon, setIcon] = useState("search");
-
   const handleHexCodeChange = (newValue) => {
     setHexCode(newValue);
   };
-
   const handleCreate = () => {
     // Pass the form data back to the parent component
     onCreate({ unitName, hexCode, icon });
     onClose();
   };
-
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle style={{ marginLeft: "10px", marginBottom: "-20px" }}>
@@ -114,14 +89,7 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
       </DialogTitle>
 
       <DialogContent>
-        <Box
-          component="form"
-          noValidate
-          autoComplete="off"
-          marginLeft="30px"
-          marginRight="30px"
-        >
-          {/* Unit title input */}
+        <Box component="form" noValidate autoComplete="off" marginX="30px">
           <TextField
             label="Unit Name"
             fullWidth
@@ -154,23 +122,17 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
               MenuProps={{
                 PaperProps: {
                   style: {
-                    maxHeight: 300, // Limit the dropdown height
+                    maxHeight: 300,
                   },
                 },
               }}
             >
-              {Object.keys(iconList).map((iconKey) => (
-                <MenuItem key={iconKey} value={iconKey}>
+              {/* Icon selection directly in the Select menu */}
+              {iconList.map((iconName) => (
+                <MenuItem key={iconName} value={iconName}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    {iconList[iconKey]}
-                    <Box sx={{ width: 8 }} />
-                    {/* Space between icon and text */}
-                    {
-                      iconKey.charAt(0).toUpperCase() +
-                        iconKey
-                          .slice(1)
-                          .replace(/_/g, " ") /* Make text more readable */
-                    }
+                    <Icon>{iconName}</Icon>
+                    <span style={{ marginLeft: "8px" }}>{iconName}</span>
                   </Box>
                 </MenuItem>
               ))}
