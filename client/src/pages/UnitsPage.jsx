@@ -22,21 +22,25 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useNavigate } from "react-router-dom";
+import { Box, Button } from "@mui/material";
 
 import { useApi } from "../context/ApiProvider";
 import UnitCard from "../components/UnitCard";
 import MenuBar from "../components/MenuBar";
-import { Box } from "@mui/material";
+import CreateUnitDialog from "../components/CreateUnitDialog";
 
 const UnitsPage = () => {
   const { getData, postData } = useApi();
-  const [units, setUnits] = useState();
+  const [units, setUnits] = useState(undefined);
   const [userData, setUserData] = useState();
   const [userUnitProgress, setUserUnitProgress] = useState();
   const [isUserUnitProgressLoading, setIsUserUnitProgressLoading] =
     useState(true);
   const [isUnitLoading, setIsUnitLoading] = useState(true);
   const [isUserDataLoading, setIsUserDataLoading] = useState(true);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false); // Controls the create unit popup state
+
+  const [userType, setUserType] = useState(); // User type
 
   const isLoading =
     isUnitLoading || isUserDataLoading || isUserUnitProgressLoading;
@@ -52,6 +56,7 @@ const UnitsPage = () => {
         const res = await postData("api/auth/current", { token });
         const userData = await getData(`api/users/id/${res.decoded.id}`);
         setUserData(userData);
+        setUserType(userData.usertype);
         setIsUserDataLoading(false);
 
         const userUnits = await getData("api/userUnitProgress");
@@ -79,6 +84,24 @@ const UnitsPage = () => {
     return progress * 100;
   };
 
+  const handleCreateUnit = async ({ unitName, hexCode, icon }) => {
+    console.log(`unitName: ${unitName}, hexCode: ${hexCode}, icon: ${icon}`);
+
+    try {
+      const response = await postData(`api/units/`, {
+        title: unitName,
+        colour: hexCode,
+        icon,
+      });
+      console.log(response);
+
+      // Navigate to the edit the page
+      routeChange(response._id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div style={{ maxWidth: "100vw" }}>
       <link
@@ -92,6 +115,36 @@ const UnitsPage = () => {
           subtitle="Get ready to learn more about AI today"
         ></MenuBar>
       </Box>
+
+      {/* New unit button. Only display if current user is an admin */}
+      {isLoading || userType !== "admin" ? null : (
+        <Button
+          // onClick={() => {handleCreateUnit("TestUnit", "search", "#A366FF");}}
+          onClick={() => setIsCreateDialogOpen(true)}
+          style={{
+            margin: "10px",
+            marginLeft: "80px",
+            marginTop: "30px",
+            marginBottom: "-50px",
+            padding: "10px 20px",
+            fontSize: "16px",
+            borderRadius: "10px",
+            whiteSpace: "nowrap",
+            backgroundColor: "#3ca3ee",
+            color: "#fff",
+          }}
+        >
+          + New Unit
+        </Button>
+      )}
+
+      {/* Create Unit Dialog */}
+      <CreateUnitDialog
+        open={isCreateDialogOpen}
+        onClose={() => setIsCreateDialogOpen(false)}
+        onCreate={handleCreateUnit}
+      />
+
       <Grid
         container
         rowSpacing={6}
@@ -114,7 +167,11 @@ const UnitsPage = () => {
             >
               <UnitCard
                 title={unit.title}
-                progress={getUnitProgress(unit)}
+                progress={
+                  userType !== "admin" && userType !== "teacher"
+                    ? getUnitProgress(unit)
+                    : 100 /* Teachers and admins always have 100% unit progress */
+                }
                 imageColour={unit.colour}
                 icon={unit.icon}
               ></UnitCard>
