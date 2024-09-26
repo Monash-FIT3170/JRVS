@@ -44,7 +44,7 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle style={{ padding: "0px" }}>
+      <DialogTitle style={{ marginLeft: "10px" }}>
         <Box
           sx={{
             display: "flex",
@@ -78,7 +78,13 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
       </DialogTitle>
 
       <DialogContent>
-        <Box component="form" noValidate autoComplete="off">
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          marginLeft="30px"
+          marginRight="30px"
+        >
           {/* Unit title input */}
           <TextField
             label="Unit Name"
@@ -106,6 +112,7 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
               id="icon-select"
               value={icon}
               onChange={(e) => setIcon(e.target.value)}
+              label="Icon"
             >
               {Object.keys(iconList).map((iconKey) => (
                 <MenuItem key={iconKey} value={iconKey}>
