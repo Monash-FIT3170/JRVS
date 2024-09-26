@@ -12,8 +12,8 @@ import {
   InputLabel,
   FormControl,
   IconButton,
+  Typography,
 } from "@mui/material";
-import { MuiColorInput } from "mui-color-input";
 import CloseIcon from "@mui/icons-material/Close";
 import Icon from "@mui/material/Icon";
 
@@ -41,18 +41,22 @@ const iconList = [
   "photo_camera_back",
   "access_time_filled",
 ];
+
 const CreateUnitDialog = ({ open, onClose, onCreate }) => {
   const [unitName, setUnitName] = useState("");
   const [hexCode, setHexCode] = useState("#ffffff");
   const [icon, setIcon] = useState("search");
+
   const handleHexCodeChange = (newValue) => {
     setHexCode(newValue);
   };
+
   const handleCreate = () => {
     // Pass the form data back to the parent component
     onCreate({ unitName, hexCode, icon });
     onClose();
   };
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle style={{ marginLeft: "10px", marginBottom: "-20px" }}>
@@ -98,15 +102,23 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
             onChange={(e) => setUnitName(e.target.value)}
           />
 
-          {/* MUI colour input for hex code */}
-          <MuiColorInput
-            label="Hex Code"
-            format="hex"
-            fullWidth
-            margin="normal"
-            value={hexCode}
-            onChange={handleHexCodeChange}
-          />
+          {/* Display color input with hex code and color preview */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2 }}>
+            <TextField
+              label="Hex Code"
+              fullWidth
+              value={hexCode}
+              onChange={(e) => handleHexCodeChange(e.target.value)}
+              InputProps={{
+                inputProps: {
+                  type: "color",
+                },
+              }}
+            />
+
+            {/* Show the hex code */}
+            <Typography variant="body1">{hexCode}</Typography>
+          </Box>
 
           {/* Custom icon selection */}
           <FormControl fullWidth margin="normal">
