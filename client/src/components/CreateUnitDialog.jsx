@@ -14,17 +14,53 @@ import {
   IconButton,
 } from "@mui/material";
 import { MuiColorInput } from "mui-color-input";
-import SearchIcon from "@mui/icons-material/Search";
-import HomeIcon from "@mui/icons-material/Home";
-import SchoolIcon from "@mui/icons-material/School";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import CloseIcon from "@mui/icons-material/Close";
 
+// Icons
+import SearchIcon from "@mui/icons-material/Search";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import MemoryIcon from "@mui/icons-material/Memory";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import BalanceIcon from "@mui/icons-material/Balance";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import AdsClickIcon from "@mui/icons-material/AdsClick";
+import CloudIcon from "@mui/icons-material/Cloud";
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import LocalSeeIcon from "@mui/icons-material/LocalSee";
+import QrCode2Icon from "@mui/icons-material/QrCode2";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import HomeIcon from "@mui/icons-material/Home";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import AltRouteIcon from "@mui/icons-material/AltRoute";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import PhotoCameraBackIcon from "@mui/icons-material/PhotoCameraBack";
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+
 const iconList = {
-  search: <SearchIcon />,
-  home: <HomeIcon />,
-  school: <SchoolIcon />,
-  favorite: <FavoriteIcon />,
+  Search: <SearchIcon />,
+  Lightbulb: <TipsAndUpdatesIcon />,
+  Memory: <MemoryIcon />,
+  BarChart: <BarChartIcon />,
+  Balance: <BalanceIcon />,
+  People: <PeopleAltIcon />,
+  Rocket: <RocketLaunchIcon />,
+  Cloud: <CloudIcon />,
+  Psychology: <PsychologyIcon />,
+  Camera: <LocalSeeIcon />,
+  Construction: <ConstructionIcon />,
+  Money: <MonetizationOnIcon />,
+  Fitness: <FitnessCenterIcon />,
+  Home: <HomeIcon />,
+  Create: <AutoFixHighIcon />,
+  "QR Code": <QrCode2Icon />,
+  Click: <AdsClickIcon />,
+  Route: <AltRouteIcon />,
+  Query: <QueryStatsIcon />,
+  Photo: <PhotoCameraBackIcon />,
+  Time: <AccessTimeFilledIcon />,
 };
 
 const CreateUnitDialog = ({ open, onClose, onCreate }) => {
@@ -44,7 +80,7 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle style={{ marginLeft: "10px" }}>
+      <DialogTitle style={{ marginLeft: "10px", marginBottom: "-20px" }}>
         <Box
           sx={{
             display: "flex",
@@ -106,13 +142,22 @@ const CreateUnitDialog = ({ open, onClose, onCreate }) => {
 
           {/* Custom icon selection */}
           <FormControl fullWidth margin="normal">
-            <InputLabel id="icon-select-label">Icon</InputLabel>
+            <InputLabel id="icon-select-label" shrink>
+              Icon
+            </InputLabel>
             <Select
               labelId="icon-select-label"
               id="icon-select"
               value={icon}
               onChange={(e) => setIcon(e.target.value)}
               label="Icon"
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 300, // Limit the dropdown height
+                  },
+                },
+              }}
             >
               {Object.keys(iconList).map((iconKey) => (
                 <MenuItem key={iconKey} value={iconKey}>
