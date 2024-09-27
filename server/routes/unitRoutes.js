@@ -12,6 +12,7 @@ const {
   getUnit,
   getUnits,
   createUnit,
+  updateUnit,
   appendNode,
   insertNode,
   deleteNode,
@@ -22,6 +23,7 @@ const {
 router.route("/").get(getUnits);
 router.route("/:id").get(getUnit);
 router.route("/").post(createUnit);
+router.route("/:id").put(updateUnit);
 router.post("/:id/append", appendNode);
 router.post("/:id/insert", insertNode);
 router.post("/:id/delete", deleteNode);
