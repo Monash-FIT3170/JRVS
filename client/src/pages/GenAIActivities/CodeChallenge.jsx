@@ -17,6 +17,8 @@ import AssistantOutlinedIcon from "@mui/icons-material/AssistantOutlined";
 import AutoModeOutlinedIcon from "@mui/icons-material/AutoModeOutlined";
 import TipsAndUpdatesOutlinedIcon from "@mui/icons-material/TipsAndUpdatesOutlined";
 
+import { keyframes } from "@emotion/react";
+
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-min-noconflict/ext-searchbox";
@@ -34,6 +36,18 @@ languages.forEach((lang) => {
   require(`ace-builds/src-noconflict/snippets/${lang}`);
 });
 
+const pulse = keyframes`
+  0% {
+    background-color: rgb(0, 43, 54, 1);
+  }
+  50% {
+    background-color: rgba(0, 43, 54, 0.5);
+  }
+  100% {
+    background-color: rgba(0, 43, 54, 1);
+  }
+`;
+
 const CodeChallenge = () => {
   const { postData } = useApi();
   const [generatedResult, setGeneratedResult] = useState("");
@@ -42,15 +56,19 @@ const CodeChallenge = () => {
   const [codeChallengeKey, setCodeChallengeKey] = useState(0);
   const [resultKey, setResultKey] = useState(0);
   const [codeMode, setCodeMode] = useState("python");
+  const [loadingCode, setLoadingCode] = useState(false);
+  const [loadingResult, setLoadingResult] = useState(false);
 
   // generate result from code input
   const genResult = async () => {
     try {
+      setLoadingResult(true);
       const response = await postData(`api/gemini/generateText`, {
         prompt: `Based on the challenge: ${codeChallenge}, evaluate my answer: ${codeInput}, and give me a score out of 100, in under 200 words. And if my answer given above is not code, tell me (and you don't need to give me a score if this is the case).`,
       });
       setResultKey((prevKey) => prevKey + 1);
       setGeneratedResult(response.content);
+      setLoadingResult(false);
     } catch (error) {
       console.log(error);
     }
@@ -59,6 +77,7 @@ const CodeChallenge = () => {
   // generate a coding challenge from gemini ai
   const genCodeChallenge = async () => {
     try {
+      setLoadingCode(true);
       const response = await postData(`api/gemini/generateText`, {
         prompt:
           "Can you give me a small basic code challenge to do that is fun and a good learning experience? (under 100 words)",
@@ -66,6 +85,7 @@ const CodeChallenge = () => {
       setCodeChallengeKey((prevKey) => prevKey + 1);
       setCodeChallenge(response.content);
       setGeneratedResult("");
+      setLoadingCode(false);
     } catch (error) {
       console.log(error);
     }
@@ -74,11 +94,13 @@ const CodeChallenge = () => {
   // get hint from gemini ai
   const genHint = async () => {
     try {
+      setLoadingResult(true);
       const response = await postData(`api/gemini/generateText`, {
         prompt: `Based on the challenge ${codeChallenge}, and my current answer: ${codeInput}, can you give me a couple hints on what I need to do to complete the challenge, even if my answer is nothing so far, but make sure that I give you a coding challenge. (under 100 words)`,
       });
       setResultKey((prevKey) => prevKey + 1);
       setGeneratedResult(response.content);
+      setLoadingResult(false);
     } catch (error) {
       console.log(error);
     }
@@ -160,6 +182,7 @@ const CodeChallenge = () => {
                   width: "100%",
                   color: "#839496",
                   marginLeft: "5px",
+                  animation: loadingCode ? `${pulse} 1.5s infinite` : "none",
                 }}
               >
                 {codeChallenge ? (
@@ -337,6 +360,7 @@ const CodeChallenge = () => {
                   width: "100%",
                   color: "#839496",
                   marginLeft: "5px",
+                  animation: loadingResult ? `${pulse} 1.5s infinite` : "none",
                 }}
               >
                 {generatedResult ? (

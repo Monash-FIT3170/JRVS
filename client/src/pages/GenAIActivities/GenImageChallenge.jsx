@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Tooltip, Typography } from "@mui/material";
 import MenuBar from "../../components/MenuBar";
 import { useApi } from "../../context/ApiProvider";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import pako from "pako";
 import { Buffer } from "buffer";

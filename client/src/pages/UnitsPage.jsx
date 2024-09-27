@@ -78,7 +78,7 @@ const UnitsPage = () => {
 
   const getUnitProgress = (unit) => {
     let numLessonsCompleted = userUnitProgress?.find(
-      (userUnit) => userUnit.unitId == unit._id,
+      (userUnit) => userUnit.unitId === unit._id,
     )?.completedLessons.length;
     let progress = (numLessonsCompleted || 0) / unit.numberOfLessons;
     return progress * 100;
