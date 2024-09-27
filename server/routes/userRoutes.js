@@ -23,7 +23,7 @@ const {
   updateDetails,
   updatePassword,
   getStudents,
-  updateUnitProgress
+  updateUnitProgress,
 } = require("../controllers/userController");
 
 // Route to update user points
@@ -39,6 +39,6 @@ router.post("/getStudents", getStudents);
 router.get("/:username", getUserByUsername);
 router.get("/id/:id", getUserById);
 router.get("/", getAllUsers);
-router.post('/updateUnitProgress/:unitId', authenticate, updateUnitProgress);
+router.post("/updateUnitProgress/:unitId", authenticate, updateUnitProgress);
 
 module.exports = router;

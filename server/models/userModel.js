@@ -114,7 +114,7 @@ const userSchema = mongoose.Schema(
     assignedUnits: {
       type: Array,
       required: false,
-  },
+    },
     teacherId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

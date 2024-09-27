@@ -24,6 +24,7 @@ const LessonSchema = new Schema({
     content: String,
   },
   children: [this],
+  type: String,
 });
 
 /**

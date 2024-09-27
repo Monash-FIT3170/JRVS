@@ -76,6 +76,47 @@ const getUnit = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Creates a new unit in the database.
+ *
+ * @route POST /units
+ * @access Public
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+const createUnit = asyncHandler(async (req, res) => {
+  const { title, icon, colour } = req.body;
+
+  // Create a placeholder lesson
+  newLesson = await createLesson();
+
+  const newLessonForUnit = {
+    _id: newLesson._id,
+    id: newLesson._id.toString(),
+    icon: "lessonIcon",
+    title: "New Lesson",
+    tooltip: { content: "Description of the new child node" },
+    children: [],
+    type: "lesson",
+  };
+
+  // create the unit
+  unit_details = await unitModel.create({
+    data: [newLessonForUnit],
+    numberOfLessons: 1,
+  });
+
+  unit = await unitsModel.create({
+    _id: unit_details._id,
+    title: title,
+    icon: icon,
+    colour: colour,
+    numberOfLessons: 1,
+  });
+
+  res.status(200).json(unit);
+});
+
+/**
  * @desc    Append a node to a unit
  * @route   POST /api/units/:id/append
  * @access  Private
@@ -672,6 +713,7 @@ function updateNodeRecursive(data, targetId, newTitle, newDescription) {
 module.exports = {
   getUnits,
   getUnit,
+  createUnit,
   appendNode,
   insertNode,
   deleteNode,
