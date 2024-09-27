@@ -117,6 +117,34 @@ const createUnit = asyncHandler(async (req, res) => {
 });
 
 /**
+ * @desc    Update an existing lesson
+ * @route   PUT /api/lessons/:id
+ * @access  Private
+ * @function updateLesson
+ * @async
+ * @param {Request} req - The request object containing the lesson ID in the URL and updated data in the body.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the lesson is updated and sent in the response.
+ * @throws {Error} Throws a 404 error if the lesson with the given ID is not found.
+ */
+const updateUnit = asyncHandler(async (req, res) => {
+  const { title, icon, colour } = req.body;
+  const unitId = req.params.id;
+
+  const unit = await unitsModel.findById(unitId);
+
+  if (!unit) {
+    res.status(404).json({ message: "Unit not found" });
+  } else {
+    unit.title = title;
+    unit.icon = icon;
+    unit.colour = colour;
+    await unit.save();
+    res.status(200).json(unit);
+  }
+});
+
+/**
  * @desc    Append a node to a unit
  * @route   POST /api/units/:id/append
  * @access  Private
@@ -714,6 +742,7 @@ module.exports = {
   getUnits,
   getUnit,
   createUnit,
+  updateUnit,
   appendNode,
   insertNode,
   deleteNode,
