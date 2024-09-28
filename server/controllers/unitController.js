@@ -116,6 +116,46 @@ const createUnit = asyncHandler(async (req, res) => {
   res.status(200).json(unit);
 });
 
+const deleteUnit = asyncHandler(async (req, res) => {
+  const { unitId } = req.params;
+
+  try {
+    // Find and delete the unit
+    const deletedUnit = await unitModel.findByIdAndDelete(unitId);
+    if (!deletedUnit) {
+      return res.status(404).json({ message: "Unit not found" });
+    }
+
+    // Delete the unit from unitsModel
+    await unitsModel.findOneAndDelete({ _id: unitId });
+
+    // Remove the unit from all users' assignedUnits
+    await User.updateMany(
+      { assignedUnits: unitId },
+      { $pull: { assignedUnits: unitId } },
+    );
+
+    // Update UserProgress
+    await UserProgress.updateMany(
+      { "learningPaths.pathId": unitId },
+      { $pull: { learningPaths: { pathId: unitId } } },
+    );
+
+    // Delete all associated lessons, videos, and quizzes
+    const nodeIds = deletedUnit.data.map((node) => node.id);
+    await Promise.all([
+      lessonModel.deleteMany({ _id: { $in: nodeIds } }),
+      videoModel.deleteMany({ _id: { $in: nodeIds } }),
+      quizModel.deleteMany({ _id: { $in: nodeIds } }),
+    ]);
+
+    res.status(200).json({ message: "Unit deleted successfully" });
+  } catch (error) {
+    console.error("Error in deleteUnit:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 /**
  * @desc    Append a node to a unit
  * @route   POST /api/units/:id/append
@@ -719,4 +759,5 @@ module.exports = {
   deleteNode,
   getUnlockedTreeData,
   updateTreeNodeDetails,
+  deleteUnit,
 };
