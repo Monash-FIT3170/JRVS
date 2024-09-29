@@ -1,6 +1,7 @@
 name: Automated Testing Pipeline
 
 on:
+  # Run only on pull requests and pushes to main branch
   pull_request:
     branches:
       - main  # Branch specifier for pipeline
@@ -49,5 +50,10 @@ jobs:
       # # Run coverage
       # - name: Run coverage
       #   run: npm run coverage
+
+      # # Upload coverage report
+      # - name: Upload coverage report
+      #   run: codecov
+      
 
       
