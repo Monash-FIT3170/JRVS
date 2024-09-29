@@ -45,8 +45,13 @@ const RegistrationPage = () => {
   const [school, setSchool] = useState("");
   const [schools, setSchools] = useState("");
   const [password, setPassword] = useState("");
+
   const [errorMessage, setErrorMessage] = useState("");
-  const [nameError, setNameError] = useState(""); // Combined name error state
+  const [nameError, setNameError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [schoolError, setSchoolError] = useState("");
 
   const location = useLocation();
   const [avatarState, setAvatarState] = useState(
@@ -57,7 +62,11 @@ const RegistrationPage = () => {
     if (newUsertype !== null) {
       setUsertype(newUsertype);
       setErrorMessage("");
-      setNameError(""); // Clear name error
+      setNameError("");
+      setUsernameError("");
+      setEmailError("");
+      setPasswordError("");
+      setSchoolError("");
     }
   };
 
@@ -67,12 +76,46 @@ const RegistrationPage = () => {
   // POST request to register user
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setErrorMessage("");
+    setNameError("");
+    setUsernameError("");
+    setEmailError("");
+    setPasswordError("");
+    setSchoolError("");
+
+    let hasError = false;
+
     if (!usertype) {
       setErrorMessage("Please select either 'Student' or 'Teacher'.");
-      return;
+      hasError = true;
     }
     if (!firstname || !lastname) {
       setNameError("Please ensure you have filled both first and last name.");
+      hasError = true;
+    }
+    if (!username) {
+      setUsernameError("Username cannot be empty.");
+      hasError = true;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      hasError = true;
+    }
+
+    if (!password || password.length < 8) {
+      setPasswordError("Password must be at least 8 characters.");
+      hasError = true;
+    }
+
+    if (!school) {
+      setSchoolError("Please select a school.");
+      hasError = true;
+    }
+
+    if (hasError) {
       return;
     }
     try {
