@@ -111,7 +111,7 @@ const RegistrationPage = () => {
     }
 
     if (!school) {
-      setSchoolError("Please select a school.");
+      setSchoolError("Please select a valid school.");
       hasError = true;
     }
 
@@ -299,6 +299,11 @@ const RegistrationPage = () => {
               ></input>
             </label>
 
+            {usernameError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>
+                {usernameError}
+              </div>
+            )}
             <label className="block">
               <span className="text-gray-700">Email</span>
               <input
@@ -309,6 +314,9 @@ const RegistrationPage = () => {
                 value={email}
               ></input>
             </label>
+            {emailError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>{emailError}</div>
+            )}
 
             <label className="block">
               <span className="text-gray-700">School</span>
@@ -319,7 +327,11 @@ const RegistrationPage = () => {
                             ></input>                     */}
               <Select options={schools} onChange={(e) => setSchool(e.value)} />
             </label>
-
+            {schoolError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>
+                {schoolError}
+              </div>
+            )}
             <label className="block">
               <span className="text-gray-700">Password</span>
               <input
@@ -329,7 +341,11 @@ const RegistrationPage = () => {
                 value={password}
               ></input>
             </label>
-
+            {passwordError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>
+                {passwordError}
+              </div>
+            )}
             <label className="block">
               <button
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
