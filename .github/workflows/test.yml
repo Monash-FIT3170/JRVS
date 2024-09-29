@@ -20,3 +20,12 @@ jobs:
         with:
           node-version: '14'
 
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Run Tests
+      - name: Run Tests
+        run: npm test
+
+      
