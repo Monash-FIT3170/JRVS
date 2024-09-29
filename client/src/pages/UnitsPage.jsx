@@ -31,7 +31,7 @@ import CreateUnitDialog from "../components/CreateUnitDialog";
 import UnitOverflowMenu from "../components/UnitOverflowMenu";
 
 const UnitsPage = () => {
-  const { getData, postData } = useApi();
+  const { getData, postData, deleteData } = useApi();
   const [units, setUnits] = useState(undefined);
   const [userData, setUserData] = useState();
   const [userUnitProgress, setUserUnitProgress] = useState();
@@ -39,9 +39,8 @@ const UnitsPage = () => {
     useState(true);
   const [isUnitLoading, setIsUnitLoading] = useState(true);
   const [isUserDataLoading, setIsUserDataLoading] = useState(true);
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false); // Controls the create unit popup state
-
-  const [userType, setUserType] = useState(); // User type
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [userType, setUserType] = useState();
 
   const isLoading =
     isUnitLoading || isUserDataLoading || isUserUnitProgressLoading;
@@ -68,7 +67,7 @@ const UnitsPage = () => {
       }
     };
     fetchData();
-  }, [getData]);
+  }, [getData, postData]);
 
   const navigate = useNavigate();
 
@@ -86,8 +85,6 @@ const UnitsPage = () => {
   };
 
   const handleCreateUnit = async ({ unitName, hexCode, icon }) => {
-    console.log(`unitName: ${unitName}, hexCode: ${hexCode}, icon: ${icon}`);
-
     try {
       const response = await postData(`api/units/`, {
         title: unitName,
@@ -95,8 +92,6 @@ const UnitsPage = () => {
         icon,
       });
       console.log(response);
-
-      // Navigate to the edit the page
       routeChange(response._id);
     } catch (error) {
       console.log(error);
@@ -105,9 +100,10 @@ const UnitsPage = () => {
 
   const handleDeleteUnit = async (unit) => {
     try {
-      await postData(`api/units/${unit._id}/delete`, { unitId: unit._id }); // CHANGE THIS ROUTING **************
+      await deleteData(`api/units/${unit._id}`);
       setUnits(units.filter((u) => u._id !== unit._id));
     } catch (error) {
+      window.location.reload();
       console.error("Error deleting unit:", error);
     }
   };
@@ -126,10 +122,8 @@ const UnitsPage = () => {
         ></MenuBar>
       </Box>
 
-      {/* New unit button. Only display if current user is an admin */}
       {isLoading || userType !== "admin" ? null : (
         <Button
-          // onClick={() => {handleCreateUnit("TestUnit", "search", "#A366FF");}}
           onClick={() => setIsCreateDialogOpen(true)}
           style={{
             margin: "10px",
@@ -148,7 +142,6 @@ const UnitsPage = () => {
         </Button>
       )}
 
-      {/* Create Unit Dialog */}
       <CreateUnitDialog
         open={isCreateDialogOpen}
         onClose={() => setIsCreateDialogOpen(false)}
@@ -174,6 +167,7 @@ const UnitsPage = () => {
               md={4}
               lg={3}
               onClick={() => routeChange(unit._id)}
+              key={unit._id}
             >
               <div style={{ position: "relative" }}>
                 <UnitCard
@@ -181,12 +175,11 @@ const UnitsPage = () => {
                   progress={
                     userType !== "admin" && userType !== "teacher"
                       ? getUnitProgress(unit)
-                      : 100 /* Teachers and admins always have 100% unit progress */
+                      : 100
                   }
                   imageColour={unit.colour}
                   icon={unit.icon}
                 />
-
                 <UnitOverflowMenu
                   unit={unit}
                   onDelete={handleDeleteUnit}

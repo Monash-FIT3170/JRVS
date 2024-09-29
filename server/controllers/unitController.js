@@ -117,28 +117,28 @@ const createUnit = asyncHandler(async (req, res) => {
 });
 
 const deleteUnit = asyncHandler(async (req, res) => {
-  const { unitId } = req.params;
+  const { id } = req.params; // Changed from req.params.unitId to req.params.id
 
   try {
     // Find and delete the unit
-    const deletedUnit = await unitModel.findByIdAndDelete(unitId);
+    const deletedUnit = await unitModel.findByIdAndDelete(id);
     if (!deletedUnit) {
       return res.status(404).json({ message: "Unit not found" });
     }
 
     // Delete the unit from unitsModel
-    await unitsModel.findOneAndDelete({ _id: unitId });
+    await unitsModel.findOneAndDelete({ _id: id });
 
     // Remove the unit from all users' assignedUnits
     await User.updateMany(
-      { assignedUnits: unitId },
-      { $pull: { assignedUnits: unitId } },
+      { assignedUnits: id },
+      { $pull: { assignedUnits: id } },
     );
 
     // Update UserProgress
     await UserProgress.updateMany(
-      { "learningPaths.pathId": unitId },
-      { $pull: { learningPaths: { pathId: unitId } } },
+      { "learningPaths.pathId": id },
+      { $pull: { learningPaths: { pathId: id } } },
     );
 
     // Delete all associated lessons, videos, and quizzes
