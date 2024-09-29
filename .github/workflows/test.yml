@@ -28,4 +28,26 @@ jobs:
       - name: Run Tests
         run: npm test
 
+      # If Docker is used, include these steps
+      # - name: Build Docker image
+      #   run: docker-compose up --build
+
+      # - name: Run Docker container
+      #   run: docker ??
+
+      # Linting before running
+      - name: Linting
+        run: npm run lint
+
+      # Add environment variables
+      - name: Set up environment variables
+        run: echo "REACT_APP_API_URL=http://localhost:5000" > .env
+
+      # # Set up coverage Reporting
+      # - name: Setup coverage
+      #   run: npm install -g codecov
+      # # Run coverage
+      # - name: Run coverage
+      #   run: npm run coverage
+
       
