@@ -1,0 +1,22 @@
+name: Automated Testing Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main  # Branch specifier for pipeline
+      - test/*  # For all branches with feature/* (For testing for now, can replace with feature/* or bug_fix/*)
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # OS environment for runner
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
