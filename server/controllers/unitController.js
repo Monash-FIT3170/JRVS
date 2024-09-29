@@ -295,6 +295,80 @@ function getTailNodeIds(treeData) {
   return tailNodeIds;
 }
 
+/**
+ * @desc    Delete a node from a unit and reappend its children
+ * @route   POST /api/units/:id/delete
+ * @access  Private
+ * @function deleteNode
+ * @async
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the node is deleted and its children are reappended.
+ * @throws {Error} Throws errors if the unit is not found, the node is not found, or there is an issue with the deletion.
+ */
+const deleteNode = asyncHandler(async (req, res) => {
+  const { unitId, targetNodeId } = req.body;
+
+  // Get the target unit
+  const unit = await unitModel.findById(unitId);
+  if (!unit) {
+    return res.status(404).json({ message: "Unit not found" });
+  }
+
+  // Find the target node and parent
+  const { updatedTree, deletedNode } = findAndRemoveNode(unit.data, targetNodeId);
+  
+  if (!deletedNode) {
+    return res.status(404).json({ message: "Node not found" });
+  }
+
+  // Update data with new tree data
+  unit.data = updatedTree;
+  unit.numberOfLessons -= 1; // Lesson count
+
+  // Mark modified and save
+  unit.markModified("data");
+  await unit.save();
+
+  // Unit collection
+  await unitsModel.updateOne(
+    { _id: unitId },
+    { $inc: { numberOfLessons: -1 } },
+  );
+
+  // Deleted node info
+  return res.status(200).json({ message: "Node deleted", deletedNode });
+});
+
+/**
+ * @function findAndRemoveNode
+ * @desc    Recursively find and remove a node from the tree
+ * @param {Object[]} tree - The tree data to search.
+ * @param {string} nodeId - The ID of the node to delete.
+ * @returns {Object} Returns the updated tree and the deleted node, if found.
+ */
+function findAndRemoveNode(tree, nodeId) {
+  for (let i = 0; i < tree.length; i++) {
+    const node = tree[i];
+
+    // Check if the current node is the one to delete
+    if (node.id === nodeId) {
+      const deletedNode = tree.splice(i, 1)[0]; // Remove the node from the tree
+      return { updatedTree: tree, deletedNode }; // Return the updated tree and the deleted node
+    }
+
+    // If not found, recur into the children
+    if (node.children && node.children.length > 0) {
+      const { updatedTree, deletedNode } = findAndRemoveNode(node.children, nodeId);
+      if (deletedNode) {
+        return { updatedTree: tree, deletedNode }; // Return if found in children
+      }
+    }
+  }
+
+  return { updatedTree: tree, deletedNode: null }; // Node not found
+}
+
 module.exports = {
   getUnits,
   getUnit,
