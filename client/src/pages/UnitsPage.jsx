@@ -28,6 +28,7 @@ import { useApi } from "../context/ApiProvider";
 import UnitCard from "../components/UnitCard";
 import MenuBar from "../components/MenuBar";
 import CreateUnitDialog from "../components/CreateUnitDialog";
+import UnitOverflowMenu from "../components/UnitOverflowMenu";
 
 const UnitsPage = () => {
   const { getData, postData } = useApi();
@@ -102,6 +103,15 @@ const UnitsPage = () => {
     }
   };
 
+  const handleDeleteUnit = async (unit) => {
+    try {
+      await postData(`api/units/${unit._id}/delete`, { unitId: unit._id }); // CHANGE THIS ROUTING **************
+      setUnits(units.filter((u) => u._id !== unit._id));
+    } catch (error) {
+      console.error("Error deleting unit:", error);
+    }
+  };
+
   return (
     <div style={{ maxWidth: "100vw" }}>
       <link
@@ -165,16 +175,24 @@ const UnitsPage = () => {
               lg={3}
               onClick={() => routeChange(unit._id)}
             >
-              <UnitCard
-                title={unit.title}
-                progress={
-                  userType !== "admin" && userType !== "teacher"
-                    ? getUnitProgress(unit)
-                    : 100 /* Teachers and admins always have 100% unit progress */
-                }
-                imageColour={unit.colour}
-                icon={unit.icon}
-              ></UnitCard>
+              <div style={{ position: "relative" }}>
+                <UnitCard
+                  title={unit.title}
+                  progress={
+                    userType !== "admin" && userType !== "teacher"
+                      ? getUnitProgress(unit)
+                      : 100 /* Teachers and admins always have 100% unit progress */
+                  }
+                  imageColour={unit.colour}
+                  icon={unit.icon}
+                />
+
+                <UnitOverflowMenu
+                  unit={unit}
+                  onDelete={handleDeleteUnit}
+                  userType={userType}
+                />
+              </div>
             </Grid>
           ))
         )}
