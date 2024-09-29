@@ -45,6 +45,8 @@ const RegistrationPage = () => {
   const [school, setSchool] = useState("");
   const [schools, setSchools] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [nameError, setNameError] = useState(""); // Combined name error state
 
   const location = useLocation();
   const [avatarState, setAvatarState] = useState(
@@ -54,6 +56,8 @@ const RegistrationPage = () => {
   const handleUserType = (event, newUsertype) => {
     if (newUsertype !== null) {
       setUsertype(newUsertype);
+      setErrorMessage("");
+      setNameError(""); // Clear name error
     }
   };
 
@@ -63,6 +67,14 @@ const RegistrationPage = () => {
   // POST request to register user
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!usertype) {
+      setErrorMessage("Please select either 'Student' or 'Teacher'.");
+      return;
+    }
+    if (!firstname || !lastname) {
+      setNameError("Please ensure you have filled both first and last name.");
+      return;
+    }
     try {
       const res = await postData("api/auth/register", {
         usertype,
@@ -204,6 +216,11 @@ const RegistrationPage = () => {
                 </div>
               </label>
             </div>
+            {errorMessage && (
+              <div style={{ color: "red", fontSize: "1rem" }}>
+                {errorMessage}
+              </div>
+            )}
             <div className="flex gap-2">
               <label>
                 <span className="text-gray-700 mr">First name</span>
@@ -224,6 +241,10 @@ const RegistrationPage = () => {
                 ></input>
               </label>
             </div>
+            {/* Display name error */}
+            {nameError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>{nameError}</div>
+            )}
 
             <label className="block">
               <span className="text-gray-700">Username</span>
