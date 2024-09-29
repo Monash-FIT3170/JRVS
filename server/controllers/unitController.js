@@ -139,7 +139,11 @@ const appendNode = asyncHandler(async (req, res) => {
   } else if (newNode.type === "video") {
     generatedNode = await createVideo(newNode.title, newNode.tooltip.content);
   } else if (newNode.type === "quiz") {
-    generatedNode = await createQuiz(newNode.title, inputSubType, newNode.tooltip.content);
+    generatedNode = await createQuiz(
+      newNode.title,
+      inputSubType,
+      newNode.tooltip.content,
+    );
   } else {
     return res.status(500).json({ message: "Invalid node type" });
   }
@@ -161,7 +165,7 @@ const appendNode = asyncHandler(async (req, res) => {
 
   const unitsUpdated = await unitsModel.updateOne(
     { _id: unitId },
-    { $inc: { numberOfLessons: 1 } }
+    { $inc: { numberOfLessons: 1 } },
   );
 
   if (!unitsUpdated) {
@@ -195,7 +199,11 @@ const insertNode = asyncHandler(async (req, res) => {
   } else if (newNode.type === "video") {
     generatedNode = await createVideo(newNode.title, newNode.tooltip.content);
   } else if (newNode.type === "quiz") {
-    generatedNode = await createQuiz(newNode.title, inputSubType, newNode.tooltip.content);
+    generatedNode = await createQuiz(
+      newNode.title,
+      inputSubType,
+      newNode.tooltip.content,
+    );
   } else {
     return res.status(500).json({ message: "Invalid node type" });
   }
@@ -217,7 +225,7 @@ const insertNode = asyncHandler(async (req, res) => {
 
   const unitsUpdated = await unitsModel.updateOne(
     { _id: unitId },
-    { $inc: { numberOfLessons: 1 } }
+    { $inc: { numberOfLessons: 1 } },
   );
 
   if (!unitsUpdated) {
@@ -316,8 +324,11 @@ const deleteNode = asyncHandler(async (req, res) => {
   }
 
   // Find the target node and parent
-  const { updatedTree, deletedNode } = findAndRemoveNode(unit.data, targetNodeId);
-  
+  const { updatedTree, deletedNode } = findAndRemoveNode(
+    unit.data,
+    targetNodeId,
+  );
+
   if (!deletedNode) {
     return res.status(404).json({ message: "Node not found" });
   }
@@ -359,7 +370,10 @@ function findAndRemoveNode(tree, nodeId) {
 
     // If not found, recur into the children
     if (node.children && node.children.length > 0) {
-      const { updatedTree, deletedNode } = findAndRemoveNode(node.children, nodeId);
+      const { updatedTree, deletedNode } = findAndRemoveNode(
+        node.children,
+        nodeId,
+      );
       if (deletedNode) {
         return { updatedTree: tree, deletedNode }; // Return if found in children
       }
@@ -375,4 +389,5 @@ module.exports = {
   createUnit,
   appendNode,
   insertNode,
+  deleteNode,
 };
