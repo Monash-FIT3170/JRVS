@@ -36,7 +36,20 @@ const lessonModel = require("../models/lessonModel");
 const videoModel = require("../models/videoModel");
 const quizModel = require("../models/quizModel");
 
-
+/**
+ * @desc    Get a list of all units
+ * @route   GET /api/units
+ * @access  Private
+ * @function getUnits
+ * @async
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the list of units is retrieved and sent in the response.
+ */
+const getUnits = asyncHandler(async (req, res) => {
+  const units = await unitsModel.find();
+  res.status(200).json(units);
+});
 
 module.exports = {
   getUnits,
