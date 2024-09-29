@@ -38,7 +38,7 @@ jobs:
 
       # Linting before running
       - name: Linting
-        run: npm run lint
+        run: npm lint
 
       # Add environment variables
       - name: Set up environment variables

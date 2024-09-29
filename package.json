@@ -11,7 +11,8 @@
     "install-all-mac": "npm install && for D in */; do (cd \"$D\" && npm install); done",
     "install-all-win": "npm install && for /D %D in (*) do @if exist \"%D\\package.json\" npm install --prefix \"%D\"",
     "prepare": "husky",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "author": "Max Verhoef",
   "license": "Apache-2.0",
@@ -45,7 +46,10 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "eslint": "^8.57.1",
     "husky": "^9.1.4",
-    "prettier": "^3.3.3"
+    "jest": "^27.5.1",
+    "prettier": "^3.3.3",
+    "eslint-config-prettier": "^8.3.0"
   }
 }
