@@ -4,12 +4,12 @@ on:
   # Run only on pull requests and pushes to main branch
   pull_request:
     branches:
-      - main  # Branch specifier for pipeline
-      - test/*  # For all branches with feature/* (For testing for now, can replace with feature/* or bug_fix/*)
+      - main # Branch specifier for pipeline
+      - test/* # For all branches with feature/* (For testing for now, can replace with feature/* or bug_fix/*)
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # OS environment for runner
+    runs-on: ubuntu-latest # OS environment for runner
     steps:
       # Checkout the code
       - name: Checkout code
@@ -19,11 +19,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
 
       # Install dependencies
       - name: Install Dependencies
-        run: npm install
+        run: npm run install-all-mac
 
       # Run Tests
       - name: Run Tests
@@ -54,6 +54,3 @@ jobs:
       # # Upload coverage report
       # - name: Upload coverage report
       #   run: codecov
-      
-
-      
