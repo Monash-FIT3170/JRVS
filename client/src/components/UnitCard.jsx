@@ -1,27 +1,3 @@
-/**
- * @file UnitCard Component
- *
- * @description A card component displaying a unit with an icon, progress indicator, and title.
- * The card features a customizable background color for the icon area and displays
- * progress as a linear progress bar with percentage. It also includes a three-dot
- * options button next to the title with "Edit" and "Delete" options.
- *
- * @module UnitCard
- * @requires react
- * @requires @mui/material/Card
- * @requires @mui/material/CardContent
- * @requires @mui/material/Typography
- * @requires @mui/material/Icon
- * @requires @mui/material/LinearProgress
- * @requires @mui/material/Box
- * @requires @mui/material/IconButton
- * @requires @mui/material/Menu
- * @requires @mui/material/MenuItem
- * @requires @mui/icons-material/MoreVert
- *
- * @returns {JSX.Element} The rendered UnitCard component
- */
-
 import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -30,34 +6,29 @@ import Icon from "@mui/material/Icon";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert"; // Three dots icon
-import Menu from "@mui/material/Menu"; // For the options dropdown
-import MenuItem from "@mui/material/MenuItem"; // For each option (Edit, Delete)
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const UnitCard = ({ title, progress, imageColour, icon, onEdit, onDelete }) => {
-  const [anchorEl, setAnchorEl] = useState(null); // State to manage the menu's anchor (open/close)
-  const open = Boolean(anchorEl); // Boolean to determine if the menu is open
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  // Function to open the menu
   const handleMenuOpen = (event) => {
     event.stopPropagation(); // Prevent the event from bubbling up
     setAnchorEl(event.currentTarget);
   };
 
-  // Function to close the menu
-  const handleMenuClose = (event) => {
-    event.stopPropagation(); // Prevent the event from bubbling up
+  const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
-  // Function to handle the Edit option
   const handleEdit = (event) => {
     event.stopPropagation(); // Prevent the event from bubbling up
     handleMenuClose(); // Close the menu
     if (onEdit) onEdit(); // Trigger the edit callback if provided
   };
 
-  // Function to handle the Delete option
   const handleDelete = (event) => {
     event.stopPropagation(); // Prevent the event from bubbling up
     handleMenuClose(); // Close the menu
@@ -95,14 +66,10 @@ const UnitCard = ({ title, progress, imageColour, icon, onEdit, onDelete }) => {
             >
               {title}
             </Typography>
-            <IconButton
-              aria-label="more options"
-              onClick={handleMenuOpen} // Open the menu
-            >
+            <IconButton aria-label="more options" onClick={handleMenuOpen}>
               <MoreVertIcon />
             </IconButton>
 
-            {/* Menu with three dots */}
             <Menu
               anchorEl={anchorEl}
               open={open}
@@ -119,10 +86,9 @@ const UnitCard = ({ title, progress, imageColour, icon, onEdit, onDelete }) => {
               <LinearProgress variant="determinate" value={progress} />
             </Box>
             <Box sx={{ minWidth: 35 }}>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-              >{`${Math.round(progress)}%`}</Typography>
+              <Typography variant="body2" color="text.secondary">
+                {`${Math.round(progress)}%`}
+              </Typography>
             </Box>
           </Box>
         </CardContent>

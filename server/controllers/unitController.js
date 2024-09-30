@@ -118,7 +118,7 @@ const createUnit = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Update an existing lesson
- * @route   PUT /api/lessons/:id
+ * @route   PUT /api/units/:id
  * @access  Private
  * @function updateLesson
  * @async

@@ -30,7 +30,7 @@ import MenuBar from "../components/MenuBar";
 import CreateUnitDialog from "../components/CreateUnitDialog";
 
 const UnitsPage = () => {
-  const { getData, postData } = useApi();
+  const { getData, postData, putData } = useApi();
   const [units, setUnits] = useState(undefined);
   const [userData, setUserData] = useState();
   const [userUnitProgress, setUserUnitProgress] = useState();
@@ -84,6 +84,7 @@ const UnitsPage = () => {
     return progress * 100;
   };
 
+  // Function to handle the creation of a unit
   const handleCreateUnit = async ({ unitName, hexCode, icon }) => {
     console.log(`unitName: ${unitName}, hexCode: ${hexCode}, icon: ${icon}`);
 
@@ -100,6 +101,35 @@ const UnitsPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // Function to handle the editing of a unit
+  const handleEditUnit = async ({ unitName, hexCode, icon, id }) => {
+    console.log(`unitName: ${unitName}, hexCode: ${hexCode}, icon: ${icon}`);
+
+    try {
+      const response = await putData(`api/units/${id}`, {
+        title: unitName,
+        colour: hexCode,
+        icon,
+      });
+      console.log(response);
+
+      // Refresh the page
+      navigate(0);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Placeholder for deleting a unit
+  const handleDeleteUnit = async (id) => {
+    // try {
+    //   const response = await deleteData(`api/units/${id}`);
+    //   console.log()
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
@@ -157,14 +187,7 @@ const UnitsPage = () => {
           <div className="spinner"></div>
         ) : (
           units.map((unit) => (
-            <Grid
-              item
-              xs={6}
-              sm={6}
-              md={4}
-              lg={3}
-              onClick={() => routeChange(unit._id)}
-            >
+            <Grid item xs={6} sm={6} md={4} lg={3} key={unit._id}>
               <UnitCard
                 title={unit.title}
                 progress={
@@ -174,7 +197,21 @@ const UnitsPage = () => {
                 }
                 imageColour={unit.colour}
                 icon={unit.icon}
-              ></UnitCard>
+                // Pass the handleEditUnit function to UnitCard and provide unit details
+                onEdit={() =>
+                  handleEditUnit({
+                    unitName: unit.title,
+                    hexCode: unit.colour,
+                    icon: unit.icon,
+                    id: unit._id,
+                  })
+                }
+                onDelete={() =>
+                  alert(
+                    `TODO: Implement deleting of unit. \n\n Unit selected to delete: ${unit._id}`,
+                  )
+                } // Implement deletion logic here
+              />
             </Grid>
           ))
         )}
