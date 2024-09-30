@@ -22,6 +22,7 @@ import { keyframes } from "@emotion/react";
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-min-noconflict/ext-searchbox";
+import { useNavigate } from "react-router-dom";
 const languages = [
   "jsx",
   "java",
@@ -49,6 +50,7 @@ const pulse = keyframes`
 `;
 
 const CodeChallenge = () => {
+  const navigate = useNavigate();
   const { postData } = useApi();
   const [generatedResult, setGeneratedResult] = useState("");
   const [codeInput, setCodeInput] = useState("");
@@ -304,7 +306,6 @@ const CodeChallenge = () => {
             justifyContent: "center",
             width: "100%",
             marginTop: "20px",
-            marginBottom: "20px",
           }}
         >
           <Box sx={{ display: "flex", width: "75%" }}>
@@ -390,6 +391,22 @@ const CodeChallenge = () => {
               </Box>
             </Box>
           </Box>
+        </Box>
+        <Box sx={{ width: "75%", marginTop: "20px", marginBottom: "20px" }}>
+          <Tooltip title="Back to Units Page">
+            <Button
+              onClick={() => navigate(-1)}
+              variant="contained"
+              sx={{
+                backgroundColor: "#073642",
+                borderRadius: "10px",
+                "&:hover": { bgcolor: "#657b83" },
+                padding: "10px",
+              }}
+            >
+              BACK
+            </Button>
+          </Tooltip>
         </Box>
       </Box>
     </Box>

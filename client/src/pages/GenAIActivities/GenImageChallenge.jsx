@@ -14,6 +14,7 @@ import {
 import TargetImage from "../../assets/images/eagle-in-flight.png";
 import DefaultImage from "../../assets/images/solid-color-image.png";
 import { keyframes } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 const pulse = keyframes`
   0% {
@@ -86,6 +87,7 @@ async function compressBase64(base64String) {
 }
 
 const GenImageChallenge = () => {
+  const navigate = useNavigate();
   const { postData } = useApi();
   const [generatedResult, setGeneratedResult] = useState(null);
   const [promptInput, setPromptInput] = useState("");
@@ -286,7 +288,6 @@ const GenImageChallenge = () => {
                   display: "flex",
                   width: "100%",
                   marginTop: "20px",
-                  marginBottom: "40px",
                 }}
               >
                 <Box
@@ -360,6 +361,22 @@ const GenImageChallenge = () => {
               </Box>
             </Box>
           </Box>
+        </Box>
+        <Box sx={{ width: "75%", marginTop: "20px", marginBottom: "20px" }}>
+          <Tooltip title="Back to Units Page">
+            <Button
+              onClick={() => navigate(-1)}
+              variant="contained"
+              sx={{
+                backgroundColor: "#073642",
+                borderRadius: "10px",
+                "&:hover": { bgcolor: "#657b83" },
+                padding: "10px",
+              }}
+            >
+              BACK
+            </Button>
+          </Tooltip>
         </Box>
       </Box>
     </Box>

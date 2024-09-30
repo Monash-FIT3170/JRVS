@@ -163,7 +163,7 @@ const UnitsPage = () => {
             onClick={() => navigate("/codechallenge")}
           >
             <UnitCard
-              title="Gemini AI Code Challenge"
+              title="(TEST) Gemini AI Code Challenge"
               progress={false}
               imageColour="#00141a"
               icon="auto_awesome"
