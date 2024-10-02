@@ -62,11 +62,6 @@ const RegistrationPage = () => {
     if (newUsertype !== null) {
       setUsertype(newUsertype);
       setErrorMessage("");
-      setNameError("");
-      setUsernameError("");
-      setEmailError("");
-      setPasswordError("");
-      setSchoolError("");
     }
   };
 
@@ -133,6 +128,11 @@ const RegistrationPage = () => {
     } catch (error) {
       console.error("Registration failed", error);
     }
+  };
+
+  const handleInputChange = (setter, errorSetter) => (e) => {
+    setter(e.target.value);
+    errorSetter("");
   };
 
   // Fetch the school data from mongodb, only run on the initial render
@@ -270,7 +270,10 @@ const RegistrationPage = () => {
                 <input
                   type="text"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  onChange={(e) => setFirstname(e.target.value)}
+                  onChange={(e) => {
+                    setFirstname(e.target.value);
+                    setNameError("");
+                  }}
                   value={firstname}
                 ></input>
               </label>
@@ -279,7 +282,10 @@ const RegistrationPage = () => {
                 <input
                   type="text"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  onChange={(e) => setLastname(e.target.value)}
+                  onChange={(e) => {
+                    setLastname(e.target.value);
+                    setNameError("");
+                  }}
                   value={lastname}
                 ></input>
               </label>
@@ -294,7 +300,10 @@ const RegistrationPage = () => {
               <input
                 type="text"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  setUsernameError("");
+                }}
                 value={username}
               ></input>
             </label>
@@ -310,7 +319,10 @@ const RegistrationPage = () => {
                 type="email"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 placeholder="john@example.com"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailError("");
+                }}
                 value={email}
               ></input>
             </label>
@@ -325,7 +337,13 @@ const RegistrationPage = () => {
                             onChange={(e) => setSchool(e.target.value)}
                             value={school}
                             ></input>                     */}
-              <Select options={schools} onChange={(e) => setSchool(e.value)} />
+              <Select
+                options={schools}
+                onChange={(e) => {
+                  setSchool(e.value);
+                  setSchoolError("");
+                }}
+              />
             </label>
             {schoolError && (
               <div style={{ color: "red", fontSize: "1rem" }}>
@@ -337,7 +355,10 @@ const RegistrationPage = () => {
               <input
                 type="password"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError("");
+                }}
                 value={password}
               ></input>
             </label>
