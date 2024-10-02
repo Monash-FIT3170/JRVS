@@ -65,10 +65,10 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
         onClick={handleMenuOpen}
         style={{
           position: "absolute",
-          top: 5,
-          right: 5,
-          color: "white",
-          zIndex: 1000,
+          bottom: 50,
+          right: -2,
+          color: "darkgray",
+          zIndex: 1,
         }}
       >
         <MoreVertIcon />
