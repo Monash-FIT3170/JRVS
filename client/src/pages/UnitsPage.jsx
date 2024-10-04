@@ -98,14 +98,8 @@ const UnitsPage = () => {
     }
   };
 
-  const handleDeleteUnit = async (unit) => {
-    try {
-      await deleteData(`api/units/${unit._id}`);
-      setUnits(units.filter((u) => u._id !== unit._id));
-    } catch (error) {
-      window.location.reload();
-      console.error("Error deleting unit:", error);
-    }
+  const handleDeleteUnit = (deletedUnit) => {
+    setUnits(units.filter((unit) => unit._id !== deletedUnit._id));
   };
 
   return (
