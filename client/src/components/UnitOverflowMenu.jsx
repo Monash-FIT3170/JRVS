@@ -1,3 +1,26 @@
+/**
+ * @file UnitOverflowMenu Component
+ *
+ * @description A component that provides a menu with options to edit or delete a unit. Only accessible to admin and teacher roles.
+ * It includes a confirmation dialog for deletion, calling an API to perform the delete action and handling success or failure.
+ *
+ * @module UnitOverflowMenu
+ * @requires react
+ * @requires @mui/material/IconButton
+ * @requires @mui/material/Menu
+ * @requires @mui/material/MenuItem
+ * @requires @mui/material/Dialog
+ * @requires @mui/material/DialogTitle
+ * @requires @mui/material/DialogContent
+ * @requires @mui/material/DialogContentText
+ * @requires @mui/material/DialogActions
+ * @requires @mui/material/Button
+ * @requires @mui/icons-material/MoreVert
+ * @requires ../context/ApiProvider
+ *
+ * @returns {JSX.Element} The rendered UnitOverflowMenu component
+ */
+
 import React, { useState } from "react";
 import {
   IconButton,
