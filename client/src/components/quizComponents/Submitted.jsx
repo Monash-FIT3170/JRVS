@@ -20,12 +20,12 @@
  * <Submitted score={8} totalScore={10} points={50} />
  */
 
-
+import React from "react";
 import { Button, Typography, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import BotBox from "../../components/content/botBox";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Submitted({ score, totalScore, points }) {
   const [showConfetti, setShowConfetti] = useState(true);

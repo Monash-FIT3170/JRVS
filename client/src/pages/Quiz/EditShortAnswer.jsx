@@ -21,6 +21,7 @@
  * @returns {JSX.Element} The rendered interface for editing short answer quiz questions, including forms for editing, adding new questions, and navigation buttons.
  */
 
+import React from "react";
 import {
   AppBar,
   Box,

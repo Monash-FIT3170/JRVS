@@ -21,6 +21,7 @@
  * @returns {JSX.Element} The rendered interface for editing image-based quiz questions, including forms for editing, adding new questions, and navigation buttons.
  */
 
+import React from "react";
 import {
   AppBar,
   Box,
@@ -48,8 +49,10 @@ const EditImageQuiz = () => {
   const [questions, setQuestions] = useState([]);
   const [originalQuestions, setOriginalQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
   const { quizId } = useParams();
+  // eslint-disable-next-line no-unused-vars
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleBackClick = () => {
@@ -64,7 +67,7 @@ const EditImageQuiz = () => {
           setQuestions(quiz.questions);
           setOriginalQuestions(JSON.parse(JSON.stringify(quiz.questions)));
         }
-      } catch (error) {
+      } catch {
         setError("Failed to fetch quiz data. Please try again.");
       } finally {
         setIsLoading(false);

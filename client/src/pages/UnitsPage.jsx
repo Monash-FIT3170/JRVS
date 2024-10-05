@@ -74,11 +74,12 @@ const UnitsPage = () => {
         padding={10}
         width="100vw"
       >
-        {isUnitLoading ? (
+        {isUnitLoading && units ? (
           <div className="spinner"></div>
         ) : (
           units.map((unit) => (
             <Grid
+              key={unit._id}
               item
               xs={6}
               sm={6}

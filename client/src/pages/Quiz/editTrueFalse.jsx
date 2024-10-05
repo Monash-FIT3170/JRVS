@@ -21,6 +21,7 @@
  * @returns {JSX.Element} The rendered interface for editing True/False quiz questions, including forms for editing, adding new questions, and navigation buttons.
  */
 
+import React from "react";
 import {
   AppBar,
   Box,
@@ -104,7 +105,7 @@ const EditTrueFalse = () => {
     if (isFormComplete()) {
       try {
         await updateData(`api/quizzes/${quizId}`, questions);
-      } catch (error) {
+      } catch {
         setError("Failed to update questions. Please try again.");
       }
     } else {

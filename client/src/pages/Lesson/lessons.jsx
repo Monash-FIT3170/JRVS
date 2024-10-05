@@ -27,6 +27,7 @@
  * @returns {JSX.Element} The rendered interface for interacting with lesson content, including a carousel, progress bar, and navigation buttons.
  */
 
+import React from "react";
 import { Button, Box, LinearProgress } from "@mui/material";
 import { styled } from "@mui/system";
 import { useState, useEffect } from "react";
@@ -42,6 +43,7 @@ import BotBox from "../../components/content/botBox";
 import { useApi } from "../../context/ApiProvider.jsx";
 import MenuBar from "../../components/MenuBar.jsx";
 
+// eslint-disable-next-line no-unused-vars
 const CustomLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 8,
   borderRadius: 5,
@@ -168,10 +170,11 @@ function Lessons() {
   };
 
   if (lesson.content) {
-    contentBoxes = lesson.content.map((contentObject) => {
+    contentBoxes = lesson.content.map((contentObject, index) => {
       if (contentObject.type === "textBox") {
         return (
           <TextBox
+            key={index}
             text={contentObject.text}
             heading={contentObject.heading}
           ></TextBox>
@@ -179,6 +182,7 @@ function Lessons() {
       } else if (contentObject.type === "imageTextBox") {
         return (
           <ImageTextBox
+            key={index}
             text={contentObject.text}
             imageSrc={contentObject.imageSrc}
             heading={contentObject.heading}
@@ -187,6 +191,7 @@ function Lessons() {
       } else if (contentObject.type === "listBox") {
         return (
           <ListBox
+            key={index}
             points={contentObject.points}
             heading={contentObject.heading}
           ></ListBox>
@@ -194,6 +199,7 @@ function Lessons() {
       } else if (contentObject.type === "multipleImageTextBox") {
         return (
           <MultipleImageTextBox
+            key={index}
             imageSrcs={contentObject.imageSrcs}
             heading={contentObject.heading}
             text={contentObject.text}
