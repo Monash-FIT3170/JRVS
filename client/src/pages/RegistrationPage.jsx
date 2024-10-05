@@ -46,6 +46,13 @@ const RegistrationPage = () => {
   const [schools, setSchools] = useState("");
   const [password, setPassword] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [schoolError, setSchoolError] = useState("");
+
   const location = useLocation();
   const [avatarState, setAvatarState] = useState(
     location.state?.avatarState || "blue",
@@ -54,6 +61,7 @@ const RegistrationPage = () => {
   const handleUserType = (event, newUsertype) => {
     if (newUsertype !== null) {
       setUsertype(newUsertype);
+      setErrorMessage("");
     }
   };
 
@@ -63,6 +71,48 @@ const RegistrationPage = () => {
   // POST request to register user
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setErrorMessage("");
+    setNameError("");
+    setUsernameError("");
+    setEmailError("");
+    setPasswordError("");
+    setSchoolError("");
+
+    let hasError = false;
+
+    if (!usertype) {
+      setErrorMessage("Please select either 'Student' or 'Teacher'.");
+      hasError = true;
+    }
+    if (!firstname || !lastname) {
+      setNameError("Please ensure you have filled both first and last name.");
+      hasError = true;
+    }
+    if (!username) {
+      setUsernameError("Username cannot be empty.");
+      hasError = true;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      hasError = true;
+    }
+
+    if (!password || password.length < 8) {
+      setPasswordError("Password must be at least 8 characters.");
+      hasError = true;
+    }
+
+    if (!school) {
+      setSchoolError("Please select a valid school.");
+      hasError = true;
+    }
+
+    if (hasError) {
+      return;
+    }
     try {
       const res = await postData("api/auth/register", {
         usertype,
@@ -78,6 +128,11 @@ const RegistrationPage = () => {
     } catch (error) {
       console.error("Registration failed", error);
     }
+  };
+
+  const handleInputChange = (setter, errorSetter) => (e) => {
+    setter(e.target.value);
+    errorSetter("");
   };
 
   // Fetch the school data from mongodb, only run on the initial render
@@ -204,13 +259,21 @@ const RegistrationPage = () => {
                 </div>
               </label>
             </div>
+            {errorMessage && (
+              <div style={{ color: "red", fontSize: "1rem" }}>
+                {errorMessage}
+              </div>
+            )}
             <div className="flex gap-2">
               <label>
                 <span className="text-gray-700 mr">First name</span>
                 <input
                   type="text"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  onChange={(e) => setFirstname(e.target.value)}
+                  onChange={(e) => {
+                    setFirstname(e.target.value);
+                    setNameError("");
+                  }}
                   value={firstname}
                 ></input>
               </label>
@@ -219,32 +282,53 @@ const RegistrationPage = () => {
                 <input
                   type="text"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  onChange={(e) => setLastname(e.target.value)}
+                  onChange={(e) => {
+                    setLastname(e.target.value);
+                    setNameError("");
+                  }}
                   value={lastname}
                 ></input>
               </label>
             </div>
+            {/* Display name error */}
+            {nameError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>{nameError}</div>
+            )}
 
             <label className="block">
               <span className="text-gray-700">Username</span>
               <input
                 type="text"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  setUsernameError("");
+                }}
                 value={username}
               ></input>
             </label>
 
+            {usernameError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>
+                {usernameError}
+              </div>
+            )}
             <label className="block">
               <span className="text-gray-700">Email</span>
               <input
                 type="email"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 placeholder="john@example.com"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailError("");
+                }}
                 value={email}
               ></input>
             </label>
+            {emailError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>{emailError}</div>
+            )}
 
             <label className="block">
               <span className="text-gray-700">School</span>
@@ -253,19 +337,36 @@ const RegistrationPage = () => {
                             onChange={(e) => setSchool(e.target.value)}
                             value={school}
                             ></input>                     */}
-              <Select options={schools} onChange={(e) => setSchool(e.value)} />
+              <Select
+                options={schools}
+                onChange={(e) => {
+                  setSchool(e.value);
+                  setSchoolError("");
+                }}
+              />
             </label>
-
+            {schoolError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>
+                {schoolError}
+              </div>
+            )}
             <label className="block">
               <span className="text-gray-700">Password</span>
               <input
                 type="password"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError("");
+                }}
                 value={password}
               ></input>
             </label>
-
+            {passwordError && (
+              <div style={{ color: "red", fontSize: "1rem" }}>
+                {passwordError}
+              </div>
+            )}
             <label className="block">
               <button
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
