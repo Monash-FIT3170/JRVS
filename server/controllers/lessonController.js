@@ -57,7 +57,7 @@ const getLesson = asyncHandler(async (req, res) => {
  */
 const updateLesson = asyncHandler(async (req, res) => {
   const lessonId = req.params.id;
-  const { title, content } = req.body;
+  const { title, desc, content } = req.body;
 
   const lesson = await lessonModel.findById(lessonId);
 
@@ -66,6 +66,7 @@ const updateLesson = asyncHandler(async (req, res) => {
   } else {
     lesson.title = title;
     lesson.content = content;
+    lesson.desc = desc;
     await lesson.save();
     res.status(200).json(lesson);
   }

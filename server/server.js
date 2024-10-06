@@ -1,9 +1,9 @@
 /**
  * @file server.js
- * @description This file sets up and configures the Express server for the application. 
- * It connects to the database, initializes middleware, and defines routes for various APIs, 
+ * @description This file sets up and configures the Express server for the application.
+ * It connects to the database, initializes middleware, and defines routes for various APIs,
  * including authentication, goals, badges, quizzes, lessons, and more.
- * 
+ *
  * @module Server
  * @requires path
  * @requires express
@@ -30,10 +30,12 @@
  * @returns {void}
  */
 
-
+// eslint-disable-next-line no-unused-vars
 const path = require("path");
 const express = require("express");
+// eslint-disable-next-line no-unused-vars
 const colors = require("colors");
+// eslint-disable-next-line no-unused-vars
 const dotenv = require("dotenv").config();
 const { errorHandler } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
@@ -45,7 +47,15 @@ connectDB();
 
 const app = express();
 
-app.use(cors({ origin: ["http://localhost:3000", "http://localhost"] })); // Enable CORS for all routes
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost",
+      "https://jrvs-client-production.up.railway.app",
+    ],
+  }),
+); // Enable CORS for all routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

@@ -26,6 +26,7 @@ const LoginPage = () => {
   // Create the hooks for the different inputs
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,6 +37,16 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setErrorMessage("");
+    if (!username) {
+      setErrorMessage("Please enter a valid username and password.");
+      return;
+    }
+    if (!password) {
+      setErrorMessage("Please enter a valid username and password.");
+      return;
+    }
     try {
       const res = await postData("api/auth/login", { username, password });
       console.log(res);
@@ -43,6 +54,14 @@ const LoginPage = () => {
       navigate("/", { state: { avatarState } });
     } catch (error) {
       console.error("Login failed", error);
+      // Handle different error messages
+      if (error.response?.data?.message === "User does not exist") {
+        setErrorMessage("User does not exist. Please check your credentials.");
+      } else if (error.response?.data?.message === "Incorrect password") {
+        setErrorMessage("Incorrect password. Please try again.");
+      } else {
+        setErrorMessage("Username or password incorrect. Please try again.");
+      }
     }
   };
 
@@ -88,6 +107,20 @@ const LoginPage = () => {
               value={password}
             ></input>
           </div>
+
+          {/* Display error message below the password input */}
+          {errorMessage && (
+            <div
+              style={{
+                color: "red",
+                marginTop: "10px",
+                fontSize: "1.2rem",
+                textAlign: "center",
+              }}
+            >
+              {errorMessage}
+            </div>
+          )}
 
           <div>
             <button

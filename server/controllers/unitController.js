@@ -31,7 +31,6 @@
 const asyncHandler = require("express-async-handler");
 const unitsModel = require("../models/unitsModel");
 const unitModel = require("../models/unitModel");
-const { createEmptyLesson, getLesson } = require("./lessonController"); // Import the function
 const lessonModel = require("../models/lessonModel");
 const videoModel = require("../models/videoModel");
 const quizModel = require("../models/quizModel");
@@ -76,6 +75,47 @@ const getUnit = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Creates a new unit in the database.
+ *
+ * @route POST /units
+ * @access Public
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+const createUnit = asyncHandler(async (req, res) => {
+  const { title, icon, colour } = req.body;
+
+  // Create a placeholder lesson
+  let newLesson = await createLesson();
+
+  const newLessonForUnit = {
+    _id: newLesson._id,
+    id: newLesson._id.toString(),
+    icon: "lessonIcon",
+    title: "New Lesson",
+    tooltip: { content: "Description of the new child node" },
+    children: [],
+    type: "lesson",
+  };
+
+  // create the unit
+  let unit_details = await unitModel.create({
+    data: [newLessonForUnit],
+    numberOfLessons: 1,
+  });
+
+  let unit = await unitsModel.create({
+    _id: unit_details._id,
+    title: title,
+    icon: icon,
+    colour: colour,
+    numberOfLessons: 1,
+  });
+
+  res.status(200).json(unit);
+});
+
+/**
  * @desc    Append a node to a unit
  * @route   POST /api/units/:id/append
  * @access  Private
@@ -101,11 +141,15 @@ const appendNode = asyncHandler(async (req, res) => {
   var generatedNode;
 
   if (newNode.type == "lesson") {
-    generatedNode = await createLesson(newNode.title);
+    generatedNode = await createLesson(newNode.title, newNode.tooltip.content);
   } else if (newNode.type == "video") {
-    generatedNode = await createVideo(newNode.title);
+    generatedNode = await createVideo(newNode.title, newNode.tooltip.content);
   } else if (newNode.type == "quiz") {
-    generatedNode = await createQuiz(newNode.title, inputSubType); // Pass in quiz sub-type
+    generatedNode = await createQuiz(
+      newNode.title,
+      inputSubType,
+      newNode.tooltip.content,
+    ); // Pass in quiz sub-type
   } else {
     console.log("New node type invalid");
     return res.status(500).json({ message: "New node type invalid" });
@@ -179,11 +223,15 @@ const insertNode = asyncHandler(async (req, res) => {
   var generatedNode;
 
   if (newNode.type == "lesson") {
-    generatedNode = await createLesson(newNode.title);
+    generatedNode = await createLesson(newNode.title, newNode.tooltip.content);
   } else if (newNode.type == "video") {
-    generatedNode = await createVideo(newNode.title);
+    generatedNode = await createVideo(newNode.title, newNode.tooltip.content);
   } else if (newNode.type == "quiz") {
-    generatedNode = await createQuiz(newNode.title, inputSubType); // Pass in quiz sub-type
+    generatedNode = await createQuiz(
+      newNode.title,
+      inputSubType,
+      newNode.tooltip.content,
+    ); // Pass in quiz sub-type
   } else {
     console.log("New node type invalid");
     return res.status(500).json({ message: "New node type invalid" });
@@ -296,12 +344,14 @@ function appendChildNode(data, targetId, newNode) {
  * @function createLesson
  * @desc    Create a new lesson document
  * @param {string} nodeTitle - The title of the new lesson.
+ * @param {string} nodeDesc - The description of the new lesson.
  * @returns {Promise<Object>} A promise that resolves to the created lesson document.
  */
-async function createLesson(nodeTitle) {
+async function createLesson(nodeTitle, nodeDesc) {
   // Empty node
-  generatedNode = await lessonModel.create({
+  let generatedNode = await lessonModel.create({
     title: nodeTitle || "New lesson",
+    desc: nodeDesc || "New lesson description",
     content: [
       {
         type: "listBox",
@@ -333,13 +383,14 @@ async function createLesson(nodeTitle) {
  * @function createVideo
  * @desc    Create a new video document
  * @param {string} nodeTitle - The title of the new video.
+ * @param {string} nodeDesc - The description of the new video.
  * @returns {Promise<Object>} A promise that resolves to the created video document.
  */
-async function createVideo(nodeTitle) {
-  generatedNode = await videoModel.create({
+async function createVideo(nodeTitle, nodeDesc) {
+  let generatedNode = await videoModel.create({
     title: nodeTitle || "New Video",
     url: "",
-    heading: "",
+    heading: nodeDesc || "New Video Heading",
   });
 
   // generatedNode = await videoModel.create({
@@ -356,11 +407,13 @@ async function createVideo(nodeTitle) {
  * @desc    Create a new quiz document
  * @param {string} nodeTitle - The title of the new quiz.
  * @param {string} quizType - The type of quiz (e.g., TrueFalse).
+ * @param {string} nodeDesc - The description/heading of the new quiz.
  * @returns {Promise<Object>} A promise that resolves to the created quiz document.
  */
-async function createQuiz(nodeTitle, quizType) {
-  generatedNode = await quizModel.create({
-    topic: nodeTitle || "New Quiz",
+async function createQuiz(nodeTitle, quizType, nodeDesc) {
+  let generatedNode = await quizModel.create({
+    title: nodeTitle || "New Quiz",
+    heading: nodeDesc || "New Quiz Heading",
     questions: [
       {
         type: quizType,
@@ -592,7 +645,12 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
     }
 
     // 2. Locate the selected node within the unit, and update the node with the new data
-    const isUpdated = updateNodeRecursive(unit.data, nodeId, newTitle, newDescription);
+    const isUpdated = updateNodeRecursive(
+      unit.data,
+      nodeId,
+      newTitle,
+      newDescription,
+    );
     if (!isUpdated) {
       console.log("Target node not found");
       return res.status(404).json({ message: "Target node not found" });
@@ -603,15 +661,14 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
     await unit.save();
 
     // If all previous steps completed, then the node was updated successfuly
-    return res
-      .status(200)
-      .json({ message: "Node updated successfully", node: {'id': nodeId, 'title': newTitle, 'description': newDescription } });
-  
+    return res.status(200).json({
+      message: "Node updated successfully",
+      node: { id: nodeId, title: newTitle, description: newDescription },
+    });
   } catch (error) {
     console.error("Error in updateTreeNodeDetails:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
-
 });
 
 /**
@@ -626,19 +683,23 @@ const updateTreeNodeDetails = asyncHandler(async (req, res) => {
 function updateNodeRecursive(data, targetId, newTitle, newDescription) {
   // Iterate through each child
   for (let item of data) {
-    
     // Check if the item matches
     if (item.id === targetId) {
       // Update this node with the new details
       item.title = newTitle;
       item.tooltip.content = newDescription;
-      
+
       return true; // Return true to indicate success
     }
 
     // Otherwise recur if children exist
     if (item.children && item.children.length > 0) {
-      const found = updateNodeRecursive(item.children, targetId, newTitle, newDescription);
+      const found = updateNodeRecursive(
+        item.children,
+        targetId,
+        newTitle,
+        newDescription,
+      );
       if (found) {
         return true; // Stop further recursion if the node was found
       }
@@ -651,6 +712,7 @@ function updateNodeRecursive(data, targetId, newTitle, newDescription) {
 module.exports = {
   getUnits,
   getUnit,
+  createUnit,
   appendNode,
   insertNode,
   deleteNode,

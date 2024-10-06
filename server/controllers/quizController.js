@@ -57,7 +57,9 @@ const getQuiz = asyncHandler(async (req, res) => {
  */
 const updateQuiz = asyncHandler(async (req, res) => {
   const quizId = req.params.id;
-  const updatedQuizData = req.body;
+  const updatedTitle = req.body.title;
+  const updatedHeading = req.body.heading;
+  const updatedQuizData = req.body.questions;
 
   // Validate input (you might want to add more specific validations based on your schema)
   if (!updatedQuizData || typeof updatedQuizData !== "object") {
@@ -73,6 +75,8 @@ const updateQuiz = asyncHandler(async (req, res) => {
     } else {
       // Update the quiz with the new data
       console.log(quiz);
+      quiz.title = updatedTitle;
+      quiz.heading = updatedHeading;
       quiz.questions = updatedQuizData;
       console.log(quiz);
 

@@ -34,6 +34,7 @@
  * @returns {Promise<void>} A promise that resolves when the operation is successfully completed.
  */
 
+// eslint-disable-next-line no-unused-vars
 const mongoose = require("mongoose");
 
 // controllers/userController.js
@@ -42,6 +43,7 @@ const User = require("../models/userModel");
 const XP = require("../models/xpModel");
 const crypto = require("crypto");
 const { calculateLevel } = require("../utils/levelUtils");
+const userUnitProgressModel = require("../models/userUnitProgressModel");
 
 /**
  * Encrypts a given text using AES-256-CBC encryption.
@@ -187,6 +189,55 @@ const updatePoints = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    Update Unit Progress
+// @route   POST /api/users/updateUnitProgress
+// @access  Private
+// eslint-disable-next-line no-unused-vars
+const updateUnitProgress = asyncHandler(async (req, res) => {
+  userUnitProgressModel.get();
+  // try {
+  //     const { unitId } = req.params;
+  //     const { lessonId } = req.body;
+  //     const user = req.user; // Get the logged-in user from the middleware
+
+  //     // Find the unit object in the assignedUnits array
+  //     const userAssignedUnits = user['assignedUnits']
+  //     // const unitToUpdate = userAssignedUnits.find(unit => unit.unitId == unitId);
+  //     const unitIndex = user.assignedUnits.findIndex(unit => unit.unitId == unitId);
+
+  //     console.log(user.assignedUnits[unitIndex].lessonsCompleted)
+
+  //     if (unitIndex !== -1) {
+
+  //         // Check if lessonId is already in lessonsCompleted
+  //         if (!user.assignedUnits[unitIndex].lessonsCompleted.includes(lessonId)) {
+  //             // Add the lessonId to the lessonsCompleted array
+
+  //             user.assignedUnits[unitIndex].lessonsCompleted.push(lessonId);
+  //             console.log(user.assignedUnits[unitIndex].lessonsCompleted)
+  //         }
+
+  //     // if (unitToUpdate) {
+  //     //     // Increment the lessonsCompleted
+  //     //     unitToUpdate.lessonsCompleted += 1;
+
+  //         // Save the updated user object to the database
+  //         user.markModified('assignedUnits');
+  //         await user.save();
+
+  //         // Send a success response
+  //         res.status(200).json({ message: 'Unit progress updated successfully.' });
+  //     } else {
+  //         // If the unitId does not exist in assignedUnits
+  //         res.status(404).json({ message: 'Unit not found in assignedUnits.' });
+  //     }
+  // } catch (error) {
+  //     // Handle errors
+  //     res.status(500).json({ message: 'Server error.', error });
+  //     console.log(error)
+  // }
+});
+
 /**
  * Fetches a specific user's data by username.
  *
@@ -262,6 +313,7 @@ const updateDetails = asyncHandler(async (req, res) => {
     newUsername,
     email,
     school,
+    // eslint-disable-next-line no-unused-vars
     password,
   } = req.body;
   const user = await User.findOne({ username });
@@ -388,6 +440,7 @@ const getProfile = (req, res) => {
     }
 
     res.json(user);
+    // eslint-disable-next-line no-unused-vars
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
@@ -472,4 +525,5 @@ module.exports = {
   updatePassword,
   getStudents,
   addBadge,
+  updateUnitProgress,
 };

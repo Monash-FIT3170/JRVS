@@ -25,16 +25,40 @@ import { Button, Typography, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import BotBox from "../../components/content/botBox";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useApi } from "../../context/ApiProvider.jsx";
 
 export default function Submitted({ score, totalScore, points }) {
   const [showConfetti, setShowConfetti] = useState(true);
   const navigate = useNavigate();
+  const { unitId, quizId } = useParams();
+  const { postData, updateData } = useApi();
 
   useEffect(() => {
     const timer = setTimeout(() => setShowConfetti(false), 8000);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleFinishQuiz = async () => {
+    try {
+      await updateData(`api/userUnitProgress/${unitId}`, {
+        newCompletedLessons: [quizId],
+      });
+      navigate(-1);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    try {
+      console.log("userUnitProgress entry not found, creating a new one...");
+      await postData(`api/userUnitProgress/${unitId}`, {
+        completedLessons: [quizId],
+      });
+      navigate(-1);
+    } catch (creationError) {
+      console.error("Error creating user progress entry:", creationError);
+    }
+  };
 
   return (
     <Grid container rowSpacing={2}>
@@ -116,7 +140,7 @@ export default function Submitted({ score, totalScore, points }) {
       </Grid>
       <Grid item xs={12} display="flex" justifyContent="center">
         <Button
-          onClick={() => navigate(-1)}
+          onClick={handleFinishQuiz}
           variant="contained"
           className="button-font"
           sx={{

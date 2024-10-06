@@ -43,6 +43,8 @@ const questionSchema = mongoose.Schema(
 /**
  * @typedef {Object} Quiz
  * @property {string} type - The type of quiz.
+ * @property {string} title - The title of the quiz.
+ * @property {string} heading - The heading of the quiz.
  * @property {Question[]} questions - An array of question objects associated with the quiz.
  * @property {Object[]} options - An array of option objects if options are present.
  * @property {string} options.option - The display text for an option.
@@ -54,6 +56,8 @@ const questionSchema = mongoose.Schema(
  */
 const quizSchema = mongoose.Schema({
   type: String,
+  title: String,
+  heading: String,
   questions: [questionSchema],
   options: [
     { option: String, value: String, term: String, definition: String },
