@@ -10,9 +10,7 @@ export default [
       "react/prop-types": "off",
     },
   },
-  {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
-  },
+  { files: ["**/*.{js,mjs,cjs,jsx}"] },
   {
     languageOptions: {
       globals: {
