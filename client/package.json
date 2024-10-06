@@ -18,6 +18,7 @@
     "axios": "^1.6.8",
     "beautiful-skill-tree": "^1.7.1",
     "jwt-decode": "^4.0.0",
+    "lint-staged": "^15.2.10",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
@@ -37,7 +38,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint . --fix --max-warnings 0"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix --max-warnings 0",
+      "git add"
+    ]
   },
   "eslintConfig": {
     "extends": [
