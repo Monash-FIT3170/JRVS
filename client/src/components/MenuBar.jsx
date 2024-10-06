@@ -38,7 +38,6 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Logout from "@mui/icons-material/Logout";
-import { bgcolor, padding } from "@mui/system";
 
 const shortenString = (str, num) => {
   if (str.length <= num) {
@@ -53,6 +52,7 @@ const MenuBar = ({ title, subtitle }) => {
 
   const { getData, postData } = useApi();
   const [user, setUser] = useState({ username: "", points: 0, usertype: "" });
+  // eslint-disable-next-line no-unused-vars
   const [isUserLoading, setIsUserLoading] = useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);

@@ -130,6 +130,7 @@ const RegistrationPage = () => {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleInputChange = (setter, errorSetter) => (e) => {
     setter(e.target.value);
     errorSetter("");
@@ -369,7 +370,7 @@ const RegistrationPage = () => {
             )}
             <label className="block">
               <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
                 Create My Account

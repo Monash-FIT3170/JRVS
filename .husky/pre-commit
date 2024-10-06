@@ -1,3 +1,5 @@
 # .husky/pre-commit
 prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write --ignore-unknown
+npx --prefix ./client lint-staged
+npx --prefix ./server lint-staged
 git update-index --again

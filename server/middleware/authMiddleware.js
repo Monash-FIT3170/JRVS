@@ -32,6 +32,7 @@ const authenticate = async (req, res, next) => {
     req.token = token;
     req.user = user;
     next();
+    // eslint-disable-next-line no-unused-vars
   } catch (err) {
     res.status(401).json({ error: "Please authenticate." });
   }

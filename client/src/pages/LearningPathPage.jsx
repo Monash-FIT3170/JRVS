@@ -66,6 +66,7 @@ const LearningPathPage = () => {
   const { unitId } = useParams();
 
   const [usertype, setUserType] = useState(); // User type
+  // eslint-disable-next-line no-unused-vars
   const [userId, setUserId] = useState();
 
   useEffect(() => {
@@ -362,7 +363,7 @@ const LearningPathPage = () => {
   };
 
   async function handleSave(storage, treeId, skills) {
-    var completedLessons = [];
+    let completedLessons = [];
     if (completedLessonsArray) {
       completedLessons = completedLessonsArray;
     } else {
@@ -396,9 +397,8 @@ const LearningPathPage = () => {
       ) : (
         <SkillProvider>
           <SkillTreeGroup theme={theme}>
-            {(
-              { skillCount }, //SkillGroupDataType
-            ) => (
+            {() => (
+              //SkillGroupDataType
               <SkillTree
                 treeId="learning-pathway"
                 title=""

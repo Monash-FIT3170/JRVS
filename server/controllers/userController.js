@@ -34,6 +34,7 @@
  * @returns {Promise<void>} A promise that resolves when the operation is successfully completed.
  */
 
+// eslint-disable-next-line no-unused-vars
 const mongoose = require("mongoose");
 
 // controllers/userController.js
@@ -191,6 +192,7 @@ const updatePoints = asyncHandler(async (req, res) => {
 // @desc    Update Unit Progress
 // @route   POST /api/users/updateUnitProgress
 // @access  Private
+// eslint-disable-next-line no-unused-vars
 const updateUnitProgress = asyncHandler(async (req, res) => {
   userUnitProgressModel.get();
   // try {
@@ -311,6 +313,7 @@ const updateDetails = asyncHandler(async (req, res) => {
     newUsername,
     email,
     school,
+    // eslint-disable-next-line no-unused-vars
     password,
   } = req.body;
   const user = await User.findOne({ username });
@@ -437,6 +440,7 @@ const getProfile = (req, res) => {
     }
 
     res.json(user);
+    // eslint-disable-next-line no-unused-vars
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }

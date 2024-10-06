@@ -39,16 +39,12 @@ export const ApiProvider = ({ children }) => {
       Authorization: token ? `Bearer ${token}` : undefined,
     };
 
-    try {
-      const response = await fetch(url, { ...options, headers });
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      throw error;
+    const response = await fetch(url, { ...options, headers });
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
     }
+    const data = await response.json();
+    return data;
   };
 
   // Function to get data from MongoDB

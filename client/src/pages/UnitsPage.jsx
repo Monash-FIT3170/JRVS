@@ -32,6 +32,7 @@ import CreateUnitDialog from "../components/CreateUnitDialog";
 const UnitsPage = () => {
   const { getData, postData } = useApi();
   const [units, setUnits] = useState(undefined);
+  // eslint-disable-next-line no-unused-vars
   const [userData, setUserData] = useState();
   const [userUnitProgress, setUserUnitProgress] = useState();
   const [isUserUnitProgressLoading, setIsUserUnitProgressLoading] =
@@ -153,11 +154,12 @@ const UnitsPage = () => {
         backgroundColor="white"
         width="100vw"
       >
-        {isLoading ? (
+        {isUnitLoading || !units ? (
           <div className="spinner"></div>
         ) : (
           units.map((unit) => (
             <Grid
+              key={unit._id}
               item
               xs={6}
               sm={6}

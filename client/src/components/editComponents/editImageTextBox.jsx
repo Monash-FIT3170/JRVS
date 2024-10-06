@@ -7,16 +7,16 @@
  * @requires @mui/material/TextField
  * @requires @mui/icons-material/Edit
  * @requires React
- * 
+ *
  * @param {Object} props - The component props.
  * @param {string} props.heading - The heading for the image text box.
  * @param {string} props.text - The text content associated with the image.
  * @param {string} props.imageSrc - The URL of the image to be displayed.
  * @param {number} props.index - The index of the image text box in the parent component.
  * @param {Function} props.updateContent - Function to update the content when changes are saved.
- * 
+ *
  * @returns {JSX.Element} The rendered EditImageTextBox component.
- * 
+ *
  * @example
  * <EditImageTextBox
  *   heading="Sample Heading"
@@ -27,6 +27,7 @@
  * />
  */
 
+import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import "./editComponents.css";
 import { useEffect, useState } from "react";

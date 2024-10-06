@@ -23,7 +23,6 @@
 
 const asyncHandler = require("express-async-handler");
 const Goal = require("../models/goalModel");
-const goalModel = require("../models/goalModel");
 
 /**
  * @desc    Get all goals

@@ -107,6 +107,7 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
     res.json({ token });
+    // eslint-disable-next-line no-unused-vars
   } catch (error) {
     res.status(500).send("Server error");
   }

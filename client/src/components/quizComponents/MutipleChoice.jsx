@@ -21,7 +21,7 @@
  * <MultipleChoice question={question} index={1} setSelection={handleSelection} userValues={userAnswers} />
  */
 
-
+import React from "react";
 import {
   Radio,
   RadioGroup,
@@ -29,63 +29,88 @@ import {
   Typography,
   Grid,
   FormControl,
-} from '@mui/material';
-import StyledBox from './StyledBox';
+} from "@mui/material";
+import StyledBox from "./StyledBox";
 
-
-
-
-export default function MultipleChoice({ question, index, setSelection, userValues }) {
-
-
+export default function MultipleChoice({
+  question,
+  index,
+  setSelection,
+  userValues,
+}) {
   const handleRadioChange = (event) => {
     let newValues = event.target.value;
-    
-    setSelection(question.questionText, newValues);
 
+    setSelection(question.questionText, newValues);
   };
 
-
   const mappedOptions = question.options.map((item) => (
-
-    <FormControlLabel sx={{
-      border: 1,
-      borderColor: '#ccc',
-      borderRadius: '8px',
-      padding: '8px',
-      margin: '8px',
-      display: 'flex',
-      alignItems: 'center',
-      fontFamily: '"Roboto-Regular", Helvetica'
-
-    }} value={item.value} key={item.option} control={<Radio />} label={item.option} />
+    <FormControlLabel
+      sx={{
+        border: 1,
+        borderColor: "#ccc",
+        borderRadius: "8px",
+        padding: "8px",
+        margin: "8px",
+        display: "flex",
+        alignItems: "center",
+        fontFamily: '"Roboto-Regular", Helvetica',
+      }}
+      value={item.value}
+      key={item.option}
+      control={<Radio />}
+      label={item.option}
+    />
   ));
-
-
-
 
   return (
     <Grid container>
       <Grid item={true} xs={12} display="flex" justifyContent="center">
-        <StyledBox >
-        <FormControl sx={{ mx: '35px', mb: '35px' }} >
-         
-          
-            <Typography sx={{ display: "inline", color: '#3ca3ee', fontSize: '30px', lineHeight: '60px', fontWeight: 700, mr: '5px' }}>Question {index + 1}</Typography>
-            <Typography sx={{ display: "inline", color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', lineHeight: '32px', }}></Typography>{/*Needs fixing to display total question fix another time */}
-            <Typography sx={{ display: 'block', color: '#000000', fontFamily: '"Roboto-Regular", Helvetica', fontSize: '16px', my: '20px' }}>{question.questionText}</Typography>
+        <StyledBox>
+          <FormControl sx={{ mx: "35px", mb: "35px" }}>
+            <Typography
+              sx={{
+                display: "inline",
+                color: "#3ca3ee",
+                fontSize: "30px",
+                lineHeight: "60px",
+                fontWeight: 700,
+                mr: "5px",
+              }}
+            >
+              Question {index + 1}
+            </Typography>
+            <Typography
+              sx={{
+                display: "inline",
+                color: "#000000",
+                fontFamily: '"Roboto-Regular", Helvetica',
+                fontSize: "16px",
+                lineHeight: "32px",
+              }}
+            ></Typography>
+            {/*Needs fixing to display total question fix another time */}
+            <Typography
+              sx={{
+                display: "block",
+                color: "#000000",
+                fontFamily: '"Roboto-Regular", Helvetica',
+                fontSize: "16px",
+                my: "20px",
+              }}
+            >
+              {question.questionText}
+            </Typography>
 
-
-            <RadioGroup value={userValues[question.questionText] || ''} onChange={handleRadioChange} >
+            <RadioGroup
+              value={userValues[question.questionText] || ""}
+              onChange={handleRadioChange}
+            >
               {mappedOptions}
             </RadioGroup>
-            
-
           </FormControl>
-
         </StyledBox>
-
       </Grid>
     </Grid>
-  )
+  );
 }

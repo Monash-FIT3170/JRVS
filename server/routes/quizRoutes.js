@@ -10,6 +10,7 @@ const express = require("express");
 const router = express.Router();
 const {
   getQuiz,
+  // eslint-disable-next-line no-unused-vars
   setQuiz,
   updateQuiz,
 } = require("../controllers/quizController");

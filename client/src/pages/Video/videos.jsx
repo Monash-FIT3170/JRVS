@@ -22,6 +22,7 @@
  * @returns {JSX.Element} The rendered video page, including the video player, title, and navigation button.
  */
 
+import React from "react";
 import { useApi } from "../../context/ApiProvider.jsx";
 import MenuBar from "../../components/MenuBar.jsx";
 import VideoBox from "../../components/videoComponents/videoBox.jsx";
