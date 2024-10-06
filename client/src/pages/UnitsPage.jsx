@@ -74,7 +74,7 @@ const UnitsPage = () => {
         padding={10}
         width="100vw"
       >
-        {isUnitLoading && units ? (
+        {isUnitLoading || !units ? (
           <div className="spinner"></div>
         ) : (
           units.map((unit) => (

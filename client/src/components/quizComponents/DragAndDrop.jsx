@@ -81,6 +81,7 @@ export default function DragAndDrop({ question, setSelection }) {
     setIsDragging(false);
     const term = event.dataTransfer.getData("option");
     const currentTermInNewDefinition = Object.entries(answers).find(
+      // eslint-disable-next-line no-unused-vars
       ([key, value]) => value === newDefinition,
     );
     const previousDefinition = answers[term];

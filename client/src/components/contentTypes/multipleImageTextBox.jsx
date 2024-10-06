@@ -58,8 +58,8 @@ export default function MultipleImageTextBox(props) {
           sx={{ maxWidth: "50%", maxHeight: "50%", padding: "10px" }}
           cols={Math.ceil(Math.sqrt(props.imageSrcs.length))}
         >
-          {props.imageSrcs.map((imageSrc) => (
-            <ImageListItem>
+          {props.imageSrcs.map((imageSrc, index) => (
+            <ImageListItem key={index}>
               <img src={imageSrc}></img>
             </ImageListItem>
           ))}
