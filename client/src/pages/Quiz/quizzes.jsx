@@ -28,7 +28,7 @@
  * @returns {JSX.Element} The rendered quiz interface, including the current quiz question and navigation buttons for interacting with the quiz.
  */
 
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import MultipleChoice from "../../components/quizComponents/MutipleChoice.jsx";
@@ -73,7 +73,6 @@ function Quizzes() {
         const token = localStorage.getItem("token");
         const res = await postData("api/auth/current", { token });
         const userData = await getData(`api/users/id/${res.decoded.id}`);
-        console.log(userData);
         setUser(userData);
       } catch (error) {
         console.log(error);
@@ -83,7 +82,7 @@ function Quizzes() {
     fetchUser();
   }, [getData, quizId, postData]);
 
-  let questions = quizzes.questions;
+  let questions = quizzes.questions || [];
 
   const handlePrevClick = () => {
     if (currentIndex > 0) {
@@ -91,9 +90,18 @@ function Quizzes() {
     }
   };
 
-  let points = 0;
+  const areAllQuestionsAnswered = () => {
+    return questions.every(
+      (question) => userValues[question.questionText] !== undefined,
+    );
+  };
 
   const submitForm = async () => {
+    if (!areAllQuestionsAnswered()) {
+      alert("Please answer all questions before submitting.");
+      return;
+    }
+
     let points = 0;
     let correctCount = 0;
 
@@ -154,18 +162,15 @@ function Quizzes() {
   };
 
   const handleNextClick = () => {
-    const currentQuestion = questions[currentIndex];
-    if (userValues[currentQuestion.questionText] !== undefined) {
-      if (currentIndex < questions.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-      }
-    } else {
-      //temporary for now, introduce helper text in the future
-      alert("Please select an option before proceeding.");
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(currentIndex + 1);
     }
   };
 
-  //should fix to use a proper id rather than take in the question
+  const handleQuizNumberClick = (index) => {
+    setCurrentIndex(index);
+  };
+
   const setSelections = (questionText, value) => {
     setUserValues((prevUserValues) => ({
       ...prevUserValues,
@@ -174,76 +179,73 @@ function Quizzes() {
   };
 
   const renderQuestion = () => {
-    let setPoint = 0;
-    if (userScore === totalScore) {
-      setPoint = finalPoints;
-    }
-
     if (isSubmitted) {
       return (
         <Submitted
           score={userScore}
           totalScore={totalScore}
-          points={setPoint}
+          points={finalPoints}
         />
-      ); // Render the Submitted component after submission
-    } else if (questions) {
-      if (questions[currentIndex].type === "MultipleChoice") {
-        return (
-          <MultipleChoice
-            question={questions[currentIndex]}
-            index={currentIndex}
-            setSelection={setSelections}
-            userValues={userValues}
-          />
-        );
-      } else if (questions[currentIndex].type === "TrueFalse") {
-        return (
-          <TrueFalse
-            question={questions[currentIndex]}
-            index={currentIndex}
-            setSelection={setSelections}
-            userValues={userValues}
-          />
-        );
-      } else if (questions[currentIndex].type === "ShortAnswer") {
-        return (
-          <ShortAnswer
-            question={questions[currentIndex]}
-            index={currentIndex}
-            setSelection={setSelections}
-            userValues={userValues}
-          />
-        );
-      } else if (questions[currentIndex].type === "Reorder") {
-        return (
-          <Reorder
-            question={questions[currentIndex]}
-            index={currentIndex}
-            setSelection={setSelections}
-            userValues={userValues}
-          />
-        );
-      } else if (questions[currentIndex].type === "ImageQuiz") {
-        return (
-          <ImageQuiz
-            question={questions[currentIndex]}
-            index={currentIndex}
-            setSelection={setSelections}
-            userValues={userValues}
-          />
-        );
-      } else if (questions[currentIndex].type === "DragAndDrop") {
-        return (
-          <DragAndDrop
-            question={questions[currentIndex]}
-            index={currentIndex}
-            setSelection={setSelections}
-            userValues={userValues}
-          />
-        );
-      } else {
-        return null;
+      );
+    } else if (questions.length > 0) {
+      const currentQuestion = questions[currentIndex];
+      switch (currentQuestion.type) {
+        case "MultipleChoice":
+          return (
+            <MultipleChoice
+              question={currentQuestion}
+              index={currentIndex}
+              setSelection={setSelections}
+              userValues={userValues}
+            />
+          );
+        case "TrueFalse":
+          return (
+            <TrueFalse
+              question={currentQuestion}
+              index={currentIndex}
+              setSelection={setSelections}
+              userValues={userValues}
+            />
+          );
+        case "ShortAnswer":
+          return (
+            <ShortAnswer
+              question={currentQuestion}
+              index={currentIndex}
+              setSelection={setSelections}
+              userValues={userValues}
+            />
+          );
+        case "Reorder":
+          return (
+            <Reorder
+              question={currentQuestion}
+              index={currentIndex}
+              setSelection={setSelections}
+              userValues={userValues}
+            />
+          );
+        case "ImageQuiz":
+          return (
+            <ImageQuiz
+              question={currentQuestion}
+              index={currentIndex}
+              setSelection={setSelections}
+              userValues={userValues}
+            />
+          );
+        case "DragAndDrop":
+          return (
+            <DragAndDrop
+              question={currentQuestion}
+              index={currentIndex}
+              setSelection={setSelections}
+              userValues={userValues}
+            />
+          );
+        default:
+          return null;
       }
     }
   };
@@ -296,6 +298,41 @@ function Quizzes() {
             </Typography>
 
             {renderQuestion()}
+
+            {!isSubmitted && questions.length > 0 && (
+              <Box
+                sx={{
+                  position: "fixed",
+                  left: "20px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: "20px",
+                }}
+              >
+                {questions.map((_, index) => (
+                  <Button
+                    key={index}
+                    variant="contained"
+                    color={index === currentIndex ? "secondary" : "primary"}
+                    sx={{
+                      margin: "5px 0",
+                      backgroundColor:
+                        index === currentIndex ? "#FFD700" : "#B0BEC5",
+                      "&:hover": {
+                        backgroundColor:
+                          index === currentIndex ? "#ffd000" : "#B0BEC5",
+                      },
+                    }}
+                    onClick={() => handleQuizNumberClick(index)}
+                  >
+                    {index + 1}
+                  </Button>
+                ))}
+              </Box>
+            )}
           </Box>
         )}
       </Grid>
@@ -315,13 +352,15 @@ function Quizzes() {
         {isSubmitted === false && currentIndex > 0 && (
           <ActionButton onClick={handlePrevClick}>Back</ActionButton>
         )}
+
         {isSubmitted === false &&
-        questions &&
+        questions.length > 0 &&
         currentIndex === questions.length - 1 ? (
           <ActionButton onClick={submitForm}>Submit</ActionButton>
         ) : (
-          isSubmitted === false && (
-            <ActionButton onClick={handleNextClick}> Next</ActionButton>
+          isSubmitted === false &&
+          questions.length > 0 && (
+            <ActionButton onClick={handleNextClick}>Next</ActionButton>
           )
         )}
       </Box>
