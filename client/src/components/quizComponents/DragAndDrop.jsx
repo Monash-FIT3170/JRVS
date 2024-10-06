@@ -26,16 +26,10 @@
  * <DragAndDrop question={question} index={1} setSelection={handleSelection} userValues={userAnswers} />
  */
 
-
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, Paper, Tooltip, Box } from "@mui/material";
 
-export default function DragAndDrop({
-  question,
-  index,
-  setSelection,
-  userValues,
-}) {
+export default function DragAndDrop({ question, setSelection }) {
   const [answers, setAnswers] = useState({});
   //const [submitted, setSubmitted] = useState(false);
   //const [feedbackMessage, setFeedbackMessage] = useState('');

@@ -29,12 +29,7 @@ import { Typography, FormControl, Grid, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import StyledBox from "./StyledBox";
 
-export default function TrueFalse({
-  question,
-  index,
-  setSelection,
-  userValues,
-}) {
+export default function TrueFalse({ question, index, setSelection }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
