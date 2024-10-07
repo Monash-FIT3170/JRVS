@@ -113,7 +113,16 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Delete Unit"}</DialogTitle>
+        <DialogTitle
+          id="alert-dialog-title"
+          style={{
+            color: "#3ca3ee",
+            fontSize: "24px",
+            fontWeight: "bold",
+          }}
+        >
+          {"Delete Unit"}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Are you sure you want to delete this unit? This action cannot be
@@ -121,8 +130,31 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} color="error" autoFocus>
+          <Button
+            onClick={handleDeleteCancel}
+            style={{
+              color: "#777777",
+              margin: "10px",
+              fontSize: "16px",
+              padding: "5px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleDeleteConfirm}
+            color="error"
+            autoFocus
+            style={{
+              margin: "10px",
+              fontSize: "16px",
+              padding: "5px 10px",
+              borderRadius: "10px",
+              backgroundColor: "#dd514a",
+              color: "#fff",
+            }}
+          >
             Delete
           </Button>
         </DialogActions>
