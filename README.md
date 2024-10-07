@@ -32,7 +32,7 @@ Pre-requisites:
 - Ensure node version is >= 18
 
 1. delete all yarn.lock files, node_modules and package-lock.json files
-2. update .env file in server/ with mongo_uri password, encryption_key, encrpytion_iv and jwt_secret
+2. update .env file in the parent directory with mongo_uri password, encryption_key, encrpytion_iv and jwt_secret, gemini_api_key, getimgai_api_key
 3. add/update .env file in client/ with REACT_APP_BACKEND_URL
 4. `npm run install-all-mac` or `npm run install-all-win` (if on mac or windows)
 5. `npm run dev` to run the dev app
@@ -40,6 +40,6 @@ Pre-requisites:
 ## Hosting the app through docker
 
 1. make sure you have docker desktop installed from https://www.docker.com/
-2. make sure you have the .env correctly setup in the root of the server/ directory, and client/ directory
+2. make sure you have the .env correctly setup in the root of the parent directory, and client/ directory
 3. navigate to the root directory of the project in the terminal and run `docker-compose up --build`
 4. you should now be able to access the application from http://localhost domain!

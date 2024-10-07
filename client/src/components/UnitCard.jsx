@@ -34,6 +34,7 @@ const UnitCard = ({
   unit,
   userType,
   onDelete,
+  noProgressBar,
 }) => {
   return (
     <Card
@@ -70,17 +71,19 @@ const UnitCard = ({
           >
             {title}
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ width: "100%", mr: 1 }}>
-              <LinearProgress variant="determinate" value={progress} />
+          {!noProgressBar && (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ width: "100%", mr: 1 }}>
+                <LinearProgress variant="determinate" value={progress} />
+              </Box>
+              <Box sx={{ minWidth: 35 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                >{`${Math.round(progress)}%`}</Typography>
+              </Box>
             </Box>
-            <Box sx={{ minWidth: 35 }}>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-              >{`${Math.round(progress)}%`}</Typography>
-            </Box>
-          </Box>
+          )}
         </CardContent>
         <UnitOverflowMenu unit={unit} userType={userType} onDelete={onDelete} />
       </React.Fragment>
