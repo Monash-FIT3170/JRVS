@@ -90,7 +90,7 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
           position: "absolute",
           bottom: 50,
           right: -2,
-          color: "darkgray",
+          color: "#777777",
           zIndex: 1,
         }}
       >
