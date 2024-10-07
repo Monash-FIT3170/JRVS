@@ -39,6 +39,7 @@ import { useApi } from "../context/ApiProvider";
 const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { deleteData } = useApi();
 
   const handleMenuOpen = (event) => {
@@ -49,6 +50,12 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
   const handleMenuClose = (event) => {
     event.stopPropagation();
     setAnchorEl(null);
+  };
+
+  const handleMenuEdit = (event) => {
+    event.stopPropagation();
+    handleMenuClose(event);
+    setIsEditDialogOpen(true);
   };
 
   const handleDeleteClick = (event) => {
@@ -103,8 +110,8 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
+        <MenuItem onClick={handleMenuEdit}>Edit</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
       </Menu>
       <Dialog
         open={isDeleteDialogOpen}
