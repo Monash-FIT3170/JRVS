@@ -18,13 +18,13 @@ import { useNavigate } from "react-router-dom";
 
 const pulse = keyframes`
   0% {
-    background-color: rgb(0, 43, 54, 1);
+    background-color: rgba(60, 163, 238, 1); /* Full opacity */
   }
   50% {
-    background-color: rgba(0, 43, 54, 0.5);
+    background-color: rgba(60, 163, 238, 0.5); /* Half opacity */
   }
   100% {
-    background-color: rgba(0, 43, 54, 1);
+    background-color: rgba(60, 163, 238, 1); /* Full opacity */
   }
 `;
 
@@ -108,6 +108,10 @@ const GenImageChallenge = () => {
   }, []);
 
   const genResult = async () => {
+    if (!promptInput.trim()) {
+      alert("Please enter a prompt to generate the image");
+      return;
+    }
     try {
       setLoadingImage(true);
       const response = await postData(`api/gemini/generateImage`, {
@@ -163,7 +167,7 @@ const GenImageChallenge = () => {
       sx={{
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#00141a",
+        backgroundColor: "#white",
         overflow: "auto",
       }}
     >
@@ -179,7 +183,19 @@ const GenImageChallenge = () => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h4" sx={{ marginTop: "40px", color: "white" }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "46px",
+            fontWeight: "700",
+            color: "#333",
+            marginBottom: "10px",
+            letterSpacing: "0.5px",
+            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+            marginTop: "30px",
+          }}
+        >
           Image Challenge using Generative AI
         </Typography>
         <Box
@@ -204,9 +220,9 @@ const GenImageChallenge = () => {
                 borderRadius="10px"
                 p={5}
                 sx={{
-                  backgroundColor: "#002b36",
+                  backgroundColor: "#3CA3EE",
                   width: "100%",
-                  color: "#839496",
+                  color: "white",
                   animation: loadingImage ? `${pulse} 1.5s infinite` : "none",
                 }}
               >
@@ -232,13 +248,14 @@ const GenImageChallenge = () => {
                   <TextField
                     fullWidth
                     multiline
+                    required
                     minRows={1}
                     maxRows={3}
                     onChange={handleInputChange}
                     value={promptInput}
-                    placeholder="A load of cash."
+                    placeholder="Eg: A load of cash"
                     sx={{
-                      bgcolor: "#073642",
+                      bgcolor: "lightgrey",
                       borderRadius: "10px",
                       color: "#839496",
                       "& .MuiInputBase-input": {
@@ -268,10 +285,10 @@ const GenImageChallenge = () => {
                       disableElevation
                       sx={{
                         height: "fit-content",
-                        bgcolor: "#073642",
+                        bgcolor: "#FFC93C",
                         padding: "10px",
                         borderRadius: "10px",
-                        "&:hover": { bgcolor: "#657b83" },
+                        "&:hover": { bgcolor: "#F7B92C" },
                       }}
                       onClick={() => genResult()}
                     >
@@ -294,7 +311,7 @@ const GenImageChallenge = () => {
                   borderRadius="10px"
                   p={5}
                   sx={{
-                    backgroundColor: "#002b36",
+                    backgroundColor: "#3CA3EE ",
                     display: "flex",
                     maxWidth: "100%",
                     width: "fit-content",
@@ -327,9 +344,9 @@ const GenImageChallenge = () => {
                   borderRadius="10px"
                   p={5}
                   sx={{
-                    backgroundColor: "#002b36",
+                    backgroundColor: "#3CA3EE",
                     width: "100%",
-                    color: "#839496",
+                    color: "white",
                     marginLeft: "20px",
                   }}
                 >
@@ -368,10 +385,14 @@ const GenImageChallenge = () => {
               onClick={() => navigate(-1)}
               variant="contained"
               sx={{
-                backgroundColor: "#073642",
-                borderRadius: "10px",
-                "&:hover": { bgcolor: "#657b83" },
-                padding: "10px",
+                ":hover": { backgroundColor: "#F7B92C" },
+                marginRight: "20px",
+                marginBottom: "60px",
+                padding: "20px",
+                borderRadius: "15px",
+                backgroundColor: "#FFC93C",
+                pointerEvents: "auto",
+                paddingX: "30px",
               }}
             >
               BACK
