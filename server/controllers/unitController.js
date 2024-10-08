@@ -117,15 +117,15 @@ const createUnit = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc    Update an existing lesson
- * @route   PUT /api/lessons/:id
+ * @desc    Update an existing unit
+ * @route   PUT /api/unit/:id
  * @access  Private
  * @function updateLesson
  * @async
- * @param {Request} req - The request object containing the lesson ID in the URL and updated data in the body.
+ * @param {Request} req - The request object containing the unit ID in the URL and updated data in the body.
  * @param {Response} res - The response object.
- * @returns {Promise<void>} A promise that resolves when the lesson is updated and sent in the response.
- * @throws {Error} Throws a 404 error if the lesson with the given ID is not found.
+ * @returns {Promise<void>} A promise that resolves when the unit is updated and sent in the response.
+ * @throws {Error} Throws a 404 error if the unit with the given ID is not found.
  */
 const updateUnit = asyncHandler(async (req, res) => {
   const { title, icon, colour } = req.body;

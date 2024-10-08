@@ -37,11 +37,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useApi } from "../context/ApiProvider";
 import EditUnitDialog from "../components/EditUnitDialog";
 
-const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
+const UnitOverflowMenu = ({ unit, onDelete, onEdit, userType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const { deleteData, putData } = useApi();
+  const { deleteData, updateData } = useApi();
 
   const handleMenuOpen = (event) => {
     event.stopPropagation();
@@ -85,24 +85,26 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
   };
 
   const handleEditConfirm = async ({ title, colour, icon }) => {
-    // try {
-    //   const response = await putData(`api/units/${unit._id}`, {
-    //     title,
-    //     colour,
-    //     icon,
-    //   });
-    //   console.log(response);
-    //   //routeChange(response._id);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      // Update the unit in the backend
+      const response = await updateData(`api/units/${unit._id}`, {
+        title,
+        colour,
+        icon,
+      });
+      console.log(response);
+
+      // Refresh page
+      onEdit();
+    } catch (error) {
+      console.log(error);
+    }
     console.log(
       `Editing unit id ${unit._id}, with title = "${unit.title}", colour = "${colour}", icon = "${icon}".`,
     );
   };
 
   const handleEditCancel = (event) => {
-    // event.stopPropagation();
     setIsEditDialogOpen(false);
   };
 

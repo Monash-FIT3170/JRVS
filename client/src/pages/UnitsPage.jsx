@@ -213,6 +213,7 @@ const UnitsPage = () => {
                 <UnitOverflowMenu
                   unit={unit}
                   onDelete={handleDeleteUnit}
+                  onEdit={() => navigate(0)}
                   userType={userType}
                 />
               </div>
