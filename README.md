@@ -32,10 +32,10 @@ Pre-requisites:
 - Ensure node version is >= 18
 
 1. delete all yarn.lock files, node_modules and package-lock.json files
-2. update .env file in the parent directory with mongo_uri password, encryption_key, encrpytion_iv and jwt_secret, gemini_api_key, getimgai_api_key
+2. add/update .env file in the server/ directory with mongo_uri password, encryption_key, encrpytion_iv and jwt_secret, gemini_api_key, getimgai_api_key (see example .env)
 3. add/update .env file in client/ with REACT_APP_BACKEND_URL
 4. `npm run install-all-mac` or `npm run install-all-win` (if on mac or windows)
-5. `npm run dev` to run the dev app
+5. `npm run dev` to run the dev app or run the server and client seperately.
 
 ## Hosting the app through docker
 
