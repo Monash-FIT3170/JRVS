@@ -52,12 +52,6 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
     setAnchorEl(null);
   };
 
-  const handleMenuEdit = (event) => {
-    event.stopPropagation();
-    handleMenuClose(event);
-    setIsEditDialogOpen(true);
-  };
-
   const handleDeleteClick = (event) => {
     event.stopPropagation();
     handleMenuClose(event);
@@ -80,6 +74,23 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
   const handleDeleteCancel = (event) => {
     event.stopPropagation();
     setIsDeleteDialogOpen(false);
+  };
+
+  const handleEditClick = (event) => {
+    event.stopPropagation();
+    handleMenuClose(event);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleEditConfirm = async ({ title, colour, icon }) => {
+    console.log(
+      `Editing unit id ${unit._id}, with title = "${title}", colour = "${colour}", icon = "${icon}".`,
+    );
+  };
+
+  const handleEditCancel = (event) => {
+    event.stopPropagation();
+    setIsEditDialogOpen(false);
   };
 
   if (userType !== "admin" && userType !== "teacher") {
@@ -110,7 +121,7 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuEdit}>Edit</MenuItem>
+        <MenuItem onClick={handleEditClick}>Edit</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
       <Dialog
