@@ -86,7 +86,7 @@ const LearningPathPage = () => {
         const token = localStorage.getItem("token");
         const res = await postData("api/auth/current", { token });
         setUserId(res.decoded.id);
-        const userData = await getData(`api/users/id/${res.decoded.id}`);
+        const userData = await getData(`api/users/id/${userId}`);
         setUserType(userData.usertype);
       } catch (error) {
         console.log(error);
@@ -94,7 +94,7 @@ const LearningPathPage = () => {
     };
     fetchUser();
     fetchData();
-  }, [getData]);
+  });
 
   useEffect(() => {
     const loadSavedData = async () => {
@@ -118,7 +118,7 @@ const LearningPathPage = () => {
       }
     };
     loadSavedData();
-  }, [usertype]);
+  });
 
   useEffect(() => {
     const dataDoneLoading = async () => {

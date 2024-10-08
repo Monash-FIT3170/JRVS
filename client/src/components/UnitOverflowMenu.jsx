@@ -78,7 +78,6 @@ const UnitOverflowMenu = ({ unit, onDelete, onEdit, userType }) => {
   };
 
   const handleEditClick = (event) => {
-    console.log(unit);
     event.stopPropagation();
     handleMenuClose(event);
     setIsEditDialogOpen(true);
@@ -99,9 +98,6 @@ const UnitOverflowMenu = ({ unit, onDelete, onEdit, userType }) => {
     } catch (error) {
       console.log(error);
     }
-    console.log(
-      `Editing unit id ${unit._id}, with title = "${unit.title}", colour = "${colour}", icon = "${icon}".`,
-    );
   };
 
   const handleEditCancel = (event) => {

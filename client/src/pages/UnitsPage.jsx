@@ -31,9 +31,9 @@ import CreateUnitDialog from "../components/CreateUnitDialog";
 import UnitOverflowMenu from "../components/UnitOverflowMenu";
 
 const UnitsPage = () => {
-  const { getData, postData, deleteData } = useApi();
+  const { getData, postData } = useApi();
   const [units, setUnits] = useState(undefined);
-  const [userData, setUserData] = useState();
+  // const [userData, setUserData] = useState();
   const [userUnitProgress, setUserUnitProgress] = useState();
   const [isUserUnitProgressLoading, setIsUserUnitProgressLoading] =
     useState(true);
@@ -55,7 +55,6 @@ const UnitsPage = () => {
         const token = localStorage.getItem("token");
         const res = await postData("api/auth/current", { token });
         const userData = await getData(`api/users/id/${res.decoded.id}`);
-        setUserData(userData);
         setUserType(userData.usertype);
         setIsUserDataLoading(false);
 
