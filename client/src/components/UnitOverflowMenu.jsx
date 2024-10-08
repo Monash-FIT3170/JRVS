@@ -104,7 +104,7 @@ const UnitOverflowMenu = ({ unit, onDelete, onEdit, userType }) => {
     setIsEditDialogOpen(false);
   };
 
-  if (userType !== "admin" && userType !== "teacher") {
+  if (userType !== "admin") {
     return null;
   }
 
