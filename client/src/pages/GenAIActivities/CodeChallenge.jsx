@@ -126,7 +126,7 @@ const CodeChallenge = () => {
       sx={{
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#00141a",
+        backgroundColor: "#3CA3EE",
         overflow: "auto",
       }}
     >
@@ -134,17 +134,30 @@ const CodeChallenge = () => {
         <MenuBar />
       </Box>
 
+      <Typography
+        variant="h4"
+        sx={{
+          fontFamily: "Poppins, sans-serif",
+          fontSize: "46px",
+          fontWeight: "700",
+          color: "white",
+          marginBottom: "10px",
+          letterSpacing: "0.5px",
+          textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        Code Challenge using Gemini AI
+      </Typography>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          backgroundColor: "white",
+          width: "80%",
         }}
       >
-        <Typography variant="h4" sx={{ marginTop: "40px", color: "white" }}>
-          Code Challenge using Gemini AI
-        </Typography>
         <Box
           sx={{
             display: "flex",
@@ -160,10 +173,10 @@ const CodeChallenge = () => {
                 disableElevation
                 sx={{
                   height: "fit-content",
-                  bgcolor: "#073642",
+                  bgcolor: "#FFC93C",
                   padding: "10px",
                   borderRadius: "10px",
-                  "&:hover": { bgcolor: "#657b83" },
+                  "&:hover": { bgcolor: "#F7B92C" },
                 }}
                 onClick={() => genCodeChallenge()}
               >
@@ -398,10 +411,11 @@ const CodeChallenge = () => {
               onClick={() => navigate(-1)}
               variant="contained"
               sx={{
-                backgroundColor: "#073642",
-                borderRadius: "10px",
-                "&:hover": { bgcolor: "#657b83" },
+                height: "fit-content",
+                bgcolor: "#FFC93C",
                 padding: "10px",
+                borderRadius: "10px",
+                "&:hover": { bgcolor: "#F7B92C" },
               }}
             >
               BACK
