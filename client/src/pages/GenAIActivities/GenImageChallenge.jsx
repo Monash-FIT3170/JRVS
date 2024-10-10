@@ -275,7 +275,7 @@ const GenImageChallenge = () => {
                       },
                       "&:hover fieldset": {
                         borderWidth: "1.5px",
-                        borderColor: "black", // Border color on hover
+                        borderColor: "black",
                       },
                       "&.Mui-focused fieldset": {
                         borderColor: "black",
@@ -380,7 +380,7 @@ const GenImageChallenge = () => {
 
                         .start()
                         .callFunction(() => {
-                          // Set the state to true when typing is complete
+                          // Set state to true when finished typing
                           setIsTypingComplete(true);
                         });
                     }}
