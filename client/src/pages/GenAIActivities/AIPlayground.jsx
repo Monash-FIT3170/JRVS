@@ -24,7 +24,10 @@ const AIPlayground = () => {
   const [systemPrompt, setSystemPrompt] = useState(
     "You are an AI Chatbot in a teenagers AI Literacy Application. Reply with under 100 words. Always encourage the user to first select a category.",
   );
+  const [customPrompt, setCustomPrompt] = useState("");
+  const [selectedOption, setSelectedOption] = useState("default");
   const chatEndRef = useRef(null);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   // Load messages from local storage when the component mounts
   useEffect(() => {
@@ -91,7 +94,35 @@ const AIPlayground = () => {
 
   // Function to handle system prompt change
   const handlePromptChange = (event) => {
-    setSystemPrompt(event.target.value);
+    const selectedValue = event.target.value;
+    setSelectedOption(selectedValue);
+    if (selectedValue === "custom") {
+      // Clear custom prompt field when switching to custom
+      setCustomPrompt("");
+    } else {
+      // Define the predefined prompts
+      const prompts = {
+        teacher:
+          "You are an AI teacher for an AI Literacy Application targeted at teenagers. Reply with under 100 words.",
+        dnd: "You are a game master for a game of dungeon and dragons. Lead the user into a magical journey. Reply with under 100 words.",
+        chef: "You are a master chef. Reply with under 100 words to try and help the user. Remember to stay in character and only answer relevant questions.",
+        fitness:
+          "You are a fitness trainer. Reply with under 100 words to motivate the user or to help the user in any fitness issues.",
+      };
+      setSystemPrompt(prompts[selectedValue]);
+    }
+  };
+
+  // Function to handle custom prompt input change
+  const handleCustomPromptChange = (event) => {
+    setCustomPrompt(event.target.value);
+  };
+
+  // Function to save custom prompt
+  const saveCustomPrompt = () => {
+    setSystemPrompt(customPrompt); // Set the custom prompt
+    setFeedbackMessage("Prompt saved"); // Set feedback message
+    setTimeout(() => setFeedbackMessage(""), 2000); // Clear message after 2 seconds
   };
 
   // Function to reset the conversation
@@ -107,15 +138,16 @@ const AIPlayground = () => {
         width: "100vw",
         height: "100vh",
         backgroundColor: "#00141a",
-        overflow: "auto",
+        overflowY: "auto", // Enables vertical scrolling
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
-      <Box sx={{ width: "100%", overflow: "hidden" }}>
+      <Box sx={{ width: "100%", position: "relative", zIndex: 10 }}>
         <MenuBar />
       </Box>
+
       <Typography variant="h4" sx={{ marginTop: "40px", color: "white" }}>
         AI Chatbot Playground
       </Typography>
@@ -124,7 +156,7 @@ const AIPlayground = () => {
       <FormControl sx={{ margin: "20px", width: "75%" }}>
         <InputLabel sx={{ color: "#ffffff" }}>Select AI Chatbot</InputLabel>
         <Select
-          value={systemPrompt}
+          value={selectedOption}
           onChange={handlePromptChange}
           sx={{
             bgcolor: "#073642",
@@ -142,22 +174,68 @@ const AIPlayground = () => {
             },
           }}
         >
-          <MenuItem value="You are an AI teacher for an AI Literacy Application targeted at teenagers. Reply with under 100 words.">
-            AI Teacher
-          </MenuItem>
-          <MenuItem value="You are a game master for a game of dungeon and dragons. Lead the user into a magical journey. Reply with under 100 words.">
-            DnD Game Master
-          </MenuItem>
-          <MenuItem value="You are a master chef. Reply with under 100 words to try and help the user. Remember to stay in character and only answer relevant questions.">
-            Master Chef
-          </MenuItem>
-          <MenuItem value="You are a fitness trainer. Reply with under 100 words to motivate the user or to help the user in any fitness issues.">
-            Fitness Trainer
-          </MenuItem>
-          {/* Add more prompts as needed */}
+          <MenuItem value="teacher">AI Teacher</MenuItem>
+          <MenuItem value="dnd">DnD Game Master</MenuItem>
+          <MenuItem value="chef">Master Chef</MenuItem>
+          <MenuItem value="fitness">Fitness Trainer</MenuItem>
+          <MenuItem value="custom">Custom Prompt</MenuItem>
         </Select>
       </FormControl>
 
+      {selectedOption === "custom" && (
+        <TextField
+          variant="outlined"
+          value={customPrompt}
+          onChange={handleCustomPromptChange}
+          placeholder="Enter your custom system prompt..."
+          sx={{
+            bgcolor: "#073642",
+            borderRadius: "10px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#839496",
+              },
+              "&:hover fieldset": {
+                borderColor: "#657b83",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#657b83",
+              },
+            },
+            color: "#ffffff",
+            "& .MuiInputBase-input": {
+              color: "#ffffff",
+            },
+            marginTop: "20px",
+            width: "75%",
+          }}
+        />
+      )}
+
+      {selectedOption === "custom" && (
+        <Button
+          variant="contained"
+          onClick={saveCustomPrompt}
+          sx={{
+            marginTop: "10px",
+            backgroundColor: "#073642",
+            borderRadius: "10px",
+            "&:hover": { backgroundColor: "#657b83" },
+            padding: "10px",
+            color: "#ffffff",
+          }}
+        >
+          Save Custom Prompt
+        </Button>
+      )}
+      {feedbackMessage && (
+        <Typography
+          variant="body1"
+          sx={{ color: "#ffffff", marginTop: "10px" }}
+        >
+          {feedbackMessage}
+        </Typography>
+      )}
       <Box
         sx={{
           display: "flex",
