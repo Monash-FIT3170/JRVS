@@ -6,6 +6,10 @@ import {
   TextField,
   CircularProgress,
   Tooltip,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import { useApi } from "../../context/ApiProvider";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +21,9 @@ const AIPlayground = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [systemPrompt, setSystemPrompt] = useState(
+    "You are an AI Chatbot in a teenagers AI Literacy Application. Reply with under 100 words. Always encourage the user to first select a category.",
+  );
 
   // Load messages from local storage when the component mounts
   useEffect(() => {
@@ -24,7 +31,7 @@ const AIPlayground = () => {
       JSON.parse(localStorage.getItem("chatMessages")) || [];
     if (storedMessages.length === 0) {
       const initialPrompt =
-        "Welcome to the AI Chatbot Playground! How can I assist you today?";
+        "Welcome to the AI Chatbot Playground! Feel free to select a category above and start talking to different AIs!";
       storedMessages.push({ text: initialPrompt, sender: "ai" });
     }
     setMessages(storedMessages);
@@ -57,7 +64,7 @@ const AIPlayground = () => {
 
       // Call the AI API with the full conversation as the prompt
       const response = await postData("api/gemini/generateText", {
-        prompt: `You are an AI Chatbot in a teenagers AI Literacy Application. Reply with under 100 words. ${prompt}`,
+        prompt: `${systemPrompt} ${prompt}`,
       });
 
       // Add AI's response to the chat
@@ -78,6 +85,11 @@ const AIPlayground = () => {
     }
   };
 
+  // Function to handle system prompt change
+  const handlePromptChange = (event) => {
+    setSystemPrompt(event.target.value);
+  };
+
   return (
     <Box
       sx={{
@@ -96,6 +108,45 @@ const AIPlayground = () => {
       <Typography variant="h4" sx={{ marginTop: "40px", color: "white" }}>
         AI Chatbot Playground
       </Typography>
+
+      {/* Dropdown for selecting the system prompt */}
+      <FormControl sx={{ margin: "20px", width: "75%" }}>
+        <InputLabel sx={{ color: "#ffffff" }}>Select AI Chatbot</InputLabel>
+        <Select
+          value={systemPrompt}
+          onChange={handlePromptChange}
+          sx={{
+            bgcolor: "#073642",
+            color: "#ffffff",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#839496",
+              },
+              "&:hover fieldset": {
+                borderColor: "#657b83",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#657b83",
+              },
+            },
+          }}
+        >
+          <MenuItem value="You are an AI teacher for an AI Literacy Application targeted at teenagers. Reply with under 100 words.">
+            AI Teacher
+          </MenuItem>
+          <MenuItem value="You are a game master for a game of dungeon and dragons. Lead the user into a magical journey. Reply with under 100 words.">
+            DnD Game Master
+          </MenuItem>
+          <MenuItem value="You are a master chef. Reply with under 100 words to try and help the user. Remember to stay in character and only answer relevant questions.">
+            Master Chef
+          </MenuItem>
+          <MenuItem value="You are a fitness trainer. Reply with under 100 words to motivate the user or to help the user in any fitness issues.">
+            Fitness Trainer
+          </MenuItem>
+          {/* Add more prompts as needed */}
+        </Select>
+      </FormControl>
+
       <Box
         sx={{
           display: "flex",
