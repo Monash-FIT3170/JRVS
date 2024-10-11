@@ -18,12 +18,22 @@ const AIPlayground = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Set a default prompt when the component mounts
+  // Load messages from local storage when the component mounts
   useEffect(() => {
-    const initialPrompt =
-      "Welcome to the AI Chatbot Playground! How can I assist you today?";
-    setMessages([{ text: initialPrompt, sender: "ai" }]);
+    const storedMessages =
+      JSON.parse(localStorage.getItem("chatMessages")) || [];
+    if (storedMessages.length === 0) {
+      const initialPrompt =
+        "Welcome to the AI Chatbot Playground! How can I assist you today?";
+      storedMessages.push({ text: initialPrompt, sender: "ai" });
+    }
+    setMessages(storedMessages);
   }, []);
+
+  // Save messages to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem("chatMessages", JSON.stringify(messages));
+  }, [messages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +47,17 @@ const AIPlayground = () => {
     setLoading(true);
 
     try {
-      // Call the AI API
+      // Prepare the full conversation history
+      const conversationHistory = messages
+        .map((msg) => `${msg.sender === "user" ? "User" : "AI"}: ${msg.text}`)
+        .join("\n");
+
+      // Create the prompt for the AI
+      const prompt = `${conversationHistory}\nUser: ${userMessage}\nAI:`;
+
+      // Call the AI API with the full conversation as the prompt
       const response = await postData("api/gemini/generateText", {
-        prompt: `You are an AI Chatbot in a teenagers AI Literacy Application. Reply with under 100 words. User: ${userMessage}`,
+        prompt: `You are an AI Chatbot in a teenagers AI Literacy Application. Reply with under 100 words. ${prompt}`,
       });
 
       // Add AI's response to the chat
