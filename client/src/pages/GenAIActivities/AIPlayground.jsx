@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Button,
@@ -24,6 +24,7 @@ const AIPlayground = () => {
   const [systemPrompt, setSystemPrompt] = useState(
     "You are an AI Chatbot in a teenagers AI Literacy Application. Reply with under 100 words. Always encourage the user to first select a category.",
   );
+  const chatEndRef = useRef(null);
 
   // Load messages from local storage when the component mounts
   useEffect(() => {
@@ -40,6 +41,9 @@ const AIPlayground = () => {
   // Save messages to local storage whenever they change
   useEffect(() => {
     localStorage.setItem("chatMessages", JSON.stringify(messages));
+
+    // Scroll to the bottom whenever messages change
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSubmit = async (e) => {
@@ -88,6 +92,13 @@ const AIPlayground = () => {
   // Function to handle system prompt change
   const handlePromptChange = (event) => {
     setSystemPrompt(event.target.value);
+  };
+
+  // Function to reset the conversation
+  const resetConversation = () => {
+    setMessages([]); // Clear messages
+    setInput(""); // Clear input field
+    localStorage.removeItem("chatMessages"); // Optionally clear local storage
   };
 
   return (
@@ -195,6 +206,7 @@ const AIPlayground = () => {
               />
             </div>
           )}
+          <div ref={chatEndRef} />
         </Box>
         <form
           onSubmit={handleSubmit}
@@ -241,6 +253,18 @@ const AIPlayground = () => {
             Send
           </Button>
         </form>
+        <Button
+          onClick={resetConversation}
+          variant="outlined"
+          sx={{
+            marginTop: "10px",
+            borderColor: "#657b83",
+            color: "#ffffff",
+            "&:hover": { borderColor: "#657b83", backgroundColor: "red" },
+          }}
+        >
+          Reset Conversation
+        </Button>
       </Box>
       <Box sx={{ width: "75%", marginTop: "20px", marginBottom: "20px" }}>
         <Tooltip title="Back to Units Page">
@@ -252,9 +276,10 @@ const AIPlayground = () => {
               borderRadius: "10px",
               "&:hover": { bgcolor: "#657b83" },
               padding: "10px",
+              color: "#ffffff",
             }}
           >
-            BACK
+            Back
           </Button>
         </Tooltip>
       </Box>
