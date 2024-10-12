@@ -89,7 +89,7 @@ const UnitPopup = ({
 
   const buttonRed = {
     ...buttonStyle,
-    backgroundColor: "#ea4335",
+    backgroundColor: "#dd514a",
     color: "#fff",
   };
 

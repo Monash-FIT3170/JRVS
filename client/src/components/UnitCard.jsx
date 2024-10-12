@@ -24,10 +24,23 @@ import Typography from "@mui/material/Typography";
 import Icon from "@mui/material/Icon";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
+import UnitOverflowMenu from "./UnitOverflowMenu"; // Adjust the import path as needed
 
-const UnitCard = ({ title, progress, imageColour, icon }) => {
+const UnitCard = ({
+  title,
+  progress,
+  imageColour,
+  icon,
+  unit,
+  userType,
+  onDelete,
+  noProgressBar,
+}) => {
   return (
-    <Card style={{ borderRadius: 15 }} className="unit-card">
+    <Card
+      style={{ borderRadius: 15, position: "relative" }}
+      className="unit-card"
+    >
       <React.Fragment>
         <CardContent style={{ padding: 0 }}>
           <div
@@ -52,22 +65,27 @@ const UnitCard = ({ title, progress, imageColour, icon }) => {
               textOverflow: "ellipsis",
               overflow: "hidden",
               whiteSpace: "nowrap",
+              width: "calc(100% - 48px)", // Subtracting space for the menu icon
+              marginRight: "48px", // Adding margin to prevent overlap
             }}
           >
             {title}
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ width: "100%", mr: 1 }}>
-              <LinearProgress variant="determinate" value={progress} />
+          {!noProgressBar && (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ width: "100%", mr: 1 }}>
+                <LinearProgress variant="determinate" value={progress} />
+              </Box>
+              <Box sx={{ minWidth: 35 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                >{`${Math.round(progress)}%`}</Typography>
+              </Box>
             </Box>
-            <Box sx={{ minWidth: 35 }}>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-              >{`${Math.round(progress)}%`}</Typography>
-            </Box>
-          </Box>
+          )}
         </CardContent>
+        <UnitOverflowMenu unit={unit} userType={userType} onDelete={onDelete} />
       </React.Fragment>
     </Card>
   );

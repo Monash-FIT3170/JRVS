@@ -364,7 +364,7 @@ const EditMultipleChoice = () => {
                         letterSpacing: "0.5px",
                       }}
                     >
-                      {index + 1} | True or False{" "}
+                      {index + 1} | Multiple Choice{" "}
                     </Typography>
 
                     <Box>

@@ -28,11 +28,23 @@ import EditShortAnswerQuestion from "./pages/Quiz/EditShortAnswer";
 import EditDragDrop from "./pages/Quiz/EditDragDrop";
 import EditMultipleChoice from "./pages/Quiz/editMultipleChoice";
 import EditReorderQuestion from "./pages/Quiz/EditReorder";
+import CodeChallenge from "./pages/GenAIActivities/CodeChallenge";
+import GenImageChallenge from "./pages/GenAIActivities/GenImageChallenge";
 
 const App = () => {
   return (
     <Router>
       <Routes>
+        <Route exact path="/genimagechallenge" element={<GenImageChallenge />}>
+          <Route
+            exact
+            path="/genimagechallenge"
+            element={<GenImageChallenge />}
+          />
+        </Route>
+        <Route exact path="/codechallenge" element={<CodeChallenge />}>
+          <Route exact path="/codechallenge" element={<CodeChallenge />} />
+        </Route>
         <Route exact path="/leaderboard" element={<ProtectedRoute />}>
           <Route exact path="/leaderboard" element={<LeaderboardPage />} />
         </Route>

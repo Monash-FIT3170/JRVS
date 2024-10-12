@@ -72,6 +72,7 @@ app.use("/api/lessonProgress", require("./routes/lessonProgressRoutes"));
 app.use("/api/xp", require("./routes/xpRoutes"));
 app.use("/api/lessonProgress", require("./routes/lessonProgressRoutes"));
 app.use("/api/userUnitProgress", require("./routes/userUnitProgressRoutes"));
+app.use("/api/gemini", require("./routes/genAIRoutes"));
 
 app.use(errorHandler);
 

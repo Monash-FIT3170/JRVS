@@ -116,6 +116,100 @@ const createUnit = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Deletes a unit in the database.
+ *
+ * @route DELETE /units
+ * @access Public
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+const deleteUnit = asyncHandler(async (req, res) => {
+  // Helper function to get all node IDs recursively
+  function getAllNodeIds(node) {
+    let ids = [node.id];
+    if (node.children && node.children.length > 0) {
+      ids = ids.concat(node.children.flatMap((child) => getAllNodeIds(child)));
+    }
+    return ids;
+  }
+
+  const { id } = req.params;
+
+  try {
+    // Find the unit first
+    const unit = await unitModel.findById(id);
+    if (!unit) {
+      return res.status(404).json({ message: "Unit not found" });
+    }
+
+    console.log(`Deleting unit: ${id}`);
+
+    // Get all node IDs from the unit
+    const nodeIds = unit.data.flatMap((node) => getAllNodeIds(node));
+
+    // Delete all associated lessons, videos, and quizzes
+    try {
+      await Promise.all([
+        lessonModel.deleteMany({ _id: { $in: nodeIds } }),
+        videoModel.deleteMany({ _id: { $in: nodeIds } }),
+        quizModel.deleteMany({ _id: { $in: nodeIds } }),
+      ]);
+      // console.log("Associated lessons, videos, and quizzes deleted");
+    } catch (error) {
+      console.error("Error deleting associated documents:", error);
+      return res.status(500).json({
+        message: "Error deleting associated documents",
+        error: error.message,
+      });
+    }
+
+    // Delete the unit from unitModel and unitsModel
+    try {
+      await Promise.all([
+        unitModel.findByIdAndDelete(id),
+        unitsModel.findOneAndDelete({ _id: id }),
+      ]);
+      // console.log("Unit deleted from unitModel and unitsModel");
+    } catch (error) {
+      console.error("Error deleting unit from models:", error);
+      return res.status(500).json({
+        message: "Error deleting unit from models",
+        error: error.message,
+      });
+    }
+
+    // // Remove the unit from all users' assignedUnits
+    // try {
+    //   await User.updateMany(
+    //     { assignedUnits: id },
+    //     { $pull: { assignedUnits: id } }
+    //   );
+    //   console.log("Unit removed from users' assignedUnits");
+    // } catch (error) {
+    //   console.error("Error updating users' assignedUnits:", error);
+    //   return res.status(500).json({ message: "Error updating users' assignedUnits", error: error.message });
+    // }
+
+    // // Update UserProgress
+    // try {
+    //   await UserProgress.updateMany(
+    //     { "learningPaths.pathId": id },
+    //     { $pull: { learningPaths: { pathId: id } } }
+    //   );
+    //   console.log("UserProgress updated");
+    // } catch (error) {
+    //   console.error("Error updating UserProgress:", error);
+    //   return res.status(500).json({ message: "Error updating UserProgress", error: error.message });
+    // }
+
+    res.status(200).json({ message: "Unit deleted successfully" });
+  } catch (error) {
+    console.error("Error in deleteUnit:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+/**
  * @desc    Append a node to a unit
  * @route   POST /api/units/:id/append
  * @access  Private
@@ -718,4 +812,5 @@ module.exports = {
   deleteNode,
   getUnlockedTreeData,
   updateTreeNodeDetails,
+  deleteUnit,
 };
