@@ -35,11 +35,13 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useApi } from "../context/ApiProvider";
+import EditUnitDialog from "../components/EditUnitDialog";
 
-const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
+const UnitOverflowMenu = ({ unit, onDelete, onEdit, userType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const { deleteData } = useApi();
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const { deleteData, updateData } = useApi();
 
   const handleMenuOpen = (event) => {
     event.stopPropagation();
@@ -75,12 +77,40 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
     setIsDeleteDialogOpen(false);
   };
 
-  if (userType !== "admin" && userType !== "teacher") {
+  const handleEditClick = (event) => {
+    event.stopPropagation();
+    handleMenuClose(event);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleEditConfirm = async ({ title, colour, icon }) => {
+    try {
+      // Update the unit in the backend
+      const response = await updateData(`api/units/${unit._id}`, {
+        title,
+        colour,
+        icon,
+      });
+      console.log(response);
+
+      // Refresh page
+      onEdit();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEditCancel = (event) => {
+    setIsEditDialogOpen(false);
+  };
+
+  if (userType !== "admin") {
     return null;
   }
 
   return (
     <>
+      {/* Three dot button dropdown */}
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -103,9 +133,19 @@ const UnitOverflowMenu = ({ unit, onDelete, userType }) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
+        <MenuItem onClick={handleEditClick}>Edit</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
       </Menu>
+
+      {/* Edit dialog */}
+      <EditUnitDialog
+        open={isEditDialogOpen}
+        onClose={handleEditCancel}
+        onEdit={handleEditConfirm}
+        unit={unit}
+      />
+
+      {/* Delete dialog */}
       <Dialog
         open={isDeleteDialogOpen}
         onClose={handleDeleteCancel}

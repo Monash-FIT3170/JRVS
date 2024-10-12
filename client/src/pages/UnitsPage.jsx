@@ -56,7 +56,6 @@ const UnitsPage = () => {
         const token = localStorage.getItem("token");
         const res = await postData("api/auth/current", { token });
         const userData = await getData(`api/users/id/${res.decoded.id}`);
-        setUserData(userData);
         setUserType(userData.usertype);
         setIsUserDataLoading(false);
 
@@ -178,6 +177,7 @@ const UnitsPage = () => {
                 <UnitOverflowMenu
                   unit={unit}
                   onDelete={handleDeleteUnit}
+                  onEdit={() => navigate(0)}
                   userType={userType}
                 />
               </div>
