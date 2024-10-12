@@ -74,6 +74,13 @@ const UnitPopup = ({
     color: "#fff",
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const buttonSecondary = {
+    ...buttonStyle,
+    backgroundColor: "#f1f3f4",
+    color: "#000",
+  };
+  
   const buttonGreen = {
     ...buttonStyle,
     backgroundColor: "#34a853",

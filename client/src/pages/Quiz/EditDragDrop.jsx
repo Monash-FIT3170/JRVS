@@ -21,6 +21,7 @@
  * @returns {JSX.Element} The rendered interface for editing drag-and-drop quiz questions, including forms for editing, adding new questions, and navigation buttons.
  */
 
+import React from "react";
 import {
   AppBar,
   Box,
@@ -48,8 +49,10 @@ const EditDragDrop = () => {
   const [currentHeading, setCurrentHeading] = useState("");
   const [originalQuestions, setOriginalQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
   const { quizId, unitId } = useParams();
+  // eslint-disable-next-line no-unused-vars
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleBackClick = () => {
@@ -137,7 +140,7 @@ const EditDragDrop = () => {
           heading: currentHeading,
           questions: questions,
         });
-      } catch (error) {
+      } catch {
         setError("Failed to update questions. Please try again.");
       }
 

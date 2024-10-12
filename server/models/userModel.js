@@ -7,6 +7,7 @@
  * @requires crypto
  */
 
+// eslint-disable-next-line no-unused-vars
 const { Double } = require("mongodb");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -99,10 +100,6 @@ const userSchema = mongoose.Schema(
     level: {
       type: Number,
       default: 0,
-    },
-    assignedUnits: {
-      type: Array,
-      required: true,
     },
     sharableCode: {
       type: String,
