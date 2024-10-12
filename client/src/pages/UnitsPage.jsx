@@ -151,42 +151,6 @@ const UnitsPage = () => {
         backgroundColor="white"
         width="100vw"
       >
-        {!isLoading && (
-          <Grid
-            item
-            xs={6}
-            sm={6}
-            md={4}
-            lg={3}
-            onClick={() => navigate("/codechallenge")}
-          >
-            <UnitCard
-              title="Gemini AI Code Challenge"
-              progress={false}
-              imageColour="#00141a"
-              icon="auto_awesome"
-              noProgressBar={true}
-            />
-          </Grid>
-        )}
-        {!isLoading && (
-          <Grid
-            item
-            xs={6}
-            sm={6}
-            md={4}
-            lg={3}
-            onClick={() => navigate("/genimagechallenge")}
-          >
-            <UnitCard
-              title="Generative Image Challenge"
-              progress={false}
-              imageColour="#00141a"
-              icon="photo_filter"
-              noProgressBar={true}
-            />
-          </Grid>
-        )}
         {isLoading ? (
           <div className="spinner"></div>
         ) : (
