@@ -13,13 +13,14 @@ import MenuBar from "../../components/MenuBar";
 import React, { useState } from "react";
 import TypewriterComponent from "typewriter-effect";
 import AceEditor from "react-ace";
+import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import AssistantOutlinedIcon from "@mui/icons-material/AssistantOutlined";
 import AutoModeOutlinedIcon from "@mui/icons-material/AutoModeOutlined";
 import TipsAndUpdatesOutlinedIcon from "@mui/icons-material/TipsAndUpdatesOutlined";
 
 import { keyframes } from "@emotion/react";
 
-import "ace-builds/src-noconflict/theme-solarized_dark";
+import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import { useNavigate } from "react-router-dom";
@@ -126,7 +127,7 @@ const CodeChallenge = () => {
       sx={{
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#00141a",
+        backgroundColor: "#3CA3EE",
         overflow: "auto",
       }}
     >
@@ -142,153 +143,211 @@ const CodeChallenge = () => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h4" sx={{ marginTop: "40px", color: "white" }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "46px",
+            fontWeight: "700",
+            color: "white",
+            marginBottom: "10px",
+            letterSpacing: "0.5px",
+            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+          }}
+        >
           Code Challenge using Gemini AI
         </Typography>
         <Box
           sx={{
             display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             justifyContent: "center",
-            width: "100%",
-            marginTop: "40px",
+            backgroundColor: "white",
+            width: "80%",
+            border: 1,
+            borderColor: "white",
+            borderRadius: "10px",
+            boxShadow: 4,
           }}
         >
-          <Box sx={{ display: "flex", width: "75%" }}>
-            <Tooltip title="Generate Code Challenge With Gemini AI">
-              <Button
-                variant="contained"
-                disableElevation
-                sx={{
-                  height: "fit-content",
-                  bgcolor: "#073642",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  "&:hover": { bgcolor: "#657b83" },
-                }}
-                onClick={() => genCodeChallenge()}
-              >
-                <AutoModeOutlinedIcon
-                  fontSize="large"
-                  sx={{ color: "white" }}
-                />
-              </Button>
-            </Tooltip>
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              marginTop: "40px",
+            }}
+          >
+            <Box sx={{ display: "flex", width: "90%" }}>
+              <Tooltip title="Generate Code Challenge With Gemini AI">
+                <Button
+                  variant="contained"
+                  disableElevation
+                  sx={{
+                    height: "fit-content",
+                    bgcolor: "#FFC93C",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    "&:hover": { bgcolor: "#F7B92C" },
+                  }}
+                  onClick={() => genCodeChallenge()}
+                >
+                  <AutoModeOutlinedIcon
+                    fontSize="large"
+                    sx={{ color: "white" }}
+                  />
+                </Button>
+              </Tooltip>
               <Box
-                borderRadius="10px"
-                p={5}
-                sx={{
-                  backgroundColor: "#002b36",
-                  width: "100%",
-                  color: "#839496",
-                  marginLeft: "5px",
-                  animation: loadingCode ? `${pulse} 1.5s infinite` : "none",
-                }}
+                sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
               >
-                {codeChallenge ? (
-                  <TypewriterComponent
-                    key={codeChallengeKey}
-                    onInit={(typewriter) => {
-                      typewriter
-                        .changeDelay(0.01)
-                        .typeString(codeChallenge)
-                        .pauseFor(2500)
-                        .start();
-                    }}
-                  />
-                ) : (
-                  <TypewriterComponent
-                    onInit={(typewriter) => {
-                      typewriter
-                        .changeDelay(0.01)
-                        .typeString(
-                          "Get a new coding challenge from Gemini AI to start!",
-                        )
-                        .pauseFor(2500)
-                        .start();
-                    }}
-                  />
-                )}
+                <Box
+                  borderRadius="10px"
+                  p={5}
+                  sx={{
+                    backgroundColor: "#002b36",
+                    width: "100%",
+                    color: "#839496",
+                    marginLeft: "5px",
+                    animation: loadingCode ? `${pulse} 1.5s infinite` : "none",
+                  }}
+                >
+                  {codeChallenge ? (
+                    <TypewriterComponent
+                      key={codeChallengeKey}
+                      onInit={(typewriter) => {
+                        typewriter
+                          .changeDelay(0.01)
+                          .typeString(codeChallenge)
+                          .pauseFor(2500)
+                          .start();
+                      }}
+                    />
+                  ) : (
+                    <TypewriterComponent
+                      onInit={(typewriter) => {
+                        typewriter
+                          .changeDelay(0.01)
+                          .typeString(
+                            "Get a new coding challenge from Gemini AI to start!",
+                          )
+                          .pauseFor(2500)
+                          .start();
+                      }}
+                    />
+                  )}
+                </Box>
               </Box>
             </Box>
           </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            marginTop: "20px",
-          }}
-        >
-          <Box sx={{ display: "flex", width: "75%" }}>
-            <FormControl
-              size="small"
-              variant="standard"
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              marginTop: "20px",
+            }}
+          >
+            <Box
               sx={{
-                padding: "5px",
-                bgcolor: "#073642",
-                height: "fit-content",
-                borderRadius: "10px",
-                marginRight: "5px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "white",
+                width: "100%",
+
+                marginTop: "20px",
               }}
             >
-              <InputLabel
+              <Box
                 sx={{
-                  margin: "5px",
-                  color: "white",
-                  "&.Mui-focused": { color: "white" },
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#272822",
+                  padding: "10px",
+                  width: "90%",
+                  borderTopLeftRadius: "10px",
+                  borderTopRightRadius: "10px",
+                  gap: "10px",
                 }}
               >
-                Language
-              </InputLabel>
-              <Select
-                value={codeMode}
-                renderValue={renderShortenedValue}
-                onChange={handleModeChange}
-                sx={{ color: "#839496", padding: "5px" }}
-                MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      bgcolor: "#002b36",
-                      "& .MuiMenuItem-root": {
-                        color: "white",
-                        bgcolor: "#073642",
-                      },
-                      "& .MuiMenuItem-root:hover": {
-                        bgcolor: "#073642",
-                      },
-                      "& .MuiMenuItem-root:not(.Mui-selected)": {
-                        bgcolor: "#002b36",
-                      },
-                      "& .MuiMenuItem-root:not(.Mui-selected):hover": {
-                        bgcolor: "#073642",
-                      },
-                    },
-                  },
-                }}
-              >
-                {languages.map((lang, index) => (
-                  <MenuItem
-                    value={lang}
-                    sx={{ bgcolor: "#839496" }}
-                    key={index}
+                <FormControl
+                  size="small"
+                  variant="standard"
+                  sx={{
+                    bgcolor: "#272822",
+                    borderRadius: "10px",
+                    color: "white",
+                    "& .MuiInputLabel-root": { color: "white" },
+                    "& .MuiSelect-select": { color: "#839496" },
+                    marginRight: "auto",
+                    marginLeft: "10px",
+                  }}
+                >
+                  <InputLabel>Language</InputLabel>
+                  <Select value={codeMode} onChange={handleModeChange}>
+                    {languages.map((lang) => (
+                      <MenuItem key={lang} value={lang}>
+                        {lang}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                {/*}
+              <Tooltip title="Run Code">
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#272822",
+                    "&:hover": { bgcolor: "#3E3F32" },
+                    marginLeft: "10px",
+                  }}
+                >
+                  <PlayArrowOutlinedIcon sx={{ color: "white" }} />
+                </Button>
+              </Tooltip>
+
+
+              A run code button to run the code to test before submitting
+              */}
+
+                <Tooltip title="Get Hint">
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#66D9EF",
+                      "&:hover": { bgcolor: "#79E0FF" },
+                      marginLeft: "10px",
+                    }}
+                    onClick={() => genHint()}
                   >
-                    {lang}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
+                    <TipsAndUpdatesOutlinedIcon sx={{ color: "#272822" }} />
+                  </Button>
+                </Tooltip>
+
+                <Tooltip title="Submit Code">
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#A6E22E",
+                      "&:hover": { bgcolor: "#B6F35D" },
+                      marginLeft: "10px",
+                    }}
+                    onClick={() => genResult()}
+                  >
+                    <AssistantOutlinedIcon sx={{ color: "#272822" }} />
+                  </Button>
+                </Tooltip>
+              </Box>
+
               <AceEditor
                 maxLines={20}
                 minLines={20}
                 mode={codeMode}
-                theme="solarized_dark"
+                theme="monokai"
                 value={codeInput}
                 onChange={handleInputChange}
                 editorProps={{ $blockScrolling: true }}
@@ -297,63 +356,19 @@ const CodeChallenge = () => {
                   enableLiveAutocompletion: true,
                 }}
                 style={{
-                  width: "100%",
-                  borderRadius: "10px",
+                  width: "90%",
                 }}
               />
             </Box>
           </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            marginTop: "20px",
-          }}
-        >
-          <Box sx={{ display: "flex", width: "75%" }}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Tooltip title="Submit Answer To Gemini AI">
-                <Button
-                  variant="contained"
-                  disableElevation
-                  sx={{
-                    height: "fit-content",
-                    bgcolor: "#073642",
-                    padding: "10px",
-                    borderRadius: "10px",
-                    "&:hover": { bgcolor: "#657b83" },
-                  }}
-                  onClick={() => genResult()}
-                >
-                  <AssistantOutlinedIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Button>
-              </Tooltip>
-              <Tooltip title="Get A Hint From Gemini AI">
-                <Button
-                  variant="contained"
-                  disableElevation
-                  sx={{
-                    height: "fit-content",
-                    bgcolor: "#073642",
-                    padding: "10px",
-                    borderRadius: "10px",
-                    marginTop: "5px",
-                    "&:hover": { bgcolor: "#657b83" },
-                  }}
-                  onClick={() => genHint()}
-                >
-                  <TipsAndUpdatesOutlinedIcon
-                    fontSize="medium"
-                    sx={{ color: "white" }}
-                  />
-                </Button>
-              </Tooltip>
-            </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              marginTop: "20px",
+            }}
+          >
             <Box
               sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
             >
@@ -362,7 +377,7 @@ const CodeChallenge = () => {
                 p={5}
                 sx={{
                   backgroundColor: "#002b36",
-                  width: "100%",
+                  width: "90%",
                   color: "#839496",
                   marginLeft: "5px",
                   animation: loadingResult ? `${pulse} 1.5s infinite` : "none",
@@ -395,22 +410,23 @@ const CodeChallenge = () => {
               </Box>
             </Box>
           </Box>
-        </Box>
-        <Box sx={{ width: "75%", marginTop: "20px", marginBottom: "20px" }}>
-          <Tooltip title="Back to Units Page">
-            <Button
-              onClick={() => navigate(-1)}
-              variant="contained"
-              sx={{
-                backgroundColor: "#073642",
-                borderRadius: "10px",
-                "&:hover": { bgcolor: "#657b83" },
-                padding: "10px",
-              }}
-            >
-              BACK
-            </Button>
-          </Tooltip>
+          <Box sx={{ width: "90%", marginTop: "20px", marginBottom: "20px" }}>
+            <Tooltip title="Back to Units Page">
+              <Button
+                onClick={() => navigate(-1)}
+                variant="contained"
+                sx={{
+                  height: "fit-content",
+                  bgcolor: "#FFC93C",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  "&:hover": { bgcolor: "#F7B92C" },
+                }}
+              >
+                BACK
+              </Button>
+            </Tooltip>
+          </Box>
         </Box>
       </Box>
     </Box>

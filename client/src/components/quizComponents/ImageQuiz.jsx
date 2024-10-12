@@ -14,6 +14,7 @@
  * @param {Object} props.userValues - An object containing the user's current answers.
  * @returns {JSX.Element} A Material-UI Grid containing a True/False question with selectable buttons for the options, styled with a custom `StyledBox` component.
  * @example
+ *
  * // Example usage of TrueFalse
  * const question = {
  *   questionText: 'Is the Earth round?',
@@ -24,12 +25,16 @@
  * <TrueFalse question={question} index={1} setSelection={handleSelection} userValues={userAnswers} />
  */
 
-import React from "react";
 import { Typography, FormControl, Grid, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import StyledBox from "./StyledBox";
 
-export default function TrueFalse({ question, index, setSelection }) {
+export default function TrueFalse({
+  question,
+  index,
+  setSelection,
+  userValues,
+}) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -65,14 +70,13 @@ export default function TrueFalse({ question, index, setSelection }) {
         onClick={checkAnswer}
         disabled={isDisabled}
         sx={{
-          width: "400px",
-          height: "80px",
-          padding: 3,
-          px: 5,
+          width: "100%",
+          height: "auto",
+          padding: "16px",
           borderRadius: "15px",
           backgroundColor: getButtonStyles(item.value),
           color: "#3CA3EE",
-          fontSize: 20,
+          fontSize: "1.25rem",
           "&.Mui-disabled": {
             color: item.value === selectedAnswer ? "white" : "grey",
           },
@@ -84,8 +88,8 @@ export default function TrueFalse({ question, index, setSelection }) {
   ));
 
   return (
-    <Grid container>
-      <Grid item xs={12} display="flex" justifyContent="center">
+    <Grid container spacing={2} justifyContent="center" alignItems="center">
+      <Grid item xs={12} md={6} display="flex" justifyContent="center">
         <StyledBox>
           <FormControl sx={{ mx: "35px", mb: "35px" }}>
             <Typography
