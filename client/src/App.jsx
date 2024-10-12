@@ -37,26 +37,15 @@ const App = () => {
       <Routes>
         <Route
           exact
-          path="/quiz/:unitId/:genimagechallenge"
+          path="/quiz/:unitId/genimagechallenge"
           element={<GenImageChallenge />}
-        >
-          <Route
-            exact
-            path="/quiz/:unitId/:genimagechallenge"
-            element={<GenImageChallenge />}
-          />
-        </Route>
+        />
         <Route
           exact
-          path="/quiz/:unitId/:codechallenge"
+          path="/quiz/:unitId/codechallenge"
           element={<CodeChallenge />}
-        >
-          <Route
-            exact
-            path="/quiz/:unitId/:codechallenge"
-            element={<CodeChallenge />}
-          />
-        </Route>
+        />
+
         <Route exact path="/leaderboard" element={<ProtectedRoute />}>
           <Route exact path="/leaderboard" element={<LeaderboardPage />} />
         </Route>
