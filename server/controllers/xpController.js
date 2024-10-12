@@ -163,6 +163,9 @@ const getLeaderboard = async (req, res) => {
         $project: {
           username: 1,
           school: 1,
+          avatar: 1,
+          background: 1,
+          border: 1,
           totalXP: {
             $ifNull: [{ $arrayElemAt: ["$xpDetails.totalXP", 0] }, 0],
           },
