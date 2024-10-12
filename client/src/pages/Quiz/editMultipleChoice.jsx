@@ -21,6 +21,7 @@
  * @returns {JSX.Element} The rendered interface for editing multiple-choice quiz questions, including forms for editing, adding new questions, and navigation buttons.
  */
 
+import React from "react";
 import {
   AppBar,
   Box,
@@ -50,8 +51,11 @@ const EditMultipleChoice = () => {
   const [currentHeading, setCurrentHeading] = useState("");
   const [originalQuestions, setOriginalQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
+
   const { quizId, unitId } = useParams();
+  // eslint-disable-next-line no-unused-vars
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleBackClick = () => {
@@ -137,7 +141,7 @@ const EditMultipleChoice = () => {
           heading: currentHeading,
           questions: questions,
         });
-      } catch (error) {
+      } catch {
         setError("Failed to update questions. Please try again.");
       }
 

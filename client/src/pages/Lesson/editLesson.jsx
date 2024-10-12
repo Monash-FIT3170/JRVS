@@ -34,6 +34,7 @@
  * @returns {JSX.Element} The rendered editLesson component.
  */
 
+import React from "react";
 import {
   AppBar,
   Box,
@@ -629,6 +630,7 @@ const EditLesson = () => {
                 lesson.content.map((section, index) => {
                   return (
                     <Button
+                      key={index}
                       startIcon={
                         (section.type === "textBox" && <NotesIcon />) ||
                         (section.type === "imageTextBox" && <ImageIcon />) ||

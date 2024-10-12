@@ -62,8 +62,8 @@ export default function TrueFalse({
     }
   };
 
-  const mappedOptions = question.options.map((item) => (
-    <Grid item xs={6} display="flex" justifyContent="center">
+  const mappedOptions = question.options.map((item, index) => (
+    <Grid item xs={6} display="flex" justifyContent="center" key={index}>
       <Button
         variant="outlined"
         value={item.value}

@@ -26,16 +26,10 @@
  * <DragAndDrop question={question} index={1} setSelection={handleSelection} userValues={userAnswers} />
  */
 
-
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, Paper, Tooltip, Box } from "@mui/material";
 
-export default function DragAndDrop({
-  question,
-  index,
-  setSelection,
-  userValues,
-}) {
+export default function DragAndDrop({ question, setSelection }) {
   const [answers, setAnswers] = useState({});
   //const [submitted, setSubmitted] = useState(false);
   //const [feedbackMessage, setFeedbackMessage] = useState('');
@@ -87,6 +81,7 @@ export default function DragAndDrop({
     setIsDragging(false);
     const term = event.dataTransfer.getData("option");
     const currentTermInNewDefinition = Object.entries(answers).find(
+      // eslint-disable-next-line no-unused-vars
       ([key, value]) => value === newDefinition,
     );
     const previousDefinition = answers[term];

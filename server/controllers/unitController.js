@@ -31,7 +31,6 @@
 const asyncHandler = require("express-async-handler");
 const unitsModel = require("../models/unitsModel");
 const unitModel = require("../models/unitModel");
-const { createEmptyLesson, getLesson } = require("./lessonController"); // Import the function
 const lessonModel = require("../models/lessonModel");
 const videoModel = require("../models/videoModel");
 const quizModel = require("../models/quizModel");
@@ -87,7 +86,7 @@ const createUnit = asyncHandler(async (req, res) => {
   const { title, icon, colour } = req.body;
 
   // Create a placeholder lesson
-  newLesson = await createLesson();
+  let newLesson = await createLesson();
 
   const newLessonForUnit = {
     _id: newLesson._id,
@@ -100,12 +99,12 @@ const createUnit = asyncHandler(async (req, res) => {
   };
 
   // create the unit
-  unit_details = await unitModel.create({
+  let unit_details = await unitModel.create({
     data: [newLessonForUnit],
     numberOfLessons: 1,
   });
 
-  unit = await unitsModel.create({
+  let unit = await unitsModel.create({
     _id: unit_details._id,
     title: title,
     icon: icon,
@@ -158,12 +157,10 @@ const deleteUnit = asyncHandler(async (req, res) => {
       // console.log("Associated lessons, videos, and quizzes deleted");
     } catch (error) {
       console.error("Error deleting associated documents:", error);
-      return res
-        .status(500)
-        .json({
-          message: "Error deleting associated documents",
-          error: error.message,
-        });
+      return res.status(500).json({
+        message: "Error deleting associated documents",
+        error: error.message,
+      });
     }
 
     // Delete the unit from unitModel and unitsModel
@@ -175,12 +172,10 @@ const deleteUnit = asyncHandler(async (req, res) => {
       // console.log("Unit deleted from unitModel and unitsModel");
     } catch (error) {
       console.error("Error deleting unit from models:", error);
-      return res
-        .status(500)
-        .json({
-          message: "Error deleting unit from models",
-          error: error.message,
-        });
+      return res.status(500).json({
+        message: "Error deleting unit from models",
+        error: error.message,
+      });
     }
 
     // // Remove the unit from all users' assignedUnits
@@ -448,7 +443,7 @@ function appendChildNode(data, targetId, newNode) {
  */
 async function createLesson(nodeTitle, nodeDesc) {
   // Empty node
-  generatedNode = await lessonModel.create({
+  let generatedNode = await lessonModel.create({
     title: nodeTitle || "New lesson",
     desc: nodeDesc || "New lesson description",
     content: [
@@ -486,7 +481,7 @@ async function createLesson(nodeTitle, nodeDesc) {
  * @returns {Promise<Object>} A promise that resolves to the created video document.
  */
 async function createVideo(nodeTitle, nodeDesc) {
-  generatedNode = await videoModel.create({
+  let generatedNode = await videoModel.create({
     title: nodeTitle || "New Video",
     url: "",
     heading: nodeDesc || "New Video Heading",
@@ -510,7 +505,7 @@ async function createVideo(nodeTitle, nodeDesc) {
  * @returns {Promise<Object>} A promise that resolves to the created quiz document.
  */
 async function createQuiz(nodeTitle, quizType, nodeDesc) {
-  generatedNode = await quizModel.create({
+  let generatedNode = await quizModel.create({
     title: nodeTitle || "New Quiz",
     heading: nodeDesc || "New Quiz Heading",
     questions: [

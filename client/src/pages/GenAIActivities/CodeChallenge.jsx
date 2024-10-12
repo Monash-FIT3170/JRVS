@@ -342,6 +342,7 @@ const CodeChallenge = () => {
                   </Button>
                 </Tooltip>
               </Box>
+
               <AceEditor
                 maxLines={20}
                 minLines={20}

@@ -28,6 +28,7 @@
  * @returns {JSX.Element} The rendered quiz interface, including the current quiz question and navigation buttons for interacting with the quiz.
  */
 
+import React from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -48,6 +49,7 @@ function Quizzes() {
   const { getData, postData } = useApi();
   const [quizzes, setQuiz] = useState([]);
   const { quizId } = useParams();
+  // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userValues, setUserValues] = useState("");

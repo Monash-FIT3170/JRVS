@@ -40,6 +40,7 @@ import { useNavigate } from "react-router-dom";
 
 const LessonTypesPopup = ({ isOpen, onClose, onClick }) => {
   const [quizAnchorEl, setQuizAnchorEl] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
 
   const handleQuizClick = (event) => {
