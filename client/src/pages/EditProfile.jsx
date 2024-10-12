@@ -40,7 +40,9 @@ import { Box } from "@mui/material";
 
 const EditProfile = () => {
   // Create the hooks for the different inputs
+  // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState({ username: "", points: 0, level: 0 });
+  // eslint-disable-next-line no-unused-vars
   const [isUserLoading, setIsUserLoading] = useState(true);
 
   const [firstname, setFirstname] = useState("");
@@ -50,6 +52,7 @@ const EditProfile = () => {
   const [email, setEmail] = useState("");
   const [school, setSchool] = useState("");
   const [schools, setSchools] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [password, setPassword] = useState("");
 
   // const location = useLocation();
@@ -276,7 +279,11 @@ const EditProfile = () => {
                 padding: "20px",
               }}
             >
-              <button form="detailsform" class="default-button" type="submit">
+              <button
+                form="detailsform"
+                className="default-button"
+                type="submit"
+              >
                 Update My Details
               </button>
             </Grid>

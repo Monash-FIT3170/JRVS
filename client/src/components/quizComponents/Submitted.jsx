@@ -20,6 +20,7 @@
  * <Submitted score={8} totalScore={10} points={50} />
  */
 
+import React from "react";
 import { Button, Typography, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
@@ -31,7 +32,7 @@ export default function Submitted({ score, totalScore, points }) {
   const [showConfetti, setShowConfetti] = useState(true);
   const navigate = useNavigate();
   const { unitId, quizId } = useParams();
-  const { getData, postData, updateData } = useApi();
+  const { postData, updateData } = useApi();
 
   useEffect(() => {
     const timer = setTimeout(() => setShowConfetti(false), 8000);

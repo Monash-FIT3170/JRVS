@@ -22,12 +22,10 @@
  * <Reorder question={question} index={0} setSelection={handleSelection} userValues={userAnswers} />
  */
 
-
 import React, { useEffect } from "react";
 import { Container, Draggable } from "react-smooth-dnd";
 import { ListItem, ListItemText, Grid, Typography } from "@mui/material";
 import StyledBox from "./StyledBox";
-import BotBox from "../../components/content/botBox";
 
 //uses react-smooth-dnd
 export default function Reorder({ question, index, setSelection, userValues }) {

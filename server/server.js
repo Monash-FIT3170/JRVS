@@ -30,9 +30,12 @@
  * @returns {void}
  */
 
+// eslint-disable-next-line no-unused-vars
 const path = require("path");
 const express = require("express");
+// eslint-disable-next-line no-unused-vars
 const colors = require("colors");
+// eslint-disable-next-line no-unused-vars
 const dotenv = require("dotenv").config();
 const { errorHandler } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");

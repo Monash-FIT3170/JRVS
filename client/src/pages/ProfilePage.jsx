@@ -32,7 +32,7 @@ import DefaultButton from "../components/DefaultButton";
 import "../assets/styles/App.css";
 import { useApi } from "../context/ApiProvider";
 import Avatar from "../components/characterCustomization/Avatar";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import CustomButton from "../components/CustomButton"; // Import CustomButton
 
 const ProfilePage = () => {

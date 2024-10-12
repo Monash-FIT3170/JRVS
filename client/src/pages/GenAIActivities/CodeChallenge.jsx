@@ -270,8 +270,12 @@ const CodeChallenge = () => {
                   },
                 }}
               >
-                {languages.map((lang) => (
-                  <MenuItem value={lang} sx={{ bgcolor: "#839496" }}>
+                {languages.map((lang, index) => (
+                  <MenuItem
+                    value={lang}
+                    sx={{ bgcolor: "#839496" }}
+                    key={index}
+                  >
                     {lang}
                   </MenuItem>
                 ))}
