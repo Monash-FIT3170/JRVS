@@ -214,7 +214,7 @@ const GenImageChallenge = () => {
             fontSize: "46px",
             fontWeight: "700",
             color: "white",
-            marginBottom: "10px",
+            marginBottom: "5px",
             letterSpacing: "0.5px",
             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
           }}
@@ -226,7 +226,7 @@ const GenImageChallenge = () => {
             display: "flex",
             justifyContent: "center",
             backgroundColor: "white",
-            marginTop: "40px",
+            marginTop: "5px",
             border: 1,
             borderColor: "white",
             borderRadius: "10px",
@@ -240,7 +240,7 @@ const GenImageChallenge = () => {
               alignItems: "flex-start",
 
               padding: "20px",
-              gap: "20px",
+              gap: "80px",
             }}
           >
             {/* Prompt Input Box */}
@@ -252,6 +252,7 @@ const GenImageChallenge = () => {
                 width: "35%",
                 color: "white",
                 animation: loadingImage ? `${pulse} 1.5s infinite` : "none",
+                marginLeft: "80px",
               }}
             >
               <TypewriterComponent
@@ -270,7 +271,7 @@ const GenImageChallenge = () => {
                   display: "flex",
                   flexDirection: "row",
                   width: "100%",
-                  marginTop: "15px",
+                  marginTop: "5px",
                 }}
               >
                 <TextField
@@ -304,7 +305,7 @@ const GenImageChallenge = () => {
                         borderWidth: "1.5px",
                       },
                     },
-                    marginRight: "5px",
+                    marginRight: "10px",
                   }}
                 />
                 <Tooltip title="Generate Image using getimg.ai">
@@ -350,14 +351,14 @@ const GenImageChallenge = () => {
                   display: "flex",
                   maxWidth: "100%",
 
-                  width: "700px",
+                  width: "600px",
                   color: "#839496",
                   justifyContent: "center",
                   alignContent: "center",
                 }}
               >
                 <ReactCompareSlider
-                  style={{ width: "700px", borderRadius: "10px" }}
+                  style={{ width: "600px", borderRadius: "10px" }}
                   itemOne={
                     <ReactCompareSliderImage
                       src={
@@ -385,8 +386,8 @@ const GenImageChallenge = () => {
                   border: "10px",
                   borderColor: "primary.main",
                   boxShadow: 3,
-                  width: "700px",
-                  marginTop: "15px",
+                  width: "600px",
+                  marginTop: "5px",
                   textAlign: "center",
                   fontWeight: 500,
                 }}
@@ -428,7 +429,7 @@ const GenImageChallenge = () => {
                       backgroundColor: "#FFC700",
                       borderRadius: "20px",
                       color: "white",
-                      marginTop: "10px",
+                      marginTop: "5px",
                     }}
                   >
                     <p className="russo-one-regular text-4xl">
@@ -441,15 +442,13 @@ const GenImageChallenge = () => {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ width: "75%", marginTop: "20px", marginBottom: "20px" }}>
+        <Box sx={{ width: "75%", marginTop: "5px", marginBottom: "5px" }}>
           <Tooltip title="Back to Units Page">
             <Button
               onClick={() => handleFinish()}
               variant="contained"
               sx={{
                 ":hover": { backgroundColor: "#F7B92C" },
-                marginRight: "20px",
-                marginBottom: "60px",
                 padding: "20px",
                 borderRadius: "15px",
                 backgroundColor: "#FFC93C",
