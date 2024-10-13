@@ -178,6 +178,7 @@ const EditProfile = () => {
             padding: "20px",
             height: "100%",
             borderRadius: "20px",
+            border: "1px solid black",
           }}
         >
           {/* Form */}

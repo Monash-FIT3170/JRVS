@@ -29,6 +29,7 @@
 
 import React, { useState, useEffect } from "react";
 import MenuBar from "../components/MenuBar";
+import Avatar from "../components/characterCustomization/Avatar";
 import { useApi } from "../context/ApiProvider";
 import Grid from "@mui/material/Unstable_Grid2";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -83,7 +84,6 @@ const LeaderboardPage = () => {
 
     fetchLeaderboardData();
   }, [timePeriod, userGroup, getData]);
-
   return (
     <div className="App-page" style={{ height: "100vh" }}>
       <MenuBar />
@@ -100,10 +100,11 @@ const LeaderboardPage = () => {
             LEADERBOARD
           </h2>
         </Grid>
-        <Grid xs={0} md={3}></Grid>
+        <Grid xs={0} md={2} lg={3}></Grid>
         <Grid
           xs={12}
-          md={6}
+          md={8}
+          lg={6}
           style={{
             padding: "20px",
             display: "flex",
@@ -185,6 +186,7 @@ const LeaderboardPage = () => {
                   <thead>
                     <tr>
                       <th className="py-2">Rank</th>
+                      <th className="py-2"></th>
                       <th className="py-2">Username</th>
                       <th className="py-2">School</th>
                       <th className="py-2">XP</th>
@@ -193,10 +195,31 @@ const LeaderboardPage = () => {
                   <tbody>
                     {leaderboardData.map((user, index) => (
                       <tr key={index} className="border-b">
-                        <td className="py-2">{index + 1}</td>
-                        <td className="py-2">{user.username}</td>
+                        <td className="py-2 russo-one-regular text-3xl">
+                          {index + 1}
+                        </td>
+                        <td className="py-2 items-center space-x-3">
+                          <div
+                            style={{
+                              width: "80px",
+                              height: "auto",
+                              borderRadius: "50%",
+                            }}
+                          >
+                            <Avatar
+                              avatar={user.avatar}
+                              background={user.background}
+                              border={user.border}
+                            />
+                          </div>
+                        </td>
+                        <td className="py-2">
+                          <strong>{user.username}</strong>
+                        </td>
                         <td className="py-2">{user.school}</td>
-                        <td className="py-2">{user.totalXP}</td>
+                        <td className="py-2 text-xl russo-one-regular">
+                          {user.totalXP}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -205,7 +228,7 @@ const LeaderboardPage = () => {
             </div>
           </div>
         </Grid>
-        <Grid xs={0} md={3}></Grid>
+        <Grid xs={0} md={2} lg={3}></Grid>
       </Grid>
     </div>
   );
