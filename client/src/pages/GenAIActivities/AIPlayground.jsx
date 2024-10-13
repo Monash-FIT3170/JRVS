@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import MenuBar from "../../components/MenuBar";
 
 const AIPlayground = () => {
-  const { postData } = useApi();
+  const { postData, updateData } = useApi();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
@@ -130,6 +130,27 @@ const AIPlayground = () => {
     setMessages([]); // Clear messages
     setInput(""); // Clear input field
     localStorage.removeItem("chatMessages"); // Optionally clear local storage
+  };
+
+  const handleFinish = async () => {
+    try {
+      await updateData(`api/userUnitProgress/66a373b0dc35a50ef9c2e43c`, {
+        newCompletedLessons: ["playground"],
+      });
+      navigate(-1);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    try {
+      console.log("userUnitProgress entry not found, creating a new one...");
+      await postData(`api/userUnitProgress/66a373b0dc35a50ef9c2e43c`, {
+        completedLessons: ["playground"],
+      });
+      navigate(-1);
+    } catch (creationError) {
+      console.error("Error creating user progress entry:", creationError);
+    }
   };
 
   return (
@@ -347,7 +368,7 @@ const AIPlayground = () => {
       <Box sx={{ width: "75%", marginTop: "20px", marginBottom: "20px" }}>
         <Tooltip title="Back to Units Page">
           <Button
-            onClick={() => navigate(-1)}
+            onClick={() => handleFinish()}
             variant="contained"
             sx={{
               backgroundColor: "#073642",

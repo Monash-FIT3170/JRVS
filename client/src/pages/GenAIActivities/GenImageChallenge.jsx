@@ -90,7 +90,7 @@ async function compressBase64(base64String) {
 
 const GenImageChallenge = () => {
   const navigate = useNavigate();
-  const { postData } = useApi();
+  const { postData, updateData } = useApi();
   const [generatedResult, setGeneratedResult] = useState(null);
   const [promptInput, setPromptInput] = useState("");
   const [generatedComparison, setGeneratedComparison] = useState("");
@@ -163,6 +163,27 @@ const GenImageChallenge = () => {
 
   const handleInputChange = (event) => {
     setPromptInput(event.target.value);
+  };
+
+  const handleFinish = async () => {
+    try {
+      await updateData(`api/userUnitProgress/66a373b0dc35a50ef9c2e43c`, {
+        newCompletedLessons: ["genimagechallenge"],
+      });
+      navigate(-1);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    try {
+      console.log("userUnitProgress entry not found, creating a new one...");
+      await postData(`api/userUnitProgress/66a373b0dc35a50ef9c2e43c`, {
+        completedLessons: ["genimagechallenge"],
+      });
+      navigate(-1);
+    } catch (creationError) {
+      console.error("Error creating user progress entry:", creationError);
+    }
   };
 
   return (
@@ -423,7 +444,7 @@ const GenImageChallenge = () => {
         <Box sx={{ width: "75%", marginTop: "20px", marginBottom: "20px" }}>
           <Tooltip title="Back to Units Page">
             <Button
-              onClick={() => navigate(-1)}
+              onClick={() => handleFinish()}
               variant="contained"
               sx={{
                 ":hover": { backgroundColor: "#F7B92C" },
