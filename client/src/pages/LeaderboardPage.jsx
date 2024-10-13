@@ -213,9 +213,11 @@ const LeaderboardPage = () => {
                             />
                           </div>
                         </td>
-                        <td className="py-2 text-xl">{user.username}</td>
+                        <td className="py-2">
+                          <strong>{user.username}</strong>
+                        </td>
                         <td className="py-2">{user.school}</td>
-                        <td className="py-2 russo-one-regular">
+                        <td className="py-2 text-xl russo-one-regular">
                           {user.totalXP}
                         </td>
                       </tr>
