@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 const { faker } = require("@faker-js/faker");
 const dotenv = require("dotenv").config();
 const request = require("supertest");
-const app = require("../server");
+const { app, server } = require("../server");
 
 jest.setTimeout(30000);
 
@@ -53,6 +53,7 @@ describe("Database Tests", () => {
       lastname: faker.person.lastName(),
       email: faker.internet.email(),
       username: faker.internet.userName(),
+      sharableCode: faker.number.bigInt(),
     };
 
     await usersCollection.insertOne(sampleUser);
@@ -76,18 +77,10 @@ describe("Database Tests", () => {
 });
 
 describe("API Tests", () => {
-  beforeAll(async () => {
-    try {
-      await client.connect();
-      const db = client.db("test");
-      usersCollection = db.collection("users");
-    } catch (err) {
-      console.error("Error connecting to the database:", err);
-    }
-  });
+  beforeAll(async () => {});
 
-  it("tests /users endpoint - positive test", async () => {
-    const response = await request(app).get("/users");
+  test("Test READ Schools", async () => {
+    const response = await request(app).get("/api/schools");
     expect(response.statusCode).toBe(200);
   });
 
@@ -107,7 +100,10 @@ describe("API Tests", () => {
   //     })
   // })
 
-  afterAll(async () => {
-    await client.close();
+  afterAll((done) => {
+    // need to close connection to the express server
+    server.close(() => {
+      done();
+    });
   });
 });

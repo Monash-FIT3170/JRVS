@@ -1,9 +1,9 @@
 /**
  * @file server.js
- * @description This file sets up and configures the Express server for the application. 
- * It connects to the database, initializes middleware, and defines routes for various APIs, 
+ * @description This file sets up and configures the Express server for the application.
+ * It connects to the database, initializes middleware, and defines routes for various APIs,
  * including authentication, goals, badges, quizzes, lessons, and more.
- * 
+ *
  * @module Server
  * @requires path
  * @requires express
@@ -29,7 +29,6 @@
  * node server.js
  * @returns {void}
  */
-
 
 const path = require("path");
 const express = require("express");
@@ -65,7 +64,8 @@ app.use("/api/userUnitProgress", require("./routes/userUnitProgressRoutes"));
 
 app.use(errorHandler);
 
+var server = app.listen(port, () =>
+  console.log(`Server started on port ${port}`),
+);
 
-app.listen(port, () => console.log(`Server started on port ${port}`))
-
-module.exports = app
+module.exports = { app, server };
