@@ -38,6 +38,7 @@ describe("Database Tests", () => {
         lastname: faker.person.lastName(),
         email: faker.internet.email(),
         username: faker.internet.userName(),
+        sharableCode: faker.number.bigInt(),
       });
     }
 
