@@ -4,7 +4,7 @@ const dotenv = require("dotenv").config();
 const request = require("supertest");
 const { app, server } = require("../server");
 
-jest.setTimeout(30000);
+jest.setTimeout(10000);
 
 // Connect to MongoDB
 // Init mongo client
