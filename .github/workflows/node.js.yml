@@ -7,9 +7,9 @@ env:
   NODE_ENV: test
 on:
   push:
-    branches: ["main"]
+    branches: ["feature-ci-cd"]
   pull_request:
-    branches: ["main"]
+    branches: ["feature-cd-cd"]
 
 jobs:
   build:
