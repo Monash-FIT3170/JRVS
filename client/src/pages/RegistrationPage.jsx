@@ -43,7 +43,7 @@ const RegistrationPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [school, setSchool] = useState("");
-  const [schools, setSchools] = useState("");
+  const [schools, setSchools] = useState([]);
   const [password, setPassword] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -141,11 +141,11 @@ const RegistrationPage = () => {
     const getSchools = async () => {
       try {
         const schoolData = await getData("api/schools/");
+        console.log(schoolData);
         const schoolNames = schoolData.map((school) => {
           return { value: school.SchoolName, label: school.SchoolName };
         });
         setSchools(schoolNames);
-        console.log(schoolNames);
       } catch (error) {
         console.log(error);
       }

@@ -66,7 +66,7 @@ const LearningPathPage = () => {
   const { unitId } = useParams();
 
   const [usertype, setUserType] = useState(); // User type
-  // eslint-disable-next-line no-unused-vars
+
   const [userId, setUserId] = useState();
 
   useEffect(() => {
