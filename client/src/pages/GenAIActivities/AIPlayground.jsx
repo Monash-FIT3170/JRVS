@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import MenuBar from "../../components/MenuBar";
 
 const AIPlayground = () => {
-  const { postData } = useApi();
+  const { postData, updateData } = useApi();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
@@ -132,12 +132,33 @@ const AIPlayground = () => {
     localStorage.removeItem("chatMessages"); // Optionally clear local storage
   };
 
+  const handleFinish = async () => {
+    try {
+      await updateData(`api/userUnitProgress/66a373b0dc35a50ef9c2e43c`, {
+        newCompletedLessons: ["playground"],
+      });
+      navigate(-1);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    try {
+      console.log("userUnitProgress entry not found, creating a new one...");
+      await postData(`api/userUnitProgress/66a373b0dc35a50ef9c2e43c`, {
+        completedLessons: ["playground"],
+      });
+      navigate(-1);
+    } catch (creationError) {
+      console.error("Error creating user progress entry:", creationError);
+    }
+  };
+
   return (
     <Box
       sx={{
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#00141a",
+        backgroundColor: "#3CA3EE",
         overflowY: "auto", // Enables vertical scrolling
         display: "flex",
         flexDirection: "column",
@@ -148,154 +169,79 @@ const AIPlayground = () => {
         <MenuBar />
       </Box>
 
-      <Typography variant="h4" sx={{ marginTop: "40px", color: "white" }}>
+      <Typography
+        variant="h4"
+        sx={{
+          fontFamily: "Poppins, sans-serif",
+          fontSize: "46px",
+          fontWeight: "700",
+          color: "white",
+          marginBottom: "10px",
+          letterSpacing: "0.5px",
+          textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+        }}
+      >
         AI Chatbot Playground
       </Typography>
 
-      {/* Dropdown for selecting the system prompt */}
-      <FormControl sx={{ margin: "20px", width: "75%" }}>
-        <InputLabel sx={{ color: "#ffffff" }}>Select AI Chatbot</InputLabel>
-        <Select
-          value={selectedOption}
-          onChange={handlePromptChange}
-          sx={{
-            bgcolor: "#073642",
-            color: "#ffffff",
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#839496",
-              },
-              "&:hover fieldset": {
-                borderColor: "#657b83",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#657b83",
-              },
-            },
-          }}
-        >
-          <MenuItem value="teacher">AI Teacher</MenuItem>
-          <MenuItem value="dnd">DnD Game Master</MenuItem>
-          <MenuItem value="chef">Master Chef</MenuItem>
-          <MenuItem value="fitness">Fitness Trainer</MenuItem>
-          <MenuItem value="custom">Custom Prompt</MenuItem>
-        </Select>
-      </FormControl>
-
-      {selectedOption === "custom" && (
-        <TextField
-          variant="outlined"
-          value={customPrompt}
-          onChange={handleCustomPromptChange}
-          placeholder="Enter your custom system prompt..."
-          sx={{
-            bgcolor: "#073642",
-            borderRadius: "10px",
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#839496",
-              },
-              "&:hover fieldset": {
-                borderColor: "#657b83",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#657b83",
-              },
-            },
-            color: "#ffffff",
-            "& .MuiInputBase-input": {
-              color: "#ffffff",
-            },
-            marginTop: "20px",
-            width: "75%",
-          }}
-        />
-      )}
-
-      {selectedOption === "custom" && (
-        <Button
-          variant="contained"
-          onClick={saveCustomPrompt}
-          sx={{
-            marginTop: "10px",
-            backgroundColor: "#073642",
-            borderRadius: "10px",
-            "&:hover": { backgroundColor: "#657b83" },
-            padding: "10px",
-            color: "#ffffff",
-          }}
-        >
-          Save Custom Prompt
-        </Button>
-      )}
-      {feedbackMessage && (
-        <Typography
-          variant="body1"
-          sx={{ color: "#ffffff", marginTop: "10px" }}
-        >
-          {feedbackMessage}
-        </Typography>
-      )}
       <Box
         sx={{
+          backgroundColor: "white",
+          borderRadius: "10px",
+          padding: "10px",
+          width: "80%",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          marginTop: "20px",
-          width: "75%",
-          padding: "20px",
-          borderRadius: "10px",
-          backgroundColor: "#002b36",
+          justifyContent: "flex-start",
+          marginTop: "10px",
         }}
       >
-        <Box
-          sx={{
-            height: "300px",
-            overflowY: "scroll",
-            border: "1px solid #ccc",
-            width: "100%",
-            borderRadius: "10px",
-            padding: "10px",
-            backgroundColor: "#073642",
-            color: "#ffffff", // Set the default text color to white
-          }}
-        >
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              style={{
-                textAlign: msg.sender === "user" ? "right" : "left",
-                color: "#ffffff",
-              }}
-            >
-              <strong style={{ color: "#ffffff" }}>
-                {msg.sender === "user" ? "You" : "AI"}:
-              </strong>{" "}
-              {msg.text}
-            </div>
-          ))}
-          {loading && (
-            <div style={{ textAlign: "left", color: "#ffffff" }}>
-              <strong>AI:</strong>{" "}
-              <CircularProgress
-                size={20}
-                sx={{ marginLeft: "10px", color: "#ffffff" }}
-              />
-            </div>
-          )}
-          <div ref={chatEndRef} />
-        </Box>
-        <form
-          onSubmit={handleSubmit}
-          style={{ width: "100%", marginTop: "20px" }}
-        >
+        {/* Dropdown for selecting the system prompt */}
+        <FormControl sx={{ margin: "10px", width: "90%", marginTop: "40px" }}>
+          <InputLabel
+            sx={{
+              color: "#ffffff",
+              backgroundColor: "#073642", // Matching background color
+              padding: "0 4px", // Padding for better visibility
+            }}
+          >
+            Select AI Chatbot
+          </InputLabel>
+          <Select
+            value={selectedOption}
+            onChange={handlePromptChange}
+            sx={{
+              bgcolor: "#073642",
+              color: "#ffffff",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#839496",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#657b83",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#657b83",
+                },
+              },
+            }}
+          >
+            <MenuItem value="teacher">AI Teacher</MenuItem>
+            <MenuItem value="dnd">DnD Game Master</MenuItem>
+            <MenuItem value="chef">Master Chef</MenuItem>
+            <MenuItem value="fitness">Fitness Trainer</MenuItem>
+            <MenuItem value="custom">Custom Prompt</MenuItem>
+          </Select>
+        </FormControl>
+
+        {selectedOption === "custom" && (
           <TextField
-            fullWidth
             variant="outlined"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message..."
+            value={customPrompt}
+            onChange={handleCustomPromptChange}
+            placeholder="Enter your custom system prompt..."
             sx={{
               bgcolor: "#073642",
               borderRadius: "10px",
@@ -310,56 +256,168 @@ const AIPlayground = () => {
                   borderColor: "#657b83",
                 },
               },
-              color: "#ffffff", // Text color inside the input field
+              color: "#ffffff",
               "& .MuiInputBase-input": {
-                color: "#ffffff", // Text color in input field
+                color: "#ffffff",
               },
+              marginTop: "20px",
+              width: "90%",
             }}
           />
+        )}
+
+        {selectedOption === "custom" && (
           <Button
-            type="submit"
             variant="contained"
+            onClick={saveCustomPrompt}
             sx={{
               marginTop: "10px",
               backgroundColor: "#073642",
               borderRadius: "10px",
               "&:hover": { backgroundColor: "#657b83" },
               padding: "10px",
-              color: "#ffffff", // Text color on button
-            }}
-          >
-            Send
-          </Button>
-        </form>
-        <Button
-          onClick={resetConversation}
-          variant="outlined"
-          sx={{
-            marginTop: "10px",
-            borderColor: "#657b83",
-            color: "#ffffff",
-            "&:hover": { borderColor: "#657b83", backgroundColor: "red" },
-          }}
-        >
-          Reset Conversation
-        </Button>
-      </Box>
-      <Box sx={{ width: "75%", marginTop: "20px", marginBottom: "20px" }}>
-        <Tooltip title="Back to Units Page">
-          <Button
-            onClick={() => navigate(-1)}
-            variant="contained"
-            sx={{
-              backgroundColor: "#073642",
-              borderRadius: "10px",
-              "&:hover": { bgcolor: "#657b83" },
-              padding: "10px",
               color: "#ffffff",
             }}
           >
-            Back
+            Save Custom Prompt
           </Button>
-        </Tooltip>
+        )}
+        {feedbackMessage && (
+          <Typography
+            variant="body1"
+            sx={{ color: "#ffffff", marginTop: "10px" }}
+          >
+            {feedbackMessage}
+          </Typography>
+        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "20px",
+            width: "90%",
+            padding: "20px",
+            borderRadius: "10px",
+            backgroundColor: "#002b36",
+          }}
+        >
+          <Box
+            sx={{
+              height: "300px",
+              overflowY: "scroll",
+              border: "1px solid #ccc",
+              width: "100%",
+              borderRadius: "10px",
+              padding: "10px",
+              backgroundColor: "#073642",
+              color: "#ffffff", // Set the default text color to white
+            }}
+          >
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                style={{
+                  textAlign: msg.sender === "user" ? "right" : "left",
+                  color: "#ffffff",
+                }}
+              >
+                <strong style={{ color: "#ffffff" }}>
+                  {msg.sender === "user" ? "You" : "AI"}:
+                </strong>{" "}
+                {msg.text}
+              </div>
+            ))}
+            {loading && (
+              <div style={{ textAlign: "left", color: "#ffffff" }}>
+                <strong>AI:</strong>{" "}
+                <CircularProgress
+                  size={20}
+                  sx={{ marginLeft: "10px", color: "#ffffff" }}
+                />
+              </div>
+            )}
+            <div ref={chatEndRef} />
+          </Box>
+          <form
+            onSubmit={handleSubmit}
+            style={{ width: "100%", marginTop: "20px" }}
+          >
+            <TextField
+              fullWidth
+              variant="outlined"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type a message..."
+              sx={{
+                bgcolor: "#073642",
+                borderRadius: "10px",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#839496",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#657b83",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#657b83",
+                  },
+                },
+                color: "#ffffff", // Text color inside the input field
+                "& .MuiInputBase-input": {
+                  color: "#ffffff", // Text color in input field
+                },
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                marginTop: "10px",
+                backgroundColor: "#657b83",
+                borderRadius: "10px",
+                "&:hover": { backgroundColor: "#566970" },
+                padding: "10px",
+                color: "#ffffff", // Text color on button
+              }}
+            >
+              Send
+            </Button>
+          </form>
+          <Button
+            onClick={resetConversation}
+            variant="outlined"
+            sx={{
+              marginTop: "10px",
+              borderColor: "#657b83",
+              color: "#ffffff",
+              "&:hover": { borderColor: "#657b83", backgroundColor: "#800006" },
+            }}
+          >
+            Reset Conversation
+          </Button>
+        </Box>
+        <Box sx={{ width: "90%", marginTop: "20px", marginBottom: "20px" }}>
+          <Tooltip title="Back to Units Page">
+            <Button
+              onClick={() => handleFinish()}
+              variant="contained"
+              sx={{
+                ":hover": { backgroundColor: "#F7B92C" },
+                marginRight: "20px",
+                marginBottom: "60px",
+                padding: "20px",
+                borderRadius: "15px",
+                backgroundColor: "#FFC93C",
+                pointerEvents: "auto",
+                paddingX: "30px",
+              }}
+            >
+              BACK
+            </Button>
+          </Tooltip>
+        </Box>
       </Box>
     </Box>
   );

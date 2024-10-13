@@ -13,7 +13,7 @@ import MenuBar from "../../components/MenuBar";
 import React, { useState } from "react";
 import TypewriterComponent from "typewriter-effect";
 import AceEditor from "react-ace";
-import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
+//import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import AssistantOutlinedIcon from "@mui/icons-material/AssistantOutlined";
 import AutoModeOutlinedIcon from "@mui/icons-material/AutoModeOutlined";
 import TipsAndUpdatesOutlinedIcon from "@mui/icons-material/TipsAndUpdatesOutlined";
@@ -24,6 +24,7 @@ import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import { useNavigate } from "react-router-dom";
+
 const languages = [
   "jsx",
   "java",
@@ -52,7 +53,8 @@ const pulse = keyframes`
 
 const CodeChallenge = () => {
   const navigate = useNavigate();
-  const { postData } = useApi();
+  const { postData, updateData } = useApi();
+
   const [generatedResult, setGeneratedResult] = useState("");
   const [codeInput, setCodeInput] = useState("");
   const [codeChallenge, setCodeChallenge] = useState("");
@@ -117,9 +119,31 @@ const CodeChallenge = () => {
     setCodeMode(event.target.value);
   };
 
-  const renderShortenedValue = (value) => {
+  /* const renderShortenedValue = (value) => {
     if (value.length > 3) return value.slice(0, 3);
     return value;
+  };
+  */
+
+  const handleFinish = async () => {
+    try {
+      await updateData(`api/userUnitProgress/66a373b0dc35a50ef9c2e43c`, {
+        newCompletedLessons: ["codechallenge"],
+      });
+      navigate(-1);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    try {
+      console.log("userUnitProgress entry not found, creating a new one...");
+      await postData(`api/userUnitProgress/66a373b0dc35a50ef9c2e43c`, {
+        completedLessons: ["codechallenge"],
+      });
+      navigate(-1);
+    } catch (creationError) {
+      console.error("Error creating user progress entry:", creationError);
+    }
   };
 
   return (
@@ -413,7 +437,7 @@ const CodeChallenge = () => {
           <Box sx={{ width: "90%", marginTop: "20px", marginBottom: "20px" }}>
             <Tooltip title="Back to Units Page">
               <Button
-                onClick={() => navigate(-1)}
+                onClick={() => handleFinish()}
                 variant="contained"
                 sx={{
                   height: "fit-content",

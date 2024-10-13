@@ -27,6 +27,7 @@ import Menu from "../components/MenuBar.jsx";
 import quizIcon from "../assets/images/QuizIcon.png";
 import lessonIcon from "../assets/images/WrittenLessonIcon.png";
 import videoIcon from "../assets/images/VideoIcon.png";
+import challengeIcon from "../assets/images/challenge.png";
 
 import { SkillTreeGroup, SkillTree, SkillProvider } from "beautiful-skill-tree";
 import { useApi } from "../context/ApiProvider";
@@ -66,7 +67,7 @@ const LearningPathPage = () => {
   const { unitId } = useParams();
 
   const [usertype, setUserType] = useState(); // User type
-  // eslint-disable-next-line no-unused-vars
+   
   const [userId, setUserId] = useState();
 
   useEffect(() => {
@@ -146,6 +147,8 @@ const LearningPathPage = () => {
       item.icon = quizIcon;
     } else if (item.icon === "videoIcon") {
       item.icon = videoIcon;
+    } else if (item.icon === "challengeIcon") {
+      item.icon = challengeIcon;
     }
     if (item.children.length !== 0) {
       for (let i = 0; i < item.children.length; i++) {
