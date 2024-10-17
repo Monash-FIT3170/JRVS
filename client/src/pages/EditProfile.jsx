@@ -63,6 +63,12 @@ const EditProfile = () => {
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [confirmPasswordOpen, setConfirmPasswordOpen] = useState(false);
 
+  const [firstnameError, setFirstnameError] = useState("");
+  const [lastnameError, setLastnameError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   // Handle popup close
   const handleConfirmClose = () => {
     setConfirmOpen(false);
@@ -75,6 +81,39 @@ const EditProfile = () => {
   // POST request to update user details
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFirstnameError("");
+    setLastnameError("");
+    setUsernameError("");
+    setEmailError("");
+    setPasswordError("");
+    let hasError = false;
+    if (!firstname) {
+      setFirstnameError("First name cannot be empty.");
+      hasError = true;
+    }
+    if (!lastname) {
+      setLastnameError("Last name cannot be empty.");
+      hasError = true;
+    }
+    if (!newUsername) {
+      setUsernameError("Username cannot be empty.");
+      hasError = true;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      hasError = true;
+    }
+
+    if (!password || password.length < 8) {
+      setPasswordError("Password must be at least 8 characters.");
+      hasError = true;
+    }
+
+    if (hasError) {
+      return;
+    }
     try {
       const res = await postData("api/users/updateDetails", {
         firstname,
@@ -93,6 +132,11 @@ const EditProfile = () => {
   };
 
   const handlePasswordChange = async (oldPassword, newPassword) => {
+    setPasswordError("");
+    if (!newPassword || newPassword.length < 8) {
+      setPasswordError("Password must be at least 8 characters long.");
+      return;
+    }
     try {
       const res = await postData("api/users/updatePassword", {
         username,
@@ -104,7 +148,8 @@ const EditProfile = () => {
       setConfirmPasswordOpen(true);
     } catch (error) {
       console.error("Password change failed", error);
-      alert("Invalid Old Password");
+      setPasswordError("Password update failed. Please try again");
+      // alert("Invalid Old Password");
     }
   };
 
@@ -189,34 +234,80 @@ const EditProfile = () => {
           >
             <div className="grid grid-cols-1 gap-6">
               <div className="flex gap-2">
-                <label>
-                  <span className="text-gray-700 mr">First name</span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    value={firstname}
-                    onChange={(e) => setFirstname(e.target.value)}
-                  ></input>
-                </label>
-                <label>
-                  <span className="text-gray-700">Last name</span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    onChange={(e) => setLastname(e.target.value)}
-                    value={lastname}
-                  ></input>
-                </label>
+                <div className="flex flex-col">
+                  <label>
+                    <span className="text-gray-700 mr">First name</span>
+                    <input
+                      type="text"
+                      z
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      value={firstname}
+                      onChange={(e) => {
+                        setFirstname(e.target.value);
+                        setFirstnameError("");
+                      }}
+                    ></input>
+                  </label>
+                  {firstnameError && (
+                    <div
+                      style={{
+                        color: "red",
+                        fontSize: "0.875rem",
+                        marginTop: "4px",
+                      }}
+                    >
+                      {firstnameError}
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <label>
+                    <span className="text-gray-700">Last name</span>
+                    <input
+                      type="text"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      onChange={(e) => {
+                        setLastname(e.target.value);
+                        setLastnameError("");
+                      }}
+                      value={lastname}
+                    ></input>
+                  </label>
+                  {lastnameError && (
+                    <div
+                      style={{
+                        color: "red",
+                        fontSize: "0.875rem",
+                        marginTop: "4px",
+                      }}
+                    >
+                      {lastnameError}
+                    </div>
+                  )}
+                </div>
               </div>
-
               <label className="block">
                 <span className="text-gray-700">Username</span>
                 <input
                   type="text"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  onChange={(e) => setNewUsername(e.target.value)}
+                  onChange={(e) => {
+                    setNewUsername(e.target.value);
+                    setUsernameError("");
+                  }}
                   value={newUsername}
                 ></input>
+                {usernameError && (
+                  <div
+                    style={{
+                      color: "red",
+                      fontSize: "0.875rem",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {usernameError}
+                  </div>
+                )}
               </label>
 
               <label className="block">
@@ -225,9 +316,23 @@ const EditProfile = () => {
                   type="email"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   placeholder="john@example.com"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError("");
+                  }}
                   value={email}
                 ></input>
+                {emailError && (
+                  <div
+                    style={{
+                      color: "red",
+                      fontSize: "0.875rem",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {emailError}
+                  </div>
+                )}
               </label>
 
               <label className="block">
@@ -235,7 +340,9 @@ const EditProfile = () => {
                 <Select
                   options={schools}
                   value={{ label: school, value: school }}
-                  onChange={(e) => setSchool(e.value)}
+                  onChange={(e) => {
+                    setSchool(e.value);
+                  }}
                 />
               </label>
 
@@ -323,6 +430,7 @@ const EditProfile = () => {
         open={passwordOpen}
         onClose={() => setPasswordOpen(false)}
         onSubmit={handlePasswordChange}
+        errorMessage={passwordError}
       />
 
       {/* Confirm Password Popup */}
