@@ -3,12 +3,15 @@
 
 name: Node.js CI
 env:
+  # Configure the MongoDB connection URI
   MONGO_URI: ${{ secrets.MONGO_URI }}
   NODE_ENV: test
 on:
   push:
+    # Push to self branch
     branches: ["feature-ci-cd"]
   pull_request:
+    # Pull request to self branch, to be changed to main branch
     branches: ["feature-cd-cd"]
 
 jobs:
@@ -21,12 +24,14 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+      # Install dependencies, build, and test
       - run: npm ci
       - run: npm install --prefix ./server
       - run: npm run build --if-present
