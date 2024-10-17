@@ -12,6 +12,7 @@
  * @requires MenuBar
  * @requires DefaultButton
  * @requires CustomButton
+ * @requires CopyCodeButton
  * @requires ../context/ApiProvider
  * @requires ../components/characterCustomization/Avatar
  * @requires ../assets/styles/App.css
@@ -34,6 +35,7 @@ import { useApi } from "../context/ApiProvider";
 import Avatar from "../components/characterCustomization/Avatar";
 import { Box } from "@mui/material";
 import CustomButton from "../components/CustomButton"; // Import CustomButton
+import CopyCodeButton from "../components/CopyCodeButton";
 
 const ProfilePage = () => {
   const { getData, postData } = useApi();
@@ -58,6 +60,7 @@ const ProfilePage = () => {
     text: "",
     isError: false,
   });
+  const [copyStatus, setCopyStatus] = useState("Copy Code");
 
   useEffect(() => {
     const fetchBadges = async (badgeArray) => {
@@ -147,7 +150,17 @@ const ProfilePage = () => {
       });
     }
   };
-
+  // const handleCopyCode = () => {
+  //   navigator.clipboard.writeText(user.sharableCode);
+  //   setCopyStatus("Copied!");
+  //   setTimeout(() => setCopyStatus("Copy Code"), 2000);
+  // };
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(user.sharableCode).then(() => {
+      setCopyStatus("Copied!");
+      setTimeout(() => setCopyStatus("Copy Code"), 2000);
+    });
+  };
   return (
     <div className="App-page" style={{ maxWidth: "100vw" }}>
       <Box sx={{ width: "100%", overflow: "hidden" }}>
@@ -333,6 +346,9 @@ const ProfilePage = () => {
               >
                 {user.sharableCode}
               </p>
+              <CopyCodeButton onClick={handleCopyCode} variant="contained">
+                {copyStatus}
+              </CopyCodeButton>
             </div>
           )}
         </Grid>
