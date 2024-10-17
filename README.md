@@ -24,6 +24,19 @@ JRVS is an educational app that makes AI easy to understand and exciting to lear
 - Vivian Pham, 31475477, Product Manager, vpha0021@student.monash.edu
 - Riordan Alfredo, Mentor, riordan.alfredo@monash.edu
 
+## Table of Contents
+
+- [Software/Hardware](#item-one)
+- [Instructions](#item-two)
+- [MongoDB Instructions](#item-three)
+- [Deployment/Railway Instructions](#item-four)
+- [Docker Instructions](#item-five)
+- [Gemini & getimg.ai Instructions](#item-six)
+- [PR/Versioning Strategy](#item-seven)
+- [Additional Notes](#item-eight)
+
+<a id="item-one"></a>
+
 ## Software/Hardware
 
 The JRVS software can be run on Windows and Mac, meeting minimum hardware requirements to effectively code and display web applications using any chosen IDE and browser. JRVS requires installing Node.js and NPM, ensuring to install the newest version (at least above version 18). Make sure the most up-to-date Docker Desktop is installed on your device.
@@ -49,6 +62,8 @@ The JRVS software can be run on Windows and Mac, meeting minimum hardware requir
 - https://ai.google.dev/
 - https://aistudio.google.com/app/apikey
 
+<a id="item-two"></a>
+
 ## Instructions
 
 1. Make sure that your current IP address is added to the MongoDB database, by logging in to MongoDB Atlas, under network access and “add current IP address”.
@@ -56,6 +71,8 @@ The JRVS software can be run on Windows and Mac, meeting minimum hardware requir
 3. Add/update .env file in client/ with REACT_APP_BACKEND_URL
 4. In your console (parent directory), run the dependency installation script with the command: ```npm run install-all-mac``` for mac users, or ```npm run install-all-win``` for windows users.
 5. In your console (parent directory), you can run the software with the command: ```npm run dev``` or ```npm run start``` in client/ and server/ separately.
+
+<a id="item-three"></a>
 
 ### MongoDB Instructions
 
@@ -73,6 +90,8 @@ The JRVS software can be run on Windows and Mac, meeting minimum hardware requir
 ![mongodb3](https://github.com/user-attachments/assets/67bd3cc5-278c-4467-82ee-c7e31b002acc)
 
 8. If you want additional guidance on interacting with the mongo db cluster or project configurations refer to the MongoDB Atlas documentation: https://www.mongodb.com/docs/atlas/
+
+<a id="item-four"></a>
 
 ### Deployment/Railway Instructions
 
@@ -98,12 +117,16 @@ The JRVS software can be run on Windows and Mac, meeting minimum hardware requir
 8. Currently the deployment utilises the Nixpacks tool to automatically build and deploy both the client and server with its own custom docker image. Further information can be found in the Nixpacks documentation page: https://nixpacks.com/docs/getting-started
 9. Additional information about setting up deployment in railway can be found in the railway docs: https://docs.railway.app/
 
+<a id="item-five"></a>
+
 ### Docker Instructions
 
 1. Make sure you have Docker Desktop installed on your device.
 2. Make sure you have the .env file correctly set up in the root of the server/ directory and client/ directory.
 3. Navigate to the root directory of the project in the terminal and run ```docker-compose up --build```.
 4. You should now be able to access the application from http://localhost domain.
+
+<a id="item-six"></a>
 
 ### Gemini & getimg.ai Instructions
 
@@ -114,7 +137,9 @@ The JRVS software can be run on Windows and Mac, meeting minimum hardware requir
 5. Go to Google AI Studio, and create a new API key.
 6. Add this new API key to the .env server file, and into environmental variables on railway deployment.
 
-### PR/Versioning Strategy
+<a id="item-seven"></a>
+
+## PR/Versioning Strategy
 
 1. The pull request should be clear and illustrate the changes made to the repository, as well as any notes for any additional information/possible issues that they may have.
 2. A second different team member should finalise the review and merge the pull request where possible to ensure the code and the review are thorough and without errors.
@@ -124,6 +149,8 @@ The JRVS software can be run on Windows and Mac, meeting minimum hardware requir
 6. Minor is incremented for additions that do not break existing functionality.
 7. Patch is incremented for bug fixes and improvements.
 8. Versioning example: 1.0.1 adds bug fixes.
+
+<a id="item-eight"></a>
 
 ## Additional Notes
 
