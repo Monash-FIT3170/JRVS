@@ -383,6 +383,53 @@ function findAndRemoveNode(tree, nodeId) {
   return { updatedTree: tree, deletedNode: null }; // Node not found
 }
 
+/**
+ * @desc    Unlock tree data
+ * @function unlockedTreeData
+ * @param {Object[]} treeData - The tree data to unlock.
+ * @param {string[]} unlockedNodes - The list of unlocked node IDs.
+ * @returns {Object[]} The updated tree data with unlocked nodes.
+ */
+function unlockedTreeData(treeData, unlockedNodes) {
+  const updatedTreeData = treeData.map((node) => {
+    if (unlockedNodes.includes(node.id)) {
+      node.unlocked = true;
+    }
+
+    if (node.children && node.children.length > 0) {
+      node.children = unlockedTreeData(node.children, unlockedNodes);
+    }
+
+    return node;
+  });
+
+  return updatedTreeData;
+}
+
+/*
+ * @desc    updateTreeNodeDetails
+ * @function updateTreeNodeDetails
+ * @param {Object[]} treeData - The tree data to update.
+ * @param {Object} updatedNode - The updated node details.
+ * @returns {Object[]} The updated tree data with the updated node.
+ */
+function updateTreeNodeDetails(treeData, updatedNode) {
+  const updatedTreeData = treeData.map((node) => {
+    if (node.id === updatedNode.id) {
+      node.title = updatedNode.title;
+      node.tooltip = updatedNode.tooltip;
+    }
+
+    if (node.children && node.children.length > 0) {
+      node.children = updateTreeNodeDetails(node.children, updatedNode);
+    }
+
+    return node;
+  });
+
+  return updatedTreeData;
+}
+
 module.exports = {
   getUnits,
   getUnit,
@@ -390,4 +437,7 @@ module.exports = {
   appendNode,
   insertNode,
   deleteNode,
+  getTailNodeIds,
+  unlockedTreeData,
+  updateTreeNodeDetails,
 };

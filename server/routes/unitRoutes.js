@@ -23,5 +23,8 @@ router.route("/").post(createUnit);
 router.post("/:id/append", appendNode);
 router.post("/:id/insert", insertNode);
 router.post("/:id/delete", deleteNode);
+router.route("/:id/unlockedTreeData").get(getUnlockedTreeData);
+router.route("/:id/getTailNodeIds").get(getTailNodeIds);
+router.post("/:id/updateNodeDetails", updateTreeNodeDetails);
 
 module.exports = router;
