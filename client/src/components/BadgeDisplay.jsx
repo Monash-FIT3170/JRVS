@@ -28,7 +28,7 @@ import BadgeShop from "../assets/images/Badge_Shop.png";
 import Tooltip from "@mui/material/Tooltip";
 import { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-import sound from "../assets/soundeffects/badge_earned.wav";
+//import sound from "../assets/soundeffects/badge_earned.wav";
 const badgeImages = {};
 badgeImages["Default"] = Badge4;
 badgeImages["Badge1"] = Badge1;
@@ -45,9 +45,9 @@ function getBadgeImage(badgeImage) {
 }
 
 function BadgeContainer(badges) {
-  // play badge earned audio
-  const audio = new Audio(sound);
-  audio.play();
+  // play badge earned audio - placeholder
+  //const audio = new Audio(sound);
+  //audio.play();
   //let badge_earned = new Audio('../assets/soundeffects/badge_earned.wav');
   //badge_earned.play();
 

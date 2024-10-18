@@ -29,7 +29,7 @@ import Swal from "sweetalert2";
 // (see CustomizePage for an example usage)
 export async function triggerBadge(badge_id, badge_name, userData, postData) {
   try {
-    const badge_earned = new Audio("../assets/soundeffects/badge_earned.wav");
+    //const badge_earned = new Audio("../assets/soundeffects/badge_earned.wav");
     const username = userData.username;
     const badges = userData.badges;
     if (username !== "") {
@@ -52,9 +52,10 @@ export async function triggerBadge(badge_id, badge_name, userData, postData) {
             htmlContainer: "custom-swal-text",
           },
         });
-        // play audio
-        badge_earned.play();
-        console.log("badge_earned.wav just played");
+        // play audio - placeholder
+        //badge_earned.play();
+        //console.log("badge_earned.wav just played");
+
         // return to profile
         if (result.isConfirmed) {
           window.location.href = "/profile";
