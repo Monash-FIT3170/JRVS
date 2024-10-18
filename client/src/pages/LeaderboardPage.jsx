@@ -115,7 +115,6 @@ const LeaderboardPage = () => {
         >
           <div
             style={{
-              border: "1px solid black",
               padding: "20px",
               marginBottom: "20px",
               textAlign: "center",
