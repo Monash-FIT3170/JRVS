@@ -58,7 +58,6 @@ function BadgeContainer(badges) {
       backgroundColor: "#3CA3EE",
       color: "rgba(0, 0, 0, 0.87)",
       fontSize: theme.typography.pxToRem(12),
-      border: "2px solid black",
       maxWidth: "calc(100vw / 6)",
     },
   }));
