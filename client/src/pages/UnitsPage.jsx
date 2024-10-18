@@ -11,6 +11,7 @@
  * @requires ../context/ApiProvider
  * @requires ../components/UnitCard
  * @requires ../components/MenuBar
+ * @requires triggerBadge from ../components/BadgeAchieve
  *
  * @component
  * @example
@@ -29,11 +30,12 @@ import UnitCard from "../components/UnitCard";
 import MenuBar from "../components/MenuBar";
 import CreateUnitDialog from "../components/CreateUnitDialog";
 import UnitOverflowMenu from "../components/UnitOverflowMenu";
+import { triggerBadge } from "../components/BadgeAchieve";
 
 const UnitsPage = () => {
   const { getData, postData } = useApi();
   const [units, setUnits] = useState(undefined);
-  // eslint-disable-next-line no-unused-vars
+   
   const [userData, setUserData] = useState();
   const [userUnitProgress, setUserUnitProgress] = useState();
   const [isUserUnitProgressLoading, setIsUserUnitProgressLoading] =
@@ -57,6 +59,7 @@ const UnitsPage = () => {
         const res = await postData("api/auth/current", { token });
         const userData = await getData(`api/users/id/${res.decoded.id}`);
         setUserType(userData.usertype);
+        setUserData(userData);
         setIsUserDataLoading(false);
 
         const userUnits = await getData("api/userUnitProgress");
@@ -81,6 +84,10 @@ const UnitsPage = () => {
       (userUnit) => userUnit.unitId === unit._id,
     )?.completedLessons.length;
     let progress = (numLessonsCompleted || 0) / unit.numberOfLessons;
+    console.log(unit._id);
+    if (progress === 1) {
+      triggerBadge(unit._id, unit.title, userData, postData);
+    }
     return progress * 100;
   };
 

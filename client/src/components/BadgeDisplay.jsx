@@ -44,7 +44,15 @@ function getBadgeImage(badgeImage) {
   }
 }
 
-function BadgeContainer(badges) {
+function BadgeContainer(userData) {
+  var badges = [];
+  var seen = [];
+  userData.badges.forEach((badge) => {
+    if (!seen.includes(badge._id)) {
+      seen.push(badge._id);
+      badges.push(badge);
+    }
+  });
   // play badge earned audio - placeholder
   //const audio = new Audio(sound);
   //audio.play();
@@ -70,7 +78,7 @@ function BadgeContainer(badges) {
           id="slider"
         >
           <div className="grid grid-cols-3 gap-4 p-4">
-            {badges.badges.map((badge, index) => (
+            {badges.map((badge, index) => (
               <HtmlTooltip
                 key={index}
                 title={
