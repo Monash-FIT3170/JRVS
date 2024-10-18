@@ -37,7 +37,7 @@ badgeImages["Badge3"] = Badge3;
 badgeImages["Badge_Shop"] = BadgeShop;
 
 function getBadgeImage(badgeImage) {
-  if (badgeImages.hasOwnProperty(badgeImage)) {
+  if (Object.prototype.hasOwnProperty.call(badgeImages, badgeImage)) {
     return badgeImages[badgeImage];
   } else {
     return badgeImages["Default"];

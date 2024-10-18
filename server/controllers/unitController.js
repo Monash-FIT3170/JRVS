@@ -31,7 +31,6 @@
 const asyncHandler = require("express-async-handler");
 const unitsModel = require("../models/unitsModel");
 const unitModel = require("../models/unitModel");
-const { createEmptyLesson, getLesson } = require("./lessonController"); // Import the function
 const lessonModel = require("../models/lessonModel");
 const videoModel = require("../models/videoModel");
 const quizModel = require("../models/quizModel");
@@ -87,7 +86,7 @@ const createUnit = asyncHandler(async (req, res) => {
   const { title, icon, colour } = req.body;
 
   // Create a placeholder lesson
-  newLesson = await createLesson();
+  let newLesson = await createLesson();
 
   const newLessonForUnit = {
     _id: newLesson._id,
@@ -100,12 +99,12 @@ const createUnit = asyncHandler(async (req, res) => {
   };
 
   // create the unit
-  unit_details = await unitModel.create({
+  let unit_details = await unitModel.create({
     data: [newLessonForUnit],
     numberOfLessons: 1,
   });
 
-  unit = await unitsModel.create({
+  let unit = await unitsModel.create({
     _id: unit_details._id,
     title: title,
     icon: icon,
@@ -114,6 +113,128 @@ const createUnit = asyncHandler(async (req, res) => {
   });
 
   res.status(200).json(unit);
+});
+
+/**
+ * @desc    Update an existing unit
+ * @route   PUT /api/unit/:id
+ * @access  Private
+ * @function updateLesson
+ * @async
+ * @param {Request} req - The request object containing the unit ID in the URL and updated data in the body.
+ * @param {Response} res - The response object.
+ * @returns {Promise<void>} A promise that resolves when the unit is updated and sent in the response.
+ * @throws {Error} Throws a 404 error if the unit with the given ID is not found.
+ */
+const updateUnit = asyncHandler(async (req, res) => {
+  const { title, icon, colour } = req.body;
+  const unitId = req.params.id;
+
+  const unit = await unitsModel.findById(unitId);
+
+  if (!unit) {
+    res.status(404).json({ message: "Unit not found" });
+  } else {
+    unit.title = title;
+    unit.icon = icon;
+    unit.colour = colour;
+    await unit.save();
+    res.status(200).json(unit);
+  }
+});
+
+/**
+ * Deletes a unit in the database.
+ *
+ * @route DELETE /units
+ * @access Public
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+const deleteUnit = asyncHandler(async (req, res) => {
+  // Helper function to get all node IDs recursively
+  function getAllNodeIds(node) {
+    let ids = [node.id];
+    if (node.children && node.children.length > 0) {
+      ids = ids.concat(node.children.flatMap((child) => getAllNodeIds(child)));
+    }
+    return ids;
+  }
+
+  const { id } = req.params;
+
+  try {
+    // Find the unit first
+    const unit = await unitModel.findById(id);
+    if (!unit) {
+      return res.status(404).json({ message: "Unit not found" });
+    }
+
+    console.log(`Deleting unit: ${id}`);
+
+    // Get all node IDs from the unit
+    const nodeIds = unit.data.flatMap((node) => getAllNodeIds(node));
+
+    // Delete all associated lessons, videos, and quizzes
+    try {
+      await Promise.all([
+        lessonModel.deleteMany({ _id: { $in: nodeIds } }),
+        videoModel.deleteMany({ _id: { $in: nodeIds } }),
+        quizModel.deleteMany({ _id: { $in: nodeIds } }),
+      ]);
+      // console.log("Associated lessons, videos, and quizzes deleted");
+    } catch (error) {
+      console.error("Error deleting associated documents:", error);
+      return res.status(500).json({
+        message: "Error deleting associated documents",
+        error: error.message,
+      });
+    }
+
+    // Delete the unit from unitModel and unitsModel
+    try {
+      await Promise.all([
+        unitModel.findByIdAndDelete(id),
+        unitsModel.findOneAndDelete({ _id: id }),
+      ]);
+      // console.log("Unit deleted from unitModel and unitsModel");
+    } catch (error) {
+      console.error("Error deleting unit from models:", error);
+      return res.status(500).json({
+        message: "Error deleting unit from models",
+        error: error.message,
+      });
+    }
+
+    // // Remove the unit from all users' assignedUnits
+    // try {
+    //   await User.updateMany(
+    //     { assignedUnits: id },
+    //     { $pull: { assignedUnits: id } }
+    //   );
+    //   console.log("Unit removed from users' assignedUnits");
+    // } catch (error) {
+    //   console.error("Error updating users' assignedUnits:", error);
+    //   return res.status(500).json({ message: "Error updating users' assignedUnits", error: error.message });
+    // }
+
+    // // Update UserProgress
+    // try {
+    //   await UserProgress.updateMany(
+    //     { "learningPaths.pathId": id },
+    //     { $pull: { learningPaths: { pathId: id } } }
+    //   );
+    //   console.log("UserProgress updated");
+    // } catch (error) {
+    //   console.error("Error updating UserProgress:", error);
+    //   return res.status(500).json({ message: "Error updating UserProgress", error: error.message });
+    // }
+
+    res.status(200).json({ message: "Unit deleted successfully" });
+  } catch (error) {
+    console.error("Error in deleteUnit:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 });
 
 /**
@@ -350,7 +471,7 @@ function appendChildNode(data, targetId, newNode) {
  */
 async function createLesson(nodeTitle, nodeDesc) {
   // Empty node
-  generatedNode = await lessonModel.create({
+  let generatedNode = await lessonModel.create({
     title: nodeTitle || "New lesson",
     desc: nodeDesc || "New lesson description",
     content: [
@@ -388,7 +509,7 @@ async function createLesson(nodeTitle, nodeDesc) {
  * @returns {Promise<Object>} A promise that resolves to the created video document.
  */
 async function createVideo(nodeTitle, nodeDesc) {
-  generatedNode = await videoModel.create({
+  let generatedNode = await videoModel.create({
     title: nodeTitle || "New Video",
     url: "",
     heading: nodeDesc || "New Video Heading",
@@ -412,7 +533,7 @@ async function createVideo(nodeTitle, nodeDesc) {
  * @returns {Promise<Object>} A promise that resolves to the created quiz document.
  */
 async function createQuiz(nodeTitle, quizType, nodeDesc) {
-  generatedNode = await quizModel.create({
+  let generatedNode = await quizModel.create({
     title: nodeTitle || "New Quiz",
     heading: nodeDesc || "New Quiz Heading",
     questions: [
@@ -714,9 +835,11 @@ module.exports = {
   getUnits,
   getUnit,
   createUnit,
+  updateUnit,
   appendNode,
   insertNode,
   deleteNode,
   getUnlockedTreeData,
   updateTreeNodeDetails,
+  deleteUnit,
 };

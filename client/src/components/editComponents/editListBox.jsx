@@ -10,17 +10,17 @@
  * @requires @mui/icons-material/RemoveCircle
  * @requires @mui/icons-material/Edit
  * @requires React
- * 
+ *
  * @param {Object} props - The component props.
  * @param {string} props.heading - The heading of the list box.
  * @param {Array<string>} props.points - The list of points/items to display and edit.
  * @param {number} props.index - The index of the list box in the parent component.
  * @param {Function} props.updateContent - Function to update the content of the list box.
- * 
+ *
  * @returns {JSX.Element} The rendered EditListBox component.
  */
 
-
+import React from "react";
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";

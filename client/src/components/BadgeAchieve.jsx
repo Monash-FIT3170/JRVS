@@ -42,7 +42,7 @@ export async function triggerBadge(badge_id, badge_name, userData, postData) {
         // show badge achievement popup
         const result = await Swal.fire({
           title: badge_name,
-          html: `Congratulations, you just unlocked a badge!<br></br>You can view it in your profile for more details.`,
+          html: `Congratulations, you just unlocked a badge!<br>You can view it in your profile for more details.`,
           showCancelButton: true,
           confirmButtonText: "View Now",
           cancelButtonText: "OK",
@@ -62,5 +62,7 @@ export async function triggerBadge(badge_id, badge_name, userData, postData) {
         }
       }
     }
-  } catch (_) {}
+  } catch (error) {
+    console.error("Error triggering badge:", error);
+  }
 }

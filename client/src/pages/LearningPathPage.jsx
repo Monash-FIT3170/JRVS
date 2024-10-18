@@ -27,6 +27,7 @@ import Menu from "../components/MenuBar.jsx";
 import quizIcon from "../assets/images/QuizIcon.png";
 import lessonIcon from "../assets/images/WrittenLessonIcon.png";
 import videoIcon from "../assets/images/VideoIcon.png";
+import challengeIcon from "../assets/images/challenge.png";
 
 import { SkillTreeGroup, SkillTree, SkillProvider } from "beautiful-skill-tree";
 import { useApi } from "../context/ApiProvider";
@@ -66,6 +67,7 @@ const LearningPathPage = () => {
   const { unitId } = useParams();
 
   const [usertype, setUserType] = useState(); // User type
+   
   const [userId, setUserId] = useState();
 
   useEffect(() => {
@@ -86,7 +88,7 @@ const LearningPathPage = () => {
         const token = localStorage.getItem("token");
         const res = await postData("api/auth/current", { token });
         setUserId(res.decoded.id);
-        const userData = await getData(`api/users/id/${res.decoded.id}`);
+        const userData = await getData(`api/users/id/${userId}`);
         setUserType(userData.usertype);
       } catch (error) {
         console.log(error);
@@ -94,7 +96,7 @@ const LearningPathPage = () => {
     };
     fetchUser();
     fetchData();
-  }, [getData]);
+  });
 
   useEffect(() => {
     const loadSavedData = async () => {
@@ -118,7 +120,7 @@ const LearningPathPage = () => {
       }
     };
     loadSavedData();
-  }, [usertype]);
+  });
 
   useEffect(() => {
     const dataDoneLoading = async () => {
@@ -145,6 +147,8 @@ const LearningPathPage = () => {
       item.icon = quizIcon;
     } else if (item.icon === "videoIcon") {
       item.icon = videoIcon;
+    } else if (item.icon === "challengeIcon") {
+      item.icon = challengeIcon;
     }
     if (item.children.length !== 0) {
       for (let i = 0; i < item.children.length; i++) {
@@ -362,7 +366,7 @@ const LearningPathPage = () => {
   };
 
   async function handleSave(storage, treeId, skills) {
-    var completedLessons = [];
+    let completedLessons = [];
     if (completedLessonsArray) {
       completedLessons = completedLessonsArray;
     } else {
@@ -396,9 +400,8 @@ const LearningPathPage = () => {
       ) : (
         <SkillProvider>
           <SkillTreeGroup theme={theme}>
-            {(
-              { skillCount }, //SkillGroupDataType
-            ) => (
+            {() => (
+              //SkillGroupDataType
               <SkillTree
                 treeId="learning-pathway"
                 title=""

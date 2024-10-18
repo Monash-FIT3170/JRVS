@@ -22,6 +22,7 @@
  * @returns {JSX.Element} The rendered interface for editing and reordering reorder-type quiz questions, including forms for editing, adding new questions, and navigation buttons.
  */
 
+import React from "react";
 import {
   AppBar,
   Box,
@@ -40,7 +41,6 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import UndoIcon from "@mui/icons-material/Undo";
-import ActionButton from "../../components/quizComponents/ActionButton";
 
 const EditReorderQuestion = () => {
   const navigate = useNavigate();

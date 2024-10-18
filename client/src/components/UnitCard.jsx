@@ -24,10 +24,23 @@ import Typography from "@mui/material/Typography";
 import Icon from "@mui/material/Icon";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
+import UnitOverflowMenu from "./UnitOverflowMenu"; // Adjust the import path as needed
 
-const UnitCard = ({ title, progress, imageColour, icon, noProgressBar }) => {
+const UnitCard = ({
+  title,
+  progress,
+  imageColour,
+  icon,
+  unit,
+  userType,
+  onDelete,
+  noProgressBar,
+}) => {
   return (
-    <Card style={{ borderRadius: 15 }} className="unit-card">
+    <Card
+      style={{ borderRadius: 15, position: "relative" }}
+      className="unit-card"
+    >
       <React.Fragment>
         <CardContent style={{ padding: 0 }}>
           <div
@@ -52,6 +65,8 @@ const UnitCard = ({ title, progress, imageColour, icon, noProgressBar }) => {
               textOverflow: "ellipsis",
               overflow: "hidden",
               whiteSpace: "nowrap",
+              width: "calc(100% - 48px)", // Subtracting space for the menu icon
+              marginRight: "48px", // Adding margin to prevent overlap
             }}
           >
             {title}
@@ -70,6 +85,7 @@ const UnitCard = ({ title, progress, imageColour, icon, noProgressBar }) => {
             </Box>
           )}
         </CardContent>
+        <UnitOverflowMenu unit={unit} userType={userType} onDelete={onDelete} />
       </React.Fragment>
     </Card>
   );

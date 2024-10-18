@@ -42,10 +42,17 @@ const PasswordChangePopup = ({ open, onClose, onSubmit }) => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    if (newPassword.length < 8) {
+      setErrorMessage("New password must be at least 8 characters long.");
+      return;
+    }
     if (newPassword !== confirmPassword) {
+      setErrorMessage("New password and confirmation do not match.");
       alert("New password and confirmation do not match.");
       return;
     }
@@ -132,6 +139,13 @@ const PasswordChangePopup = ({ open, onClose, onSubmit }) => {
               ),
             }}
           />
+          {errorMessage && (
+            <div
+              style={{ color: "red", fontSize: "0.875rem", marginTop: "4px" }}
+            >
+              {errorMessage}
+            </div>
+          )}
           <div style={{ textAlign: "center" }}>
             <Button type="submit" class="default-button">
               Change Password

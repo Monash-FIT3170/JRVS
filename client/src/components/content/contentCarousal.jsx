@@ -168,6 +168,7 @@ export default function Carousel({
           boxes.map((section, index) => {
             return (
               <Button
+                key={index}
                 onClick={() => handleSkip(index)}
                 sx={{
                   color: index === activeIndex ? "#555" : "white",

@@ -30,21 +30,28 @@ import EditMultipleChoice from "./pages/Quiz/editMultipleChoice";
 import EditReorderQuestion from "./pages/Quiz/EditReorder";
 import CodeChallenge from "./pages/GenAIActivities/CodeChallenge";
 import GenImageChallenge from "./pages/GenAIActivities/GenImageChallenge";
+import AIPlayground from "./pages/GenAIActivities/AIPlayground";
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route exact path="/genimagechallenge" element={<GenImageChallenge />}>
-          <Route
-            exact
-            path="/genimagechallenge"
-            element={<GenImageChallenge />}
-          />
-        </Route>
-        <Route exact path="/codechallenge" element={<CodeChallenge />}>
-          <Route exact path="/codechallenge" element={<CodeChallenge />} />
-        </Route>
+        <Route
+          exact
+          path="/quiz/:unitId/genimagechallenge"
+          element={<GenImageChallenge />}
+        />
+        <Route
+          exact
+          path="/quiz/:unitId/codechallenge"
+          element={<CodeChallenge />}
+        />
+        <Route
+          exact
+          path="/quiz/:unitId/playground"
+          element={<AIPlayground />}
+        />
+
         <Route exact path="/leaderboard" element={<ProtectedRoute />}>
           <Route exact path="/leaderboard" element={<LeaderboardPage />} />
         </Route>
