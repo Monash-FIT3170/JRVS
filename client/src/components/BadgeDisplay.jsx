@@ -5,6 +5,7 @@
  * @requires react
  * @requires @mui/material/Tooltip
  * @requires @mui/material/styles
+ * @requires ../assets/soundeffects/badge_earned.wav
  * @requires ../assets/images/Badge1.png
  * @requires ../assets/images/Badge2.png
  * @requires ../assets/images/Badge3.png
@@ -18,7 +19,6 @@
  * <BadgeContainer badges={badges} />
  */
 
-
 import React from "react";
 import Badge1 from "../assets/images/Badge1.png";
 import Badge2 from "../assets/images/Badge2.png";
@@ -28,7 +28,7 @@ import BadgeShop from "../assets/images/Badge_Shop.png";
 import Tooltip from "@mui/material/Tooltip";
 import { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-
+import sound from "../assets/soundeffects/badge_earned.wav";
 const badgeImages = {};
 badgeImages["Default"] = Badge4;
 badgeImages["Badge1"] = Badge1;
@@ -45,6 +45,12 @@ function getBadgeImage(badgeImage) {
 }
 
 function BadgeContainer(badges) {
+  // play badge earned audio
+  const audio = new Audio(sound);
+  audio.play();
+  //let badge_earned = new Audio('../assets/soundeffects/badge_earned.wav');
+  //badge_earned.play();
+
   const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({

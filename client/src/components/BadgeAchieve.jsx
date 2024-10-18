@@ -3,6 +3,7 @@
  * @description Function to trigger a badge achievement popup using SweetAlert2 when a user unlocks a new badge. It checks if the user already has the badge and makes an API call to add the badge to the user's profile.
  * @module triggerBadge
  * @requires sweetalert2
+ * @requires ../assets/soundeffects/badge_earned.wav
  * @param {string} badge_id - The unique ID of the badge to be triggered, corresponding to the MongoDB document ID.
  * @param {string} badge_name - The name of the badge to be displayed in the popup.
  * @param {Object} userData - The user data containing username and an array of badges the user currently has.
@@ -12,7 +13,6 @@
  * // Example usage of triggerBadge
  * triggerBadge("60c72b2f9b1d4e1f8c4e99b1", "First Login", userData, postData);
  */
-
 
 import Swal from "sweetalert2";
 
@@ -29,6 +29,7 @@ import Swal from "sweetalert2";
 // (see CustomizePage for an example usage)
 export async function triggerBadge(badge_id, badge_name, userData, postData) {
   try {
+    const badge_earned = new Audio("../assets/soundeffects/badge_earned.wav");
     const username = userData.username;
     const badges = userData.badges;
     if (username !== "") {
@@ -51,7 +52,10 @@ export async function triggerBadge(badge_id, badge_name, userData, postData) {
             htmlContainer: "custom-swal-text",
           },
         });
-
+        // play audio
+        badge_earned.play();
+        console.log("badge_earned.wav just played");
+        // return to profile
         if (result.isConfirmed) {
           window.location.href = "/profile";
         }
