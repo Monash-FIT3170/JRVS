@@ -183,7 +183,6 @@ const ProfilePage = () => {
         >
           <div
             style={{
-              border: "1px solid black",
               padding: "20px",
               marginBottom: "20px",
               flexGrow: "1",
@@ -203,7 +202,6 @@ const ProfilePage = () => {
           </div>
           <div
             style={{
-              border: "1px solid black",
               padding: "20px",
               marginBottom: "20px",
               flexGrow: "1",
@@ -230,7 +228,6 @@ const ProfilePage = () => {
             <>
               <div
                 style={{
-                  border: "1px solid black",
                   padding: "20px",
                   marginBottom: "40px",
                   flexGrow: "1",
@@ -251,7 +248,6 @@ const ProfilePage = () => {
               </div>
               <div
                 style={{
-                  border: "1px solid black",
                   padding: "20px",
                   marginBottom: "40px",
                   flexGrow: "1",
@@ -286,7 +282,6 @@ const ProfilePage = () => {
                     padding: "10px",
                     width: "80%",
                     borderRadius: "5px",
-                    border: "1px solid #ccc",
                     marginBottom: "10px",
                   }}
                 />
@@ -302,7 +297,6 @@ const ProfilePage = () => {
           {user.usertype === "teacher" && (
             <div
               style={{
-                border: "1px solid black",
                 padding: "20px",
                 marginBottom: "40px",
                 flexGrow: "1",
@@ -323,7 +317,6 @@ const ProfilePage = () => {
                   padding: "5px",
                   width: "90%",
                   borderRadius: "5px",
-                  border: "1px solid #ccc",
                   margin: "10px",
                   textAlign: "center",
                   backgroundColor: "#FFC700",
@@ -350,7 +343,6 @@ const ProfilePage = () => {
           >
             <div
               style={{
-                border: "1px solid black",
                 padding: "20px",
                 marginBottom: "40px",
                 flexGrow: "1",
@@ -387,7 +379,6 @@ const ProfilePage = () => {
           >
             <div
               style={{
-                border: "1px solid black",
                 padding: "20px",
                 marginBottom: "40px",
                 flexGrow: "1",
